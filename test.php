@@ -40,7 +40,8 @@
 
     // Issue request to BACnet Gateway
     $.ajax(
-      'http://192.168.1.195:8000/bg.php?caller=JavaScript',
+      //'http://192.168.1.195:8000/bg.php?caller=JavaScript',
+      'http://localhost:8000/bg.php?caller=JavaScript',
       {
         method: 'GET',
         processData: false,
