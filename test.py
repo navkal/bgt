@@ -2,7 +2,7 @@
 
 import requests
 
-for i in range( 1, 21 ):
+for i in range( 1, 41 ):
 
     #gateway_rsp = requests.post( 'http://192.168.1.195:8000/bg.php', data={ 'caller': 'Python' } )
 
