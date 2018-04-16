@@ -38,10 +38,20 @@
   {
     setWaitCursor();
 
+    var sArgList =
+        '?'
+      + 'address=10.12.0.250'
+      + '&'
+      + 'type=analogInput'
+      + '&'
+      + 'instance=3006238'
+      + '&'
+      + 'property=presentValue'
+
     // Issue request to BACnet Gateway
     $.ajax(
-      //'http://192.168.1.195:8000/bg.php?caller=JavaScript',
-      'http://localhost:8000/bg.php?caller=JavaScript',
+      //'http://192.168.1.195:8000/bg.php/' + sArgList,
+      'http://localhost:8000/bg.php/' + sArgList,
       {
         method: 'GET',
         processData: false,
