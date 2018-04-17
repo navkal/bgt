@@ -49,7 +49,7 @@ for i in instances:
         'address': '10.12.0.250',
         'type': 'analogInput',
         'instance': i,
-        'property': 'units'
+        'property': 'presentValue'
     }
 
     #gateway_rsp = requests.post( 'http://192.168.1.195:8000/bg.php', data=target_args )
