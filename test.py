@@ -38,7 +38,6 @@ co2_instances = [
     3009829,
     3009780,
     3002981,
-    3002985,
     3002965,
     3003003,
     3003014,
@@ -69,9 +68,9 @@ co2_instances = [
     3001243,
     3001933,
     3003056,
-    3019714,
+    3019750,
     3006439,
-    3001221,
+    3019751,
     3001888,
     3001862,
     3014200
@@ -90,6 +89,7 @@ temp_instances = [
     3007272,
     3019361,
     3019554,
+    3019714,
     3007505,
     3019080,
     3007894,
@@ -117,7 +117,7 @@ temp_instances = [
     3009826,
     3009777,
     3002974,
-    3002993,
+    3002985,
     3002964,
     3002996,
     3003007,
@@ -150,9 +150,8 @@ temp_instances = [
     3001255,
     3001935,
     3003049,
-    3019750,
     3006431,
-    3019751,
+    3001221,
     3001900,
     3001874,
     3001145,
@@ -160,6 +159,12 @@ temp_instances = [
     3001549,
     3001914,
     3000165
+]
+
+
+
+test_instances = [
+    3002993
 ]
 
 def test( instances ):
@@ -184,4 +189,5 @@ def test( instances ):
         print( '%2d -'%i, property + ':', dc_rsp['bacnet_response']['data'][property], dc_rsp['bacnet_response']['data']['units'] )
 
 #test( temp_instances )
-test( co2_instances )
+#test( co2_instances )
+test( test_instances )
