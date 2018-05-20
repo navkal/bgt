@@ -1,10 +1,10 @@
 # Copyright 2018 BACnet Gateway.  All rights reserved.
 
 import requests
+import json
 
 co2_instances = [
     3011592,
-    3001201,
     3011579,
     3006672,
     3006624,
@@ -82,6 +82,7 @@ temp_instances = [
     3001071,
     3011595,
     3011582,
+    3001201,
     3006664,
     3006616,
     3006578,
@@ -163,20 +164,24 @@ temp_instances = [
 
 def test( instances ):
 
+    property = 'presentValue'
+
     for i in instances:
 
         target_args = {
             'address': '10.12.0.250',
             'type': 'analogInput',
             'instance': i,
-            'property': 'presentValue'
+            'property': property
         }
 
         #gateway_rsp = requests.post( 'http://192.168.1.195:8000/bg.php', data=target_args )
 
         gateway_rsp = requests.post( 'http://localhost:8000/bg.php', data=target_args )
 
-        print( '%2d:'%i, gateway_rsp.status_code, gateway_rsp.reason, gateway_rsp.text )
+        #print( '%2d:'%i, gateway_rsp.status_code, gateway_rsp.reason, gateway_rsp.text )
+        dc_rsp = json.loads( gateway_rsp.text )
+        print( '%2d -'%i, property + ':', dc_rsp['bacnet_response']['data'][property], dc_rsp['bacnet_response']['data']['units'] )
 
-test( temp_instances )
+#test( temp_instances )
 test( co2_instances )
