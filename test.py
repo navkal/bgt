@@ -171,12 +171,14 @@ def test( instances ):
 
     property = 'presentValue'
 
-    for i in instances:
+    i = 0
+
+    for instance in instances:
 
         target_args = {
             'address': '10.12.0.250',
             'type': 'analogInput',
-            'instance': i,
+            'instance': instance,
             'property': property
         }
 
@@ -186,8 +188,9 @@ def test( instances ):
 
         #print( '%2d:'%i, gateway_rsp.status_code, gateway_rsp.reason, gateway_rsp.text )
         dc_rsp = json.loads( gateway_rsp.text )
-        print( '%2d -'%i, property + ':', dc_rsp['bacnet_response']['data'][property], dc_rsp['bacnet_response']['data']['units'] )
+        i += 1
+        print( '%2d)'%i, '%7d -'%instance, property + ':', dc_rsp['bacnet_response']['data'][property], dc_rsp['bacnet_response']['data']['units'] )
 
-#test( temp_instances )
-#test( co2_instances )
-test( test_instances )
+test( temp_instances )
+test( co2_instances )
+#test( test_instances )
