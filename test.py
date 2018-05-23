@@ -193,10 +193,10 @@ def test( instances ):
         i += 1
         #print( '%2d:'%i, gateway_rsp.status_code, gateway_rsp.reason, gateway_rsp.text )
 
-        if dc_data['error']:
-            what_to_print = dc_data['message']
-        else:
+        if dc_data['success']:
             what_to_print = property + ':' + ' ' + str( dc_data[property] ) + ' ' + dc_data['units']
+        else:
+            what_to_print = dc_data['message']
 
         print( '%2d)' % i, '%7d -' % instance, what_to_print )
 
