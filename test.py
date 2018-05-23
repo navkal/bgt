@@ -164,7 +164,9 @@ temp_instances = [
 
 
 test_instances = [
-    3002993
+    3019514,
+    3000165,
+    3001071
 ]
 
 def test( instances ):
@@ -183,13 +185,20 @@ def test( instances ):
         }
 
         #gateway_rsp = requests.post( 'http://192.168.1.195:8000/bg.php', data=target_args )
-
         gateway_rsp = requests.post( 'http://localhost:8000/bg.php', data=target_args )
 
-        #print( '%2d:'%i, gateway_rsp.status_code, gateway_rsp.reason, gateway_rsp.text )
         dc_rsp = json.loads( gateway_rsp.text )
+        dc_data = dc_rsp['bacnet_response']['data']
+
         i += 1
-        print( '%2d)'%i, '%7d -'%instance, property + ':', dc_rsp['bacnet_response']['data'][property], dc_rsp['bacnet_response']['data']['units'] )
+        #print( '%2d:'%i, gateway_rsp.status_code, gateway_rsp.reason, gateway_rsp.text )
+
+        if dc_data['error']:
+            what_to_print = dc_data['message']
+        else:
+            what_to_print = property + ':' + ' ' + str( dc_data[property] ) + ' ' + dc_data['units']
+
+        print( '%2d)' % i, '%7d -' % instance, what_to_print )
 
 test( temp_instances )
 test( co2_instances )
