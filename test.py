@@ -44,7 +44,7 @@ def get_property( property, instance ):
     return result
 
 
-# Read  spreadsheet into a dataframe
+# Read spreadsheet into a dataframe.
 # Each row contains the following
 #   - Location
 #   - Instance ID of CO2 sensor
