@@ -1,205 +1,65 @@
 # Copyright 2018 BACnet Gateway.  All rights reserved.
 
+import pandas as pd
 import requests
 import json
 
-co2_instances = [
-    3011592,
-    3011579,
-    3006672,
-    3006624,
-    3006586,
-    3006560,
-    3007275,
-    3019364,
-    3019557,
-    3007508,
-    3019083,
-    3007897,
-    3007636,
-    3008197,
-    3019600,
-    3007941,
-    3019415,
-    3019320,
-    3019269,
-    3019038,
-    3019173,
-    3019129,
-    3009878,
-    3010434,
-    3010484,
-    3019512,
-    3011369,
-    3001503,
-    3001628,
-    3011151,
-    3010277,
-    3009829,
-    3009780,
-    3002981,
-    3002965,
-    3003003,
-    3003014,
-    3003025,
-    3003036,
-    3006131,
-    3006160,
-    3006197,
-    3006246,
-    3006355,
-    3001836,
-    3001810,
-    3001784,
-    3001758,
-    3001732,
-    3001706,
-    3001680,
-    3001654,
-    3001477,
-    3001451,
-    3001425,
-    3001399,
-    3001373,
-    3001347,
-    3001321,
-    3001295,
-    3001269,
-    3001243,
-    3001933,
-    3003056,
-    3019750,
-    3006439,
-    3019751,
-    3001888,
-    3001862,
-    3014200
-]
 
+# Get BACnet property
+def get_property( property, instance ):
 
-temp_instances = [
-    3001071,
-    3011595,
-    3011582,
-    3001201,
-    3006664,
-    3006616,
-    3006578,
-    3006552,
-    3007272,
-    3019361,
-    3019554,
-    3019714,
-    3007505,
-    3019080,
-    3007894,
-    3007633,
-    3008194,
-    3019597,
-    3007938,
-    3019412,
-    3019317,
-    3019266,
-    3019035,
-    3019170,
-    3019126,
-    3009875,
-    3010431,
-    3010481,
-    3019514,
-    3011366,
-    3001161,
-    3001177,
-    3001515,
-    3001640,
-    3011148,
-    3010274,
-    3009826,
-    3009777,
-    3002974,
-    3002985,
-    3002964,
-    3002996,
-    3003007,
-    3001090,
-    3003018,
-    3003029,
-    3006123,
-    3006152,
-    3006189,
-    3006238,
-    3006347,
-    3001848,
-    3001822,
-    3001796,
-    3001770,
-    3001744,
-    3001718,
-    3001692,
-    3001666,
-    3001489,
-    3001463,
-    3020712,
-    3001437,
-    3001411,
-    3001385,
-    3001359,
-    3001333,
-    3001307,
-    3001281,
-    3001255,
-    3001935,
-    3003049,
-    3006431,
-    3001221,
-    3001900,
-    3001874,
-    3001145,
-    3001532,
-    3001549,
-    3001914,
-    3000165
-]
+    # Set up request arguments
+    args = {
+        'address': '10.12.0.250',
+        'type': 'analogInput',
+        'instance': instance,
+        'property': property
+    }
 
+    # Issue request to HTTP service
+    #host = '192.168.1.195'
+    host = 'localhost'
+    url = 'http://' + host + ':8000/bg.php'
+    gateway_rsp = requests.post( url, data=args )
 
+    # Convert JSON response to Python dictionary
+    dc_rsp = json.loads( gateway_rsp.text )
 
-test_instances = [
-    3019514,
-    3000165,
-    3001071
-]
+    # Extract BACnet response from the dictionary
+    dc_bn_rsp = dc_rsp['bacnet_response']
 
-def test( instances ):
+    # Extract result from BACnet response
+    if ( dc_bn_rsp['success'] ):
 
-    property = 'presentValue'
-
-    i = 0
-
-    for instance in instances:
-
-        target_args = {
-            'address': '10.12.0.250',
-            'type': 'analogInput',
-            'instance': instance,
-            'property': property
-        }
-
-        #gateway_rsp = requests.post( 'http://192.168.1.195:8000/bg.php', data=target_args )
-        gateway_rsp = requests.post( 'http://localhost:8000/bg.php', data=target_args )
-
-        dc_rsp = json.loads( gateway_rsp.text )
-        dc_data = dc_rsp['bacnet_response']['data']
-
-        i += 1
-        #print( '%2d:'%i, gateway_rsp.status_code, gateway_rsp.reason, gateway_rsp.text )
+        dc_data = dc_bn_rsp['data']
 
         if dc_data['success']:
-            what_to_print = property + ':' + ' ' + str( dc_data[property] ) + ' ' + dc_data['units']
+            result = property + ':' + ' ' + str( dc_data[property] ) + ' ' + dc_data['units']
         else:
-            what_to_print = dc_data['message']
+            result = dc_data['message']
 
-        print( '%2d)' % i, '%7d -' % instance, what_to_print )
+    else:
+        result = dc_bn_rsp['message']
 
-test( temp_instances )
-test( co2_instances )
-#test( test_instances )
+    return result
+
+
+# Read  spreadsheet into a dataframe
+# Each row contains the following
+#   - Location
+#   - Instance ID of CO2 sensor
+#   - Instance ID of temperature sensor
+
+df = pd.read_excel(
+  'test.xlsx',
+  converters={ 'CO2':int, 'Temperature':int }
+)
+
+# Replace nan values with zero
+df = df.fillna( 0 )
+
+# Iterate over the rows of the dataframe, getting CO2 and temperature values for each location
+for index, row in df.iterrows():
+    print( 'Location:', row['Location'] )
+    print( '  CO2 -', get_property( 'presentValue', row['CO2'] ) )
+    print( '  Temperature -', get_property( 'presentValue', row['Temperature'] ) )
