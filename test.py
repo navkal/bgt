@@ -17,7 +17,8 @@ def get_property( property, instance ):
     }
 
     # Issue request to HTTP service
-    #host = '192.168.1.195'
+    #host = '192.168.1.186'
+    #host = '192.168.1.169'
     host = 'localhost'
     url = 'http://' + host + ':8000/bg.php'
     gateway_rsp = requests.post( url, data=args )
