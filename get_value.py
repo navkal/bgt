@@ -3,7 +3,7 @@ import json
 
 
 # Get BACnet property
-def get_present_value( instance ):
+def get_value_and_units( instance ):
 
     if instance:
         # Caller supplied non-empty instance

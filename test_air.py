@@ -1,7 +1,7 @@
 # Copyright 2018 BACnet Gateway.  All rights reserved.
 
 import pandas as pd
-from get_value import get_present_value
+from get_value import get_value_and_units
 
 # Read spreadsheet into a dataframe.
 # Each row contains the following
@@ -21,4 +21,4 @@ print( 'Location,Temperature,Temperature Units,CO2,CO2 Units' )
 
 # Iterate over the rows of the dataframe, getting temperature and CO2 values for each location
 for index, row in df.iterrows():
-    print( '{0},{1},{2}'.format( row['Location'], get_present_value( row['Temperature'] ), get_present_value( row['CO2'] ) ) )
+    print( '{0},{1},{2}'.format( row['Location'], get_value_and_units( row['Temperature'] ), get_value_and_units( row['CO2'] ) ) )

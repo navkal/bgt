@@ -1,7 +1,7 @@
 # Copyright 2018 BACnet Gateway.  All rights reserved.
 
 import pandas as pd
-from get_value import get_present_value
+from get_value import get_value_and_units
 
 # Read spreadsheet into a dataframe.
 # Each row contains the following
@@ -20,4 +20,4 @@ print( 'Feeder,Meter,Units' )
 
 # Iterate over the rows of the dataframe, getting meter readings for each feeder
 for index, row in df.iterrows():
-    print( '{0},{1}'.format( row['Feeder'], get_present_value( row['Meter'] ) ) )
+    print( '{0},{1}'.format( row['Feeder'], get_value_and_units( row['Meter'] ) ) )
