@@ -8,37 +8,44 @@ import json
 # Get BACnet property
 def get_present_value( instance ):
 
-    # Set up request arguments
-    args = {
-        'facility': 'ahs',
-        'instance': instance
-    }
+    if instance:
+        # Caller supplied non-empty instance
 
-    # Issue request to HTTP service
-    #host = '192.168.1.186'
-    #host = '192.168.1.169'
-    host = 'localhost'
-    url = 'http://' + host + ':8000/bg.php'
-    gateway_rsp = requests.post( url, data=args )
+        # Set up request arguments
+        args = {
+            'facility': 'ahs',
+            'instance': instance
+        }
 
-    # Convert JSON response to Python dictionary
-    dc_rsp = json.loads( gateway_rsp.text )
+        # Issue request to HTTP service
+        #host = '192.168.1.186'
+        #host = '192.168.1.169'
+        host = 'localhost'
+        url = 'http://' + host + ':8000/bg.php'
+        gateway_rsp = requests.post( url, data=args )
 
-    # Extract BACnet response from the dictionary
-    dc_bn_rsp = dc_rsp['bacnet_response']
+        # Convert JSON response to Python dictionary
+        dc_rsp = json.loads( gateway_rsp.text )
 
-    # Extract result from BACnet response
-    if ( dc_bn_rsp['success'] ):
+        # Extract BACnet response from the dictionary
+        dc_bn_rsp = dc_rsp['bacnet_response']
 
-        dc_data = dc_bn_rsp['data']
+        # Extract result from BACnet response
+        if ( dc_bn_rsp['success'] ):
 
-        if dc_data['success']:
-            result = str( int( dc_data['presentValue'] ) ) + ',' + dc_data['units']
+            dc_data = dc_bn_rsp['data']
+
+            if dc_data['success']:
+                result = str( int( dc_data['presentValue'] ) ) + ',' + dc_data['units']
+            else:
+                result = dc_data['message'] + ','
+
         else:
-            result = dc_data['message'] + ','
+            result = dc_bn_rsp['message'] + ','
 
     else:
-        result = dc_bn_rsp['message'] + ','
+        # Caller supplied empty instance
+        result = ','
 
     return result
 
@@ -59,18 +66,6 @@ df = df.fillna( 0 )
 
 print( 'Location,Temperature,Temperature Units,CO2,CO2 Units' )
 
-# Iterate over the rows of the dataframe, getting CO2 and temperature values for each location
+# Iterate over the rows of the dataframe, getting temperature and CO2 values for each location
 for index, row in df.iterrows():
-    temp = row['Temperature']
-    if temp:
-        temp_val = get_present_value( temp )
-    else:
-        temp_val = ','
-        
-    co2 = row['CO2']
-    if co2:
-        co2_val = get_present_value( co2 )
-    else:
-        co2_val = ','
-
-    print( '{0},{1},{2}'.format( row['Location'], temp_val, co2_val ) )
+    print( '{0},{1},{2}'.format( row['Location'], get_present_value( row['Temperature'] ), get_present_value( row['CO2'] ) ) )
