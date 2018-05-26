@@ -6,14 +6,13 @@ import json
 
 
 # Get BACnet property
-def get_property( property, instance ):
+def get_present_value( instance ):
 
     # Set up request arguments
     args = {
         'nae': 'ahs',
         'type': 'analogInput',
-        'instance': instance,
-        'property': property
+        'instance': instance
     }
 
     # Issue request to HTTP service
@@ -35,7 +34,7 @@ def get_property( property, instance ):
         dc_data = dc_bn_rsp['data']
 
         if dc_data['success']:
-            result = property + ':' + ' ' + str( dc_data[property] ) + ' ' + dc_data['units']
+            result = str( dc_data['presentValue'] ) + ' ' + dc_data['units']
         else:
             result = dc_data['message']
 
@@ -62,5 +61,5 @@ df = df.fillna( 0 )
 # Iterate over the rows of the dataframe, getting CO2 and temperature values for each location
 for index, row in df.iterrows():
     print( '\nLocation:', row['Location'] )
-    print( '  CO2 -', get_property( 'presentValue', row['CO2'] ) )
-    print( '  Temperature -', get_property( 'presentValue', row['Temperature'] ) )
+    print( '  CO2 -', get_present_value( row['CO2'] ) )
+    print( '  Temperature -', get_present_value( row['Temperature'] ) )
