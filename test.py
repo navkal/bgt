@@ -33,12 +33,12 @@ def get_present_value( instance ):
         dc_data = dc_bn_rsp['data']
 
         if dc_data['success']:
-            result = '{:5.2f}'.format( dc_data['presentValue'] ) + ' ' + dc_data['units']
+            result = str( int( dc_data['presentValue'] ) ) + ',' + dc_data['units']
         else:
-            result = dc_data['message']
+            result = dc_data['message'] + ','
 
     else:
-        result = dc_bn_rsp['message']
+        result = dc_bn_rsp['message'] + ','
 
     return result
 
@@ -57,6 +57,20 @@ df = pd.read_excel(
 # Replace nan values with zero
 df = df.fillna( 0 )
 
+print( 'Location,Temperature,Temperature Units,CO2,CO2 Units' )
+
 # Iterate over the rows of the dataframe, getting CO2 and temperature values for each location
 for index, row in df.iterrows():
-    print( 'Room {0}: {1}, CO2 {2}'.format( row['Location'], get_present_value( row['Temperature'] ), get_present_value( row['CO2'] ) ) )
+    temp = row['Temperature']
+    if temp:
+        temp_val = get_present_value( temp )
+    else:
+        temp_val = ','
+        
+    co2 = row['CO2']
+    if co2:
+        co2_val = get_present_value( co2 )
+    else:
+        co2_val = ','
+
+    print( '{0},{1},{2}'.format( row['Location'], temp_val, co2_val ) )
