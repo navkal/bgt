@@ -10,7 +10,7 @@ def get_present_value( instance ):
 
     # Set up request arguments
     args = {
-        'nae': 'ahs',
+        'facility': 'ahs',
         'instance': instance
     }
 

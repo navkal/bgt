@@ -39,7 +39,7 @@
     setWaitCursor();
 
     var sArgList =
-        '?nae=ahs'
+        '?facility=ahs'
       + '&instance=3006238';
 
     // Issue request to BACnet Gateway
