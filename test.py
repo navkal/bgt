@@ -33,7 +33,7 @@ def get_present_value( instance ):
         dc_data = dc_bn_rsp['data']
 
         if dc_data['success']:
-            result = str( dc_data['presentValue'] ) + ' ' + dc_data['units']
+            result = '{:5.2f}'.format( dc_data['presentValue'] ) + ' ' + dc_data['units']
         else:
             result = dc_data['message']
 
