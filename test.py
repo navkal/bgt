@@ -10,7 +10,7 @@ def get_property( property, instance ):
 
     # Set up request arguments
     args = {
-        'address': '10.12.0.250',
+        'nae': 'ahs',
         'type': 'analogInput',
         'instance': instance,
         'property': property
