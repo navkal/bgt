@@ -57,7 +57,7 @@ def get_present_value( instance ):
 #   - Instance ID of temperature sensor
 
 df = pd.read_excel(
-  'test.xlsx',
+  'test_air.xlsx',
   converters={ 'CO2':int, 'Temperature':int }
 )
 
