@@ -59,6 +59,4 @@ df = df.fillna( 0 )
 
 # Iterate over the rows of the dataframe, getting CO2 and temperature values for each location
 for index, row in df.iterrows():
-    print( '\nLocation:', row['Location'] )
-    print( '  CO2 -', get_present_value( row['CO2'] ) )
-    print( '  Temperature -', get_present_value( row['Temperature'] ) )
+    print( 'Room {0}: {1}, CO2 {2}'.format( row['Location'], get_present_value( row['Temperature'] ), get_present_value( row['CO2'] ) ) )
