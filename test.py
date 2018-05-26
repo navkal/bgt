@@ -11,7 +11,6 @@ def get_present_value( instance ):
     # Set up request arguments
     args = {
         'nae': 'ahs',
-        'type': 'analogInput',
         'instance': instance
     }
 

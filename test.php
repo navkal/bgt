@@ -39,10 +39,8 @@
     setWaitCursor();
 
     var sArgList =
-        '?address=10.12.0.250'
-      + '&type=analogInput'
-      + '&instance=3006238'
-      + '&property=presentValue';
+        '?nae=ahs'
+      + '&instance=3006238';
 
     // Issue request to BACnet Gateway
     $.ajax(
