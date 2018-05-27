@@ -3,7 +3,7 @@ import json
 
 
 # Request present value and units for the supplied instance
-def get_value_and_units( instance ):
+def get_value_and_units( instance, gateway_hostname='localhost', gateway_port='8000' ):
 
     value = None
     units = None
@@ -18,10 +18,7 @@ def get_value_and_units( instance ):
         }
 
         # Issue request to HTTP service
-        #host = '192.168.1.186'
-        #host = '192.168.1.169'
-        host = 'localhost'
-        url = 'http://' + host + ':8000/bg.php'
+        url = 'http://' + gateway_hostname + ':' + gateway_port + '/bg.php'
         gateway_rsp = requests.post( url, data=args )
 
         # Convert JSON response to Python dictionary
