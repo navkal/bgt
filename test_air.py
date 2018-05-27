@@ -9,22 +9,20 @@ from bacnet_gateway_requests import get_value_and_units
 #   - Instance ID of CO2 sensor
 #   - Instance ID of temperature sensor
 
-df = pd.read_excel(
-  'test_air.xlsx',
-  converters={ 'CO2':int, 'Temperature':int }
-)
+df = pd.read_csv( 'test_air.csv', na_filter=False )
 
-# Replace NaN values with zero
-df = df.fillna( 0 )
+hostname = 'localhost'
+port = 8000
 
 # Output column headings
 print( 'Location,Temperature,Temperature Units,CO2,CO2 Units' )
 
 # Iterate over the rows of the dataframe, getting temperature and CO2 values for each location
 for index, row in df.iterrows():
+
     # Retrieve data
-    temp_value, temp_units = get_value_and_units( row['Temperature'], '192.168.1.186', '8000' )
-    co2_value, co2_units = get_value_and_units( row['CO2'], '192.168.1.186', '8000' )
+    temp_value, temp_units = get_value_and_units( row['Temperature'], hostname, port )
+    co2_value, co2_units = get_value_and_units( row['CO2'], hostname, port )
 
     # Prepare to print
     temp_value = int( temp_value ) if temp_value else ''
