@@ -22,7 +22,7 @@ print( 'Feeder,Meter,Units' )
 # Iterate over the rows of the dataframe, getting meter readings for each feeder
 for index, row in df.iterrows():
     # Retrieve data
-    value, units = get_value_and_units( row['Meter'] )
+    value, units = get_value_and_units( row['Meter'], '192.168.1.186', '8000' )
 
     # Prepare to print
     value = int( value ) if value else ''

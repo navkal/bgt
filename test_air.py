@@ -23,8 +23,8 @@ print( 'Location,Temperature,Temperature Units,CO2,CO2 Units' )
 # Iterate over the rows of the dataframe, getting temperature and CO2 values for each location
 for index, row in df.iterrows():
     # Retrieve data
-    temp_value, temp_units = get_value_and_units( row['Temperature'] )
-    co2_value, co2_units = get_value_and_units( row['CO2'] )
+    temp_value, temp_units = get_value_and_units( row['Temperature'], '192.168.1.186', '8000' )
+    co2_value, co2_units = get_value_and_units( row['CO2'], '192.168.1.186', '8000' )
 
     # Prepare to print
     temp_value = int( temp_value ) if temp_value else ''

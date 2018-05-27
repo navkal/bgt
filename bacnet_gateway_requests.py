@@ -3,7 +3,7 @@ import json
 
 
 # Request present value and units for the supplied instance
-def get_value_and_units( instance, gateway_hostname='localhost', gateway_port='8000' ):
+def get_value_and_units( instance, gateway_hostname, gateway_port ):
 
     value = None
     units = None
