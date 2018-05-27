@@ -5,6 +5,9 @@ import json
 # Request present value and units for the supplied instance
 def get_value_and_units( instance ):
 
+    value = None
+    units = None
+
     if str( instance ).isdigit() and int( instance ) > 0:
         # Instance appears to be valid
 
@@ -33,15 +36,7 @@ def get_value_and_units( instance ):
             dc_data = dc_bn_rsp['data']
 
             if dc_data['success']:
-                result = str( int( dc_data['presentValue'] ) ) + ',' + dc_data['units']
-            else:
-                result = dc_data['message'] + ','
+                value = dc_data['presentValue']
+                units = dc_data['units']
 
-        else:
-            result = dc_bn_rsp['message'] + ','
-
-    else:
-        # Instance not valid
-        result = ','
-
-    return result
+    return value, units

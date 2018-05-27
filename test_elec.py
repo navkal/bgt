@@ -13,11 +13,20 @@ df = pd.read_excel(
   converters={ 'Meter':int }
 )
 
-# Replace nan values with zero
+# Replace NaN values with zero
 df = df.fillna( 0 )
 
+# Output column headings
 print( 'Feeder,Meter,Units' )
 
 # Iterate over the rows of the dataframe, getting meter readings for each feeder
 for index, row in df.iterrows():
-    print( '{0},{1}'.format( row['Feeder'], get_value_and_units( row['Meter'] ) ) )
+    # Retrieve data
+    value, units = get_value_and_units( row['Meter'] )
+
+    # Prepare to print
+    value = int( value ) if value else ''
+    units = units if units else ''
+
+    # Output CSV format
+    print( '{0},{1},{2}'.format( row['Feeder'], value, units ) )

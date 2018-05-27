@@ -14,11 +14,23 @@ df = pd.read_excel(
   converters={ 'CO2':int, 'Temperature':int }
 )
 
-# Replace nan values with zero
+# Replace NaN values with zero
 df = df.fillna( 0 )
 
+# Output column headings
 print( 'Location,Temperature,Temperature Units,CO2,CO2 Units' )
 
 # Iterate over the rows of the dataframe, getting temperature and CO2 values for each location
 for index, row in df.iterrows():
-    print( '{0},{1},{2}'.format( row['Location'], get_value_and_units( row['Temperature'] ), get_value_and_units( row['CO2'] ) ) )
+    # Retrieve data
+    temp_value, temp_units = get_value_and_units( row['Temperature'] )
+    co2_value, co2_units = get_value_and_units( row['CO2'] )
+
+    # Prepare to print
+    temp_value = int( temp_value ) if temp_value else ''
+    temp_units = temp_units if temp_units else ''
+    co2_value = int( co2_value ) if co2_value else ''
+    co2_units = co2_units if co2_units else ''
+
+    # Output CSV format
+    print( '{0},{1},{2},{3},{4}'.format( row['Location'], temp_value, temp_units, co2_value, co2_units ) )
