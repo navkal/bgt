@@ -2,7 +2,7 @@ import requests
 import json
 
 
-# Get BACnet property
+# Request present value and units for the supplied instance
 def get_value_and_units( instance ):
 
     if instance:

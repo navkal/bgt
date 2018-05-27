@@ -1,7 +1,7 @@
 # Copyright 2018 BACnet Gateway.  All rights reserved.
 
 import pandas as pd
-from get_value import get_value_and_units
+from bacnet_gateway_requests import get_value_and_units
 
 # Read spreadsheet into a dataframe.
 # Each row contains the following
