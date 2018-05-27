@@ -5,8 +5,8 @@ import json
 # Request present value and units for the supplied instance
 def get_value_and_units( instance ):
 
-    if instance:
-        # Caller supplied non-empty instance
+    if str( instance ).isdigit() and int( instance ) > 0:
+        # Instance appears to be valid
 
         # Set up request arguments
         args = {
@@ -41,7 +41,7 @@ def get_value_and_units( instance ):
             result = dc_bn_rsp['message'] + ','
 
     else:
-        # Caller supplied empty instance
+        # Instance not valid
         result = ','
 
     return result
