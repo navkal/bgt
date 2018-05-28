@@ -44,9 +44,7 @@
 
     // Issue request to BACnet Gateway
     $.ajax(
-      //'http://192.168.1.186:8000/bg.php/' + sArgList,
-      //'http://192.168.1.169:8000/bg.php/' + sArgList,
-      'http://localhost:8000/bg.php/' + sArgList,
+      'http://<?=$sBgHost?>:<?=$sBgPort?>/bg.php/' + sArgList,
       {
         method: 'GET',
         processData: false,
