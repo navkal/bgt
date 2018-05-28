@@ -6,7 +6,7 @@
   {
     $_SESSION['bgt'] =
       [
-        'host' => isset( $_REQUEST['host'] ) ? $_REQUEST['host'] : 'localhost',
+        'host' => isset( $_REQUEST['host'] ) ? $_REQUEST['host'] : '192.168.1.186',
         'port' => isset( $_REQUEST['port'] ) ? $_REQUEST['port'] : '8000'
       ];
   }
