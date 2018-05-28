@@ -116,17 +116,18 @@
 
         <label for="feeders">Feeder</label>
         <select id="feeders" class="form-control">
-        <?php
-          foreach ( $aLines as $sFeeder => $sMeter )
-          {
-        ?>
-            <option value=<?=$sMeter?>>
-              <?=$sFeeder?>
-            </option>
-        <?php
-          }
-        ?>
-      </select>
+          <?php
+            foreach ( $aLines as $sFeeder => $sMeter )
+            {
+          ?>
+              <option value=<?=$sMeter?>>
+                <?=$sFeeder?>
+              </option>
+          <?php
+            }
+          ?>
+        </select>
+      </div>
 
       <br/>
 
