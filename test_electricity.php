@@ -176,10 +176,10 @@
             Feeder
           </th>
           <th style="text-align:right">
-            Meter Value
+            Meter Reading
           </th>
           <th>
-            Meter Units
+            Units
           </th>
           <th>
             Update Time
