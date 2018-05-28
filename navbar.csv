@@ -4,4 +4,4 @@ BACnet Gateway
 test_electricity,Electricity,test_electricity.php
 test_temperature,Temperature,test_temperature.php
 test_co2,CO2,test_co2.php
-test_prototype,Prototype,test_prototype.php
+#test_prototype,Prototype,test_prototype.php
