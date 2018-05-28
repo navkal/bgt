@@ -1,18 +1,21 @@
 # Copyright 2018 BACnet Gateway.  All rights reserved.
 
+import argparse
 import pandas as pd
 from bacnet_gateway_requests import get_value_and_units
 
+# Get hostname and port of BACnet Gateway
+parser = argparse.ArgumentParser( description='Test BACnet Gateway', add_help=False )
+parser.add_argument( '-h', dest='hostname' )
+parser.add_argument( '-p', dest='port' )
+args = parser.parse_args()
+
 # Read spreadsheet into a dataframe.
-# Each row contains the following
+# Each row contains the following:
 #   - Location
 #   - Instance ID of CO2 sensor
 #   - Instance ID of temperature sensor
-
 df = pd.read_csv( 'test_air.csv', na_filter=False )
-
-hostname = 'localhost'
-port = 8000
 
 # Output column headings
 print( 'Location,Temperature,Temperature Units,CO2,CO2 Units' )
@@ -21,8 +24,8 @@ print( 'Location,Temperature,Temperature Units,CO2,CO2 Units' )
 for index, row in df.iterrows():
 
     # Retrieve data
-    temp_value, temp_units = get_value_and_units( row['Temperature'], hostname, port )
-    co2_value, co2_units = get_value_and_units( row['CO2'], hostname, port )
+    temp_value, temp_units = get_value_and_units( row['Temperature'], args.hostname, args.port )
+    co2_value, co2_units = get_value_and_units( row['CO2'], args.hostname, args.port )
 
     # Prepare to print
     temp_value = int( temp_value ) if temp_value else ''
