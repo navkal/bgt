@@ -72,7 +72,7 @@
     {
       sHtml += '<tr>';
       sHtml += '<td>' + g_aMeters[iMeter][0] + '</td>';
-      sHtml += '<td id="value_' + iMeter + '"></td>';
+      sHtml += '<td id="value_' + iMeter + '" style="text-align:right" ></td>';
       sHtml += '<td id="units_' + iMeter + '"></td>';
       sHtml += '<td id="time_' + iMeter + '"></td>';
       sHtml += '</tr>';
@@ -175,7 +175,7 @@
           <th>
             Feeder
           </th>
-          <th>
+          <th style="text-align:right">
             Meter Value
           </th>
           <th>
