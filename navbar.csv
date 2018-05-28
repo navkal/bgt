@@ -1,4 +1,5 @@
 BACnet Gateway
 &copy; 2018 BACnet Gateway.  All rights reserved.
 
-test,Test,test.php
+test_electricity,Electricity,test_electricity.php
+test_air,Air,test_air.php
