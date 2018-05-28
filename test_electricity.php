@@ -88,6 +88,10 @@
   {
     setWaitCursor();
 
+    $( '#value_' + g_iMeter ).html( '-' );
+    $( '#units_' + g_iMeter ).html( '-' );
+    $( '#time_' + g_iMeter ).html( '-' );
+
     var sArgList =
         '?facility=ahs'
       + '&instance=' + g_aMeters[g_iMeter][1];
@@ -136,7 +140,7 @@
     g_iMeter = ( g_iMeter == ( g_aMeters.length - 1 ) ) ? 0 : g_iMeter + 1;
 
     // Trigger next request
-    setTimeout( rq, 3000 );
+    setTimeout( rq, 5000 );
   }
 
   function readFail( tJqXhr, sStatus, sErrorThrown )
