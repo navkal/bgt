@@ -44,7 +44,7 @@
 
     // Issue request to BACnet Gateway
     $.ajax(
-      'http://<?=$sBgHost?>:<?=$sBgPort?>/bg.php/' + sArgList,
+      'http://<?=$_SESSION['bgt']['host']?>:<?=$_SESSION['bgt']['port']?>/bg.php/' + sArgList,
       {
         method: 'GET',
         processData: false,
