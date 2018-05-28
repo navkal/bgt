@@ -1,23 +1,27 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 
-  // Read CSV file containing list of electrical meters
-  $file = fopen( 'test_electricity.csv', 'r' );
+  $sCsvFilename = 'test_electricity.csv';
+  $sInstanceName = 'Feeder';
+  $sInstanceValue = 'Meter Reading';
+
+  // Read CSV file containing list instances
+  $file = fopen( $sCsvFilename, 'r' );
   fgetcsv( $file );
 
   // Save CSV data in array
-  $aMeters = [];
+  $aInstances = [];
   while( ! feof( $file ) )
   {
-    $aMeter = fgetcsv( $file );
-    if ( is_array( $aMeter ) && ( count( $aMeter ) > 1 ) )
+    $aInstance = fgetcsv( $file );
+    if ( is_array( $aInstance ) && ( count( $aInstance ) > 1 ) )
     {
-      array_push( $aMeters, $aMeter );
+      array_push( $aInstances, $aInstance );
     }
   }
 
   // Convert to JSON
-  $sMeters = json_encode( $aMeters );
+  $sInstances = json_encode( $aInstances );
 
   fclose( $file );
 ?>
@@ -54,8 +58,8 @@
 
 <script>
 
-  var g_aMeters = null;
-  var g_iMeter = 0;
+  var g_aInstances = null;
+  var g_iInstance = 0;
   var g_iTimeoutMs = 0;
 
   $( document ).ready( onDocumentReady );
@@ -64,22 +68,22 @@
   {
     clearWaitCursor();
 
-    // Load list of meters
-    g_aMeters = JSON.parse( '<?=$sMeters?>' );
+    // Load list of instances
+    g_aInstances = JSON.parse( '<?=$sInstances?>' );
 
     // Initialize table
     var sHtml = '';
-    for ( var iMeter in g_aMeters )
+    for ( var iInstance in g_aInstances )
     {
       sHtml += '<tr>';
-      sHtml += '<td>' + g_aMeters[iMeter][0] + '</td>';
-      sHtml += '<td id="value_' + iMeter + '" style="text-align:right" ></td>';
-      sHtml += '<td id="units_' + iMeter + '"></td>';
-      sHtml += '<td id="time_' + iMeter + '"></td>';
+      sHtml += '<td>' + g_aInstances[iInstance][0] + '</td>';
+      sHtml += '<td id="value_' + iInstance + '" style="text-align:right" ></td>';
+      sHtml += '<td id="units_' + iInstance + '"></td>';
+      sHtml += '<td id="time_' + iInstance + '"></td>';
       sHtml += '</tr>';
     }
 
-    $( '#meter_table_body' ).html( sHtml );
+    $( '#bgt_table_body' ).html( sHtml );
 
     // Issue first request
     rq();
@@ -89,13 +93,13 @@
   {
     setWaitCursor();
 
-    $( '#value_' + g_iMeter ).html( '-' );
-    $( '#units_' + g_iMeter ).html( '-' );
-    $( '#time_' + g_iMeter ).html( '-' );
+    $( '#value_' + g_iInstance ).html( '-' );
+    $( '#units_' + g_iInstance ).html( '-' );
+    $( '#time_' + g_iInstance ).html( '-' );
 
     var sArgList =
         '?facility=ahs'
-      + '&instance=' + g_aMeters[g_iMeter][1];
+      + '&instance=' + g_aInstances[g_iInstance][1];
 
     // Issue request to BACnet Gateway
     $.ajax(
@@ -133,18 +137,18 @@
 
     // Update table cells
     var tDate = new Date;
-    $( '#value_' + g_iMeter ).html( sValue );
-    $( '#units_' + g_iMeter ).html( sUnits );
-    $( '#time_' + g_iMeter ).html( tDate.toLocaleString() );
+    $( '#value_' + g_iInstance ).html( sValue );
+    $( '#units_' + g_iInstance ).html( sUnits );
+    $( '#time_' + g_iInstance ).html( tDate.toLocaleString() );
 
-    // Increment meter index
-    if ( g_iMeter < ( g_aMeters.length - 1 ) )
+    // Increment instance index
+    if ( g_iInstance < ( g_aInstances.length - 1 ) )
     {
-      g_iMeter ++;
+      g_iInstance ++;
     }
     else
     {
-      g_iMeter = 0;
+      g_iInstance = 0;
       g_iTimeoutMs = 5000;
     }
 
@@ -177,15 +181,15 @@
 <div class="container">
 
   <div>
-    <table id="meter_table" class="table">
+    <table class="table">
 
       <thead>
         <tr>
           <th>
-            Feeder
+            <?=$sInstanceName?>
           </th>
           <th style="text-align:right">
-            Meter Reading
+            <?=$sInstanceValue?>
           </th>
           <th>
             Units
@@ -196,7 +200,7 @@
         </tr>
       </thead>
 
-      <tbody id="meter_table_body" >
+      <tbody id="bgt_table_body" >
       </tbody>
 
     </table>
