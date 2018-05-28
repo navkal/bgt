@@ -5,6 +5,7 @@
   $file = fopen( 'test_electricity.csv', 'r' );
   fgetcsv( $file );
 
+  // Save CSV data in array
   $aMeters = [];
   while( ! feof( $file ) )
   {
@@ -15,6 +16,7 @@
     }
   }
 
+  // Convert to JSON
   $sMeters = json_encode( $aMeters );
 
   fclose( $file );
@@ -61,8 +63,10 @@
   {
     clearWaitCursor();
 
+    // Load list of meters
     g_aMeters = JSON.parse( '<?=$sMeters?>' );
 
+    // Initialize table
     var sHtml = '';
     for ( var iMeter in g_aMeters )
     {
@@ -70,11 +74,13 @@
       sHtml += '<td>' + g_aMeters[iMeter][0] + '</td>';
       sHtml += '<td id="value_' + iMeter + '">(n/a)</td>';
       sHtml += '<td id="units_' + iMeter + '">(n/a)</td>';
+      sHtml += '<td id="time_' + iMeter + '">(n/a)</td>';
       sHtml += '</tr>';
     }
 
     $( '#meter_table_body' ).html( sHtml );
 
+    // Issue first request
     rq();
   }
 
@@ -102,14 +108,34 @@
 
   function readDone( tRsp, sStatus, tJqXhr )
   {
-    console.log( tRsp );
     clearWaitCursor();
 
-    $( '#value_' + g_iMeter ).html( g_iMeter );
-    $( '#units_' + g_iMeter ).html( g_iMeter );
+    // Initialize fields
+    var sValue = '(error)';
+    var sUnits = '(error)';
 
+    // Extract values from response
+    var tBnRsp = tRsp.bacnet_response;
+    if ( tBnRsp.success )
+    {
+      var tData = tBnRsp.data;
+      if ( tData.success )
+      {
+        sValue = Math.round( tData.presentValue );
+        sUnits = tData.units;
+      }
+    }
+
+    // Update table cells
+    var tDate = new Date;
+    $( '#value_' + g_iMeter ).html( sValue );
+    $( '#units_' + g_iMeter ).html( sUnits );
+    $( '#time_' + g_iMeter ).html( tDate.toLocaleString() );
+
+    // Increment meter index
     g_iMeter = ( g_iMeter == ( g_aMeters.length - 1 ) ) ? 0 : g_iMeter + 1;
 
+    // Trigger next request
     setTimeout( rq, 3000 );
   }
 
@@ -146,10 +172,13 @@
             Feeder
           </th>
           <th>
-            Meter Reading
+            Meter Value
           </th>
           <th>
-            Units
+            Meter Units
+          </th>
+          <th>
+            Update Time
           </th>
         </tr>
       </thead>
