@@ -72,9 +72,9 @@
     {
       sHtml += '<tr>';
       sHtml += '<td>' + g_aMeters[iMeter][0] + '</td>';
-      sHtml += '<td id="value_' + iMeter + '">(n/a)</td>';
-      sHtml += '<td id="units_' + iMeter + '">(n/a)</td>';
-      sHtml += '<td id="time_' + iMeter + '">(n/a)</td>';
+      sHtml += '<td id="value_' + iMeter + '"></td>';
+      sHtml += '<td id="units_' + iMeter + '"></td>';
+      sHtml += '<td id="time_' + iMeter + '"></td>';
       sHtml += '</tr>';
     }
 
