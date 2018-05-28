@@ -56,6 +56,7 @@
 
   var g_aMeters = null;
   var g_iMeter = 0;
+  var g_iTimeoutMs = 0;
 
   $( document ).ready( onDocumentReady );
 
@@ -98,7 +99,8 @@
 
     // Issue request to BACnet Gateway
     $.ajax(
-      'http://localhost:8000/bg.php/' + sArgList,
+      //'http://localhost:8000/bg.php/' + sArgList,
+      'http://192.168.1.186:8000/bg.php/' + sArgList,
       {
         method: 'GET',
         processData: false,
@@ -137,10 +139,18 @@
     $( '#time_' + g_iMeter ).html( tDate.toLocaleString() );
 
     // Increment meter index
-    g_iMeter = ( g_iMeter == ( g_aMeters.length - 1 ) ) ? 0 : g_iMeter + 1;
+    if ( g_iMeter == ( g_aMeters.length - 1 ) )
+    {
+      g_iMeter = 0;
+      g_iTimeoutMs = 5000;
+    }
+    else
+    {
+      g_iMeter ++;
+    }
 
     // Trigger next request
-    setTimeout( rq, 5000 );
+    setTimeout( rq, g_iTimeoutMs );
   }
 
   function readFail( tJqXhr, sStatus, sErrorThrown )
