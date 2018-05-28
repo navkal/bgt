@@ -4,12 +4,18 @@
   // Read CSV file containing list of electrical meters
   $file = fopen( 'test_electricity.csv', 'r' );
   fgetcsv( $file );
-  $aLines = [];
+
+  $aMeters = [];
   while( ! feof( $file ) )
   {
-    $aLine = fgetcsv( $file );
-    $aLines[$aLine[0]] = $aLine[1];
+    $aMeter = fgetcsv( $file );
+    if ( is_array( $aMeter ) && ( count( $aMeter ) > 1 ) )
+    {
+      array_push( $aMeters, $aMeter );
+    }
   }
+
+  $sMeters = json_encode( $aMeters );
 
   fclose( $file );
 ?>
@@ -46,7 +52,31 @@
 
 <script>
 
-  $( document ).ready( clearWaitCursor );
+  var g_aMeters = null;
+  var g_iMeter = 0;
+
+  $( document ).ready( onDocumentReady );
+
+  function onDocumentReady()
+  {
+    clearWaitCursor();
+
+    g_aMeters = JSON.parse( '<?=$sMeters?>' );
+
+    var sHtml = '';
+    for ( var iMeter in g_aMeters )
+    {
+      sHtml += '<tr>';
+      sHtml += '<td>' + g_aMeters[iMeter][0] + '</td>';
+      sHtml += '<td id="value_' + iMeter + '">(n/a)</td>';
+      sHtml += '<td id="units_' + iMeter + '">(n/a)</td>';
+      sHtml += '</tr>';
+    }
+
+    $( '#meter_table_body' ).html( sHtml );
+
+    rq();
+  }
 
   function rq()
   {
@@ -54,7 +84,7 @@
 
     var sArgList =
         '?facility=ahs'
-      + '&instance=' + $( '#feeders' ).val();
+      + '&instance=' + g_aMeters[g_iMeter][1];
 
     // Issue request to BACnet Gateway
     $.ajax(
@@ -75,16 +105,12 @@
     console.log( tRsp );
     clearWaitCursor();
 
-    var sHtml = '<table class="table">';
-    for ( sLabel in tRsp )
-    {
-      sHtml += '<tr>';
-      sHtml += '<td>' + sLabel + '</td>';
-      sHtml += '<td>' + JSON.stringify( tRsp[sLabel] ) + '</td>';
-      sHtml += '</tr>';
-    }
+    $( '#value_' + g_iMeter ).html( g_iMeter );
+    $( '#units_' + g_iMeter ).html( g_iMeter );
 
-    $( '#response' ).append( sHtml );
+    g_iMeter = ( g_iMeter == ( g_aMeters.length - 1 ) ) ? 0 : g_iMeter + 1;
+
+    setTimeout( rq, 3000 );
   }
 
   function readFail( tJqXhr, sStatus, sErrorThrown )
@@ -110,41 +136,28 @@
 </script>
 
 <div class="container">
+
   <div>
-    <form>
-      <div class="form-group">
+    <table id="meter_table" class="table">
 
-        <label for="feeders">Feeder</label>
-        <select id="feeders" class="form-control">
-          <?php
-            foreach ( $aLines as $sFeeder => $sMeter )
-            {
-          ?>
-              <option value=<?=$sMeter?>>
-                <?=$sFeeder?>
-              </option>
-          <?php
-            }
-          ?>
-        </select>
-      </div>
+      <thead>
+        <tr>
+          <th>
+            Feeder
+          </th>
+          <th>
+            Meter Reading
+          </th>
+          <th>
+            Units
+          </th>
+        </tr>
+      </thead>
 
-      <br/>
+      <tbody id="meter_table_body" >
+      </tbody>
 
-      <button type="button" class="btn btn-default" title="Send a Request to the BACnet Gateway" onclick="rq();" >Read Electric Meter</button>
-
-    </form>
-
-  </div>
-
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">Gateway Response</h3>
-    </div>
-    <div class="panel-body">
-      <table id="response" class="table">
-      </table>
-    </div>
+    </table>
   </div>
 
   <div id="spinner" class="spinner" >
