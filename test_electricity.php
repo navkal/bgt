@@ -139,14 +139,14 @@
     $( '#time_' + g_iMeter ).html( tDate.toLocaleString() );
 
     // Increment meter index
-    if ( g_iMeter == ( g_aMeters.length - 1 ) )
+    if ( g_iMeter < ( g_aMeters.length - 1 ) )
     {
-      g_iMeter = 0;
-      g_iTimeoutMs = 5000;
+      g_iMeter ++;
     }
     else
     {
-      g_iMeter ++;
+      g_iMeter = 0;
+      g_iTimeoutMs = 5000;
     }
 
     // Trigger next request
