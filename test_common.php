@@ -166,8 +166,11 @@
       }
 
       // Update table cells
-      $( '#value_' + g_iInstance + '_' + g_iPair ).html( sValue );
-      $( '#units_' + g_iInstance + '_' + g_iPair ).html( sUnits );
+      for ( var iPair = 1; iPair <= g_iValueUnitPairs; iPair ++ )
+      {
+        $( '#value_' + g_iInstance + '_' + iPair ).html( sValue );
+        $( '#units_' + g_iInstance + '_' + iPair ).html( sUnits );
+      }
       $( '#time_' + g_iInstance ).html( sTime );
 
       // Increment instance index
