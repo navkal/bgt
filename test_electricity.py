@@ -23,14 +23,14 @@ try:
     # Iterate over the rows of the dataframe, getting meter readings for each feeder
     for index, row in df.iterrows():
         # Retrieve data
-        value, units = get_value_and_units( 'ahs', row['Meter'], args.hostname, args.port )
+        value, units = get_value_and_units( row['Facility'], row['Meter'], args.hostname, args.port )
 
         # Prepare to print
         value = int( value ) if value else ''
         units = units if units else ''
 
         # Output CSV format
-        print( '{0},{1},{2}'.format( row['Feeder'], value, units ) )
+        print( '{0},{1},{2}'.format( row['Label'], value, units ) )
 
 except KeyboardInterrupt:
     print( 'Bye' )
