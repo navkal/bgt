@@ -76,7 +76,8 @@
     var sHtml = '';
     for ( var iInstance in g_aInstances )
     {
-      sHtml += '<tr>';
+      // Create row for current instance
+      sHtml += '<tr id="row_' + iInstance + '">';
 
       // Create cell for label in first column
       sHtml += '<td>' + g_aInstances[iInstance][0] + '</td>';
@@ -104,9 +105,6 @@
   {
     setWaitCursor();
 
-    // Show current row as pending
-    $( '#value_' + g_iInstance + '_' + g_iPair ).closest( 'tr' ).addClass( 'text-primary' );
-
     var sArgList =
         '?facility=ahs'
       + '&instance=' + g_aInstances[g_iInstance][ ( g_iPair * 2 ) - 1 ];
@@ -127,73 +125,87 @@
 
   function readDone( tRsp, sStatus, tJqXhr )
   {
-    if ( g_iPair < g_iValueUnitPairs )
+    clearWaitCursor();
+
+
+    var tBnRsp = tRsp.bacnet_response;
+    if ( ! tBnRsp.success || ! tBnRsp.data.success )
     {
-      // Continue current sequence of requests
-
-      // Increment pair index
-      g_iPair ++;
-
-      // Request the next pair
-      rq();
+      // Request failed; advance to next instance
+      nextInstance( false );
     }
     else
     {
-      // Handle completion of request sequence for current instance
+      // Request succeeded
 
-      clearWaitCursor();
-
-      // Clear pending style
-      $( '#bgt_table_body .text-primary' ).removeClass( 'text-primary' );
-
-      // CHANGE THIS -->
-      var sValue = 'moo';
-      var sUnits = 'moo';
-      var sTime = 'moo';
-
-
-      // If request succeeded, extract new values
-      var tBnRsp = tRsp.bacnet_response;
-      if ( tBnRsp.success )
+      if ( g_iPair < g_iValueUnitPairs )
       {
-        var tData = tBnRsp.data;
-        if ( tData.success )
-        {
-          sValue = Math.round( tData.presentValue );
-          sUnits = tData.units;
-          var tDate = new Date;
-          sTime = tDate.toLocaleString();
-        }
-      }
+        // Continue current sequence of requests
 
-      // Update table cells
-      for ( var iPair = 1; iPair <= g_iValueUnitPairs; iPair ++ )
-      {
-        $( '#value_' + g_iInstance + '_' + iPair ).html( sValue );
-        $( '#units_' + g_iInstance + '_' + iPair ).html( sUnits );
-      }
-      $( '#time_' + g_iInstance ).html( sTime );
+        // Increment pair index
+        g_iPair ++;
 
-      // Increment instance index
-      if ( g_iInstance < ( g_aInstances.length - 1 ) )
-      {
-        g_iInstance ++;
+        // Request the next pair
+        rq();
       }
       else
       {
-        g_iInstance = 0;
-        g_iTimeoutMs = 5000;
-      }
+        // Handle completion of request sequence for current instance
 
-      // Trigger next request sequence
-      setTimeout( rq, g_iTimeoutMs );
+        // Extract new values
+        var tData = tBnRsp.data;
+        sValue = Math.round( tData.presentValue );
+        sUnits = tData.units;
+        var tDate = new Date;
+        sTime = tDate.toLocaleString();
+
+        // Update table cells
+        for ( var iPair = 1; iPair <= g_iValueUnitPairs; iPair ++ )
+        {
+          $( '#value_' + g_iInstance + '_' + iPair ).html( sValue );
+          $( '#units_' + g_iInstance + '_' + iPair ).html( sUnits );
+        }
+        $( '#time_' + g_iInstance ).html( sTime );
+
+        nextInstance( true );
+      }
     }
+  }
+
+  // Advance to next instance
+  function nextInstance( bSuccess )
+  {
+    // Clear highlighting
+    $( '#bgt_table_body .bg-info' ).removeClass( 'bg-info' );
+    $( '#bgt_table_body .bg-success' ).removeClass( 'bg-success' );
+
+    // Optionally highlight current instance
+    if ( bSuccess )
+    {
+      $( '#row_' + g_iInstance ).addClass( 'bg-success' );
+    }
+
+    // Advance instance index
+    if ( g_iInstance < ( g_aInstances.length - 1 ) )
+    {
+      g_iInstance ++;
+    }
+    else
+    {
+      g_iInstance = 0;
+      g_iTimeoutMs = 5000;
+    }
+
+    // Highlight next instance as pending
+    $( '#row_' + g_iInstance ).addClass( 'bg-info' );
+
+    // Trigger next request sequence
+    setTimeout( rq, g_iTimeoutMs );
   }
 
   function readFail( tJqXhr, sStatus, sErrorThrown )
   {
     clearWaitCursor();
-    $( '#response' ).append( '<tr><td>error</td></tr>' );
 
     console.log( "=> ERROR=" + sStatus + " " + sErrorThrown );
     console.log( "=> HEADER=" + JSON.stringify( tJqXhr ) );
