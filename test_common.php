@@ -59,9 +59,6 @@
   var g_iPair = 0;
   var g_iInstance = 0;
   var g_iTimeoutMs = 0;
-  var g_sPrevValue = '';
-  var g_sPrevUnits = '';
-  var g_sPrevTime = '';
 
   $( document ).ready( onDocumentReady );
 
@@ -107,15 +104,8 @@
   {
     setWaitCursor();
 
-    // Save previous values pertaining to current instance
-    g_sPrevValue = $( '#value_' + g_iInstance + '_' + g_iPair ).text();
-    g_sPrevUnits = $( '#units_' + g_iInstance + '_' + g_iPair ).text();
-    g_sPrevTime = $( '#time_' + g_iInstance ).text();
-
     // Show current row as pending
-    $( '#value_' + g_iInstance + '_' + g_iPair ).html( '-' );
-    $( '#units_' + g_iInstance + '_' + g_iPair ).html( '-' );
-    $( '#time_' + g_iInstance ).html( '-' );
+    $( '#value_' + g_iInstance + '_' + g_iPair ).closest( 'tr' ).addClass( 'text-primary' );
 
     var sArgList =
         '?facility=ahs'
@@ -153,10 +143,14 @@
 
       clearWaitCursor();
 
-      // Initialize fields to previous values
-      var sValue = g_sPrevValue;
-      var sUnits = g_sPrevUnits;
-      var sTime = g_sPrevTime;
+      // Clear pending style
+      $( '#bgt_table_body .text-primary' ).removeClass( 'text-primary' );
+
+      // CHANGE THIS -->
+      var sValue = 'moo';
+      var sUnits = 'moo';
+      var sTime = 'moo';
+
 
       // If request succeeded, extract new values
       var tBnRsp = tRsp.bacnet_response;
