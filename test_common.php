@@ -55,6 +55,8 @@
 <script>
 
   var g_aInstances = null;
+  var g_iValueUnitPairs = 0;
+  var g_iPair = 0;
   var g_iInstance = 0;
   var g_iTimeoutMs = 0;
   var g_sPrevValue = '';
@@ -70,20 +72,26 @@
     // Load list of instances
     g_aInstances = JSON.parse( '<?=$sInstances?>' );
 
+    // Determine how many value-unit pairs to display
+    g_iValueUnitPairs = ( g_aInstances[0].length - 1 )
+
     // Initialize table
     var sHtml = '';
     for ( var iInstance in g_aInstances )
     {
-      var g_iColumns = g_aInstances[iInstance].length;
-      var g_iValueUnitPairs = ( g_aInstances[iInstance].length - 1 ) / 2;
-
       sHtml += '<tr>';
+
+      // Create cell for label in first column
       sHtml += '<td>' + g_aInstances[iInstance][0] + '</td>';
-      for ( var iPair = 0; iPair < g_iValueUnitPairs; iPair ++ )
+
+      // Create cells for value-unit pairs
+      for ( var iPair = 1; iPair <= g_iValueUnitPairs; iPair ++ )
       {
-        sHtml += '<td id="value_' + iInstance + '" style="text-align:right" ></td>';
-        sHtml += '<td id="units_' + iInstance + '"></td>';
+        sHtml += '<td id="value_' + iInstance + '_' + iPair + '" style="text-align:right" ></td>';
+        sHtml += '<td id="units_' + iInstance + '_' + iPair + '"></td>';
       }
+
+      // Create cell for time
       sHtml += '<td id="time_' + iInstance + '"></td>';
       sHtml += '</tr>';
     }
@@ -91,6 +99,7 @@
     $( '#bgt_table_body' ).html( sHtml );
 
     // Issue first request
+    g_iPair = 1;
     rq();
   }
 
@@ -99,13 +108,13 @@
     setWaitCursor();
 
     // Save previous values pertaining to current instance
-    g_sPrevValue = $( '#value_' + g_iInstance ).text();
-    g_sPrevUnits = $( '#units_' + g_iInstance ).text();
+    g_sPrevValue = $( '#value_' + g_iInstance + '_' + g_iPair ).text();
+    g_sPrevUnits = $( '#units_' + g_iInstance + '_' + g_iPair ).text();
     g_sPrevTime = $( '#time_' + g_iInstance ).text();
 
     // Show current row as pending
-    $( '#value_' + g_iInstance ).html( '-' );
-    $( '#units_' + g_iInstance ).html( '-' );
+    $( '#value_' + g_iInstance + '_' + g_iPair ).html( '-' );
+    $( '#units_' + g_iInstance + '_' + g_iPair ).html( '-' );
     $( '#time_' + g_iInstance ).html( '-' );
 
     var sArgList =
@@ -128,45 +137,53 @@
 
   function readDone( tRsp, sStatus, tJqXhr )
   {
-    clearWaitCursor();
-
-    // Initialize fields to previous values
-    var sValue = g_sPrevValue;
-    var sUnits = g_sPrevUnits;
-    var sTime = g_sPrevTime;
-
-    // If request succeeded, extract new values
-    var tBnRsp = tRsp.bacnet_response;
-    if ( tBnRsp.success )
+    if ( g_iPair < g_iValueUnitPairs )
     {
-      var tData = tBnRsp.data;
-      if ( tData.success )
-      {
-        sValue = Math.round( tData.presentValue );
-        sUnits = tData.units;
-        var tDate = new Date;
-        sTime = tDate.toLocaleString();
-      }
-    }
-
-    // Update table cells
-    $( '#value_' + g_iInstance ).html( sValue );
-    $( '#units_' + g_iInstance ).html( sUnits );
-    $( '#time_' + g_iInstance ).html( sTime );
-
-    // Increment instance index
-    if ( g_iInstance < ( g_aInstances.length - 1 ) )
-    {
-      g_iInstance ++;
+      g_iPair ++;
+      rq();
     }
     else
     {
-      g_iInstance = 0;
-      g_iTimeoutMs = 5000;
-    }
+      clearWaitCursor();
 
-    // Trigger next request
-    setTimeout( rq, g_iTimeoutMs );
+      // Initialize fields to previous values
+      var sValue = g_sPrevValue;
+      var sUnits = g_sPrevUnits;
+      var sTime = g_sPrevTime;
+
+      // If request succeeded, extract new values
+      var tBnRsp = tRsp.bacnet_response;
+      if ( tBnRsp.success )
+      {
+        var tData = tBnRsp.data;
+        if ( tData.success )
+        {
+          sValue = Math.round( tData.presentValue );
+          sUnits = tData.units;
+          var tDate = new Date;
+          sTime = tDate.toLocaleString();
+        }
+      }
+
+      // Update table cells
+      $( '#value_' + g_iInstance + '_' + g_iPair ).html( sValue );
+      $( '#units_' + g_iInstance + '_' + g_iPair ).html( sUnits );
+      $( '#time_' + g_iInstance ).html( sTime );
+
+      // Increment instance index
+      if ( g_iInstance < ( g_aInstances.length - 1 ) )
+      {
+        g_iInstance ++;
+      }
+      else
+      {
+        g_iInstance = 0;
+        g_iTimeoutMs = 5000;
+      }
+
+      // Trigger next request sequence
+      setTimeout( rq, g_iTimeoutMs );
+    }
   }
 
   function readFail( tJqXhr, sStatus, sErrorThrown )
