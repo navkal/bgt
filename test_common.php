@@ -119,7 +119,7 @@
 
     var sArgList =
         '?facility=ahs'
-      + '&instance=' + g_aInstances[g_iInstance][1];
+      + '&instance=' + g_aInstances[g_iInstance][ ( g_iPair * 2 ) - 1 ];
 
     // Issue request to BACnet Gateway
     $.ajax(
