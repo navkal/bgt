@@ -2,6 +2,7 @@ BACnet Gateway
 &copy; 2018 BACnet Gateway.  All rights reserved.
 
 test_dashboard,Dashboard,test_dashboard.php
+test_air,Air,test_air.php
 test_electricity,Electricity,test_electricity.php
 test_temperature,Temperature,test_temperature.php
 test_co2,CO2,test_co2.php
