@@ -3,7 +3,7 @@
 
   $sCsvFilename = 'test_co2.csv';
   $sFirstColName = 'Location';
-  $aInstanceColNames =
+  $aColNames =
     [
       [
         'value_col_name' => 'CO2 Level',

@@ -2,8 +2,8 @@
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 
   $sCsvFilename = 'test_dashboard.csv';
-  $sFirstColName = 'Feeder';
-  $aInstanceColNames =
+  $sFirstColName = 'Facility';
+  $aColNames =
     [
       [
         'value_col_name' => 'Power',

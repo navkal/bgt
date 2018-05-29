@@ -1,23 +1,23 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 
-  // Read CSV file containing list instances
+  // Read CSV file describing data to be retrieved and presented
   $file = fopen( $sCsvFilename, 'r' );
   fgetcsv( $file );
 
   // Save CSV data in array
-  $aInstances = [];
+  $aLines = [];
   while( ! feof( $file ) )
   {
-    $aInstance = fgetcsv( $file );
-    if ( is_array( $aInstance ) && ( count( $aInstance ) > 1 ) )
+    $aLine = fgetcsv( $file );
+    if ( is_array( $aLine ) && ( count( $aLine ) > 1 ) )
     {
-      array_push( $aInstances, $aInstance );
+      array_push( $aLines, $aLine );
     }
   }
 
   // Convert to JSON
-  $sInstances = json_encode( $aInstances );
+  $sLines = json_encode( $aLines );
 
   fclose( $file );
 ?>
@@ -54,10 +54,9 @@
 
 <script>
 
-  var g_aInstances = null;
-  var g_iValueUnitPairs = 0;
-  var g_iPair = 0;
-  var g_iInstance = 0;
+  var g_aRows = null;
+  var g_iInstanceOffset = 0;
+  var g_iRow = 0;
   var g_iTimeoutMs = 0;
   var g_aData = [];
 
@@ -70,38 +69,35 @@
   {
     clearWaitCursor();
 
-    // Load list of instances
-    g_aInstances = JSON.parse( '<?=$sInstances?>' );
-
-    // Determine how many value-unit pairs to display
-    g_iValueUnitPairs = ( g_aInstances[0].length - 1 )
+    // Load list of rows
+    g_aRows = JSON.parse( '<?=$sLines?>' );
 
     // Initialize table
     var sHtml = '';
-    for ( var iInstance in g_aInstances )
+    for ( var iRow in g_aRows )
     {
-      // Create row for current instance
-      sHtml += '<tr id="row_' + iInstance + '">';
+      // Create row
+      sHtml += '<tr id="row_' + iRow + '">';
 
       // Create cell for label in first column
-      sHtml += '<td>' + g_aInstances[iInstance][0] + '</td>';
+      sHtml += '<td>' + g_aRows[iRow][0] + '</td>';
 
       // Create cells for value-unit pairs
-      for ( var iPair = 1; iPair <= g_iValueUnitPairs; iPair ++ )
+      for ( var iPair = 2; iPair < g_aRows[iRow].length; iPair ++ )
       {
-        sHtml += '<td id="value_' + iInstance + '_' + iPair + '" style="text-align:right" ></td>';
-        sHtml += '<td id="units_' + iInstance + '_' + iPair + '"></td>';
+        sHtml += '<td id="value_' + iRow + '_' + iPair + '" style="text-align:right" ></td>';
+        sHtml += '<td id="units_' + iRow + '_' + iPair + '"></td>';
       }
 
       // Create cell for time
-      sHtml += '<td id="time_' + iInstance + '"></td>';
+      sHtml += '<td id="time_' + iRow + '"></td>';
       sHtml += '</tr>';
     }
 
     $( '#bgt_table_body' ).html( sHtml );
 
     // Issue first request
-    g_iPair = 1;
+    g_iInstanceOffset = 2;
     rq();
   }
 
@@ -109,12 +105,12 @@
   {
     setWaitCursor();
 
-    // Highlight current instance as pending
-    $( '#row_' + g_iInstance ).addClass( g_sPendingClass );
+    // Highlight current row as pending
+    $( '#row_' + g_iRow ).addClass( g_sPendingClass );
 
     var sArgList =
-        '?facility=ahs'
-      + '&instance=' + g_aInstances[g_iInstance][g_iPair];
+        '?facility=' + g_aRows[g_iRow][1]
+      + '&instance=' + g_aRows[g_iRow][g_iInstanceOffset];
 
     // Issue request to BACnet Gateway
     $.ajax(
@@ -137,8 +133,8 @@
     var tBnRsp = tRsp.bacnet_response;
     if ( ! tBnRsp.success || ! tBnRsp.data.success )
     {
-      // Request failed; advance to next instance
-      nextInstance( false );
+      // Request failed; advance to next row
+      nextRow( false );
     }
     else
     {
@@ -147,66 +143,66 @@
       // Save data
       g_aData.push( tBnRsp.data );
 
-      if ( g_iPair < g_iValueUnitPairs )
+      if ( g_iInstanceOffset < g_aRows[g_iRow].length - 1 )
       {
         // Continue current sequence of requests
 
         // Increment pair index
-        g_iPair ++;
+        g_iInstanceOffset ++;
 
         // Request the next pair
         rq();
       }
       else
       {
-        // Handle completion of request sequence for current instance
+        // Handle completion of request sequence for current row
 
         // Update pairs
-        var iPair = 1;
+        var iPair = 2;
         for ( var iData in g_aData )
         {
           var tData = g_aData[iData];
-          $( '#value_' + g_iInstance + '_' + iPair ).html( Math.round( tData.presentValue ) );
-          $( '#units_' + g_iInstance + '_' + iPair ).html( tData.units );
+          $( '#value_' + g_iRow + '_' + iPair ).html( Math.round( tData.presentValue ) );
+          $( '#units_' + g_iRow + '_' + iPair ).html( tData.units );
           iPair ++;
         }
 
         // Update date
         var tDate = new Date;
         sTime = tDate.toLocaleString();
-        $( '#time_' + g_iInstance ).html( sTime );
+        $( '#time_' + g_iRow ).html( sTime );
 
-        nextInstance( true );
+        nextRow( true );
       }
     }
   }
 
-  // Advance to next instance
-  function nextInstance( bSuccess )
+  // Advance to next row
+  function nextRow( bSuccess )
   {
     // Clear highlighting
     $( '#bgt_table_body .' + g_sPendingClass ).removeClass( g_sPendingClass );
     $( '#bgt_table_body .' + g_sSuccessClass ).removeClass( g_sSuccessClass );
 
-    // Optionally highlight current instance
+    // Optionally highlight current row
     if ( bSuccess )
     {
-      $( '#row_' + g_iInstance ).addClass( g_sSuccessClass );
+      $( '#row_' + g_iRow ).addClass( g_sSuccessClass );
     }
 
-    // Advance instance index
-    if ( g_iInstance < ( g_aInstances.length - 1 ) )
+    // Advance row index
+    if ( g_iRow < ( g_aRows.length - 1 ) )
     {
-      g_iInstance ++;
+      g_iRow ++;
     }
     else
     {
-      g_iInstance = 0;
+      g_iRow = 0;
       g_iTimeoutMs = 5000;
     }
 
     // Reinitialize variables
-    g_iPair = 1;
+    g_iInstanceOffset = 2;
     g_aData = [];
 
     // Trigger next request sequence
@@ -246,7 +242,7 @@
           </th>
 
           <?php
-            foreach ( $aInstanceColNames as $tColNames )
+            foreach ( $aColNames as $tColNames )
             {
           ?>
 

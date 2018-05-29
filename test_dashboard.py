@@ -28,7 +28,7 @@ df = pd.read_csv( 'test_dashboard.csv', na_filter=False )
 # exit()
 
 # Output column headings
-print( 'Timestamp, Facility, Power, kW, Energy, kWh Units' )
+print( 'Timestamp,Facility,Power,kW,Energy,kWh Units' )
 
 def ReadAllMeters ():
 	# Iterate over the rows of the dataframe, getting temperature and CO2 values for each Feeder
@@ -46,7 +46,7 @@ def ReadAllMeters ():
 		kWh_units = kWh_units if kWh_units else ''
 		
 		# Output CSV format
-		print( '{0},{1},{2},{3},{4},{5}'.format( currentDT.strftime("%Y-%m-%d %H:%M:%S"), row['Facility'],kW_value, kW_units, kWh_value, kWh_units ) )
+		print( '{0},{1},{2},{3},{4},{5}'.format( currentDT.strftime("%Y-%m-%d %H:%M:%S"), row['Label'],kW_value, kW_units, kWh_value, kWh_units ) )
 
 while True:
     try:

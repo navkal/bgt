@@ -3,7 +3,7 @@
 
   $sCsvFilename = 'test_electricity.csv';
   $sFirstColName = 'Feeder';
-  $aInstanceColNames =
+  $aColNames =
     [
       [
         'value_col_name' => 'Meter Reading',
