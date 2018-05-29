@@ -57,6 +57,9 @@
   var g_aInstances = null;
   var g_iInstance = 0;
   var g_iTimeoutMs = 0;
+  var g_sPrevValue = '';
+  var g_sPrevUnits = '';
+  var g_sPrevTime = '';
 
   $( document ).ready( onDocumentReady );
 
@@ -89,6 +92,12 @@
   {
     setWaitCursor();
 
+    // Save previous values pertaining to current instance
+    g_sPrevValue = $( '#value_' + g_iInstance ).text();
+    g_sPrevUnits = $( '#units_' + g_iInstance ).text();
+    g_sPrevTime = $( '#time_' + g_iInstance ).text();
+
+    // Show current row as pending
     $( '#value_' + g_iInstance ).html( '-' );
     $( '#units_' + g_iInstance ).html( '-' );
     $( '#time_' + g_iInstance ).html( '-' );
@@ -115,11 +124,12 @@
   {
     clearWaitCursor();
 
-    // Initialize fields
-    var sValue = '(error)';
-    var sUnits = '(error)';
+    // Initialize fields to previous values
+    var sValue = g_sPrevValue;
+    var sUnits = g_sPrevUnits;
+    var sTime = g_sPrevTime;
 
-    // Extract values from response
+    // If request succeeded, extract new values
     var tBnRsp = tRsp.bacnet_response;
     if ( tBnRsp.success )
     {
@@ -128,14 +138,15 @@
       {
         sValue = Math.round( tData.presentValue );
         sUnits = tData.units;
+        var tDate = new Date;
+        sTime = tDate.toLocaleString();
       }
     }
 
     // Update table cells
-    var tDate = new Date;
     $( '#value_' + g_iInstance ).html( sValue );
     $( '#units_' + g_iInstance ).html( sUnits );
-    $( '#time_' + g_iInstance ).html( tDate.toLocaleString() );
+    $( '#time_' + g_iInstance ).html( sTime );
 
     // Increment instance index
     if ( g_iInstance < ( g_aInstances.length - 1 ) )
