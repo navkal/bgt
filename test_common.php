@@ -139,11 +139,18 @@
   {
     if ( g_iPair < g_iValueUnitPairs )
     {
+      // Continue current sequence of requests
+
+      // Increment pair index
       g_iPair ++;
+
+      // Request the next pair
       rq();
     }
     else
     {
+      // Handle completion of request sequence for current instance
+
       clearWaitCursor();
 
       // Initialize fields to previous values
