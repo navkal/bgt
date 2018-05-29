@@ -61,6 +61,9 @@
   var g_iTimeoutMs = 0;
   var g_aData = [];
 
+  var g_sSuccessClass = 'bg-success';
+  var g_sPendingClass = 'text-muted';
+
   $( document ).ready( onDocumentReady );
 
   function onDocumentReady()
@@ -105,6 +108,9 @@
   function rq()
   {
     setWaitCursor();
+
+    // Highlight current instance as pending
+    $( '#row_' + g_iInstance ).addClass( g_sPendingClass );
 
     var sArgList =
         '?facility=ahs'
@@ -179,13 +185,13 @@
   function nextInstance( bSuccess )
   {
     // Clear highlighting
-    $( '#bgt_table_body .bg-info' ).removeClass( 'bg-info' );
-    $( '#bgt_table_body .bg-success' ).removeClass( 'bg-success' );
+    $( '#bgt_table_body .' + g_sPendingClass ).removeClass( g_sPendingClass );
+    $( '#bgt_table_body .' + g_sSuccessClass ).removeClass( g_sSuccessClass );
 
     // Optionally highlight current instance
     if ( bSuccess )
     {
-      $( '#row_' + g_iInstance ).addClass( 'bg-success' );
+      $( '#row_' + g_iInstance ).addClass( g_sSuccessClass );
     }
 
     // Advance instance index
@@ -198,9 +204,6 @@
       g_iInstance = 0;
       g_iTimeoutMs = 5000;
     }
-
-    // Highlight next instance as pending
-    $( '#row_' + g_iInstance ).addClass( 'bg-info' );
 
     // Clear data array
     g_aData = [];
