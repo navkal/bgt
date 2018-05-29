@@ -1,4 +1,4 @@
-Location,Facility,CO2,Temperature,C02 notes,Temperature notes
+Label,Facility,CO2,Temperature,C02 notes,Temperature notes
 116,ahs,,3001071,,
 137,ahs,3011592,3011595,CO2 has wrong unit,
 138,ahs,,3001201,,
