@@ -25,8 +25,8 @@ try:
     for index, row in df.iterrows():
 
         # Retrieve data
-        temp_value, temp_units = get_value_and_units( 'ahs', row['Temperature'], args.hostname, args.port )
-        co2_value, co2_units = get_value_and_units( 'ahs', row['CO2'], args.hostname, args.port )
+        temp_value, temp_units = get_value_and_units( row['Facility'], row['Temperature'], args.hostname, args.port )
+        co2_value, co2_units = get_value_and_units( row['Facility'], row['CO2'], args.hostname, args.port )
 
         # Prepare to print
         temp_value = int( temp_value ) if temp_value else ''
@@ -35,7 +35,7 @@ try:
         co2_units = co2_units if co2_units else ''
 
         # Output CSV format
-        print( '{0},{1},{2},{3},{4}'.format( row['Location'], temp_value, temp_units, co2_value, co2_units ) )
+        print( '{0},{1},{2},{3},{4}'.format( row['Label'], temp_value, temp_units, co2_value, co2_units ) )
 
 except KeyboardInterrupt:
     print( 'Bye' )
