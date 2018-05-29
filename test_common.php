@@ -74,10 +74,16 @@
     var sHtml = '';
     for ( var iInstance in g_aInstances )
     {
+      var g_iColumns = g_aInstances[iInstance].length;
+      var g_iValueUnitPairs = ( g_aInstances[iInstance].length - 1 ) / 2;
+
       sHtml += '<tr>';
       sHtml += '<td>' + g_aInstances[iInstance][0] + '</td>';
-      sHtml += '<td id="value_' + iInstance + '" style="text-align:right" ></td>';
-      sHtml += '<td id="units_' + iInstance + '"></td>';
+      for ( var iPair = 0; iPair < g_iValueUnitPairs; iPair ++ )
+      {
+        sHtml += '<td id="value_' + iInstance + '" style="text-align:right" ></td>';
+        sHtml += '<td id="units_' + iInstance + '"></td>';
+      }
       sHtml += '<td id="time_' + iInstance + '"></td>';
       sHtml += '</tr>';
     }
