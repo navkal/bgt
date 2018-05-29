@@ -18,7 +18,7 @@ def get_value_and_units( facility, instance, gateway_hostname, gateway_port ):
         }
 
         # Issue request to HTTP service
-        url = 'http://' + gateway_hostname + ':' + str( gateway_port ) + '/bg.php'
+        url = 'http://' + gateway_hostname + ':' + str( gateway_port )
         gateway_rsp = requests.post( url, data=args )
 
         # Convert JSON response to Python dictionary

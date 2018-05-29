@@ -108,7 +108,7 @@
 
     // Issue request to BACnet Gateway
     $.ajax(
-      'http://<?=$_SESSION['bgt']['host']?>:<?=$_SESSION['bgt']['port']?>/bg.php/' + sArgList,
+      'http://<?=$_SESSION['bgt']['host']?>:<?=$_SESSION['bgt']['port']?>/' + sArgList,
       {
         method: 'GET',
         processData: false,
