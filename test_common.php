@@ -114,7 +114,7 @@
 
     var sArgList =
         '?facility=ahs'
-      + '&instance=' + g_aInstances[g_iInstance][ ( g_iPair * 2 ) - 1 ];
+      + '&instance=' + g_aInstances[g_iInstance][g_iPair];
 
     // Issue request to BACnet Gateway
     $.ajax(
@@ -126,11 +126,11 @@
         dataType : 'jsonp'
       }
     )
-    .done( readDone )
-    .fail( readFail );
+    .done( rqDone )
+    .fail( rqFail );
   }
 
-  function readDone( tRsp, sStatus, tJqXhr )
+  function rqDone( tRsp, sStatus, tJqXhr )
   {
     clearWaitCursor();
 
@@ -205,14 +205,15 @@
       g_iTimeoutMs = 5000;
     }
 
-    // Clear data array
+    // Reinitialize variables
+    g_iPair = 1;
     g_aData = [];
 
     // Trigger next request sequence
     setTimeout( rq, g_iTimeoutMs );
   }
 
-  function readFail( tJqXhr, sStatus, sErrorThrown )
+  function rqFail( tJqXhr, sStatus, sErrorThrown )
   {
     clearWaitCursor();
 
