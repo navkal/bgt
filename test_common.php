@@ -59,6 +59,7 @@
   var g_iPair = 0;
   var g_iInstance = 0;
   var g_iTimeoutMs = 0;
+  var g_aData = [];
 
   $( document ).ready( onDocumentReady );
 
@@ -127,7 +128,6 @@
   {
     clearWaitCursor();
 
-
     var tBnRsp = tRsp.bacnet_response;
     if ( ! tBnRsp.success || ! tBnRsp.data.success )
     {
@@ -137,6 +137,9 @@
     else
     {
       // Request succeeded
+
+      // Save data
+      g_aData.push( tBnRsp.data );
 
       if ( g_iPair < g_iValueUnitPairs )
       {
@@ -152,19 +155,19 @@
       {
         // Handle completion of request sequence for current instance
 
-        // Extract new values
-        var tData = tBnRsp.data;
-        sValue = Math.round( tData.presentValue );
-        sUnits = tData.units;
+        // Update pairs
+        var iPair = 1;
+        for ( var iData in g_aData )
+        {
+          var tData = g_aData[iData];
+          $( '#value_' + g_iInstance + '_' + iPair ).html( Math.round( tData.presentValue ) );
+          $( '#units_' + g_iInstance + '_' + iPair ).html( tData.units );
+          iPair ++;
+        }
+
+        // Update date
         var tDate = new Date;
         sTime = tDate.toLocaleString();
-
-        // Update table cells
-        for ( var iPair = 1; iPair <= g_iValueUnitPairs; iPair ++ )
-        {
-          $( '#value_' + g_iInstance + '_' + iPair ).html( sValue );
-          $( '#units_' + g_iInstance + '_' + iPair ).html( sUnits );
-        }
         $( '#time_' + g_iInstance ).html( sTime );
 
         nextInstance( true );
@@ -198,6 +201,9 @@
 
     // Highlight next instance as pending
     $( '#row_' + g_iInstance ).addClass( 'bg-info' );
+
+    // Clear data array
+    g_aData = [];
 
     // Trigger next request sequence
     setTimeout( rq, g_iTimeoutMs );
