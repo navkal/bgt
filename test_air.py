@@ -24,8 +24,8 @@ print( 'Location,Temperature,Temperature Units,CO2,CO2 Units' )
 for index, row in df.iterrows():
 
     # Retrieve data
-    temp_value, temp_units = get_value_and_units( row['Temperature'], args.hostname, args.port )
-    co2_value, co2_units = get_value_and_units( row['CO2'], args.hostname, args.port )
+    temp_value, temp_units = get_value_and_units( 'ahs', row['Temperature'], args.hostname, args.port )
+    co2_value, co2_units = get_value_and_units( 'ahs', row['CO2'], args.hostname, args.port )
 
     # Prepare to print
     temp_value = int( temp_value ) if temp_value else ''

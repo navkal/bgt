@@ -3,7 +3,7 @@ import json
 
 
 # Request present value and units for the supplied instance
-def get_value_and_units( instance, gateway_hostname, gateway_port ):
+def get_value_and_units( facility, instance, gateway_hostname, gateway_port ):
 
     value = None
     units = None
@@ -13,7 +13,7 @@ def get_value_and_units( instance, gateway_hostname, gateway_port ):
 
         # Set up request arguments
         args = {
-            'facility': 'ahs',
+            'facility': facility,
             'instance': instance
         }
 
