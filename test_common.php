@@ -193,14 +193,25 @@
       <thead>
         <tr>
           <th>
-            <?=$sInstanceName?>
+            <?=$sFirstColName?>
           </th>
-          <th style="text-align:right">
-            <?=$sInstanceValue?>
-          </th>
-          <th>
-            Units
-          </th>
+
+          <?php
+            foreach ( $aInstanceColNames as $tColNames )
+            {
+          ?>
+
+              <th style="text-align:right">
+                <?=$tColNames['value_col_name']?>
+              </th>
+              <th>
+                <?=$tColNames['units_col_name']?>
+              </th>
+
+          <?php
+            }
+          ?>
+
           <th>
             Update Time
           </th>
