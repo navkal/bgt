@@ -108,10 +108,13 @@
     // Highlight current row as pending
     $( '#row_' + g_iRow ).addClass( g_sPendingClass );
 
+    // Get the next instance
     var sInstance = g_aRows[g_iRow][g_iInstanceOffset];
 
     if ( sInstance )
     {
+      // Got an instance
+
       var sArgList =
           '?facility=' + g_aRows[g_iRow][1]
         + '&instance=' + sInstance;
@@ -131,6 +134,8 @@
     }
     else
     {
+      // Instance was empty
+
       // Construct empty response
       var tRsp =
       {
