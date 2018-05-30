@@ -108,22 +108,47 @@
     // Highlight current row as pending
     $( '#row_' + g_iRow ).addClass( g_sPendingClass );
 
-    var sArgList =
-        '?facility=' + g_aRows[g_iRow][1]
-      + '&instance=' + g_aRows[g_iRow][g_iInstanceOffset];
+    var sInstance = g_aRows[g_iRow][g_iInstanceOffset];
 
-    // Issue request to BACnet Gateway
-    $.ajax(
-      'http://<?=$_SESSION['bgt']['host']?>:<?=$_SESSION['bgt']['port']?>/' + sArgList,
+    if ( sInstance )
+    {
+      var sArgList =
+          '?facility=' + g_aRows[g_iRow][1]
+        + '&instance=' + sInstance;
+
+      // Issue request to BACnet Gateway
+      $.ajax(
+        'http://<?=$_SESSION['bgt']['host']?>:<?=$_SESSION['bgt']['port']?>/' + sArgList,
+        {
+          method: 'GET',
+          processData: false,
+          contentType: false,
+          dataType : 'jsonp'
+        }
+      )
+      .done( rqDone )
+      .fail( rqFail );
+    }
+    else
+    {
+      // Construct empty response
+      var tRsp =
       {
-        method: 'GET',
-        processData: false,
-        contentType: false,
-        dataType : 'jsonp'
-      }
-    )
-    .done( rqDone )
-    .fail( rqFail );
+        bacnet_response:
+        {
+          success: true,
+          data:
+          {
+            success: true,
+            presentValue: '',
+            units: ''
+          }
+        }
+      };
+
+      // Invoke completion handler
+      rqDone( tRsp );
+    }
   }
 
   function rqDone( tRsp, sStatus, tJqXhr )
@@ -162,7 +187,7 @@
         for ( var iData in g_aData )
         {
           var tData = g_aData[iData];
-          $( '#value_' + g_iRow + '_' + iPair ).html( Math.round( tData.presentValue ) );
+          $( '#value_' + g_iRow + '_' + iPair ).html( ( tData.presentValue == '' ) ? '' : Math.round( tData.presentValue ) );
           $( '#units_' + g_iRow + '_' + iPair ).html( tData.units );
           iPair ++;
         }
