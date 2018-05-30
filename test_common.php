@@ -10,7 +10,7 @@
   while( ! feof( $file ) )
   {
     $aLine = fgetcsv( $file );
-    if ( is_array( $aLine ) && ( count( $aLine ) > 1 ) )
+    if ( is_array( $aLine ) && ( count( $aLine ) > 1 ) && ( $aLine[0][0] != '#' ) )
     {
       array_push( $aLines, $aLine );
     }

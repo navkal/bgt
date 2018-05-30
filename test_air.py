@@ -16,7 +16,7 @@ try:
     #   - Location
     #   - Instance ID of CO2 sensor
     #   - Instance ID of temperature sensor
-    df = pd.read_csv( 'test_air.csv', na_filter=False )
+    df = pd.read_csv( 'test_air.csv', na_filter=False, comment='#' )
 
     # Output column headings
     print( 'Location,Temperature,Temperature Units,CO2,CO2 Units' )
