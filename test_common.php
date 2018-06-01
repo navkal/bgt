@@ -145,6 +145,7 @@
           data:
           {
             success: true,
+            requested_property: 'presentValue',
             presentValue: '',
             units: ''
           }
