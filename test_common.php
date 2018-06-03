@@ -12,6 +12,11 @@
     $aLine = fgetcsv( $file );
     if ( is_array( $aLine ) && ( count( $aLine ) > 1 ) && ( $aLine[0][0] != '#' ) )
     {
+      // Strip out single and double quotes
+      $aLine[0] = str_replace( "'", '', $aLine[0] );
+      $aLine[0] = str_replace( '"', '', $aLine[0] );
+
+      // Save the line
       array_push( $aLines, $aLine );
     }
   }
