@@ -6,5 +6,5 @@ test_air,Air,test_air.php
 test_electricity,Electricity,test_electricity.php
 test_temperature,Temperature,test_temperature.php
 test_co2,CO2,test_co2.php
-test_south,South School,test_south.php
+#test_south,South School,test_south.php
 #test_prototype,Prototype,test_prototype.php
