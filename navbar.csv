@@ -1,13 +1,23 @@
 BACnet Gateway
 &copy; 2018 BACnet Gateway.  All rights reserved.
 
+# ^^^ Preceding line intentionally left blank ^^^
+#
+#---
 # Public views
+#---
 test_dashboard,Dashboard,test_dashboard.php
 test_electricity,AHS Electricity,test_electricity.php
 test_temperature,AHS Temperature,test_temperature.php
-# Exclusive for Plant & Facilities
+#
+#---
+# Exclusive views for Plant & Facilities
+#---
 #test_air,AHS Air,test_air.php
 #test_co2,AHS CO2,test_co2.php
 #test_south,South School Air,test_south.php
+#
+#---
 # Prototype, not used
+#---
 #test_prototype,Prototype,test_prototype.php
