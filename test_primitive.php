@@ -50,7 +50,76 @@
 
 <script>
 
-  $( document ).ready( clearWaitCursor );
+  var aTypes =
+        { 'analogInput':0
+        , 'analogOutput':1
+        , 'analogValue':2
+        , 'binaryInput':3
+        , 'binaryOutput':4
+        , 'binaryValue':5
+        , 'calendar':6
+        , 'command':7
+        , 'device':8
+        , 'eventEnrollment':9
+        , 'file':10
+        , 'group':11
+        , 'loop':12
+        , 'multiStateInput':13
+        , 'multiStateOutput':14
+        , 'notificationClass':15
+        , 'program':16
+        , 'schedule':17
+        , 'averaging':18
+        , 'multiStateValue':19
+        , 'trendLog':20
+        , 'lifeSafetyPoint':21
+        , 'lifeSafetyZone':22
+        , 'accumulator':23
+        , 'pulseConverter':24
+        , 'eventLog':25
+        , 'globalGroup':26
+        , 'trendLogMultiple':27
+        , 'loadControl':28
+        , 'structuredView':29
+        , 'accessDoor':30
+        , 'accessCredential':32
+        , 'accessPoint':33
+        , 'accessRights':34
+        , 'accessUser':35
+        , 'accessZone':36
+        , 'credentialDataInput':37
+        , 'networkSecurity':38
+        , 'bitstringValue':39
+        , 'characterstringValue':40
+        , 'datePatternValue':41
+        , 'dateValue':42
+        , 'datetimePatternValue':43
+        , 'datetimeValue':44
+        , 'integerValue':45
+        , 'largeAnalogValue':46
+        , 'octetstringValue':47
+        , 'positiveIntegerValue':48
+        , 'timePatternValue':49
+        , 'timeValue':50
+        , 'notificationForwarder':51
+        , 'alertEnrollment':52
+        , 'channel':53
+        , 'lightingOutput':54
+        };
+
+  $( document ).ready( init );
+
+  function init()
+  {
+    clearWaitCursor();
+    for ( sType in aTypes )
+    {
+      var sOption = '<option>' + sType + '</option>';
+      $( '#type' ).append( sOption );
+    }
+
+    $( '#type' ).val( 'analogInput' );
+  }
 
   function rq()
   {
@@ -58,7 +127,8 @@
 
     var sArgList =
         '?facility=' + $( '#facility' ).val()
-      + '&instance=' + $( '#instance' ).val();
+      + '&instance=' + $( '#instance' ).val()
+      + '&type=' + $( '#type' ).val();
 
     // Issue request to BACnet Gateway
     $.ajax(
@@ -109,6 +179,7 @@
     var sHtml = '<tr>';
     sHtml += '<td>' + $( '#facility' ).val() + '</td>';
     sHtml += '<td>' + $( '#instance' ).val() + '</td>';
+    sHtml += '<td>' + $( '#type' ).val() + '</td>';
     sHtml += '<td>' + sValue + '</td>';
     sHtml += '<td>' + sUnits + '</td>';
     sHtml += '<td>' + sStatus + '</td>';
@@ -161,6 +232,12 @@
         <input type="text" class="form-control" id="instance" placeholder="Instance" required>
       </div>
 
+      <div class="form-group">
+        <label for="type">Type</label>
+        <select id="type" class="form-control" >
+        </select>
+      </div>
+
       <button type="submit" class="btn btn-default" title="Get value and units for specified Facility and Instance" >Get value and units</button>
     </form>
   </div>
@@ -176,6 +253,9 @@
         </th>
         <th>
           Instance
+        </th>
+        <th>
+          Type
         </th>
         <th>
           Value
