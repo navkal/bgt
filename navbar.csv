@@ -4,6 +4,11 @@ BACnet Gateway
 # ^^^ Preceding line intentionally left blank ^^^
 #
 #---
+# Common views
+#---
+about,About,about.php
+#
+#---
 # Public views
 #---
 test_dashboard,Dashboard,test_dashboard.php
