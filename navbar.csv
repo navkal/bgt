@@ -23,8 +23,4 @@ test_temperature,AHS Temperature,test_temperature.php
 #test_south,South Air,test_south.php
 #test_sanborn,Sanborn Air,test_sanborn.php
 #test_primitive,Primitive,test_primitive.php
-#
-#---
-# Prototype, not used
-#---
-#test_prototype,Prototype,test_prototype.php
+
