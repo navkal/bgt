@@ -152,6 +152,8 @@
     // Extract results from response
     var sValue = '';
     var sUnits = '';
+    var tDate = new Date;
+    var sTime = tDate.toLocaleString();
     var sStatus = 'OK';
 
     var tBnRsp = tRsp.bacnet_response;
@@ -182,6 +184,7 @@
     sHtml += '<td>' + $( '#type' ).val() + '</td>';
     sHtml += '<td>' + sValue + '</td>';
     sHtml += '<td>' + sUnits + '</td>';
+    sHtml += '<td>' + sTime + '</td>';
     sHtml += '<td>' + sStatus + '</td>';
     sHtml += '</tr>';
     $( '#responses' ).prepend( sHtml );
@@ -262,6 +265,9 @@
         </th>
         <th>
           Units
+        </th>
+        <th>
+          Time
         </th>
         <th>
           Status
