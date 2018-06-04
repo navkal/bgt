@@ -155,6 +155,7 @@
     var tDate = new Date;
     var sTime = tDate.toLocaleString();
     var sStatus = 'OK';
+    var sClass = '';
 
     var tBnRsp = tRsp.bacnet_response;
 
@@ -164,6 +165,7 @@
 
       if ( tData.success )
       {
+        sClass = 'bg-success';
         sValue = Math.round( tData[tData.requested_property] );
         sUnits = tData.units;
       }
@@ -178,7 +180,7 @@
     }
 
     // Display results as new row in response table
-    var sHtml = '<tr>';
+    var sHtml = '<tr class="' + sClass + '">';
     sHtml += '<td>' + $( '#facility' ).val() + '</td>';
     sHtml += '<td>' + $( '#instance' ).val() + '</td>';
     sHtml += '<td>' + $( '#type' ).val() + '</td>';
@@ -205,6 +207,7 @@
 
   function clearWaitCursor()
   {
+    $( '#responses .bg-success' ).removeClass( 'bg-success' );
     $( '#view' ).css( 'cursor', 'default' );
     $( '#spinner' ).css( 'display', 'none' );
   }
