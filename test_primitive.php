@@ -184,7 +184,7 @@
     sHtml += '<td>' + sUnits + '</td>';
     sHtml += '<td>' + sStatus + '</td>';
     sHtml += '</tr>';
-    $( '#responses' ).append( sHtml );
+    $( '#responses' ).prepend( sHtml );
   }
 
   function rqFail( tJqXhr, sStatus, sErrorThrown )
