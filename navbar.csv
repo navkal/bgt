@@ -1,26 +1,18 @@
 BACnet Gateway
 &copy; 2018 BACnet Gateway.  All rights reserved.
-
-# ^^^ Preceding line intentionally left blank ^^^
+energizeAndover@gmail.com
 #
-#---
-# Common views
-#---
-about,About,about.php
+# --- Common views ---
+about,Building Monitor,about.php
 #
-#---
-# Public views
-#---
+# --- Public views ---
 test_dashboard,Dashboard,test_dashboard.php
 test_electricity,AHS Electricity,test_electricity.php
 test_temperature,AHS Temperature,test_temperature.php
 #
-#---
-# Exclusive views for Plant & Facilities
-#---
+# --- Exclusive views for P&F ---
 #test_air,AHS Air,test_air.php
 #test_co2,AHS CO2,test_co2.php
 #test_south,South Air,test_south.php
 #test_sanborn,Sanborn Air,test_sanborn.php
 #test_primitive,Primitive,test_primitive.php
-
