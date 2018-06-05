@@ -31,8 +31,8 @@
   </p>
 
   <p>
-    The <?=BG?> web service provides secure and controlled access to selected parameters within APS buildings.
-    Students can use the web service to develop smart analysis applications in the programming language of their choice.
+    The <?=BG?> web service provides controlled access to selected parameters within APS buildings.
+    Students can use the web service to develop smart data analysis applications in the programming language of their choice.
   </p>
 
   <br/>
