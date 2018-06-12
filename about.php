@@ -4,20 +4,30 @@
   define( 'BM', '<i>Building Monitor</i>' );
   define( 'BG', '<i>BACnet Gateway</i>' );
 
-  // Additional links exclusively for Andover Plant and Facilities Department
   $aLinkFiles = [];
+
+  // Present additional links exclusively for Andover Plant and Facilities Department
   if ( $_SESSION['bgt']['bgt_'] )
   {
     $sLinkDir = '/links';
     $aLinkFiles = scandir( $_SERVER['DOCUMENT_ROOT'] . $sLinkDir );
-    $aLinkText =
-    [
-      'ahs_floor_plan.pdf' =>
-      [
-        'dt' => 'AHS Floor Plan',
-        'dd' => 'Layouts of Andover High School levels 1-4'
-      ]
-    ];
+
+    // Get titles and descriptions to display with links
+    $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/links.csv", 'r' );
+    fgetcsv( $file );
+
+    $aLinkText = [];
+    while( ! feof( $file ) )
+    {
+      $aLine = fgetcsv( $file );
+      $sLinkFile = trim( $aLine[0] );
+      if ( $sLinkFile && ( substr( $sLinkFile, 0, 1 ) != '#' ) )
+      {
+        $aLinkText[$sLinkFile] = [ 'dt' => trim( $aLine[1] ), 'dd' => trim( $aLine[2] ) ];
+      }
+    }
+
+    fclose( $file );
   }
 ?>
 
