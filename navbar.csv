@@ -2,10 +2,8 @@ BACnet Gateway
 &copy; 2018 BACnet Gateway.  All rights reserved.
 energizeAndover@gmail.com
 #
-# --- Common views ---
-about,Building Monitor,about.php
-#
 # --- Public views ---
+about,Building Monitor,about.php
 test_dashboard,Dashboard,test_dashboard.php
 test_electricity,AHS Electricity,test_electricity.php
 test_temperature,AHS Temperature,test_temperature.php

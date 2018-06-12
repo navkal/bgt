@@ -4,8 +4,21 @@
   define( 'BM', '<i>Building Monitor</i>' );
   define( 'BG', '<i>BACnet Gateway</i>' );
 
-  // Determine whether this is the private view from Andover Plant and Facilities Department
-  $bPrivate = strpos( $_SERVER['DOCUMENT_ROOT'], '/bgt_' ) !== false;
+  // Additional links exclusively for Andover Plant and Facilities Department
+  $aLinkFiles = [];
+  if ( strpos( $_SERVER['DOCUMENT_ROOT'], '/bgt_' ) !== false )
+  {
+    $sLinkDir = '/links';
+    $aLinkFiles = scandir( $_SERVER['DOCUMENT_ROOT'] . $sLinkDir );
+    $aLinkText =
+    [
+      'ahs_floor_plan.pdf' =>
+      [
+        'dt' => 'AHS Floor Plan',
+        'dd' => 'Layouts of Andover High School levels 1-4'
+      ]
+    ];
+  }
 ?>
 
 <div class="container">
@@ -56,14 +69,28 @@
     <dt><a href="http://10.12.4.98/" target="_blank">Metasys Data Analysis</a></dt>
     <dd>Analysis of data exported from <a href="http://www.johnsoncontrols.com/buildings/building-management/building-automation-systems-bas" target="_blank" >Metasys Building Automation System</a>.</dd>
     <?php
-      if ( $bPrivate )
+      foreach ( $aLinkFiles as $sFilename )
       {
+        if ( ( $sFilename != '.' ) && ( $sFilename != '..' ) )
+        {
+          if ( isset( $aLinkText[$sFilename] ) )
+          {
+            $sDt = $aLinkText[$sFilename]['dt'];
+            $sDd = $aLinkText[$sFilename]['dd'];
+          }
+          else
+          {
+            $sDt = $sFilename;
+            $sDd = $sFilename;
+          }
     ?>
-        <dt><a href="/ahs_floor_plan.pdf" target="_blank">AHS Floor Plan</a></dt>
-        <dd>Levels 1-4 of Andover High School</dd>
+          <dt><a href="<?=$sLinkDir . '/' . $sFilename?>" target="_blank"><?=$sDt?></a></dt>
+          <dd><?=$sDd?></dd>
     <?php
+        }
       }
     ?>
+
   </dl>
 
   <br/>
