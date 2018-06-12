@@ -3,6 +3,9 @@
 
   define( 'BM', '<i>Building Monitor</i>' );
   define( 'BG', '<i>BACnet Gateway</i>' );
+
+  // Determine whether this is the private view from Andover Plant and Facilities Department
+  $bPrivate = strpos( $_SERVER['DOCUMENT_ROOT'], '/bgt_' ) !== false;
 ?>
 
 <div class="container">
@@ -52,6 +55,15 @@
     <dd>Energy conservation program serving P&F and APS</dd>
     <dt><a href="http://10.12.4.98/" target="_blank">Metasys Data Analysis</a></dt>
     <dd>Analysis of data exported from <a href="http://www.johnsoncontrols.com/buildings/building-management/building-automation-systems-bas" target="_blank" >Metasys Building Automation System</a>.</dd>
+    <?php
+      if ( $bPrivate )
+      {
+    ?>
+        <dt><a href="/ahs_floor_plan.pdf" target="_blank">AHS Floor Plan</a></dt>
+        <dd>Levels 1-4 of Andover High School</dd>
+    <?php
+      }
+    ?>
   </dl>
 
   <br/>
