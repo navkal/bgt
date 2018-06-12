@@ -16,3 +16,4 @@ test_temperature,AHS Temperature,test_temperature.php
 #test_south,South Air,test_south.php
 #test_sanborn,Sanborn Air,test_sanborn.php
 #test_primitive,Primitive,test_primitive.php
+#ahs_floor_plan,AHS Floor Plan,ahs_floor_plan.php
