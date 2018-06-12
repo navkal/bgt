@@ -6,7 +6,7 @@
 
   // Additional links exclusively for Andover Plant and Facilities Department
   $aLinkFiles = [];
-  if ( strpos( $_SERVER['DOCUMENT_ROOT'], '/bgt_' ) !== false )
+  if ( $_SESSION['bgt']['bgt_'] )
   {
     $sLinkDir = '/links';
     $aLinkFiles = scandir( $_SERVER['DOCUMENT_ROOT'] . $sLinkDir );

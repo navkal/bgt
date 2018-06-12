@@ -14,5 +14,14 @@
   error_log( '==> BACnet Gateway Host: ' . $_SESSION['bgt']['host'] );
   error_log( '==> BACnet Gateway Port: ' . $_SESSION['bgt']['port'] );
 
+  $_SESSION['bgt']['bgt_'] = strpos( $_SERVER['DOCUMENT_ROOT'], '/bgt_' ) !== false;
+
   include "../common/main.php";
+
+  if ( $_SESSION['bgt']['bgt_'] )
+  {
+?>
+    <link rel="stylesheet" href="bgt_.css?version=<?=time()?>">
+<?php
+  }
 ?>
