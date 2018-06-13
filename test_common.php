@@ -20,11 +20,18 @@
       array_push( $aLines, $aLine );
     }
   }
+  fclose( $file );
 
-  // Convert to JSON
+  // Sort and convert to JSON
+  usort( $aLines, "compareLines" );
   $sLines = json_encode( $aLines );
 
-  fclose( $file );
+
+  function compareLines( $aLine1, $aLine2 )
+  {
+    error_log( '======>' . $aLine1[0] . ' ' . $aLine2[0] . ' ? ' . strcmp( $aLine1[0], $aLine2[0] ) );
+    return strcmp( $aLine1[0], $aLine2[0] );
+  }
 ?>
 
 <style>
