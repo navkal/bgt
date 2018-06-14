@@ -114,20 +114,22 @@
 
     $( '#bgt_table > tbody' ).html( sHtml );
 
+    // ---> doesn't work --->
     // Initialize the tablesorter
-    $( '#bgt_table' ).tablesorter(
-      {
-        theme : "dropbox",
-        headerTemplate : '{content} {icon}',
-        widgets : [ "uitheme", "resizable", "filter" ],
-        widgetOptions :
-        {
-          resizable: true,
-          filter_reset : ".reset",
-          filter_cssFilter: "form-control"
-        }
-      }
-    );
+    // $( '#bgt_table' ).tablesorter(
+      // {
+        // theme : "dropbox",
+        // headerTemplate : '{content} {icon}',
+        // widgets : [ "uitheme", "resizable", "filter" ],
+        // widgetOptions :
+        // {
+          // resizable: true,
+          // filter_reset : ".reset",
+          // filter_cssFilter: "form-control"
+        // }
+      // }
+    // );
+    // <--- doesn't work <---
 
     // Issue first request
     g_iInstanceOffset = 2;
@@ -269,10 +271,14 @@
     g_iInstanceOffset = 2;
     g_aData = [];
 
+    // ---> doesn't work --->
     // Update tablesorter cache and trigger next request sequence
-    var tTable = $( '#bgt_table' )
-    tTable.on( 'tablesorter-ready', function(){ setTimeout( rq, g_iTimeoutMs ); } );
-    tTable.trigger( 'update' );
+    // var tTable = $( '#bgt_table' )
+    // tTable.on( 'tablesorter-ready', function(){ setTimeout( rq, g_iTimeoutMs ); } );
+    // tTable.trigger( 'update' );
+    // <--- doesn't work <---
+
+    setTimeout( rq, g_iTimeoutMs );
   }
 
   function rqFail( tJqXhr, sStatus, sErrorThrown )
