@@ -106,7 +106,7 @@
       sHtml += '</tr>';
     }
 
-    $( '#bgt_table_body' ).html( sHtml );
+    $( '#bgt_table > tbody' ).html( sHtml );
 
     // Issue first request
     g_iInstanceOffset = 2;
@@ -223,8 +223,8 @@
   function nextRow( bSuccess )
   {
     // Clear highlighting
-    $( '#bgt_table_body .' + g_sPendingClass ).removeClass( g_sPendingClass );
-    $( '#bgt_table_body .' + g_sSuccessClass ).removeClass( g_sSuccessClass );
+    $( '#bgt_table > tbody .' + g_sPendingClass ).removeClass( g_sPendingClass );
+    $( '#bgt_table > tbody .' + g_sSuccessClass ).removeClass( g_sSuccessClass );
 
     // Optionally highlight current row
     if ( bSuccess )
@@ -275,7 +275,7 @@
 <div class="container">
 
   <div>
-    <table class="table">
+    <table id="bgt_table" class="table">
 
       <thead>
         <tr>
@@ -305,7 +305,7 @@
         </tr>
       </thead>
 
-      <tbody id="bgt_table_body" >
+      <tbody>
       </tbody>
 
     </table>
