@@ -5,7 +5,7 @@
   define( 'BG', '<i>BACnet Gateway</i>' );
 
   $aLinkFilenames = [];
-  $sLinksPathRel = '/links';
+  $sLinksPathRel = '/bgt_ln';
   $sLinksPathAbs = $_SERVER['DOCUMENT_ROOT'] . $sLinksPathRel;
 
   // Present additional links exclusively for Andover Plant and Facilities Department
