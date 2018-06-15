@@ -4,26 +4,47 @@
   define( 'BM', '<i>Building Monitor</i>' );
   define( 'BG', '<i>BACnet Gateway</i>' );
 
-  $aLinkFiles = [];
+  $aLinkFilenames = [];
+  $sLinksPathRel = '/links';
+  $sLinksPathAbs = $_SERVER['DOCUMENT_ROOT'] . $sLinksPathRel;
 
   // Present additional links exclusively for Andover Plant and Facilities Department
-  if ( $_SESSION['bgt']['bgt_'] )
+  if ( $_SESSION['bgt']['bgt_'] && file_exists( $sLinksPathAbs ) )
   {
-    $sLinkDir = '/links';
-    $aLinkFiles = scandir( $_SERVER['DOCUMENT_ROOT'] . $sLinkDir );
+    $sLinkCsv = 'links.csv';
 
-    // Get titles and descriptions to display with links
-    $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/links.csv", 'r' );
+    // Get list of files in links directory
+    $aLinkFilenames = scandir( $sLinksPathAbs );
+
+    // Remove unwanted elements from list of links
+    if ( ( $iLinkCsv = array_search( '..', $aLinkFilenames ) ) !== false )
+    {
+      unset( $aLinkFilenames[$iLinkCsv] );
+    }
+    if ( ( $iLinkCsv = array_search( '.', $aLinkFilenames ) ) !== false )
+    {
+      unset( $aLinkFilenames[$iLinkCsv] );
+    }
+    if ( ( $iLinkCsv = array_search( $sLinkCsv, $aLinkFilenames ) ) !== false )
+    {
+      unset( $aLinkFilenames[$iLinkCsv] );
+    }
+
+    // Open link description file and skip header line
+    $file = fopen( $sLinksPathAbs . '/' . $sLinkCsv, 'r' );
     fgetcsv( $file );
 
-    $aLinkText = [];
+    // Read link description file
+    $aLinkDescr = [];
     while( ! feof( $file ) )
     {
       $aLine = fgetcsv( $file );
-      $sLinkFile = trim( $aLine[0] );
-      if ( $sLinkFile && ( substr( $sLinkFile, 0, 1 ) != '#' ) )
+      $sLinkFilename = trim( $aLine[0] );
+
+      // If this line is neither empty nor commented out, load descriptions
+      if ( $sLinkFilename && ( substr( $sLinkFilename, 0, 1 ) != '#' ) )
       {
-        $aLinkText[$sLinkFile] = [ 'dt' => trim( $aLine[1] ), 'dd' => trim( $aLine[2] ) ];
+        $aLinkDescr[$sLinkFilename] = [ 'dt' => trim( $aLine[1] ), 'dd' => trim( $aLine[2] ) ];
       }
     }
 
@@ -79,25 +100,22 @@
     <dt><a href="http://10.12.4.98/" target="_blank">Metasys Data Analysis</a></dt>
     <dd>Analysis of data exported from <a href="http://www.johnsoncontrols.com/buildings/building-management/building-automation-systems-bas" target="_blank" >Metasys Building Automation System</a>.</dd>
     <?php
-      foreach ( $aLinkFiles as $sFilename )
+      foreach ( $aLinkFilenames as $sFilename )
       {
-        if ( ( $sFilename != '.' ) && ( $sFilename != '..' ) )
+        if ( isset( $aLinkDescr[$sFilename] ) )
         {
-          if ( isset( $aLinkText[$sFilename] ) )
-          {
-            $sDt = $aLinkText[$sFilename]['dt'];
-            $sDd = $aLinkText[$sFilename]['dd'];
-          }
-          else
-          {
-            $sDt = $sFilename;
-            $sDd = $sFilename;
-          }
-    ?>
-          <dt><a href="<?=$sLinkDir . '/' . $sFilename?>" target="_blank"><?=$sDt?></a></dt>
-          <dd><?=$sDd?></dd>
-    <?php
+          $sDt = $aLinkDescr[$sFilename]['dt'];
+          $sDd = $aLinkDescr[$sFilename]['dd'];
         }
+        else
+        {
+          $sDt = $sFilename;
+          $sDd = $sFilename;
+        }
+    ?>
+        <dt><a href="<?=$sLinksPathRel . '/' . $sFilename?>" target="_blank"><?=$sDt?></a></dt>
+        <dd><?=$sDd?></dd>
+    <?php
       }
     ?>
 
