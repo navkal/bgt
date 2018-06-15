@@ -35,34 +35,6 @@
 ?>
 
 <style>
-  .spinner
-  {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: 1051;
-    margin: -75px 0 0 -75px;
-    border: 16px solid #0079c2;
-    border-radius: 50%;
-    border-top: 16px solid #8dc63f;
-    width: 100px;
-    height: 100px;
-    -webkit-animation: spin 2s linear infinite;
-    animation: spin 2s linear infinite;
-  }
-
-  @-webkit-keyframes spin
-  {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-  }
-
-  @keyframes spin
-  {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
   .bg-dropbox
   {
     background-color: #f1f9ff;
@@ -114,22 +86,20 @@
 
     $( '#bgt_table > tbody' ).html( sHtml );
 
-    // ---> doesn't work --->
     // Initialize the tablesorter
-    // $( '#bgt_table' ).tablesorter(
-      // {
-        // theme : "dropbox",
-        // headerTemplate : '{content} {icon}',
-        // widgets : [ "uitheme", "resizable", "filter" ],
-        // widgetOptions :
-        // {
-          // resizable: true,
-          // filter_reset : ".reset",
-          // filter_cssFilter: "form-control"
-        // }
-      // }
-    // );
-    // <--- doesn't work <---
+    $( '#bgt_table' ).tablesorter(
+      {
+        theme : "dropbox",
+        headerTemplate : '{content} {icon}',
+        widgets : [ "uitheme", "resizable", "filter" ],
+        widgetOptions :
+        {
+          resizable: true,
+          filter_reset : ".reset",
+          filter_cssFilter: "form-control"
+        }
+      }
+    );
 
     // Issue first request
     g_iInstanceOffset = 2;
@@ -271,13 +241,15 @@
     g_iInstanceOffset = 2;
     g_aData = [];
 
-    // ---> doesn't work --->
     // Update tablesorter cache and trigger next request sequence
-    // var tTable = $( '#bgt_table' )
-    // tTable.on( 'tablesorter-ready', function(){ setTimeout( rq, g_iTimeoutMs ); } );
-    // tTable.trigger( 'update' );
-    // <--- doesn't work <---
+    var tTable = $( '#bgt_table' )
+    tTable.on( 'tablesorter-ready', onTablesorterReady );
+    tTable.trigger( 'update' );
+  }
 
+  function onTablesorterReady()
+  {
+    $('#bgt_table').off( 'tablesorter-ready' );
     setTimeout( rq, g_iTimeoutMs );
   }
 
@@ -292,13 +264,11 @@
   function setWaitCursor()
   {
     $( '#view' ).css( 'cursor', 'wait' );
-    $( '#spinner' ).css( 'display', 'block' );
   }
 
   function clearWaitCursor()
   {
     $( '#view' ).css( 'cursor', 'default' );
-    $( '#spinner' ).css( 'display', 'none' );
   }
 </script>
 
@@ -339,9 +309,6 @@
       </tbody>
 
     </table>
-  </div>
-
-  <div id="spinner" class="spinner" >
   </div>
 </div>
 
