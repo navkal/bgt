@@ -40,6 +40,10 @@
     background-color: #f1f9ff;
     border: 1px solid #8dd0fc;
   }
+  .bg-pending
+  {
+    color: #a6a6a6 !important;
+  }
 </style>
 
 <script>
@@ -51,7 +55,7 @@
   var g_aData = [];
 
   var g_sSuccessClass = 'bg-dropbox';
-  var g_sPendingClass = 'text-muted';
+  var g_sPendingClass = 'bg-pending';
 
   $( document ).ready( onDocumentReady );
 
@@ -111,7 +115,7 @@
     setWaitCursor();
 
     // Highlight current row as pending
-    $( '#row_' + g_iRow ).addClass( g_sPendingClass );
+    $( '#row_' + g_iRow + ' > td' ).addClass( g_sPendingClass );
 
     // Get the next instance
     var sInstance = g_aRows[g_iRow][g_iInstanceOffset];
