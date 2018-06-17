@@ -18,14 +18,6 @@
   fclose( $file );
 ?>
 
-<style>
-  .bg-dropbox
-  {
-    background-color: #f1f9ff;
-    border: 1px solid #8dd0fc;
-  }
-</style>
-
 <script>
 
   var aTypes =
@@ -89,7 +81,6 @@
 
   function init()
   {
-    clearWaitCursor();
     for ( sType in aTypes )
     {
       var sOption = '<option>' + sType + '</option>';
@@ -97,6 +88,21 @@
     }
 
     $( '#type' ).val( 'analogInput' );
+
+    // Initialize the tablesorter
+    $( '#advanced_table' ).tablesorter(
+      {
+        theme : "dropbox",
+        headerTemplate : '{content} {icon}',
+        widgets : [ "uitheme", "resizable", "filter" ],
+        widgetOptions :
+        {
+          resizable: true,
+          filter_reset : ".reset",
+          filter_cssFilter: "form-control"
+        }
+      }
+    );
   }
 
   function rq()
@@ -168,6 +174,11 @@
     sHtml += '<td>' + sStatus + '</td>';
     sHtml += '</tr>';
     $( '#responses' ).prepend( sHtml );
+
+    // Update tablesorter cache
+    var tTable = $( '#advanced_table' )
+    tTable.on( 'tablesorter-ready', function(){ $('#advanced_table').off( 'tablesorter-ready' ); } );
+    tTable.trigger( 'update' );
   }
 
   function rqFail( tJqXhr, sStatus, sErrorThrown )
@@ -229,7 +240,7 @@
   <br/>
   <br/>
 
-  <table class="table">
+  <table id="advanced_table" class="table">
     <thead>
       <tr>
         <th>
