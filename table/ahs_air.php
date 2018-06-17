@@ -1,7 +1,7 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 
-  $sCsvFilename = 'csv/test_air.csv';
+  $sCsvFilename = 'csv/ahs_air.csv';
   $sFirstColName = 'Location';
   $aColNames =
     [

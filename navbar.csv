@@ -9,7 +9,7 @@ ahs_electricity,AHS Electricity,table/ahs_electricity.php
 test_temperature,AHS Temperature,table/test_temperature.php
 #
 # --- P&F views ---
-#test_air,AHS Air,table/test_air.php
+#ahs_air,AHS Air,table/ahs_air.php
 #test_co2,AHS CO2,table/test_co2.php
 #test_south,South Air,table/test_south.php
 #test_sanborn,Sanborn Air,table/test_sanborn.php
