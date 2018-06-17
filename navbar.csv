@@ -6,7 +6,7 @@ energizeAndover@gmail.com
 about,Building Monitor,about/about.php
 dashboard,Dashboard,table/dashboard.php
 ahs_electricity,AHS Electricity,table/ahs_electricity.php
-test_temperature,AHS Temperature,table/test_temperature.php
+ahs_temperature,AHS Temperature,table/ahs_temperature.php
 #
 # --- P&F views ---
 #ahs_air,AHS Air,table/ahs_air.php
