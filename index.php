@@ -34,6 +34,21 @@
   }
 </style>
 
+<script>
+var g_tTableProps =
+  {
+    theme : "dropbox",
+    headerTemplate : '{content} {icon}',
+    widgets : [ "uitheme", "resizable", "filter" ],
+    widgetOptions :
+    {
+      resizable: true,
+      filter_reset : ".reset",
+      filter_cssFilter: "form-control"
+    }
+  };
+</script>
+
 <!-- tablesorter theme -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/css/theme.dropbox.min.css" integrity="sha256-VFOuP1wPK9H/EeQZEmYL0TZlkMtUthqMBdrqfopliF4=" crossorigin="anonymous" />
 

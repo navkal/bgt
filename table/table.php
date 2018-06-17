@@ -84,19 +84,7 @@
     $( '#bgt_table > tbody' ).html( sHtml );
 
     // Initialize the tablesorter
-    $( '#bgt_table' ).tablesorter(
-      {
-        theme : "dropbox",
-        headerTemplate : '{content} {icon}',
-        widgets : [ "uitheme", "resizable", "filter" ],
-        widgetOptions :
-        {
-          resizable: true,
-          filter_reset : ".reset",
-          filter_cssFilter: "form-control"
-        }
-      }
-    );
+    $( '#bgt_table' ).tablesorter( g_tTableProps );
 
     // Issue first request
     g_iInstanceOffset = 2;

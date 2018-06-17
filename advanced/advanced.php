@@ -90,19 +90,7 @@
     $( '#type' ).val( 'analogInput' );
 
     // Initialize the tablesorter
-    $( '#advanced_table' ).tablesorter(
-      {
-        theme : "dropbox",
-        headerTemplate : '{content} {icon}',
-        widgets : [ "uitheme", "resizable", "filter" ],
-        widgetOptions :
-        {
-          resizable: true,
-          filter_reset : ".reset",
-          filter_cssFilter: "form-control"
-        }
-      }
-    );
+    $( '#advanced_table' ).tablesorter( g_tTableProps );
   }
 
   function rq()
