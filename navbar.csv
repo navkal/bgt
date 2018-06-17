@@ -10,7 +10,7 @@ test_temperature,AHS Temperature,table/test_temperature.php
 #
 # --- P&F views ---
 #ahs_air,AHS Air,table/ahs_air.php
-#test_co2,AHS CO2,table/test_co2.php
+#ahs_co2,AHS CO2,table/ahs_co2.php
 #test_south,South Air,table/test_south.php
 #test_sanborn,Sanborn Air,table/test_sanborn.php
 #test_advanced,Advanced,advanced/test_advanced.php
