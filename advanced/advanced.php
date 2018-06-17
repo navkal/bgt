@@ -1,6 +1,8 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 
+  include $_SERVER['DOCUMENT_ROOT'] . '/util/tablesorter.php';
+
   // Get list of facilities from agents file
   $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/../bg/agents.csv", 'r' );
 
