@@ -1,7 +1,7 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 
-  $sCsvFilename = 'test_dashboard.csv';
+  $sCsvFilename = 'csv/dashboard.csv';
   $sFirstColName = 'Facility';
   $aColNames =
     [

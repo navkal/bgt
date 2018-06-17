@@ -1,17 +1,13 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 
-  $sCsvFilename = 'test_south.csv';
+  $sCsvFilename = 'csv/test_temperature.csv';
   $sFirstColName = 'Location';
   $aColNames =
     [
       [
         'value_col_name' => 'Temperature',
-        'units_col_name' => 'Temperature Units',
-      ],
-      [
-        'value_col_name' => 'CO2',
-        'units_col_name' => 'CO2 Units',
+        'units_col_name' => 'Units',
       ]
     ];
 

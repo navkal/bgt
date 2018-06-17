@@ -1,12 +1,12 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 
-  $sCsvFilename = 'test_co2.csv';
-  $sFirstColName = 'Location';
+  $sCsvFilename = 'csv/test_electricity.csv';
+  $sFirstColName = 'Feeder';
   $aColNames =
     [
       [
-        'value_col_name' => 'CO2 Level',
+        'value_col_name' => 'Meter Reading',
         'units_col_name' => 'Units',
       ]
     ];
