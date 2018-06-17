@@ -19,32 +19,10 @@
 ?>
 
 <style>
-  .spinner
+  .bg-dropbox
   {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: 1051;
-    margin: -75px 0 0 -75px;
-    border: 16px solid #0079c2;
-    border-radius: 50%;
-    border-top: 16px solid #8dc63f;
-    width: 100px;
-    height: 100px;
-    -webkit-animation: spin 2s linear infinite;
-    animation: spin 2s linear infinite;
-  }
-
-  @-webkit-keyframes spin
-  {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-  }
-
-  @keyframes spin
-  {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    background-color: #f1f9ff;
+    border: 1px solid #8dd0fc;
   }
 </style>
 
@@ -165,7 +143,7 @@
 
       if ( tData.success )
       {
-        sClass = 'bg-success';
+        sClass = 'bg-dropbox';
         sValue = Math.round( tData[tData.requested_property] );
         sUnits = tData.units;
       }
@@ -201,15 +179,15 @@
 
   function setWaitCursor()
   {
+    $( '#submit_button' ).prop( 'disabled', true );
     $( '#view' ).css( 'cursor', 'wait' );
-    $( '#spinner' ).css( 'display', 'block' );
   }
 
   function clearWaitCursor()
   {
-    $( '#responses .bg-success' ).removeClass( 'bg-success' );
+    $( '#responses .bg-dropbox' ).removeClass( 'bg-dropbox' );
     $( '#view' ).css( 'cursor', 'default' );
-    $( '#spinner' ).css( 'display', 'none' );
+    $( '#submit_button' ).prop( 'disabled', false );
   }
 </script>
 
@@ -244,7 +222,7 @@
         </select>
       </div>
 
-      <button type="submit" class="btn btn-default" title="Get value and units for specified Facility and Instance" >Get value and units</button>
+      <button id="submit_button" type="submit" class="btn btn-default" title="Get value and units for specified Facility and Instance" >Get value and units</button>
     </form>
   </div>
 
@@ -281,7 +259,4 @@
     </tbody>
   </table>
 
-
-  <div id="spinner" class="spinner" >
-  </div>
 </div>
