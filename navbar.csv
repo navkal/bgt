@@ -11,6 +11,6 @@ ahs_temperature,AHS Temperature,table/ahs_temperature.php
 # --- P&F views ---
 #ahs_air,AHS Air,table/ahs_air.php
 #ahs_co2,AHS CO2,table/ahs_co2.php
-#test_south,South Air,table/test_south.php
-#test_sanborn,Sanborn Air,table/test_sanborn.php
+#south_air,South Air,table/south_air.php
+#sanborn_air,Sanborn Air,table/sanborn_air.php
 #test_advanced,Advanced,advanced/test_advanced.php
