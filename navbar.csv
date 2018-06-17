@@ -5,7 +5,7 @@ energizeAndover@gmail.com
 # --- Public views ---
 about,Building Monitor,about/about.php
 dashboard,Dashboard,table/dashboard.php
-test_electricity,AHS Electricity,table/test_electricity.php
+ahs_electricity,AHS Electricity,table/ahs_electricity.php
 test_temperature,AHS Temperature,table/test_temperature.php
 #
 # --- P&F views ---
