@@ -15,5 +15,5 @@
       ]
     ];
 
-  require_once( 'test_common.php' );
+  include $_SERVER['DOCUMENT_ROOT'] . '/table/table.php';
 ?>
