@@ -106,7 +106,8 @@
   function init()
   {
     $( '#facility' ).change( loadLocation );
-    $( '#location' ).change( loadInstance );
+    $( '#location' ).change( updateInstance );
+    $( '#instance' ).change( updateLocation );
 
     loadLocation();
 
@@ -139,12 +140,17 @@
     $( '#location' ).html( sHtml );
 
     // Load corresponding instance
-    loadInstance();
+    updateInstance();
   }
 
-  function loadInstance()
+  function updateInstance()
   {
     $( '#instance' ).val( $( '#location' ).val() );
+  }
+
+  function updateLocation()
+  {
+    $( '#location' ).val( $( '#instance' ).val() );
   }
 
   function rq()
