@@ -13,4 +13,4 @@ ahs_temperature,AHS Temperature,table/ahs_temperature.php
 #ahs_co2,AHS CO2,table/ahs_co2.php
 #south_air,South Air,table/south_air.php
 #sanborn_air,Sanborn Air,table/sanborn_air.php
-#advanced,Advanced,advanced/advanced.php
+advanced,Advanced,advanced/advanced.php

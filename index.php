@@ -14,7 +14,7 @@
   error_log( '==> BACnet Gateway Host: ' . $_SESSION['bgt']['host'] );
   error_log( '==> BACnet Gateway Port: ' . $_SESSION['bgt']['port'] );
 
-  $_SESSION['bgt']['bgt_'] = strpos( $_SERVER['DOCUMENT_ROOT'], '/bgt_' ) !== false;
+  $_SESSION['bgt']['bgt_'] = strpos( $_SERVER['DOCUMENT_ROOT'], '/bgt' ) !== false;
 
   include "../common/main.php";
 

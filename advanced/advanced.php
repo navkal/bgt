@@ -20,7 +20,7 @@
 
   fclose( $file );
 
-  // Get instance IDs, organized by facility and location
+  // Load instance information into facilities structure
   $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/advanced/instances.csv", 'r' );
 
   fgetcsv( $file );
@@ -28,15 +28,21 @@
   {
     $aLine = fgetcsv( $file );
     $sFacility = trim( $aLine[0] );
-    if ( $sFacility && substr( $sFacility, 0, 1 ) != '#' )
+    if ( ( $sFacility != '' ) && ( substr( $sFacility, 0, 1 ) != '#' ) )
     {
       $sLocation = trim( $aLine[1] );
-      if ( $sLocation )
+      if ( $sLocation != '' )
       {
         $sInstance = trim( $aLine[2] );
-        if ( $sInstance )
+        if ( $sInstance != '' )
         {
-          $aFacilities[$sFacility][$sLocation] = [ 'instance' => $sInstance, 'metric' => trim( $aLine[3] ) ];
+          $sMetric = trim( $aLine[3] );
+          if ( $sMetric != '' )
+          {
+            $sLocation = $sLocation . ' ' . $sMetric;
+          }
+
+          $aFacilities[$sFacility][$sLocation] = $sInstance;
         }
       }
     }
@@ -44,6 +50,14 @@
 
   fclose( $file );
 
+  // Sort
+  ksort( $aFacilities );
+  foreach ( $aFacilities as $sFacility => $tNotUsed )
+  {
+    ksort( $aFacilities[$sFacility] );
+  }
+
+  // Save as JSON
   $sFacilities = json_encode( $aFacilities );
 ?>
 
@@ -140,9 +154,9 @@
     for ( var sLocation in aLocations )
     {
       console.log( sLocation );
-      var tObject = aLocations[sLocation];
-      console.log( tObject );
-      sHtml += '<option value="' + tObject.instance + '">' + sLocation + ' ' + tObject.metric + '</option>';
+      var sInstance = aLocations[sLocation];
+      console.log( sInstance );
+      sHtml += '<option value="' + aLocations[sLocation] + '">' + sLocation + '</option>';
     }
     $( '#location' ).html( sHtml );
 

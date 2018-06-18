@@ -1,4 +1,4 @@
-Facility,Location,ID,Metric
+Facility,Location,Instance,Metric
 ahs,OA,3000165,Temperature
 sanborn,OA,3000238,Temperature
 ahs,116,3001071,Temperature
@@ -82,7 +82,6 @@ ahs,Kit Office,3001549,Temperature
 ahs,Principal Office,3001914,Temperature
 ahs,OA,3000165,Temperature
 sanborn,OA,3000238,Temperature
-west_middle-12,OA,,Temperature
 sanborn,Rm-A1,3000275,Temperature
 sanborn,Rm-A3,3000276,Temperature
 sanborn,Rm-A4,3000277,Temperature
