@@ -33,10 +33,10 @@
       $sLocation = trim( $aLine[1] );
       if ( $sLocation != '' )
       {
-        $sInstance = trim( $aLine[2] );
+        $sInstance = trim( $aLine[3] );
         if ( $sInstance != '' )
         {
-          $sMetric = trim( $aLine[3] );
+          $sMetric = trim( $aLine[2] );
           if ( $sMetric != '' )
           {
             $sLocation = $sLocation . ' ' . $sMetric;
