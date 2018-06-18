@@ -1,0 +1,300 @@
+Facility,Location,ID,Metric
+ahs,OA,3000165,Temperature
+sanborn,OA,3000238,Temperature
+ahs,116,3001071,Temperature
+ahs,137,3011595,Temperature
+ahs,138,3001201,Temperature
+ahs,139,3011582,Temperature
+ahs,201,3006664,Temperature
+ahs,203,3006616,Temperature
+ahs,205,3006578,Temperature
+ahs,207,3006552,Temperature
+ahs,209,3007272,Temperature
+ahs,211,3019361,Temperature
+ahs,215,3019554,Temperature
+ahs,222,3007505,Temperature
+ahs,224,3019080,Temperature
+ahs,225,3007894,Temperature
+ahs,226,3007633,Temperature
+ahs,227,3008194,Temperature
+ahs,228,3019597,Temperature
+ahs,230,3007938,Temperature
+ahs,232,3019412,Temperature
+ahs,237,3019317,Temperature
+ahs,241,3019266,Temperature
+ahs,243,3019035,Temperature
+ahs,245,3019170,Temperature
+ahs,247,3019126,Temperature
+ahs,249,3009875,Temperature
+ahs,251,3010431,Temperature
+ahs,253,3010481,Temperature
+ahs,255A&B,3011366,Temperature
+ahs,260A,3001161,Temperature
+ahs,260B,3001177,Temperature
+ahs,264A,3001515,Temperature
+ahs,264B,3001640,Temperature
+ahs,267,3011148,Temperature
+ahs,271,3010274,Temperature
+ahs,272,3009826,Temperature
+ahs,273,3009777,Temperature
+ahs,301,3002974,Temperature
+ahs,303,3002985,Temperature
+ahs,305,3002964,Temperature
+ahs,307,3002996,Temperature
+ahs,309,3003007,Temperature
+ahs,310,3001090,Temperature
+ahs,311,3003018,Temperature
+ahs,313,3003029,Temperature
+ahs,320,3006123,Temperature
+ahs,323,3006152,Temperature
+ahs,325,3006189,Temperature
+ahs,326,3006238,Temperature
+ahs,328,3006347,Temperature
+ahs,335,3001848,Temperature
+ahs,337,3001822,Temperature
+ahs,339,3001796,Temperature
+ahs,341,3001770,Temperature
+ahs,343,3001744,Temperature
+ahs,345,3001718,Temperature
+ahs,347,3001692,Temperature
+ahs,349,3001666,Temperature
+ahs,351,3001489,Temperature
+ahs,353,3001463,Temperature
+ahs,355,3020712,Temperature
+ahs,357,3001437,Temperature
+ahs,359,3001411,Temperature
+ahs,361,3001385,Temperature
+ahs,363,3001359,Temperature
+ahs,365,3001333,Temperature
+ahs,367,3001307,Temperature
+ahs,369,3001281,Temperature
+ahs,370,3001255,Temperature
+ahs,373,3001935,Temperature
+ahs,375.01,3003049,Temperature
+ahs,375.02,3019714,Temperature
+ahs,377,3006431,Temperature
+ahs,377.01,3001221,Temperature
+ahs,379,3001900,Temperature
+ahs,381,3001874,Temperature
+ahs,Guidance,3001145,Temperature
+ahs,Kit Conf,3001532,Temperature
+ahs,Kit Office,3001549,Temperature
+ahs,Principal Office,3001914,Temperature
+ahs,OA,3000165,Temperature
+sanborn,OA,3000238,Temperature
+west_middle-12,OA,,Temperature
+sanborn,Rm-A1,3000275,Temperature
+sanborn,Rm-A3,3000276,Temperature
+sanborn,Rm-A4,3000277,Temperature
+sanborn,Rm-A5,3000278,Temperature
+sanborn,Rm-A6,3000279,Temperature
+sanborn,Rm-A7,3000280,Temperature
+sanborn,Rm-A8,3000281,Temperature
+sanborn,Rm-B1,3000282,Temperature
+sanborn,Rm-B2,3000283,Temperature
+sanborn,Rm-B3,3000284,Temperature
+sanborn,Rm-B4,3000285,Temperature
+sanborn,Rm-B5,3000286,Temperature
+sanborn,Rm-B6,3000287,Temperature
+sanborn,Rm-C1,3000288,Temperature
+sanborn,Rm-C2,3000289,Temperature
+sanborn,Rm-C3,3000290,Temperature
+sanborn,Rm-C4,3000291,Temperature
+sanborn,Rm-C5,3000292,Temperature
+sanborn,Rm-C6,3000293,Temperature
+sanborn,Portable Call Rm P1,3000301,Temperature
+sanborn,Portable Call Rm P2,3000302,Temperature
+sanborn,Cafe Unit 1,3000299,Temperature
+sanborn,Cafe Unit 2,3000297,Temperature
+sanborn,Kitchen,3000328,Temperature
+sanborn,Cafe Space Radiators,3000252,Temperature
+south,101,3000262,Temperature
+south,102,3000263,Temperature
+south,103,3000264,Temperature
+south,104,3000265,Temperature
+south,105,3000266,Temperature
+south,106,3000267,Temperature
+south,110,3000268,Temperature
+south,111,3000269,Temperature
+south,112,3000270,Temperature
+south,113,3000271,Temperature
+south,114,3000272,Temperature
+south,115,3000273,Temperature
+south,116,3009501,Temperature
+south,117,3000275,Temperature
+south,118,3000276,Temperature
+south,119,3000277,Temperature
+south,120,3000253,Temperature
+south,121,3000278,Temperature
+south,122,3000279,Temperature
+south,123,3000280,Temperature
+south,124,3000281,Temperature
+south,125,3000282,Temperature
+south,126,3000283,Temperature
+south,127,3000284,Temperature
+south,128,3000285,Temperature
+south,141,3000258,Temperature
+south,Teachers Room,3000286,Temperature
+south,Health Room,3000470,Temperature
+south,CAFE AHU,3000507,Temperature
+south,Main Office,3000510,Temperature
+south,Computer Room,3000511,Temperature
+south,Kitchen,3000549,Temperature
+south,Media Room,3000550,Temperature
+south,Music Room,3000551,Temperature
+south,Chor Room,3000553,Temperature
+south,Kitchen RR,3000254,Temperature
+south,Art Room Storage,3000256,Temperature
+south,Principals Office,3000258,Temperature
+south,Main office Conference Room,3000259,Temperature
+south,Art Room,3000552,Temperature
+south,Gym East,3007468,Temperature
+south,Gym West,3007532,Temperature
+south,Outside,3000252,Temperature
+west_middle-12,Outside (CO2),3002832,CO2
+ahs,Outside (CO2),3014200,CO2
+ahs,137,3011592,CO2
+ahs,139,3011579,CO2
+ahs,201,3006672,CO2
+ahs,203,3006624,CO2
+ahs,205,3006586,CO2
+ahs,207,3006560,CO2
+ahs,209,3007275,CO2
+ahs,211,3019364,CO2
+ahs,215,3019557,CO2
+ahs,222,3007508,CO2
+ahs,224,3019083,CO2
+ahs,225,3007897,CO2
+ahs,226,3007636,CO2
+ahs,227,3008197,CO2
+ahs,228,3019600,CO2
+ahs,230,3007941,CO2
+ahs,232,3019415,CO2
+ahs,237,3019320,CO2
+ahs,241,3019269,CO2
+ahs,243,3019038,CO2
+ahs,245,3019173,CO2
+ahs,247,3019129,CO2
+ahs,249,3009878,CO2
+ahs,251,3010434,CO2
+ahs,253,3010484,CO2
+ahs,267,3011151,CO2
+ahs,271,3010277,CO2
+ahs,272,3009829,CO2
+ahs,273,3009780,CO2
+ahs,301,3002981,CO2
+ahs,305,3002965,CO2
+ahs,307,3003003,CO2
+ahs,309,3003014,CO2
+ahs,311,3003025,CO2
+ahs,313,3003036,CO2
+ahs,320,3006131,CO2
+ahs,323,3006160,CO2
+ahs,325,3006197,CO2
+ahs,326,3006246,CO2
+ahs,328,3006355,CO2
+ahs,335,3001836,CO2
+ahs,337,3001810,CO2
+ahs,339,3001784,CO2
+ahs,341,3001758,CO2
+ahs,343,3001732,CO2
+ahs,345,3001706,CO2
+ahs,347,3001680,CO2
+ahs,349,3001654,CO2
+ahs,351,3001477,CO2
+ahs,353,3001451,CO2
+ahs,357,3001425,CO2
+ahs,359,3001399,CO2
+ahs,361,3001373,CO2
+ahs,363,3001347,CO2
+ahs,365,3001321,CO2
+ahs,367,3001295,CO2
+ahs,369,3001269,CO2
+ahs,370,3001243,CO2
+ahs,373,3001933,CO2
+ahs,375.01,3003056,CO2
+ahs,375.02,3019750,CO2
+ahs,377,3006439,CO2
+ahs,377.01,3019751,CO2
+ahs,379,3001888,CO2
+ahs,381,3001862,CO2
+ahs,255A&B,3011369,CO2
+ahs,264A,3001503,CO2
+ahs,264B,3001628,CO2
+ahs,OA,3014200,CO2
+ahs,OA,3014200,CO2
+sanborn,Rm-A1,3000834,CO2
+sanborn,Rm-A3,3000836,CO2
+sanborn,Rm-A4,3000838,CO2
+sanborn,Rm-A5,3000840,CO2
+sanborn,Rm-A6,3000842,CO2
+sanborn,Rm-A7,3000854,CO2
+sanborn,Rm-A8,3000855,CO2
+sanborn,Rm-B1,3000844,CO2
+sanborn,Rm-B2,3000846,CO2
+sanborn,Rm-B3,3000848,CO2
+sanborn,Rm-B4,3000850,CO2
+sanborn,Rm-B5,3000852,CO2
+sanborn,Rm-B6,3000853,CO2
+sanborn,Rm-C1,3000824,CO2
+sanborn,Rm-C2,3000826,CO2
+sanborn,Rm-C3,3000822,CO2
+sanborn,Rm-C4,3000828,CO2
+sanborn,Rm-C5,3000830,CO2
+sanborn,Rm-C6,3000832,CO2
+south,101,3001266,CO2
+south,102,3000849,CO2
+south,103,3000851,CO2
+south,104,3000853,CO2
+south,105,3000855,CO2
+south,106,3000857,CO2
+south,110,3000845,CO2
+south,111,3001409,CO2
+south,112,3000841,CO2
+south,113,3000839,CO2
+south,114,3000824,CO2
+south,115,3000823,CO2
+south,116,3000811,CO2
+south,117,3000812,CO2
+south,118,3000813,CO2
+south,119,3000814,CO2
+south,121,3000815,CO2
+south,122,3000816,CO2
+south,123,3000817,CO2
+south,124,3001410,CO2
+south,125,3000819,CO2
+south,126,3000820,CO2
+south,127,3000821,CO2
+south,128,3000822,CO2
+ahs,Main (kW),3007360,Power
+ahs,Plug loads DHB (kW),3017359,Power
+ahs,Field House and Dunn Gymm DG (kW),3017523,Power
+ahs,Emergency Kitchen DE (kW),3017605,Power
+ahs,Lighting DL (kW),3017769,Power
+ahs,Chillers M1 (kW),3017441,Power
+ahs,Collins Center - AMDP (kW),3017687,Power
+ahs,Main (kWh),3007361,Energy
+ahs,Plug loads DHB (kWh),3017360,Energy
+ahs,Field House and Dunn Gymm DG (kWh),3017524,Energy
+ahs,Emergency Kitchen DE (kWh),3017606,Energy
+ahs,Lighting DL (kWh),3017770,Energy
+ahs,Chillers M1 (kWh),3017442,Energy
+ahs,Collins Center - AMDP (kWh),3017688,Energy
+ahs,Andover High (Main - kW),3007360,Power
+bancroft-18,Bancroft (Main - kW),3000076,Power
+doherty,Doherty (Main - kW),3007063,Power
+wood_hill-9,High Plain & Wood Hill (Main - kW),3001085,Power
+sanborn,Sanborn (Main - kW),3002006,Power
+shawsheen,Shawsheen (Main - kW),3002012,Power
+south,South (Main - kW),3004042,Power
+west_elementary,West Elementary (Main - kW),3001725,Power
+west_middle-12,West Middle (Main - kW),3027266,Power
+ahs,Andover High (Main - kWh),3007361,Energy
+bancroft-18,Bancroft (Main - kWh),3000081,Energy
+doherty,Doherty (Main - kWh),3007064,Energy
+wood_hill-9,High Plain & Wood Hill (Main - kWh),3001086,Energy
+sanborn,Sanborn (Main - kWh),3002007,Energy
+shawsheen,Shawsheen (Main - kWh),3002013,Energy
+south,South (Main - kWh),3004043,Energy
+west_elementary,West Elementary (Main - kWh),3001726,Energy
+west_middle-12,West Middle (Main - kWh),3027267,Energy

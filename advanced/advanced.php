@@ -20,8 +20,8 @@
 
   fclose( $file );
 
-  // Get list of object IDs
-  $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/advanced/oids.csv", 'r' );
+  // Get instance IDs, organized by facility and location
+  $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/advanced/instances.csv", 'r' );
 
   fgetcsv( $file );
   while( ! feof( $file ) )
@@ -31,14 +31,18 @@
     if ( $sFacility && substr( $sFacility, 0, 1 ) != '#' )
     {
       $sLocation = trim( $aLine[1] );
-      $aFacilities[$sFacility][$sLocation] = [ 'oid' => trim( $aLine[2] ), 'metric' => trim( $aLine[3] ) ];
+      $aFacilities[$sFacility][$sLocation] = [ 'instance' => trim( $aLine[2] ), 'metric' => trim( $aLine[3] ) ];
     }
   }
 
   fclose( $file );
+
+  $sFacilities = json_encode( $aFacilities );
 ?>
 
 <script>
+
+  var tFacilities = JSON.parse( '<?=$sFacilities?>' );
 
   var aTypes =
         { 'analogInput':0
@@ -101,6 +105,11 @@
 
   function init()
   {
+    $( '#facility' ).change( loadLocation );
+    $( '#location' ).change( loadInstance );
+
+    loadLocation();
+
     for ( sType in aTypes )
     {
       var sOption = '<option>' + sType + '</option>';
@@ -111,6 +120,31 @@
 
     // Initialize the tablesorter
     $( '#advanced_table' ).tablesorter( g_tTableProps );
+  }
+
+  function loadLocation()
+  {
+    var sFacility = $( '#facility' ).val();
+    var aLocations = tFacilities[sFacility];
+
+    // Format location dropdown
+    var sHtml = '';
+    for ( var sLocation in aLocations )
+    {
+      console.log( sLocation );
+      var tObject = aLocations[sLocation];
+      console.log( tObject );
+      sHtml += '<option value="' + tObject.instance + '">' + sLocation + ' ' + tObject.metric + '</option>';
+    }
+    $( '#location' ).html( sHtml );
+
+    // Load corresponding instance
+    loadInstance();
+  }
+
+  function loadInstance()
+  {
+    $( '#instance' ).val( $( '#location' ).val() );
   }
 
   function rq()
@@ -227,6 +261,12 @@
           <?php
             }
           ?>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Location</label>
+        <select id="location" class="form-control" >
         </select>
       </div>
 
