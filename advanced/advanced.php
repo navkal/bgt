@@ -31,7 +31,14 @@
     if ( $sFacility && substr( $sFacility, 0, 1 ) != '#' )
     {
       $sLocation = trim( $aLine[1] );
-      $aFacilities[$sFacility][$sLocation] = [ 'instance' => trim( $aLine[2] ), 'metric' => trim( $aLine[3] ) ];
+      if ( $sLocation )
+      {
+        $sInstance = trim( $aLine[2] );
+        if ( $sInstance )
+        {
+          $aFacilities[$sFacility][$sLocation] = [ 'instance' => $sInstance, 'metric' => trim( $aLine[3] ) ];
+        }
+      }
     }
   }
 
