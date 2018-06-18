@@ -214,6 +214,7 @@
     // Display results as new row in response table
     var sHtml = '<tr class="' + sClass + '">';
     sHtml += '<td>' + $( '#facility' ).val() + '</td>';
+    sHtml += '<td>' + $( '#location option:selected' ).text() + '</td>';
     sHtml += '<td>' + $( '#instance' ).val() + '</td>';
     sHtml += '<td>' + $( '#type' ).val() + '</td>';
     sHtml += '<td>' + sValue + '</td>';
@@ -299,6 +300,9 @@
       <tr>
         <th>
           Facility
+        </th>
+        <th>
+          Location
         </th>
         <th>
           Instance
