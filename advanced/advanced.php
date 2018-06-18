@@ -13,7 +13,7 @@
     $aLine = fgetcsv( $file );
     if ( $aLine[0] )
     {
-      array_push( $aFacilities, $aLine[0] );
+      $aFacilities[$aLine[0]] = [];
     }
   }
 
@@ -200,7 +200,7 @@
         <label for="facility">Facility</label>
         <select id="facility" class="form-control" >
           <?php
-            foreach ( $aFacilities as $sFacility )
+            foreach ( $aFacilities as $sFacility => $aNotUsed )
             {
           ?>
               <option>
