@@ -11,9 +11,27 @@
   while( ! feof( $file ) )
   {
     $aLine = fgetcsv( $file );
-    if ( $aLine[0] )
+    $sFacility = trim( $aLine[0] );
+    if ( $sFacility && substr( $sFacility, 0, 1 ) != '#' )
     {
-      $aFacilities[$aLine[0]] = [];
+      $aFacilities[$sFacility] = [];
+    }
+  }
+
+  fclose( $file );
+
+  // Get list of object IDs
+  $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/advanced/oids.csv", 'r' );
+
+  fgetcsv( $file );
+  while( ! feof( $file ) )
+  {
+    $aLine = fgetcsv( $file );
+    $sFacility = trim( $aLine[0] );
+    if ( $sFacility && substr( $sFacility, 0, 1 ) != '#' )
+    {
+      $sLocation = trim( $aLine[1] );
+      $aFacilities[$sFacility][$sLocation] = [ 'oid' => trim( $aLine[2] ), 'metric' => trim( $aLine[3] ) ];
     }
   }
 
