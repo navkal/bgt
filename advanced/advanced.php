@@ -105,9 +105,9 @@
 
   function init()
   {
-    $( '#facility' ).change( loadLocation );
-    $( '#location' ).change( updateInstance );
-    $( '#instance' ).change( updateLocation );
+    $( '#facility' ).on( 'change', loadLocation );
+    $( '#location' ).on( 'change', updateInstance );
+    $( '#instance' ).on( 'input', updateLocation );
 
     loadLocation();
 
