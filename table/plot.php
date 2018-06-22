@@ -14,14 +14,3 @@
     border: 1px dashed red;
   }
 </style>
-
-<script>
-function onPlotShow()
-{
-  console.log( 'SHOW' );
-}
-function onPlotShown()
-{
-  console.log( 'SHOWN' );
-}
-</script>

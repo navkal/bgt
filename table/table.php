@@ -49,7 +49,7 @@
   var g_iInstanceOffset = 0;
   var g_iRow = 0;
   var g_iTimeoutMs = 0;
-  var g_aData = [];
+  var g_aRowData = [];
 
   var g_sSuccessClass = 'bg-dropbox';
   var g_sPendingClass = 'bg-pending';
@@ -163,7 +163,7 @@
       // Request succeeded
 
       // Save data
-      g_aData.push( tBnRsp.data );
+      g_aRowData.push( tBnRsp.data );
 
       if ( g_iInstanceOffset < g_aRows[g_iRow].length - 1 )
       {
@@ -181,9 +181,9 @@
 
         // Update pairs
         var iPair = 2;
-        for ( var iData in g_aData )
+        for ( var iData in g_aRowData )
         {
-          var tData = g_aData[iData];
+          var tData = g_aRowData[iData];
           $( '#value_' + g_iRow + '_' + iPair ).html( ( tData.presentValue == '' ) ? '' : Math.round( tData.presentValue ) );
           $( '#units_' + g_iRow + '_' + iPair ).html( tData.units );
           iPair ++;
@@ -226,7 +226,7 @@
 
     // Reinitialize variables
     g_iInstanceOffset = 2;
-    g_aData = [];
+    g_aRowData = [];
 
     // Update tablesorter cache and trigger next request sequence
     var tTable = $( '#bgt_table' )
