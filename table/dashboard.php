@@ -7,13 +7,13 @@
     [
       [
         'value_col_name' => 'Power',
-        'units_col_name' => 'Power Units',
+        'units_col_name' => 'Power Units'
       ],
       [
         'value_col_name' => 'Energy',
-        'units_col_name' => 'Energy Units',
+        'units_col_name' => 'Energy Units'
       ]
     ];
 
-  include $_SERVER['DOCUMENT_ROOT'] . '/table/table.php';
+  include $_SERVER['DOCUMENT_ROOT'] . '/table/datamix.php';
 ?>

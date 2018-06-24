@@ -7,9 +7,9 @@
     [
       [
         'value_col_name' => 'Meter Reading',
-        'units_col_name' => 'Units',
+        'units_col_name' => 'Units'
       ]
     ];
 
-  include $_SERVER['DOCUMENT_ROOT'] . '/table/table.php';
+  include $_SERVER['DOCUMENT_ROOT'] . '/table/datamix.php';
 ?>

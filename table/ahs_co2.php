@@ -7,9 +7,9 @@
     [
       [
         'value_col_name' => 'CO2 Level',
-        'units_col_name' => 'Units',
+        'units_col_name' => 'Units'
       ]
     ];
 
-  include $_SERVER['DOCUMENT_ROOT'] . '/table/table.php';
+  include $_SERVER['DOCUMENT_ROOT'] . '/table/datamix.php';
 ?>
