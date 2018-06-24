@@ -46,7 +46,7 @@
           <div id="<?=$aColPair['bar_graph_id']?>" class="tab-pane fade">
             <?php
               $g_sBarGraphId = $aColPair['bar_graph_id'] . '_div';
-              include $_SERVER['DOCUMENT_ROOT'] . '/table/plot.php';
+              include $_SERVER['DOCUMENT_ROOT'] . '/table/graph.php';
             ?>
           </div>
     <?php
