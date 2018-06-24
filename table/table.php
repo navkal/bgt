@@ -31,7 +31,6 @@
 
   function compareLines( $aLine1, $aLine2 )
   {
-    error_log( '======>' . $aLine1[0] . ' ' . $aLine2[0] . ' ? ' . strcmp( $aLine1[0], $aLine2[0] ) );
     return strcmp( $aLine1[0], $aLine2[0] );
   }
 ?>
