@@ -218,7 +218,7 @@
 
       if ( tData.success )
       {
-        sClass = 'bg-dropbox';
+        sClass = 'bg-row-success';
         sValue = Math.round( tData[tData.requested_property] );
         sUnits = tData.units;
       }
@@ -266,7 +266,7 @@
 
   function clearWaitCursor()
   {
-    $( '#responses .bg-dropbox' ).removeClass( 'bg-dropbox' );
+    $( '#responses .bg-row-success' ).removeClass( 'bg-row-success' );
     $( '#view' ).css( 'cursor', 'default' );
     $( '#submit_button' ).prop( 'disabled', false );
   }

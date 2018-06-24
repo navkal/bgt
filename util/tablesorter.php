@@ -5,7 +5,7 @@
 ?>
 
 <style>
-  .bg-dropbox
+  .bg-row-success
   {
     background-color: #f0fff0;
     border: 1px solid #00e600;

@@ -37,7 +37,7 @@
 ?>
 
 <style>
-  .bg-pending
+  .bg-row-pending
   {
     color: #a6a6a6 !important;
   }
@@ -51,8 +51,8 @@
   var g_iTimeoutMs = 0;
   var g_aRowData = [];
 
-  var g_sSuccessClass = 'bg-dropbox';
-  var g_sPendingClass = 'bg-pending';
+  var g_sSuccessClass = 'bg-row-success';
+  var g_sPendingClass = 'bg-row-pending';
 
   $( document ).ready( onDocumentReady );
 
