@@ -7,8 +7,8 @@
 <style>
   .bg-dropbox
   {
-    background-color: #f1f9ff;
-    border: 1px solid #8dd0fc;
+    background-color: #f0fff0;
+    border: 1px solid #00e600;
   }
 </style>
 
