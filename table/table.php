@@ -36,12 +36,6 @@
   }
 ?>
 
-<style>
-  .bg-row-pending
-  {
-    color: #a6a6a6 !important;
-  }
-</style>
 
 <script>
 

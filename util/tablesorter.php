@@ -5,6 +5,10 @@
 ?>
 
 <style>
+  .bg-row-pending
+  {
+    color: #a6a6a6 !important;
+  }
   .bg-row-success
   {
     background-color: #f0fff0;
