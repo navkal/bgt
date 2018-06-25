@@ -226,6 +226,7 @@
         if ( sGraphId == ( g_aColNames[iData].graph_id ) )
         {
           updateGraph( sGraphId, iData );
+          break;
         }
       }
     }
