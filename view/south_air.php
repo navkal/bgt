@@ -15,5 +15,5 @@
       ]
     ];
 
-  include $_SERVER['DOCUMENT_ROOT'] . '/view/datamix.php';
+  include $_SERVER['DOCUMENT_ROOT'] . '/view/view.php';
 ?>
