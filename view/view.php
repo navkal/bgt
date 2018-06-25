@@ -252,7 +252,6 @@
     {
       // Insert value into graph data structure
       tGraphData[sRowLabel] = { value: Math.round( tBarData.presentValue ), units: tBarData.units };
-      /*debug*/$( '#' + sGraphId + ' .bar-graph' ).append( '<p>' + sRowLabel + ': ' + tGraphData[sRowLabel].value + ' ' + tGraphData[sRowLabel].units + '</p>' );
     }
 
     // Determine which units to show in graph
@@ -269,9 +268,21 @@
       }
     }
 
+    // --> debug -->
+    // --> debug -->
+    // --> debug -->
     console.log( '==> ' + sGraphId + ' (' + sGraphUnits + ') <==' );
-
     console.log( JSON.stringify( aBars ) );
+
+    $( '#' + sGraphId + ' .bar-graph' ).html('');
+    for( var sBar in aBars )
+    {
+      var tBar = aBars[sBar];
+      $( '#' + sGraphId + ' .bar-graph' ).append( '<p>' + tBar.label + ': ' + tBar.value + ' ' + sGraphUnits + '</p>' );
+    }
+    // <-- debug <--
+    // <-- debug <--
+    // <-- debug <--
   }
 
   function getGraphUnits( tGraphData )
