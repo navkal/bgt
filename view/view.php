@@ -205,12 +205,16 @@
   function updateGraphs()
   {
     console.log( 'updateGraphs()' );
-    var tGraphs = $( '.barGraph' );
+    var tGraphs = $( '.bar-graph' );
     for ( var iGraph = 0; iGraph < tGraphs.length; iGraph ++ )
     {
-      var tGraph = $( tGraphs[iGraph] );
-      console.log( tGraph.attr( 'id' ) );
+      updateGraph( $( tGraphs[iGraph] ) );
     }
+  }
+
+  function updateGraph( tGraph )
+  {
+    console.log( tGraph.parent().attr( 'id' ) );
   }
 
   // Advance to next row
@@ -272,6 +276,23 @@
   }
 </script>
 
+<style>
+  .bg-row-pending
+  {
+    color: #a6a6a6 !important;
+  }
+
+  .bar-graph
+  {
+    border: 1px dashed red;
+    width: 90%;
+    height: 430px;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+  }
+</style>
+
 
 <div class="container-fluid">
 
@@ -315,10 +336,8 @@
         {
     ?>
           <div id="<?=$aColPair['graph_id']?>" class="tab-pane fade">
-            <?php
-              $g_sBarGraphId = $aColPair['graph_id'] . '_graph';
-              include $_SERVER['DOCUMENT_ROOT'] . '/view/graph.php';
-            ?>
+            <div id="<?=$aColPair['graph_id']?>_graph" class="bar-graph" >
+            </div>
           </div>
     <?php
         }
