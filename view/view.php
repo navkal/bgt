@@ -172,21 +172,9 @@
       {
         // Handle completion of request sequence for current row
 
-        // Update pairs
-        var iPair = 2;
-        for ( var iData in g_aRowData )
-        {
-          var tData = g_aRowData[iData];
-          $( '#value_' + g_iRow + '_' + iPair ).html( ( tData.presentValue == '' ) ? '' : Math.round( tData.presentValue ) );
-          $( '#units_' + g_iRow + '_' + iPair ).html( tData.units );
-          iPair ++;
-        }
+        // Update table row
+        updateRow();
 
-        // Update date
-        var tDate = new Date;
-        sTime = tDate.toLocaleString();
-        $( '#time_' + g_iRow ).html( sTime );
-        
         // Update graphs
         updateGraphs();
 
@@ -195,7 +183,25 @@
       }
     }
   }
-  
+
+  function updateRow()
+  {
+    // Update pairs
+    var iPair = 2;
+    for ( var iData in g_aRowData )
+    {
+      var tData = g_aRowData[iData];
+      $( '#value_' + g_iRow + '_' + iPair ).html( ( tData.presentValue == '' ) ? '' : Math.round( tData.presentValue ) );
+      $( '#units_' + g_iRow + '_' + iPair ).html( tData.units );
+      iPair ++;
+    }
+
+    // Update date
+    var tDate = new Date;
+    sTime = tDate.toLocaleString();
+    $( '#time_' + g_iRow ).html( sTime );
+  }
+
   function updateGraphs()
   {
     console.log( 'updateGraphs()' );
