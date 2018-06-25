@@ -213,22 +213,26 @@
   function updateGraphs()
   {
     var tGraphs = $( '.bar-graph' );
+
+    // Iterate over all graphs
     for ( var iGraph = 0; iGraph < tGraphs.length; iGraph ++ )
     {
-      updateGraph( $( tGraphs[iGraph] ) );
+      // Find index into row data that corresponds to target graph
+      for ( var iData in g_aRowData )
+      {
+        var sGraphId = $( tGraphs[iGraph] ).parent().attr( 'id' );
+
+        // If current index corresponds to target graph, update the graph
+        if ( sGraphId == ( g_aColNames[iData].graph_id ) )
+        {
+          updateGraph( sGraphId, iData );
+        }
+      }
     }
   }
 
-  function updateGraph( tGraphDiv )
+  function updateGraph( sGraphId, iData )
   {
-    // Find index into row data that corresponds to target graph
-    for ( var iData in g_aRowData )
-    {
-      var sGraphId = tGraphDiv.parent().attr( 'id' );
-
-      // If current index corresponds to target graph, update the graph
-      if ( sGraphId == g_aColNames[iData].graph_id )
-      {
         // If data structure for target graph does not exist, create it
         if ( ! ( sGraphId in g_tGraphData ) )
         {
@@ -248,7 +252,7 @@
         {
           // Insert value into graph data structure
           tGraphData[sRowLabel] = { value: Math.round( tBarData.presentValue ), units: tBarData.units };
-          tGraphDiv.append( '<p>' + sRowLabel + ': ' + tGraphData[sRowLabel].value + ' ' + tGraphData[sRowLabel].units + '</p>' );
+          $( '#' + sGraphId + ' .bar-graph' ).append( '<p>' + sRowLabel + ': ' + tGraphData[sRowLabel].value + ' ' + tGraphData[sRowLabel].units + '</p>' );
         }
 
         // Determine which units to show in graph
@@ -292,8 +296,6 @@
         console.log( '==> ' + sGraphId + ' (' + sBarUnits + ') <==' );
 
         console.log( JSON.stringify( aBars ) );
-      }
-    }
   }
 
   // Advance to next row
