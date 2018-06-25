@@ -1,9 +1,9 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 
-  $sCsvFilename = 'csv/ahs_electricity.csv';
-  $sFirstColName = 'Feeder';
-  $aColNames =
+  $g_sCsvFilename = 'csv/ahs_electricity.csv';
+  $g_sFirstColName = 'Feeder';
+  $g_aColNames =
     [
       [
         'value_col_name' => 'Meter Reading',

@@ -9,11 +9,11 @@
       <thead>
         <tr>
           <th>
-            <?=$sFirstColName?>
+            <?=$g_sFirstColName?>
           </th>
 
           <?php
-            foreach ( $aColNames as $tColNames )
+            foreach ( $g_aColNames as $tColNames )
             {
           ?>
 

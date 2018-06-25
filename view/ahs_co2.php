@@ -1,9 +1,9 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 
-  $sCsvFilename = 'csv/ahs_co2.csv';
-  $sFirstColName = 'Location';
-  $aColNames =
+  $g_sCsvFilename = 'csv/ahs_co2.csv';
+  $g_sFirstColName = 'Location';
+  $g_aColNames =
     [
       [
         'value_col_name' => 'CO2 Level',

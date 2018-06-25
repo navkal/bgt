@@ -4,7 +4,7 @@
   include $_SERVER['DOCUMENT_ROOT'] . '/util/tablesorter.php';
 
   // Read CSV file describing data to be retrieved and presented
-  $file = fopen( $sCsvFilename, 'r' );
+  $file = fopen( $g_sCsvFilename, 'r' );
   fgetcsv( $file );
 
   // Save CSV data in array
@@ -273,7 +273,7 @@
 
     <?php
       $bTableTab = false;
-      foreach ( $aColNames as $aColPair )
+      foreach ( $g_aColNames as $aColPair )
       {
         if ( isset( $aColPair['graph_id'] ) )
         {
@@ -303,7 +303,7 @@
     </div>
 
     <?php
-      foreach ( $aColNames as $aColPair )
+      foreach ( $g_aColNames as $aColPair )
       {
         if ( isset( $aColPair['graph_id'] ) )
         {
