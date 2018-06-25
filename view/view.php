@@ -225,78 +225,77 @@
         // If current index corresponds to target graph, update the graph
         if ( sGraphId == ( g_aColNames[iData].graph_id ) )
         {
-          updateGraph( sGraphId, iData );
+          updateGraph( sGraphId, g_aRowData[iData] );
           break;
         }
       }
     }
   }
 
-  function updateGraph( sGraphId, iData )
+  function updateGraph( sGraphId, tBarData )
   {
-        // If data structure for target graph does not exist, create it
-        if ( ! ( sGraphId in g_tGraphData ) )
-        {
-          g_tGraphData[sGraphId] = {};
-        }
+    // If data structure for target graph does not exist, create it
+    if ( ! ( sGraphId in g_tGraphData ) )
+    {
+      g_tGraphData[sGraphId] = {};
+    }
 
-        // Update target graph data
-        var tBarData = g_aRowData[iData];
-        var tGraphData = g_tGraphData[sGraphId];
-        var sRowLabel = g_aRows[g_iRow][0];
-        if ( tBarData.presentValue == '' )
-        {
-          // No value; remove element from graph data structure
-          delete tGraphData[sRowLabel];
-        }
-        else
-        {
-          // Insert value into graph data structure
-          tGraphData[sRowLabel] = { value: Math.round( tBarData.presentValue ), units: tBarData.units };
-          $( '#' + sGraphId + ' .bar-graph' ).append( '<p>' + sRowLabel + ': ' + tGraphData[sRowLabel].value + ' ' + tGraphData[sRowLabel].units + '</p>' );
-        }
+    // Update target graph data
+    var tGraphData = g_tGraphData[sGraphId];
+    var sRowLabel = g_aRows[g_iRow][0];
+    if ( tBarData.presentValue == '' )
+    {
+      // No value; remove element from graph data structure
+      delete tGraphData[sRowLabel];
+    }
+    else
+    {
+      // Insert value into graph data structure
+      tGraphData[sRowLabel] = { value: Math.round( tBarData.presentValue ), units: tBarData.units };
+      $( '#' + sGraphId + ' .bar-graph' ).append( '<p>' + sRowLabel + ': ' + tGraphData[sRowLabel].value + ' ' + tGraphData[sRowLabel].units + '</p>' );
+    }
 
-        // Determine which units to show in graph
-        var tUnits = {};
-        for ( var sRowLabel in tGraphData )
-        {
-          var sUnits = tGraphData[sRowLabel].units;
-          if ( sUnits in tUnits )
-          {
-            tUnits[sUnits] ++;
-          }
-          else
-          {
-            tUnits[sUnits] = 1;
-          }
-        }
+    // Determine which units to show in graph
+    var tUnits = {};
+    for ( var sRowLabel in tGraphData )
+    {
+      var sUnits = tGraphData[sRowLabel].units;
+      if ( sUnits in tUnits )
+      {
+        tUnits[sUnits] ++;
+      }
+      else
+      {
+        tUnits[sUnits] = 1;
+      }
+    }
 
-        var iVoteMax = 0;
-        var sBarUnits = '';
-        for ( var sUnits in tUnits )
-        {
-          if ( tUnits[sUnits] > iVoteMax )
-          {
-            sBarUnits = sUnits;
-          }
+    var iVoteMax = 0;
+    var sBarUnits = '';
+    for ( var sUnits in tUnits )
+    {
+      if ( tUnits[sUnits] > iVoteMax )
+      {
+        sBarUnits = sUnits;
+      }
 
-          iVoteMax = Math.max( iVoteMax, tUnits[sRowLabel] );
-        }
+      iVoteMax = Math.max( iVoteMax, tUnits[sRowLabel] );
+    }
 
-        // Set up underlying structure for bar graph display
-        var aBars = [];
-        for ( var sRowLabel in tGraphData )
-        {
-          var tRow = tGraphData[sRowLabel];
-          if ( tRow.units == sBarUnits )
-          {
-            aBars.push( { label: sRowLabel, value: tRow.value } );
-          }
-        }
+    // Set up underlying structure for bar graph display
+    var aBars = [];
+    for ( var sRowLabel in tGraphData )
+    {
+      var tRow = tGraphData[sRowLabel];
+      if ( tRow.units == sBarUnits )
+      {
+        aBars.push( { label: sRowLabel, value: tRow.value } );
+      }
+    }
 
-        console.log( '==> ' + sGraphId + ' (' + sBarUnits + ') <==' );
+    console.log( '==> ' + sGraphId + ' (' + sBarUnits + ') <==' );
 
-        console.log( JSON.stringify( aBars ) );
+    console.log( JSON.stringify( aBars ) );
   }
 
   // Advance to next row
