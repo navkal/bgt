@@ -1,7 +1,7 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 
-  $sCsvFilename = 'csv/south_air.csv';
+  $sCsvFilename = 'csv/ahs_air.csv';
   $sFirstColName = 'Location';
   $aColNames =
     [
@@ -15,5 +15,5 @@
       ]
     ];
 
-  include $_SERVER['DOCUMENT_ROOT'] . '/table/datamix.php';
+  include $_SERVER['DOCUMENT_ROOT'] . '/view/datamix.php';
 ?>

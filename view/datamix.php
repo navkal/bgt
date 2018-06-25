@@ -284,7 +284,7 @@
 
     <div id="tableTab" class="tab-pane fade in active">
       <?php
-        include $_SERVER['DOCUMENT_ROOT'] . '/table/table.php';
+        include $_SERVER['DOCUMENT_ROOT'] . '/view/table.php';
       ?>
     </div>
 
@@ -297,7 +297,7 @@
           <div id="<?=$aColPair['bar_graph_id']?>" class="tab-pane fade">
             <?php
               $g_sBarGraphId = $aColPair['bar_graph_id'] . '_div';
-              include $_SERVER['DOCUMENT_ROOT'] . '/table/graph.php';
+              include $_SERVER['DOCUMENT_ROOT'] . '/view/graph.php';
             ?>
           </div>
     <?php
