@@ -3,6 +3,9 @@
 
   include $_SERVER['DOCUMENT_ROOT'] . '/util/tablesorter.php';
 
+  // Convert column name list to JSON
+  $sColNames = json_encode( $g_aColNames );
+
   // Read CSV file describing data to be retrieved and presented
   $file = fopen( $g_sCsvFilename, 'r' );
   fgetcsv( $file );
@@ -39,6 +42,7 @@
 <script>
 
   var g_aRows = null;
+  var g_aColNames = null;
   var g_iInstanceOffset = 0;
   var g_iRow = 0;
   var g_iTimeoutMs = 0;
@@ -51,6 +55,9 @@
 
   function onDocumentReady()
   {
+    // Load list of column names
+    g_aColNames = JSON.parse( '<?=$sColNames?>' );
+
     // Load list of rows
     g_aRows = JSON.parse( '<?=$sLines?>' );
 
@@ -204,7 +211,6 @@
 
   function updateGraphs()
   {
-    console.log( 'updateGraphs()' );
     var tGraphs = $( '.bar-graph' );
     for ( var iGraph = 0; iGraph < tGraphs.length; iGraph ++ )
     {
@@ -214,7 +220,17 @@
 
   function updateGraph( tGraph )
   {
-    console.log( tGraph.parent().attr( 'id' ) );
+    // Find index into row data that corresponds to target graph
+    for ( var iData in g_aRowData )
+    {
+      // If current index corresponds to target graph, update the graph
+      if ( tGraph.parent().attr( 'id' ) == g_aColNames[iData].graph_id )
+      {
+        // Update target graph
+        var tData = g_aRowData[iData];
+        tGraph.append( '<p>' + g_aRows[g_iRow][0] + ': ' + tData.presentValue + ' ' + tData.units + '</p>' );
+      }
+    }
   }
 
   // Advance to next row
@@ -336,7 +352,7 @@
         {
     ?>
           <div id="<?=$aColPair['graph_id']?>" class="tab-pane fade">
-            <div id="<?=$aColPair['graph_id']?>_graph" class="bar-graph" >
+            <div class="bar-graph" >
             </div>
           </div>
     <?php
