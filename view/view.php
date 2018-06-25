@@ -47,6 +47,7 @@
   var g_iRow = 0;
   var g_iTimeoutMs = 0;
   var g_aRowData = [];
+  var g_tGraphData = {};
 
   var g_sSuccessClass = 'bg-row-success';
   var g_sPendingClass = 'bg-row-pending';
@@ -218,17 +219,79 @@
     }
   }
 
-  function updateGraph( tGraph )
+  function updateGraph( tGraphDiv )
   {
     // Find index into row data that corresponds to target graph
     for ( var iData in g_aRowData )
     {
+      var sGraphId = tGraphDiv.parent().attr( 'id' );
+
       // If current index corresponds to target graph, update the graph
-      if ( tGraph.parent().attr( 'id' ) == g_aColNames[iData].graph_id )
+      if ( sGraphId == g_aColNames[iData].graph_id )
       {
-        // Update target graph
-        var tData = g_aRowData[iData];
-        tGraph.append( '<p>' + g_aRows[g_iRow][0] + ': ' + tData.presentValue + ' ' + tData.units + '</p>' );
+        // If data structure for target graph does not exist, create it
+        if ( ! ( sGraphId in g_tGraphData ) )
+        {
+          g_tGraphData[sGraphId] = {};
+        }
+
+        // Update target graph data
+        var tBarData = g_aRowData[iData];
+        var tGraphData = g_tGraphData[sGraphId];
+        var sRowLabel = g_aRows[g_iRow][0];
+        if ( tBarData.presentValue == '' )
+        {
+          // No value; remove element from graph data structure
+          delete tGraphData[sRowLabel];
+        }
+        else
+        {
+          // Insert value into graph data structure
+          tGraphData[sRowLabel] = { value: Math.round( tBarData.presentValue ), units: tBarData.units };
+          tGraphDiv.append( '<p>' + sRowLabel + ': ' + tGraphData[sRowLabel].value + ' ' + tGraphData[sRowLabel].units + '</p>' );
+        }
+
+        // Determine which units to show in graph
+        var tUnits = {};
+        for ( var sRowLabel in tGraphData )
+        {
+          var sUnits = tGraphData[sRowLabel].units;
+          if ( sUnits in tUnits )
+          {
+            tUnits[sUnits] ++;
+          }
+          else
+          {
+            tUnits[sUnits] = 1;
+          }
+        }
+
+        var iVoteMax = 0;
+        var sBarUnits = '';
+        for ( var sUnits in tUnits )
+        {
+          if ( tUnits[sUnits] > iVoteMax )
+          {
+            sBarUnits = sUnits;
+          }
+
+          iVoteMax = Math.max( iVoteMax, tUnits[sRowLabel] );
+        }
+
+        // Set up underlying structure for bar graph display
+        var aBars = [];
+        for ( var sRowLabel in tGraphData )
+        {
+          var tRow = tGraphData[sRowLabel];
+          if ( tRow.units == sBarUnits )
+          {
+            aBars.push( { label: sRowLabel, value: tRow.value } );
+          }
+        }
+
+        console.log( '==> ' + sGraphId + ' (' + sBarUnits + ') <==' );
+
+        console.log( JSON.stringify( aBars ) );
       }
     }
   }
