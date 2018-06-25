@@ -186,10 +186,24 @@
         var tDate = new Date;
         sTime = tDate.toLocaleString();
         $( '#time_' + g_iRow ).html( sTime );
+        
+        // Update graphs
+        updateGraphs();
 
         // Advance to next row
         nextRow( true );
       }
+    }
+  }
+  
+  function updateGraphs()
+  {
+    console.log( 'updateGraphs()' );
+    var tGraphs = $( '.barGraph' );
+    for ( var iGraph = 0; iGraph < tGraphs.length; iGraph ++ )
+    {
+      var tGraph = $( tGraphs[iGraph] );
+      console.log( tGraph.attr( 'id' ) );
     }
   }
 
@@ -261,7 +275,7 @@
       $bTableTab = false;
       foreach ( $aColNames as $aColPair )
       {
-        if ( isset( $aColPair['bar_graph_id'] ) )
+        if ( isset( $aColPair['graph_id'] ) )
         {
           if ( ! $bTableTab )
           {
@@ -271,7 +285,7 @@
     <?php
           }
     ?>
-          <li><a data-toggle="tab" href="#<?=$aColPair['bar_graph_id']?>"><?=$aColPair['value_col_name']?></a></li>
+          <li><a data-toggle="tab" href="#<?=$aColPair['graph_id']?>"><?=$aColPair['value_col_name']?></a></li>
     <?php
         }
       }
@@ -291,12 +305,12 @@
     <?php
       foreach ( $aColNames as $aColPair )
       {
-        if ( isset( $aColPair['bar_graph_id'] ) )
+        if ( isset( $aColPair['graph_id'] ) )
         {
     ?>
-          <div id="<?=$aColPair['bar_graph_id']?>" class="tab-pane fade">
+          <div id="<?=$aColPair['graph_id']?>" class="tab-pane fade">
             <?php
-              $g_sBarGraphId = $aColPair['bar_graph_id'] . '_div';
+              $g_sBarGraphId = $aColPair['graph_id'] . '_graph';
               include $_SERVER['DOCUMENT_ROOT'] . '/view/graph.php';
             ?>
           </div>
