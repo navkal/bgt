@@ -252,10 +252,30 @@
     {
       // Insert value into graph data structure
       tGraphData[sRowLabel] = { value: Math.round( tBarData.presentValue ), units: tBarData.units };
-      $( '#' + sGraphId + ' .bar-graph' ).append( '<p>' + sRowLabel + ': ' + tGraphData[sRowLabel].value + ' ' + tGraphData[sRowLabel].units + '</p>' );
+      /*debug*/$( '#' + sGraphId + ' .bar-graph' ).append( '<p>' + sRowLabel + ': ' + tGraphData[sRowLabel].value + ' ' + tGraphData[sRowLabel].units + '</p>' );
     }
 
     // Determine which units to show in graph
+    var sGraphUnits = getGraphUnits( tGraphData );
+
+    // Set up underlying structure for bar graph display
+    var aBars = [];
+    for ( var sRowLabel in tGraphData )
+    {
+      var tRow = tGraphData[sRowLabel];
+      if ( tRow.units == sGraphUnits )
+      {
+        aBars.push( { label: sRowLabel, value: tRow.value } );
+      }
+    }
+
+    console.log( '==> ' + sGraphId + ' (' + sGraphUnits + ') <==' );
+
+    console.log( JSON.stringify( aBars ) );
+  }
+
+  function getGraphUnits( tGraphData )
+  {
     var tUnits = {};
     for ( var sRowLabel in tGraphData )
     {
@@ -282,20 +302,7 @@
       iVoteMax = Math.max( iVoteMax, tUnits[sRowLabel] );
     }
 
-    // Set up underlying structure for bar graph display
-    var aBars = [];
-    for ( var sRowLabel in tGraphData )
-    {
-      var tRow = tGraphData[sRowLabel];
-      if ( tRow.units == sBarUnits )
-      {
-        aBars.push( { label: sRowLabel, value: tRow.value } );
-      }
-    }
-
-    console.log( '==> ' + sGraphId + ' (' + sBarUnits + ') <==' );
-
-    console.log( JSON.stringify( aBars ) );
+    return sBarUnits;
   }
 
   // Advance to next row
