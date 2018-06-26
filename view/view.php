@@ -232,15 +232,18 @@
         // If current index corresponds to target graph, update the graph
         if ( sGraphId == ( g_aColNames[iData].graph_id ) )
         {
-          updateGraph( sGraphId, g_aRowData[iData] );
+          updateGraph( sGraphId, iData );
           break;
         }
       }
     }
   }
 
-  function updateGraph( sGraphId, tBarData )
+  function updateGraph( sGraphId, iData )
   {
+    var sGraphName = g_aColNames[iData].value_col_name;
+    var tBarData = g_aRowData[iData];
+
     // If data structure for target graph does not exist, create it
     if ( ! ( sGraphId in g_tGraphData ) )
     {
@@ -268,12 +271,8 @@
 
     if ( true )
     {
-      var sHtml = '';
-
-
       var data = [];
       var ticks = [];
-
       var iOffset = 0;
       for ( var sRowLabel in tGraphData )
       {
@@ -285,7 +284,8 @@
           iOffset ++;
         }
       }
-        var dataset = [{ label: '&nbsp;' + sGraphUnits, data: data, color: "#5482FF" }];
+
+        var dataset = [{ label: '&nbsp;' + sGraphName, data: data, color: "#5482FF" }];
 
 
         var options = {
@@ -311,10 +311,10 @@
                 axisLabelUseCanvas: true,
                 axisLabelFontSizePixels: 12,
                 axisLabelFontFamily: 'Verdana, Arial',
-                axisLabelPadding: 3,
-                // tickFormatter: function (v, axis) {
-                    // return v + "°C";
-                // }
+                axisLabelPadding: 12,
+                tickFormatter: function (v, axis) {
+                    return v.toLocaleString();
+                }
             },
             legend: {
                 noColumns: 0,
