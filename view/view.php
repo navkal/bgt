@@ -40,6 +40,12 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js" integrity="sha256-j2LsvgOlQFIb2Mphb+tX7d5pNmFdpsJU+s5GNo3z63g=" crossorigin="anonymous"></script>
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js" integrity="sha256-LMe2LItsvOs1WDRhgNXulB8wFpq885Pib0bnrjETvfI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.symbol.min.js" integrity="sha256-Bm23OLMJlgAQ1BPlnkQZeAaRzEdEJXPakaKte3tujaw=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.resize.min.js" integrity="sha256-EM0o7Qv7O213xqRbn8IFc6QsSr02kAX1/z7musSfxx8=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/util/jquery.flot.axislabels.js"></script>
+
 <script>
 
   var g_aRows = null;
@@ -258,60 +264,135 @@
     // Determine which units to show in graph
     var sGraphUnits = getGraphUnits( tGraphData );
 
-    // Set up underlying structure for bar graph display
-    var aBars = [];
-    for ( var sRowLabel in tGraphData )
-    {
-      var tRow = tGraphData[sRowLabel];
-      if ( tRow.units == sGraphUnits )
-      {
-        aBars.push( { label: sRowLabel, value: tRow.value } );
-      }
-    }
-
-    // Update the graph display
-    $( '#' + sGraphId + ' .bar-graph' ).html('');
-
     var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
-    var svg = d3.select( '#' + sGraphId + ' .bar-graph' ).append( 'svg' ).attr( 'width', tGraphDiv.width() ).attr( 'height', tGraphDiv.height() );
 
-    // var svg = d3.select( '#' + sGraphId + ' .bar-graph' ),
-    var margin = {top: 20, right: 20, bottom: 30, left: 60},
-    width = +svg.attr("width") - margin.left - margin.right,
-    height = +svg.attr("height") - margin.top - margin.bottom;
+    if ( false )
+    {
+      var sHtml = '';
 
-    var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-    y = d3.scaleLinear().rangeRound([height, 0]);
 
-    var g = svg.append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    x.domain(aBars.map(function(d) { return d.label; }));
-    y.domain([0, d3.max(aBars, function(d) { return d.value; })]);
+        var data = [[0, 11],[1, 15],[2, 25],[3, 24],[4, 13],[5, 18]];
+        var dataset = [{ label: "2012 Average Temperature", data: data, color: "#5482FF" }];
+        var ticks = [[0, "London"], [1, "New York"], [2, "New Delhi"], [3, "Taipei"],[4, "Beijing"], [5, "Sydney"]];
 
-    g.append("g")
-        .attr("class", "axis axis--x")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+      var data = [];
+      var ticks = [];
 
-    g.append("g")
-        .attr("class", "axis axis--y")
-        .call(d3.axisLeft(y).ticks(10))
-      .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", "0.71em")
-        .attr("text-anchor", "end")
-        .text("xxxxxxxxxxxx");
+      var iOffset = 0;
+      for ( var sRowLabel in tGraphData )
+      {
+        var tRow = tGraphData[sRowLabel];
+        if ( tRow.units == sGraphUnits )
+        {
+          data.push( [ iOffset, tRow.value ] );
+          ticks.push( [ iOffset, sRowLabel ] );
+          iOffset ++;
+        }
+      }
 
-    g.selectAll(".bar")
-      .data(aBars)
-      .enter().append("rect")
-        .attr("class", "bar")
-        .attr("x", function(d) { return x(d.label); })
-        .attr("y", function(d) { return y(d.value); })
-        .attr("width", x.bandwidth())
-        .attr("height", function(d) { return height - y(d.value); });
+
+        var options = {
+            series: {
+                bars: {
+                    show: true
+                }
+            },
+            bars: {
+                align: "center",
+                barWidth: 0.5
+            },
+            xaxis: {
+                axisLabel: "World Cities",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Verdana, Arial',
+                axisLabelPadding: 10,
+                ticks: ticks
+            },
+            yaxis: {
+                axisLabel: "Average Temperature",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Verdana, Arial',
+                axisLabelPadding: 3,
+                tickFormatter: function (v, axis) {
+                    return v + "°C";
+                }
+            },
+            legend: {
+                noColumns: 0,
+                labelBoxBorderColor: "#000000",
+                position: "nw"
+            },
+            grid: {
+                hoverable: true,
+                borderWidth: 2,
+                backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
+            }
+        };
+
+            $.plot(tGraphDiv, dataset, options);
+            tGraphDiv.UseTooltip();
+
+    }
+    else
+    {
+      tGraphDiv.html('');
+
+      // Set up underlying structure for bar graph display
+      var aBars = [];
+      for ( var sRowLabel in tGraphData )
+      {
+        var tRow = tGraphData[sRowLabel];
+        if ( tRow.units == sGraphUnits )
+        {
+          aBars.push( { label: sRowLabel, value: tRow.value } );
+        }
+      }
+
+      // Update the graph display
+
+      var svg = d3.select( '#' + sGraphId + ' .bar-graph' ).append( 'svg' ).attr( 'width', tGraphDiv.width() ).attr( 'height', tGraphDiv.height() );
+
+      // var svg = d3.select( '#' + sGraphId + ' .bar-graph' ),
+      var margin = {top: 20, right: 20, bottom: 30, left: 60},
+      width = +svg.attr("width") - margin.left - margin.right,
+      height = +svg.attr("height") - margin.top - margin.bottom;
+
+      var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+      y = d3.scaleLinear().rangeRound([height, 0]);
+
+      var g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      x.domain(aBars.map(function(d) { return d.label; }));
+      y.domain([0, d3.max(aBars, function(d) { return d.value; })]);
+
+      g.append("g")
+          .attr("class", "axis axis--x")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x));
+
+      g.append("g")
+          .attr("class", "axis axis--y")
+          .call(d3.axisLeft(y).ticks(10))
+        .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", "0.71em")
+          .attr("text-anchor", "end")
+          .text("xxxxxxxxxxxx");
+
+      g.selectAll(".bar")
+        .data(aBars)
+        .enter().append("rect")
+          .attr("class", "bar")
+          .attr("x", function(d) { return x(d.label); })
+          .attr("y", function(d) { return y(d.value); })
+          .attr("width", x.bandwidth())
+          .attr("height", function(d) { return height - y(d.value); });
+    }
 
   }
 
@@ -403,6 +484,82 @@
   {
     $( '#view' ).css( 'cursor', 'default' );
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          function gd(year, month, day) {
+            return new Date(year, month, day).getTime();
+        }
+
+        var previousPoint = null, previousLabel = null;
+
+        $.fn.UseTooltip = function () {
+            $(this).bind("plothover", function (event, pos, item) {
+                if (item) {
+                    if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
+                        previousPoint = item.dataIndex;
+                        previousLabel = item.series.label;
+                        $("#tooltip").remove();
+
+                        var x = item.datapoint[0];
+                        var y = item.datapoint[1];
+
+                        var color = item.series.color;
+
+                        //console.log(item.series.xaxis.ticks[x].label);
+
+                        showTooltip(item.pageX,
+                        item.pageY,
+                        color,
+                        "<strong>" + item.series.label + "</strong><br>" + item.series.xaxis.ticks[x].label + " : <strong>" + y + "</strong> °C");
+                    }
+                } else {
+                    $("#tooltip").remove();
+                    previousPoint = null;
+                }
+            });
+        };
+
+        function showTooltip(x, y, color, contents) {
+            $('<div id="tooltip">' + contents + '</div>').css({
+                position: 'absolute',
+                display: 'none',
+                top: y - 40,
+                left: x - 120,
+                border: '2px solid ' + color,
+                padding: '3px',
+                'font-size': '9px',
+                'border-radius': '5px',
+                'background-color': '#fff',
+                'font-family': 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
+                opacity: 0.9
+            }).appendTo("body").fadeIn(200);
+        }
+
+
+
+
+
+
 </script>
 
 <style>
