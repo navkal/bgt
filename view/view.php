@@ -266,15 +266,10 @@
 
     var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
 
-    if ( false )
+    if ( true )
     {
       var sHtml = '';
 
-
-
-        var data = [[0, 11],[1, 15],[2, 25],[3, 24],[4, 13],[5, 18]];
-        var dataset = [{ label: "2012 Average Temperature", data: data, color: "#5482FF" }];
-        var ticks = [[0, "London"], [1, "New York"], [2, "New Delhi"], [3, "Taipei"],[4, "Beijing"], [5, "Sydney"]];
 
       var data = [];
       var ticks = [];
@@ -290,6 +285,7 @@
           iOffset ++;
         }
       }
+        var dataset = [{ label: '&nbsp;' + sGraphUnits, data: data, color: "#5482FF" }];
 
 
         var options = {
@@ -303,7 +299,7 @@
                 barWidth: 0.5
             },
             xaxis: {
-                axisLabel: "World Cities",
+                axisLabel: "<?=$g_sFirstColName?>",
                 axisLabelUseCanvas: true,
                 axisLabelFontSizePixels: 12,
                 axisLabelFontFamily: 'Verdana, Arial',
@@ -311,19 +307,19 @@
                 ticks: ticks
             },
             yaxis: {
-                axisLabel: "Average Temperature",
+                axisLabel: sGraphUnits,
                 axisLabelUseCanvas: true,
                 axisLabelFontSizePixels: 12,
                 axisLabelFontFamily: 'Verdana, Arial',
                 axisLabelPadding: 3,
-                tickFormatter: function (v, axis) {
-                    return v + "°C";
-                }
+                // tickFormatter: function (v, axis) {
+                    // return v + "°C";
+                // }
             },
             legend: {
                 noColumns: 0,
                 labelBoxBorderColor: "#000000",
-                position: "nw"
+                position: "ne"
             },
             grid: {
                 hoverable: true,
@@ -530,7 +526,7 @@
                         showTooltip(item.pageX,
                         item.pageY,
                         color,
-                        "<strong>" + item.series.label + "</strong><br>" + item.series.xaxis.ticks[x].label + " : <strong>" + y + "</strong> °C");
+                        item.series.xaxis.ticks[x].label + " : <strong>" + y + "</strong> " + item.series.label );
                     }
                 } else {
                     $("#tooltip").remove();
