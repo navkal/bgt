@@ -55,6 +55,7 @@
   var g_iTimeoutMs = 0;
   var g_aRowData = [];
   var g_tGraphData = {};
+  var g_sGraphUnits = '';
 
   var g_sSuccessClass = 'bg-row-success';
   var g_sPendingClass = 'bg-row-pending';
@@ -265,7 +266,7 @@
     }
 
     // Determine which units to show in graph
-    var sGraphUnits = getGraphUnits( tGraphData );
+    setGraphUnits( tGraphData );
 
     var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
 
@@ -277,7 +278,7 @@
       for ( var sRowLabel in tGraphData )
       {
         var tRow = tGraphData[sRowLabel];
-        if ( tRow.units == sGraphUnits )
+        if ( tRow.units == g_sGraphUnits )
         {
           data.push( [ iOffset, tRow.value ] );
           ticks.push( [ iOffset, sRowLabel ] );
@@ -296,7 +297,7 @@
             },
             bars: {
                 align: "center",
-                barWidth: 0.5
+                barWidth: 0.7
             },
             xaxis: {
                 axisLabel: "<?=$g_sFirstColName?>",
@@ -307,7 +308,7 @@
                 ticks: ticks
             },
             yaxis: {
-                axisLabel: sGraphUnits,
+                axisLabel: g_sGraphUnits,
                 axisLabelUseCanvas: true,
                 axisLabelFontSizePixels: 12,
                 axisLabelFontFamily: 'Verdana, Arial',
@@ -341,7 +342,7 @@
       for ( var sRowLabel in tGraphData )
       {
         var tRow = tGraphData[sRowLabel];
-        if ( tRow.units == sGraphUnits )
+        if ( tRow.units == g_sGraphUnits )
         {
           aBars.push( { label: sRowLabel, value: tRow.value } );
         }
@@ -392,7 +393,7 @@
 
   }
 
-  function getGraphUnits( tGraphData )
+  function setGraphUnits( tGraphData )
   {
     var tUnits = {};
     for ( var sRowLabel in tGraphData )
@@ -409,18 +410,16 @@
     }
 
     var iVoteMax = 0;
-    var sBarUnits = '';
+    g_sGraphUnits = '';
     for ( var sUnits in tUnits )
     {
       if ( tUnits[sUnits] > iVoteMax )
       {
-        sBarUnits = sUnits;
+        g_sGraphUnits = sUnits;
       }
 
       iVoteMax = Math.max( iVoteMax, tUnits[sRowLabel] );
     }
-
-    return sBarUnits;
   }
 
   // Advance to next row
@@ -526,7 +525,7 @@
                         showTooltip(item.pageX,
                         item.pageY,
                         color,
-                        item.series.xaxis.ticks[x].label + " : <strong>" + y + "</strong> " + item.series.label );
+                        item.series.xaxis.ticks[x].label + " : <strong>" + y.toLocaleString() + "</strong> " + g_sGraphUnits );
                     }
                 } else {
                     $("#tooltip").remove();
