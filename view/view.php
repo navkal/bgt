@@ -38,6 +38,7 @@
   }
 ?>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js" integrity="sha256-j2LsvgOlQFIb2Mphb+tX7d5pNmFdpsJU+s5GNo3z63g=" crossorigin="anonymous"></script>
 
 <script>
 
@@ -268,21 +269,50 @@
       }
     }
 
-    // --> debug -->
-    // --> debug -->
-    // --> debug -->
-    console.log( '==> ' + sGraphId + ' (' + sGraphUnits + ') <==' );
-    console.log( JSON.stringify( aBars ) );
-
+    // Update the graph display
     $( '#' + sGraphId + ' .bar-graph' ).html('');
-    for( var sBar in aBars )
-    {
-      var tBar = aBars[sBar];
-      $( '#' + sGraphId + ' .bar-graph' ).append( '<p>' + tBar.label + ': ' + tBar.value + ' ' + sGraphUnits + '</p>' );
-    }
-    // <-- debug <--
-    // <-- debug <--
-    // <-- debug <--
+
+    var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
+    var svg = d3.select( '#' + sGraphId + ' .bar-graph' ).append( 'svg' ).attr( 'width', tGraphDiv.width() ).attr( 'height', tGraphDiv.height() );
+
+    // var svg = d3.select( '#' + sGraphId + ' .bar-graph' ),
+    var margin = {top: 20, right: 20, bottom: 30, left: 60},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom;
+
+    var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+    y = d3.scaleLinear().rangeRound([height, 0]);
+
+    var g = svg.append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    x.domain(aBars.map(function(d) { return d.label; }));
+    y.domain([0, d3.max(aBars, function(d) { return d.value; })]);
+
+    g.append("g")
+        .attr("class", "axis axis--x")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+    g.append("g")
+        .attr("class", "axis axis--y")
+        .call(d3.axisLeft(y).ticks(10))
+      .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "0.71em")
+        .attr("text-anchor", "end")
+        .text("xxxxxxxxxxxx");
+
+    g.selectAll(".bar")
+      .data(aBars)
+      .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d.label); })
+        .attr("y", function(d) { return y(d.value); })
+        .attr("width", x.bandwidth())
+        .attr("height", function(d) { return height - y(d.value); });
+
   }
 
   function getGraphUnits( tGraphData )
@@ -390,6 +420,16 @@
     margin-right: auto;
     cursor: pointer;
   }
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+
 </style>
 
 
