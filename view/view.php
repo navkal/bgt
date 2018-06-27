@@ -55,7 +55,6 @@
   var g_iTimeoutMs = 0;
   var g_aRowData = [];
   var g_tGraphData = {};
-  var g_sGraphUnits = '';
 
   var g_sSuccessClass = 'bg-row-success';
   var g_sPendingClass = 'bg-row-pending';
@@ -268,7 +267,7 @@
     }
 
     // Determine which units to show in graph
-    setGraphUnits( tGraphData );
+    var sGraphUnits = pickGraphUnits( tGraphData );
 
     var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
 
@@ -283,7 +282,7 @@
           for ( var sRowLabel in tGraphData )
           {
             var tRow = tGraphData[sRowLabel];
-            if ( tRow.units == g_sGraphUnits )
+            if ( tRow.units == sGraphUnits )
             {
               data.push( [ iOffset, tRow.value ] );
               ticks.push( [ iOffset, sRowLabel ] );
@@ -314,7 +313,7 @@
                     ticks: ticks
                 },
                 yaxis: {
-                    axisLabel: g_sGraphUnits,
+                    axisLabel: sGraphUnits,
                     axisLabelUseCanvas: true,
                     axisLabelFontSizePixels: 12,
                     axisLabelFontFamily: 'Verdana, Arial',
@@ -350,7 +349,7 @@
       for ( var sRowLabel in tGraphData )
       {
         var tRow = tGraphData[sRowLabel];
-        if ( tRow.units == g_sGraphUnits )
+        if ( tRow.units == sGraphUnits )
         {
           aBars.push( { label: sRowLabel, value: tRow.value } );
         }
@@ -401,7 +400,7 @@
 
   }
 
-  function setGraphUnits( tGraphData )
+  function pickGraphUnits( tGraphData )
   {
     var tUnits = {};
     for ( var sRowLabel in tGraphData )
@@ -418,16 +417,18 @@
     }
 
     var iVoteMax = 0;
-    g_sGraphUnits = '';
+    sGraphUnits = '';
     for ( var sUnits in tUnits )
     {
       if ( tUnits[sUnits] > iVoteMax )
       {
-        g_sGraphUnits = sUnits;
+        sGraphUnits = sUnits;
       }
 
       iVoteMax = Math.max( iVoteMax, tUnits[sUnits] );
     }
+    
+    return sGraphUnits;
   }
 
   // Advance to next row
