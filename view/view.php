@@ -286,7 +286,7 @@
         }
       }
 
-        var dataset = [{ label: '&nbsp;' + sGraphName, data: data, color: "#5482FF" }];
+        var dataset = [{ label: '&nbsp;' + sGraphName, data: data, color: "#54b9f8" }];
 
 
         var options = {
@@ -304,7 +304,7 @@
                 axisLabelUseCanvas: true,
                 axisLabelFontSizePixels: 12,
                 axisLabelFontFamily: 'Verdana, Arial',
-                axisLabelPadding: 10,
+                axisLabelPadding: 20,
                 ticks: ticks
             },
             yaxis: {
@@ -312,20 +312,20 @@
                 axisLabelUseCanvas: true,
                 axisLabelFontSizePixels: 12,
                 axisLabelFontFamily: 'Verdana, Arial',
-                axisLabelPadding: 12,
+                axisLabelPadding: 18,
                 tickFormatter: function (v, axis) {
                     return v.toLocaleString();
                 }
             },
             legend: {
                 noColumns: 0,
-                labelBoxBorderColor: "#000000",
+                labelBoxBorderColor: "#1fa2f9",
                 position: "ne"
             },
             grid: {
                 hoverable: true,
                 borderWidth: 2,
-                backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
+                backgroundColor: { colors: ["#ffffff", "#e7f5fe"] }
             }
         };
 
