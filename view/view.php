@@ -533,7 +533,7 @@
                         showTooltip(item.pageX,
                         item.pageY,
                         color,
-                        item.series.xaxis.ticks[x].label + "<br/><strong>" + y.toLocaleString() + "</strong> " + g_sGraphUnits );
+                        item.series.xaxis.ticks[x].label + "<br/><strong>" + y.toLocaleString() + "</strong> " + item.series.yaxis.options.axisLabel );
                     }
                 } else {
                     $("#tooltip").remove();
