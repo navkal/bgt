@@ -272,65 +272,70 @@
 
     if ( true )
     {
-      var data = [];
-      var ticks = [];
-      var iOffset = 0;
-      for ( var sRowLabel in tGraphData )
+
+      if ( tGraphDiv.is(':visible') )
       {
-        var tRow = tGraphData[sRowLabel];
-        if ( tRow.units == g_sGraphUnits )
-        {
-          data.push( [ iOffset, tRow.value ] );
-          ticks.push( [ iOffset, sRowLabel ] );
-          iOffset ++;
-        }
+          var data = [];
+          var ticks = [];
+          var iOffset = 0;
+          for ( var sRowLabel in tGraphData )
+          {
+            var tRow = tGraphData[sRowLabel];
+            if ( tRow.units == g_sGraphUnits )
+            {
+              data.push( [ iOffset, tRow.value ] );
+              ticks.push( [ iOffset, sRowLabel ] );
+              iOffset ++;
+            }
+          }
+
+            var dataset = [{ label: '&nbsp;' + sGraphName, data: data, color: "#54b9f8" }];
+
+
+            var options = {
+                series: {
+                    bars: {
+                        show: true
+                    }
+                },
+                bars: {
+                    align: "center",
+                    barWidth: 0.7
+                },
+                xaxis: {
+                    axisLabel: "<?=$g_sFirstColName?>",
+                    axisLabelUseCanvas: true,
+                    axisLabelFontSizePixels: 12,
+                    axisLabelFontFamily: 'Verdana, Arial',
+                    axisLabelPadding: 20,
+                    ticks: ticks
+                },
+                yaxis: {
+                    axisLabel: g_sGraphUnits,
+                    axisLabelUseCanvas: true,
+                    axisLabelFontSizePixels: 12,
+                    axisLabelFontFamily: 'Verdana, Arial',
+                    axisLabelPadding: 18,
+                    tickFormatter: function (v, axis) {
+                        return v.toLocaleString();
+                    }
+                },
+                legend: {
+                    noColumns: 0,
+                    labelBoxBorderColor: "#1fa2f9",
+                    position: "ne"
+                },
+                grid: {
+                    hoverable: true,
+                    borderWidth: 2,
+                    backgroundColor: { colors: ["#ffffff", "#e7f5fe"] }
+                }
+            };
+
+                $.plot(tGraphDiv, dataset, options);
+                tGraphDiv.UseTooltip();
       }
 
-        var dataset = [{ label: '&nbsp;' + sGraphName, data: data, color: "#54b9f8" }];
-
-
-        var options = {
-            series: {
-                bars: {
-                    show: true
-                }
-            },
-            bars: {
-                align: "center",
-                barWidth: 0.7
-            },
-            xaxis: {
-                axisLabel: "<?=$g_sFirstColName?>",
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Verdana, Arial',
-                axisLabelPadding: 20,
-                ticks: ticks
-            },
-            yaxis: {
-                axisLabel: g_sGraphUnits,
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Verdana, Arial',
-                axisLabelPadding: 18,
-                tickFormatter: function (v, axis) {
-                    return v.toLocaleString();
-                }
-            },
-            legend: {
-                noColumns: 0,
-                labelBoxBorderColor: "#1fa2f9",
-                position: "ne"
-            },
-            grid: {
-                hoverable: true,
-                borderWidth: 2,
-                backgroundColor: { colors: ["#ffffff", "#e7f5fe"] }
-            }
-        };
-
-            $.plot(tGraphDiv, dataset, options);
-            tGraphDiv.UseTooltip();
 
     }
     else
