@@ -426,7 +426,7 @@
         g_sGraphUnits = sUnits;
       }
 
-      iVoteMax = Math.max( iVoteMax, tUnits[sRowLabel] );
+      iVoteMax = Math.max( iVoteMax, tUnits[sUnits] );
     }
   }
 
