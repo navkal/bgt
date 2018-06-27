@@ -226,12 +226,12 @@
     for ( var iGraph = 0; iGraph < tGraphs.length; iGraph ++ )
     {
       // Find index into row data that corresponds to target graph
-      for ( var iData in g_aRowData )
+      for ( var iData in g_aColNames )
       {
         var sGraphId = $( tGraphs[iGraph] ).parent().attr( 'id' );
 
         // If current index corresponds to target graph, update the graph
-        if ( sGraphId == ( g_aColNames[iData].graph_id ) )
+        if ( sGraphId == g_aColNames[iData].graph_id )
         {
           updateGraph( sGraphId, iData );
           break;
