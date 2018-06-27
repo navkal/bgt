@@ -533,7 +533,7 @@
                         showTooltip(item.pageX,
                         item.pageY,
                         color,
-                        item.series.xaxis.ticks[x].label + " : <strong>" + y.toLocaleString() + "</strong> " + g_sGraphUnits );
+                        item.series.xaxis.ticks[x].label + "<br/><strong>" + y.toLocaleString() + "</strong> " + g_sGraphUnits );
                     }
                 } else {
                     $("#tooltip").remove();
@@ -547,7 +547,7 @@
                 position: 'absolute',
                 display: 'none',
                 top: y+10,
-                left: x-50,
+                left: x-30,
                 border: '2px solid ' + color,
                 padding: '3px',
                 'font-size': '9px',
