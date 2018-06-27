@@ -538,8 +538,8 @@
             $('<div id="tooltip">' + contents + '</div>').css({
                 position: 'absolute',
                 display: 'none',
-                top: y - 40,
-                left: x - 120,
+                top: y+10,
+                left: x-50,
                 border: '2px solid ' + color,
                 padding: '3px',
                 'font-size': '9px',
@@ -549,9 +549,6 @@
                 opacity: 0.9
             }).appendTo("body").fadeIn(200);
         }
-
-
-
 
 
 
