@@ -64,6 +64,7 @@
 
   function onDocumentReady()
   {
+  $( 'a[href="#power"]' ).on( 'shown.tab.bs', function(){console.log('moo');updateGraphs();} );
     // Load list of column names
     g_aColNames = JSON.parse( '<?=$sColNames?>' );
 
@@ -242,9 +243,6 @@
 
   function updateGraph( sGraphId, iData )
   {
-    var sGraphName = g_aColNames[iData].value_col_name;
-    var tBarData = g_aRowData[iData];
-
     // If data structure for target graph does not exist, create it
     if ( ! ( sGraphId in g_tGraphData ) )
     {
@@ -254,15 +252,19 @@
     // Update target graph data
     var tGraphData = g_tGraphData[sGraphId];
     var sRowLabel = g_aRows[g_iRow][0];
-    if ( tBarData.presentValue == '' )
+    var tBarData = ( iData in g_aRowData ) ? g_aRowData[iData] : null;
+    if ( tBarData )
     {
-      // No value; remove element from graph data structure
-      delete tGraphData[sRowLabel];
-    }
-    else
-    {
-      // Insert value into graph data structure
-      tGraphData[sRowLabel] = { value: Math.round( tBarData.presentValue ), units: tBarData.units };
+      if ( tBarData.presentValue == '' )
+      {
+        // No value; remove element from graph data structure
+        delete tGraphData[sRowLabel];
+      }
+      else
+      {
+        // Insert value into graph data structure
+        tGraphData[sRowLabel] = { value: Math.round( tBarData.presentValue ), units: tBarData.units };
+      }
     }
 
     // Determine which units to show in graph
@@ -289,6 +291,7 @@
             }
           }
 
+            var sGraphName = g_aColNames[iData].value_col_name;
             var dataset = [{ label: '&nbsp;' + sGraphName, data: data, color: "#54b9f8" }];
 
 
