@@ -63,7 +63,8 @@
 
   function onDocumentReady()
   {
-  $( 'a[href="#power"]' ).on( 'shown.tab.bs', function(){console.log('moo');updateGraphs();} );
+    $( 'a.graph-tab' ).on( 'shown.tab.bs', function(e){console.log('moo');updateGraphs();} );
+
     // Load list of column names
     g_aColNames = JSON.parse( '<?=$sColNames?>' );
 
@@ -220,6 +221,7 @@
 
   function updateGraphs()
   {
+    console.log( 'updateGraphs()');
     var tGraphs = $( '.bar-graph' );
 
     // Iterate over all graphs
@@ -242,6 +244,8 @@
 
   function updateGraph( sGraphId, iData )
   {
+    console.log( 'updateGraph' );
+
     // If data structure for target graph does not exist, create it
     if ( ! ( sGraphId in g_tGraphData ) )
     {
@@ -334,6 +338,7 @@
                 }
             };
 
+            console.log( '======> plot!' );
                 $.plot(tGraphDiv, dataset, options);
                 tGraphDiv.UseTooltip();
       }
@@ -427,7 +432,7 @@
 
       iVoteMax = Math.max( iVoteMax, tUnits[sUnits] );
     }
-    
+
     return sGraphUnits;
   }
 
@@ -609,7 +614,7 @@
     <?php
           }
     ?>
-          <li><a data-toggle="tab" href="#<?=$aColPair['graph_id']?>"><?=$aColPair['value_col_name']?></a></li>
+          <li><a class="graph-tab" data-toggle="tab" href="#<?=$aColPair['graph_id']?>"><?=$aColPair['value_col_name']?></a></li>
     <?php
         }
       }
