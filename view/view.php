@@ -467,7 +467,7 @@
     // Find index into row data that corresponds to target graph
     for ( var iGraph in g_aColNames )
     {
-      if ( sGraphId == g_aColNames[iGraph].graph_id )
+      if ( sGraphId == g_aColNames[iGraph].graph.graph_id )
       {
         break;
       }
@@ -644,7 +644,7 @@
       $bTableTab = false;
       foreach ( $g_aColNames as $aColPair )
       {
-        if ( isset( $aColPair['graph_id'] ) )
+        if ( isset( $aColPair['graph'] ) )
         {
           if ( ! $bTableTab )
           {
@@ -654,7 +654,7 @@
     <?php
           }
     ?>
-          <li><a class="graph-tab" data-toggle="tab" href="#<?=$aColPair['graph_id']?>"><?=$aColPair['value_col_name']?></a></li>
+          <li><a class="graph-tab" data-toggle="tab" href="#<?=$aColPair['graph']['graph_id']?>"><?=$aColPair['value_col_name']?></a></li>
     <?php
         }
       }
@@ -674,10 +674,10 @@
     <?php
       foreach ( $g_aColNames as $aColPair )
       {
-        if ( isset( $aColPair['graph_id'] ) )
+        if ( isset( $aColPair['graph'] ) )
         {
     ?>
-          <div id="<?=$aColPair['graph_id']?>" class="tab-pane fade">
+          <div id="<?=$aColPair['graph']['graph_id']?>" class="tab-pane fade">
             <div class="bar-graph" >
             </div>
           </div>

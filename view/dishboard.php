@@ -8,12 +8,20 @@
       [
         'value_col_name' => 'Power',
         'units_col_name' => 'Power Units',
-        'graph_id' => 'power'
+        'graph' =>
+          [
+            'graph_id' => 'power',
+            'delta' => false
+          ]
       ],
       [
         'value_col_name' => 'Energy',
         'units_col_name' => 'Energy Units',
-        'graph_id' => 'energy'
+        'graph' =>
+          [
+            'graph_id' => 'energy',
+            'delta' => true
+          ]
       ]
     ];
 
