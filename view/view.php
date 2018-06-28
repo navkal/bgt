@@ -63,9 +63,6 @@
 
   function onDocumentReady()
   {
-
-    $( 'a.graph-tab' ).on( 'shown.tab.bs', updateGraphs );
-
     // Load list of column names
     g_aColNames = JSON.parse( '<?=$sColNames?>' );
 
@@ -98,6 +95,9 @@
 
     // Initialize the tablesorter
     $( '#bgt_table' ).tablesorter( g_tTableProps );
+
+    // Set handler to update graphs when graph tab is selected
+    $( 'a.graph-tab' ).on( 'shown.tab.bs', updateGraphs );
 
     // Issue first request
     g_iInstanceOffset = 2;
