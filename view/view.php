@@ -253,22 +253,15 @@
       var sGraphId = $( aGraphs[iGraph] ).parent().attr( 'id' );
       var iGraph = getGraphIndex( sGraphId );
 
-      // Update the graph
-      updateGraph( iGraph );
-    }
-  }
+      // Update the graph data structure
+      updateGraphData( sGraphId, g_aRowData[iGraph] );
 
-  function updateGraph( iGraph )
-  {
-    // Update the graph data structure
-    var sGraphId = g_aColNames[iGraph].graph_id;
-    updateGraphData( sGraphId, g_aRowData[iGraph] );
-
-    // If graph is visible, update the display
-    var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
-    if ( tGraphDiv.is(':visible') )
-    {
-      updateGraphDisplay( tGraphDiv, sGraphId, g_aColNames[iGraph].value_col_name );
+      // If graph is visible, update the display
+      var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
+      if ( tGraphDiv.is(':visible') )
+      {
+        updateGraphDisplay( tGraphDiv, sGraphId, g_aColNames[iGraph].value_col_name );
+      }
     }
   }
 
