@@ -238,17 +238,22 @@
     // Iterate over all graphs
     for ( var iGraph = 0; iGraph < aGraphs.length; iGraph ++ )
     {
+      // Find the graph index
       var sGraphId = $( aGraphs[iGraph] ).parent().attr( 'id' );
       var iGraph = getGraphIndex( sGraphId );
+
+      // Update the graph
       updateGraph( iGraph );
     }
   }
 
   function updateGraph( iData )
   {
+    // Update the graph data structure
     var sGraphId = g_aColNames[iData].graph_id;
     updateGraphData( sGraphId, g_aRowData[iData] );
 
+    // If graph is visible, update the display
     var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
     if ( tGraphDiv.is(':visible') )
     {
@@ -420,8 +425,10 @@
     }
   }
 
+  // Determine graph units based on prevalence in data structure
   function pickGraphUnits( tGraphData )
   {
+    // Count occurrences of each units string in graph data structure
     var tUnits = {};
     for ( var sRowLabel in tGraphData )
     {
@@ -436,6 +443,7 @@
       }
     }
 
+    // Determine which units string occurs most
     var iVoteMax = 0;
     sGraphUnits = '';
     for ( var sUnits in tUnits )
@@ -448,6 +456,7 @@
       iVoteMax = Math.max( iVoteMax, tUnits[sUnits] );
     }
 
+    // Return prevalent units string
     return sGraphUnits;
   }
 
