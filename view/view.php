@@ -97,11 +97,21 @@
     $( '#bgt_table' ).tablesorter( g_tTableProps );
 
     // Set handler to update graphs when graph tab is selected
-    $( 'a.graph-tab' ).on( 'shown.tab.bs', updateGraphs );
+    $( 'a.graph-tab' ).on( 'shown.tab.bs', onGraphTabShown );
 
     // Issue first request
     g_iInstanceOffset = 2;
     rq();
+  }
+
+  function onGraphTabShown( tEvent )
+  {
+    var sGraphId = $( tEvent.target ).attr( 'href' ).substring( 1 );
+    var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
+    var iGraph = getGraphIndex( sGraphId );
+    var sGraphName = g_aColNames[iGraph].value_col_name;
+
+    updateGraphDisplay( tGraphDiv, sGraphId, sGraphName );
   }
 
   function rq()
@@ -228,24 +238,27 @@
     // Iterate over all graphs
     for ( var iGraph = 0; iGraph < aGraphs.length; iGraph ++ )
     {
-      // Find index into row data that corresponds to target graph
-      for ( var iData in g_aColNames )
-      {
-        var sGraphId = $( aGraphs[iGraph] ).parent().attr( 'id' );
-
-        // If current index corresponds to target graph, update the graph
-        if ( sGraphId == g_aColNames[iData].graph_id )
-        {
-          updateGraph( sGraphId, iData );
-          break;
-        }
-      }
+      var sGraphId = $( aGraphs[iGraph] ).parent().attr( 'id' );
+      var iGraph = getGraphIndex( sGraphId );
+      updateGraph( iGraph );
     }
   }
 
-  function updateGraph( sGraphId, iData )
+  function updateGraph( iData )
   {
-    console.log( '==> updateGraph id=' + sGraphId );
+    var sGraphId = g_aColNames[iData].graph_id;
+    updateGraphData( sGraphId, g_aRowData[iData] );
+
+    var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
+    if ( tGraphDiv.is(':visible') )
+    {
+      updateGraphDisplay( tGraphDiv, sGraphId, g_aColNames[iData].value_col_name );
+    }
+  }
+
+  function updateGraphData( sGraphId, tBarData )
+  {
+    console.log( '==> updateGraphData id=' + sGraphId );
 
     // If data structure for target graph does not exist, create it
     if ( ! ( sGraphId in g_tGraphData ) )
@@ -256,158 +269,155 @@
     // Update target graph data
     var tGraphData = g_tGraphData[sGraphId];
     var sRowLabel = g_aRows[g_iRow][0];
-    var tBarData = ( iData in g_aRowData ) ? g_aRowData[iData] : null;
-    if ( tBarData )
+
+    if ( tBarData.presentValue == '' )
     {
-      if ( tBarData.presentValue == '' )
-      {
-        // No value; remove element from graph data structure
-        delete tGraphData[sRowLabel];
-      }
-      else
-      {
-        // Insert value into graph data structure
-        tGraphData[sRowLabel] = { value: Math.round( tBarData.presentValue ), units: tBarData.units };
-        console.log( '===> Inserted into ' + sGraphId + ': ' + JSON.stringify( tGraphData[sRowLabel] ) );
-      }
+      // No value; remove element from graph data structure
+      delete tGraphData[sRowLabel];
     }
+    else
+    {
+      // Insert value into graph data structure
+      tGraphData[sRowLabel] = { value: Math.round( tBarData.presentValue ), units: tBarData.units };
+      console.log( '===> Inserted into ' + sGraphId + ': ' + JSON.stringify( tGraphData[sRowLabel] ) );
+    }
+  }
+
+  function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName )
+  {
+    console.log( '==> updateGraphDisplay id=' + sGraphId );
+
+
+
 
     // Determine which units to show in graph
+    var tGraphData = g_tGraphData[sGraphId];
     var sGraphUnits = pickGraphUnits( tGraphData );
-
-    // Optionally update the display
-    var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
-
-    if ( tGraphDiv.is(':visible') )
+    if ( true )
     {
-      if ( true )
-      {
 
 
-            var data = [];
-            var ticks = [];
-            var iOffset = 0;
-            for ( var sRowLabel in tGraphData )
-            {
-              var tRow = tGraphData[sRowLabel];
-              if ( tRow.units == sGraphUnits )
-              {
-                data.push( [ iOffset, tRow.value ] );
-                ticks.push( [ iOffset, sRowLabel ] );
-                iOffset ++;
-              }
-            }
-
-              var sGraphName = g_aColNames[iData].value_col_name;
-              var dataset = [{ label: '&nbsp;' + sGraphName, data: data, color: "#54b9f8" }];
-
-
-              var options = {
-                  series: {
-                      bars: {
-                          show: true
-                      }
-                  },
-                  bars: {
-                      align: "center",
-                      barWidth: 0.7
-                  },
-                  xaxis: {
-                      axisLabel: "<?=$g_sFirstColName?>",
-                      axisLabelUseCanvas: true,
-                      axisLabelFontSizePixels: 12,
-                      axisLabelFontFamily: 'Verdana, Arial',
-                      axisLabelPadding: 20,
-                      ticks: ticks
-                  },
-                  yaxis: {
-                      axisLabel: sGraphUnits,
-                      axisLabelUseCanvas: true,
-                      axisLabelFontSizePixels: 12,
-                      axisLabelFontFamily: 'Verdana, Arial',
-                      axisLabelPadding: 18,
-                      tickFormatter: function (v, axis) {
-                          return v.toLocaleString();
-                      }
-                  },
-                  legend: {
-                      noColumns: 0,
-                      labelBoxBorderColor: "#1fa2f9",
-                      position: "ne"
-                  },
-                  grid: {
-                      hoverable: true,
-                      borderWidth: 2,
-                      backgroundColor: { colors: ["#ffffff", "#e7f5fe"] }
-                  }
-              };
-
-              console.log( '======> plot!' );
-                  $.plot(tGraphDiv, dataset, options);
-                  tGraphDiv.UseTooltip();
-
-
-
-      }
-      else
-      {
-        tGraphDiv.html('');
-
-        // Set up underlying structure for bar graph display
-        var aBars = [];
-        for ( var sRowLabel in tGraphData )
-        {
-          var tRow = tGraphData[sRowLabel];
-          if ( tRow.units == sGraphUnits )
+          var data = [];
+          var ticks = [];
+          var iOffset = 0;
+          for ( var sRowLabel in tGraphData )
           {
-            aBars.push( { label: sRowLabel, value: tRow.value } );
+            var tRow = tGraphData[sRowLabel];
+            if ( tRow.units == sGraphUnits )
+            {
+              data.push( [ iOffset, tRow.value ] );
+              ticks.push( [ iOffset, sRowLabel ] );
+              iOffset ++;
+            }
           }
-        }
 
-        // Update the graph display
+            var dataset = [{ label: '&nbsp;' + sGraphName, data: data, color: "#54b9f8" }];
 
-        var svg = d3.select( '#' + sGraphId + ' .bar-graph' ).append( 'svg' ).attr( 'width', tGraphDiv.width() ).attr( 'height', tGraphDiv.height() );
 
-        // var svg = d3.select( '#' + sGraphId + ' .bar-graph' ),
-        var margin = {top: 20, right: 20, bottom: 30, left: 60},
-        width = +svg.attr("width") - margin.left - margin.right,
-        height = +svg.attr("height") - margin.top - margin.bottom;
+            var options = {
+                series: {
+                    bars: {
+                        show: true
+                    }
+                },
+                bars: {
+                    align: "center",
+                    barWidth: 0.7
+                },
+                xaxis: {
+                    axisLabel: "<?=$g_sFirstColName?>",
+                    axisLabelUseCanvas: true,
+                    axisLabelFontSizePixels: 12,
+                    axisLabelFontFamily: 'Verdana, Arial',
+                    axisLabelPadding: 20,
+                    ticks: ticks
+                },
+                yaxis: {
+                    axisLabel: sGraphUnits,
+                    axisLabelUseCanvas: true,
+                    axisLabelFontSizePixels: 12,
+                    axisLabelFontFamily: 'Verdana, Arial',
+                    axisLabelPadding: 18,
+                    tickFormatter: function (v, axis) {
+                        return v.toLocaleString();
+                    }
+                },
+                legend: {
+                    noColumns: 0,
+                    labelBoxBorderColor: "#1fa2f9",
+                    position: "ne"
+                },
+                grid: {
+                    hoverable: true,
+                    borderWidth: 2,
+                    backgroundColor: { colors: ["#ffffff", "#e7f5fe"] }
+                }
+            };
 
-        var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-        y = d3.scaleLinear().rangeRound([height, 0]);
+            console.log( '======> plot!' );
+                $.plot(tGraphDiv, dataset, options);
+                tGraphDiv.UseTooltip();
 
-        var g = svg.append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        x.domain(aBars.map(function(d) { return d.label; }));
-        y.domain([0, d3.max(aBars, function(d) { return d.value; })]);
 
-        g.append("g")
-            .attr("class", "axis axis--x")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
-
-        g.append("g")
-            .attr("class", "axis axis--y")
-            .call(d3.axisLeft(y).ticks(10))
-          .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", "0.71em")
-            .attr("text-anchor", "end")
-            .text("xxxxxxxxxxxx");
-
-        g.selectAll(".bar")
-          .data(aBars)
-          .enter().append("rect")
-            .attr("class", "bar")
-            .attr("x", function(d) { return x(d.label); })
-            .attr("y", function(d) { return y(d.value); })
-            .attr("width", x.bandwidth())
-            .attr("height", function(d) { return height - y(d.value); });
-      }
     }
+    else
+    {
+      tGraphDiv.html('');
 
+      // Set up underlying structure for bar graph display
+      var aBars = [];
+      for ( var sRowLabel in tGraphData )
+      {
+        var tRow = tGraphData[sRowLabel];
+        if ( tRow.units == sGraphUnits )
+        {
+          aBars.push( { label: sRowLabel, value: tRow.value } );
+        }
+      }
+
+      // Update the graph display
+
+      var svg = d3.select( '#' + sGraphId + ' .bar-graph' ).append( 'svg' ).attr( 'width', tGraphDiv.width() ).attr( 'height', tGraphDiv.height() );
+
+      // var svg = d3.select( '#' + sGraphId + ' .bar-graph' ),
+      var margin = {top: 20, right: 20, bottom: 30, left: 60},
+      width = +svg.attr("width") - margin.left - margin.right,
+      height = +svg.attr("height") - margin.top - margin.bottom;
+
+      var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+      y = d3.scaleLinear().rangeRound([height, 0]);
+
+      var g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      x.domain(aBars.map(function(d) { return d.label; }));
+      y.domain([0, d3.max(aBars, function(d) { return d.value; })]);
+
+      g.append("g")
+          .attr("class", "axis axis--x")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x));
+
+      g.append("g")
+          .attr("class", "axis axis--y")
+          .call(d3.axisLeft(y).ticks(10))
+        .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", "0.71em")
+          .attr("text-anchor", "end")
+          .text("xxxxxxxxxxxx");
+
+      g.selectAll(".bar")
+        .data(aBars)
+        .enter().append("rect")
+          .attr("class", "bar")
+          .attr("x", function(d) { return x(d.label); })
+          .attr("y", function(d) { return y(d.value); })
+          .attr("width", x.bandwidth())
+          .attr("height", function(d) { return height - y(d.value); });
+    }
   }
 
   function pickGraphUnits( tGraphData )
@@ -439,6 +449,20 @@
     }
 
     return sGraphUnits;
+  }
+
+  function getGraphIndex( sGraphId )
+  {
+    // Find index into row data that corresponds to target graph
+    for ( var iGraph in g_aColNames )
+    {
+      if ( sGraphId == g_aColNames[iGraph].graph_id )
+      {
+        break;
+      }
+    }
+
+    return iGraph;
   }
 
   // Advance to next row
