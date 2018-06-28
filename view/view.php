@@ -63,7 +63,8 @@
 
   function onDocumentReady()
   {
-    $( 'a.graph-tab' ).on( 'shown.tab.bs', function(e){console.log('moo');updateGraphs();} );
+
+    $( 'a.graph-tab' ).on( 'shown.tab.bs', updateGraphs );
 
     // Load list of column names
     g_aColNames = JSON.parse( '<?=$sColNames?>' );
