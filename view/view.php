@@ -637,7 +637,6 @@
 
   .bar-graph
   {
-    border: 1px dashed red;
     width: 90%;
     height: 430px;
     margin-left: auto;
@@ -645,6 +644,7 @@
     cursor: pointer;
   }
 
+/* For the d3 graph display */
 .bar {
   fill: steelblue;
 }
