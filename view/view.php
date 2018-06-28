@@ -223,15 +223,15 @@
   function updateGraphs()
   {
     console.log( 'updateGraphs()');
-    var tGraphs = $( '.bar-graph' );
+    var aGraphs = $( '.bar-graph' );
 
     // Iterate over all graphs
-    for ( var iGraph = 0; iGraph < tGraphs.length; iGraph ++ )
+    for ( var iGraph = 0; iGraph < aGraphs.length; iGraph ++ )
     {
       // Find index into row data that corresponds to target graph
       for ( var iData in g_aColNames )
       {
-        var sGraphId = $( tGraphs[iGraph] ).parent().attr( 'id' );
+        var sGraphId = $( aGraphs[iGraph] ).parent().attr( 'id' );
 
         // If current index corresponds to target graph, update the graph
         if ( sGraphId == g_aColNames[iData].graph_id )
@@ -245,7 +245,7 @@
 
   function updateGraph( sGraphId, iData )
   {
-    console.log( 'updateGraph' );
+    console.log( '==> updateGraph id=' + sGraphId );
 
     // If data structure for target graph does not exist, create it
     if ( ! ( sGraphId in g_tGraphData ) )
@@ -268,140 +268,144 @@
       {
         // Insert value into graph data structure
         tGraphData[sRowLabel] = { value: Math.round( tBarData.presentValue ), units: tBarData.units };
+        console.log( '===> Inserted into ' + sGraphId + ': ' + JSON.stringify( tGraphData[sRowLabel] ) );
       }
     }
 
     // Determine which units to show in graph
     var sGraphUnits = pickGraphUnits( tGraphData );
 
+    // Optionally update the display
     var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
 
-    if ( true )
+    if ( tGraphDiv.is(':visible') )
     {
-
-      if ( tGraphDiv.is(':visible') )
+      if ( true )
       {
-          var data = [];
-          var ticks = [];
-          var iOffset = 0;
-          for ( var sRowLabel in tGraphData )
-          {
-            var tRow = tGraphData[sRowLabel];
-            if ( tRow.units == sGraphUnits )
+
+
+            var data = [];
+            var ticks = [];
+            var iOffset = 0;
+            for ( var sRowLabel in tGraphData )
             {
-              data.push( [ iOffset, tRow.value ] );
-              ticks.push( [ iOffset, sRowLabel ] );
-              iOffset ++;
+              var tRow = tGraphData[sRowLabel];
+              if ( tRow.units == sGraphUnits )
+              {
+                data.push( [ iOffset, tRow.value ] );
+                ticks.push( [ iOffset, sRowLabel ] );
+                iOffset ++;
+              }
             }
-          }
 
-            var sGraphName = g_aColNames[iData].value_col_name;
-            var dataset = [{ label: '&nbsp;' + sGraphName, data: data, color: "#54b9f8" }];
+              var sGraphName = g_aColNames[iData].value_col_name;
+              var dataset = [{ label: '&nbsp;' + sGraphName, data: data, color: "#54b9f8" }];
 
 
-            var options = {
-                series: {
-                    bars: {
-                        show: true
-                    }
-                },
-                bars: {
-                    align: "center",
-                    barWidth: 0.7
-                },
-                xaxis: {
-                    axisLabel: "<?=$g_sFirstColName?>",
-                    axisLabelUseCanvas: true,
-                    axisLabelFontSizePixels: 12,
-                    axisLabelFontFamily: 'Verdana, Arial',
-                    axisLabelPadding: 20,
-                    ticks: ticks
-                },
-                yaxis: {
-                    axisLabel: sGraphUnits,
-                    axisLabelUseCanvas: true,
-                    axisLabelFontSizePixels: 12,
-                    axisLabelFontFamily: 'Verdana, Arial',
-                    axisLabelPadding: 18,
-                    tickFormatter: function (v, axis) {
-                        return v.toLocaleString();
-                    }
-                },
-                legend: {
-                    noColumns: 0,
-                    labelBoxBorderColor: "#1fa2f9",
-                    position: "ne"
-                },
-                grid: {
-                    hoverable: true,
-                    borderWidth: 2,
-                    backgroundColor: { colors: ["#ffffff", "#e7f5fe"] }
-                }
-            };
+              var options = {
+                  series: {
+                      bars: {
+                          show: true
+                      }
+                  },
+                  bars: {
+                      align: "center",
+                      barWidth: 0.7
+                  },
+                  xaxis: {
+                      axisLabel: "<?=$g_sFirstColName?>",
+                      axisLabelUseCanvas: true,
+                      axisLabelFontSizePixels: 12,
+                      axisLabelFontFamily: 'Verdana, Arial',
+                      axisLabelPadding: 20,
+                      ticks: ticks
+                  },
+                  yaxis: {
+                      axisLabel: sGraphUnits,
+                      axisLabelUseCanvas: true,
+                      axisLabelFontSizePixels: 12,
+                      axisLabelFontFamily: 'Verdana, Arial',
+                      axisLabelPadding: 18,
+                      tickFormatter: function (v, axis) {
+                          return v.toLocaleString();
+                      }
+                  },
+                  legend: {
+                      noColumns: 0,
+                      labelBoxBorderColor: "#1fa2f9",
+                      position: "ne"
+                  },
+                  grid: {
+                      hoverable: true,
+                      borderWidth: 2,
+                      backgroundColor: { colors: ["#ffffff", "#e7f5fe"] }
+                  }
+              };
 
-            console.log( '======> plot!' );
-                $.plot(tGraphDiv, dataset, options);
-                tGraphDiv.UseTooltip();
+              console.log( '======> plot!' );
+                  $.plot(tGraphDiv, dataset, options);
+                  tGraphDiv.UseTooltip();
+
+
+
       }
-
-
-    }
-    else
-    {
-      tGraphDiv.html('');
-
-      // Set up underlying structure for bar graph display
-      var aBars = [];
-      for ( var sRowLabel in tGraphData )
+      else
       {
-        var tRow = tGraphData[sRowLabel];
-        if ( tRow.units == sGraphUnits )
+        tGraphDiv.html('');
+
+        // Set up underlying structure for bar graph display
+        var aBars = [];
+        for ( var sRowLabel in tGraphData )
         {
-          aBars.push( { label: sRowLabel, value: tRow.value } );
+          var tRow = tGraphData[sRowLabel];
+          if ( tRow.units == sGraphUnits )
+          {
+            aBars.push( { label: sRowLabel, value: tRow.value } );
+          }
         }
+
+        // Update the graph display
+
+        var svg = d3.select( '#' + sGraphId + ' .bar-graph' ).append( 'svg' ).attr( 'width', tGraphDiv.width() ).attr( 'height', tGraphDiv.height() );
+
+        // var svg = d3.select( '#' + sGraphId + ' .bar-graph' ),
+        var margin = {top: 20, right: 20, bottom: 30, left: 60},
+        width = +svg.attr("width") - margin.left - margin.right,
+        height = +svg.attr("height") - margin.top - margin.bottom;
+
+        var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+        y = d3.scaleLinear().rangeRound([height, 0]);
+
+        var g = svg.append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        x.domain(aBars.map(function(d) { return d.label; }));
+        y.domain([0, d3.max(aBars, function(d) { return d.value; })]);
+
+        g.append("g")
+            .attr("class", "axis axis--x")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+
+        g.append("g")
+            .attr("class", "axis axis--y")
+            .call(d3.axisLeft(y).ticks(10))
+          .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", "0.71em")
+            .attr("text-anchor", "end")
+            .text("xxxxxxxxxxxx");
+
+        g.selectAll(".bar")
+          .data(aBars)
+          .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function(d) { return x(d.label); })
+            .attr("y", function(d) { return y(d.value); })
+            .attr("width", x.bandwidth())
+            .attr("height", function(d) { return height - y(d.value); });
       }
-
-      // Update the graph display
-
-      var svg = d3.select( '#' + sGraphId + ' .bar-graph' ).append( 'svg' ).attr( 'width', tGraphDiv.width() ).attr( 'height', tGraphDiv.height() );
-
-      // var svg = d3.select( '#' + sGraphId + ' .bar-graph' ),
-      var margin = {top: 20, right: 20, bottom: 30, left: 60},
-      width = +svg.attr("width") - margin.left - margin.right,
-      height = +svg.attr("height") - margin.top - margin.bottom;
-
-      var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-      y = d3.scaleLinear().rangeRound([height, 0]);
-
-      var g = svg.append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      x.domain(aBars.map(function(d) { return d.label; }));
-      y.domain([0, d3.max(aBars, function(d) { return d.value; })]);
-
-      g.append("g")
-          .attr("class", "axis axis--x")
-          .attr("transform", "translate(0," + height + ")")
-          .call(d3.axisBottom(x));
-
-      g.append("g")
-          .attr("class", "axis axis--y")
-          .call(d3.axisLeft(y).ticks(10))
-        .append("text")
-          .attr("transform", "rotate(-90)")
-          .attr("y", 6)
-          .attr("dy", "0.71em")
-          .attr("text-anchor", "end")
-          .text("xxxxxxxxxxxx");
-
-      g.selectAll(".bar")
-        .data(aBars)
-        .enter().append("rect")
-          .attr("class", "bar")
-          .attr("x", function(d) { return x(d.label); })
-          .attr("y", function(d) { return y(d.value); })
-          .attr("width", x.bandwidth())
-          .attr("height", function(d) { return height - y(d.value); });
     }
 
   }
