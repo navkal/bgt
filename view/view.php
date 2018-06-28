@@ -65,6 +65,8 @@
   var g_iRow = 0;
   var g_iTimeoutMs = 0;
   var g_aRowData = [];
+  var g_tStartTime = new( Date );
+  var g_tStartValues = {};
   var g_tGraphData = {};
 
   var g_sSuccessClass = 'bg-row-success';
@@ -121,8 +123,9 @@
     var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
     var iGraph = getGraphIndex( sGraphId );
     var sGraphName = g_aColNames[iGraph].value_col_name;
+    var bDelta = g_aColNames[iGraph].graph.delta;
 
-    updateGraphDisplay( tGraphDiv, sGraphId, sGraphName );
+    updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
   }
 
   function rq()
@@ -252,20 +255,22 @@
       // Find the graph index
       var sGraphId = $( aGraphs[iGraph] ).parent().attr( 'id' );
       var iGraph = getGraphIndex( sGraphId );
+      var bDelta = g_aColNames[iGraph].graph.delta;
 
       // Update the graph data structure
-      updateGraphData( sGraphId, g_aRowData[iGraph] );
+      updateGraphData( sGraphId, g_aRowData[iGraph], bDelta );
 
       // If graph is visible, update the display
       var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
       if ( tGraphDiv.is(':visible') )
       {
-        updateGraphDisplay( tGraphDiv, sGraphId, g_aColNames[iGraph].value_col_name );
+        var sGraphName = g_aColNames[iGraph].value_col_name;
+        updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
       }
     }
   }
 
-  function updateGraphData( sGraphId, tBarData )
+  function updateGraphData( sGraphId, tBarData, bDelta )
   {
     console.log( '==> updateGraphData id=' + sGraphId );
 
@@ -273,6 +278,7 @@
     if ( ! ( sGraphId in g_tGraphData ) )
     {
       g_tGraphData[sGraphId] = {};
+      g_tStartValues[sGraphId] = {};
     }
 
     // Update target graph data
@@ -286,13 +292,27 @@
     }
     else
     {
+      // Save initial value in start data structure
+      var tStartValues = g_tStartValues[sGraphId];
+      if ( ! ( sRowLabel in tStartValues ) )
+      {
+        tStartValues[sRowLabel] = Math.round( tBarData.presentValue );
+      }
+
+      // Determine value to be shown in graph: raw value or delta since start
+      var nValue =  Math.round( tBarData.presentValue );
+      if ( bDelta )
+      {
+        nValue -= tStartValues[sRowLabel];
+      }
+
       // Insert value into graph data structure
-      tGraphData[sRowLabel] = { value: Math.round( tBarData.presentValue ), units: tBarData.units };
+      tGraphData[sRowLabel] = { value: nValue, units: tBarData.units };
       console.log( '===> Inserted into ' + sGraphId + ': ' + JSON.stringify( tGraphData[sRowLabel] ) );
     }
   }
 
-  function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName )
+  function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
   {
     console.log( '==> updateGraphDisplay id=' + sGraphId );
 
@@ -318,7 +338,8 @@
             }
           }
 
-            var dataset = [{ label: '&nbsp;' + sGraphName, data: data, color: "#54b9f8" }];
+            var sSince = bDelta ? ' since ' + g_tStartTime.toLocaleString() : '';
+            var dataset = [{ label: '&nbsp;' + sGraphName + sSince, data: data, color: "#54b9f8" }];
 
 
             var options = {
