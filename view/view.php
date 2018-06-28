@@ -39,7 +39,7 @@
 
 
   // Set flag to use d3 or flot to display bar graphs
-  $bFlot = 0;
+  $bFlot = 1;
   if ( $bFlot )
   {
 ?>
@@ -258,17 +258,17 @@
     }
   }
 
-  function updateGraph( iData )
+  function updateGraph( iGraph )
   {
     // Update the graph data structure
-    var sGraphId = g_aColNames[iData].graph_id;
-    updateGraphData( sGraphId, g_aRowData[iData] );
+    var sGraphId = g_aColNames[iGraph].graph_id;
+    updateGraphData( sGraphId, g_aRowData[iGraph] );
 
     // If graph is visible, update the display
     var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
     if ( tGraphDiv.is(':visible') )
     {
-      updateGraphDisplay( tGraphDiv, sGraphId, g_aColNames[iData].value_col_name );
+      updateGraphDisplay( tGraphDiv, sGraphId, g_aColNames[iGraph].value_col_name );
     }
   }
 
