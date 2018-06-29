@@ -635,7 +635,7 @@
 
   .bar-graph
   {
-    width: 100%;
+    width: 95%;
     height: 430px;
     margin-left: auto;
     margin-right: auto;
