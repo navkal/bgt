@@ -7,7 +7,12 @@
     [
       [
         'value_col_name' => 'CO2 Level',
-        'units_col_name' => 'Units'
+        'units_col_name' => 'Units',
+        'graph' =>
+          [
+            'graph_id' => 'co2',
+            'delta' => false
+          ]
       ]
     ];
 
