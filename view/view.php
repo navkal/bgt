@@ -355,15 +355,15 @@
                 xaxis: {
                     axisLabel: "<?=$g_sFirstColName?>",
                     axisLabelUseCanvas: true,
-                    axisLabelFontSizePixels: 12,
+                    axisLabelFontSizePixels: 14,
                     axisLabelFontFamily: 'Verdana, Arial',
-                    axisLabelPadding: 20,
+                    axisLabelPadding: 40,
                     ticks: ticks
                 },
                 yaxis: {
                     axisLabel: sGraphUnits,
                     axisLabelUseCanvas: true,
-                    axisLabelFontSizePixels: 12,
+                    axisLabelFontSizePixels: 14,
                     axisLabelFontFamily: 'Verdana, Arial',
                     axisLabelPadding: 18,
                     tickFormatter: function (v, axis) {
@@ -385,8 +385,6 @@
             console.log( '======> plot!' );
                 $.plot(tGraphDiv, dataset, options);
                 tGraphDiv.UseTooltip();
-
-
 
     }
     else
@@ -643,6 +641,16 @@
     margin-right: auto;
     cursor: pointer;
   }
+
+  .flot-x-axis .flot-tick-label
+  {
+    transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg); /* IE 9 */
+    -moz-transform: rotate(-45deg); /* Firefox */
+    -webkit-transform: rotate(-45deg); /* Safari and Chrome */
+    -o-transform: rotate(-45deg); /* Opera */
+  }
+
 
 /* For the d3 graph display */
 .bar {
