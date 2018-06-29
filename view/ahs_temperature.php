@@ -7,7 +7,12 @@
     [
       [
         'value_col_name' => 'Temperature',
-        'units_col_name' => 'Units'
+        'units_col_name' => 'Units',
+        'graph' =>
+          [
+            'graph_id' => 'temperature',
+            'delta' => false
+          ]
       ]
     ];
 

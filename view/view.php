@@ -350,7 +350,7 @@
                 },
                 bars: {
                     align: "center",
-                    barWidth: 0.75
+                    barWidth: 0.7
                 },
                 xaxis: {
                     axisLabel: "<?=$g_sFirstColName?>",
@@ -377,8 +377,7 @@
                 },
                 grid: {
                     hoverable: true,
-                    borderWidth: 2,
-                    backgroundColor: { colors: ["#e7f5fe","#ffffff" ] }
+                    borderWidth: 2
                 }
             };
 
