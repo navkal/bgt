@@ -326,16 +326,15 @@
 
           var data = [];
           var ticks = [];
-          var iOffset = 0;
+          var iOffset = Object.keys( tGraphData ).length - 1;
           for ( var sRowLabel in tGraphData )
           {
             var tRow = tGraphData[sRowLabel];
             if ( tRow.units == sGraphUnits )
             {
-              //data.push( [ iOffset, tRow.value ] );
               data.push( [ tRow.value, iOffset ] );
               ticks.push( [ iOffset, sRowLabel ] );
-              iOffset ++;
+              iOffset --;
             }
           }
 
@@ -385,7 +384,7 @@
             };
 
             console.log( '======> plot!' );
-            tGraphDiv.css( 'height', data.length * 30 );
+            tGraphDiv.css( 'height', ( data.length * 40 ) + 100);
 
                 $.plot( tGraphDiv, dataset, options );
                 tGraphDiv.UseTooltip();
@@ -648,15 +647,10 @@
     cursor: pointer;
   }
 
-  .flot-x-axis_ .flot-tick-label_
+  .flot-y-axis .flot-tick-label
   {
     line-height: 1;
-    padding: 20px;
-    transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg); /* IE 9 */
-    -moz-transform: rotate(-45deg); /* Firefox */
-    -webkit-transform: rotate(-45deg); /* Safari and Chrome */
-    -o-transform: rotate(-45deg); /* Opera */
+    max-width: 70px;
   }
 
 
