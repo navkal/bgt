@@ -350,14 +350,14 @@
                 },
                 bars: {
                     align: "center",
-                    barWidth: 0.7
+                    barWidth: 0.8
                 },
                 xaxis: {
                     axisLabel: "<?=$g_sFirstColName?>",
                     axisLabelUseCanvas: true,
                     axisLabelFontSizePixels: 14,
                     axisLabelFontFamily: 'Verdana, Arial',
-                    axisLabelPadding: 40,
+                    axisLabelPadding: 45,
                     ticks: ticks
                 },
                 yaxis: {
