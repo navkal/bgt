@@ -646,11 +646,11 @@
   {
     line-height: 1;
     transform-origin: top right;
-    transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg); /* IE 9 */
-    -moz-transform: rotate(-45deg); /* Firefox */
-    -webkit-transform: rotate(-45deg); /* Safari and Chrome */
-    -o-transform: rotate(-45deg); /* Opera */
+    transform: rotate(-60deg);
+    -ms-transform: rotate(-60deg); /* IE 9 */
+    -moz-transform: rotate(-60deg); /* Firefox */
+    -webkit-transform: rotate(-60deg); /* Safari and Chrome */
+    -o-transform: rotate(-60deg); /* Opera */
   }
 
 
