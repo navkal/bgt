@@ -350,7 +350,7 @@
                 },
                 bars: {
                     align: "center",
-                    barWidth: 0.8
+                    barWidth: 0.75
                 },
                 xaxis: {
                     axisLabel: "<?=$g_sFirstColName?>",
@@ -644,6 +644,7 @@
 
   .flot-x-axis .flot-tick-label
   {
+    line-height: 1;
     transform: rotate(-45deg);
     -ms-transform: rotate(-45deg); /* IE 9 */
     -moz-transform: rotate(-45deg); /* Firefox */
