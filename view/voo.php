@@ -323,25 +323,29 @@
     if ( <?=$bFlot?> )
     {
 
-          
+      var nBars = Object.keys( tGraphData ).length;
+      var bHorizontal = nBars > 10;
+
+
           var data = [];
           var ticks = [];
-          var nRows = Object.keys( tGraphData ).length;
-          var iOffset = nRows - 1;
+          var iOffset = bHorizontal ? ( nBars - 1 ) : 0;
           for ( var sRowLabel in tGraphData )
           {
             var tRow = tGraphData[sRowLabel];
             if ( tRow.units == sGraphUnits )
             {
-              data.push( [ tRow.value, iOffset ] );
+              data.push( bHorizontal ? [ tRow.value, iOffset ] : [ iOffset, tRow.value ] );
               ticks.push( [ iOffset, sRowLabel ] );
-              iOffset --;
+              iOffset += bHorizontal ? -1 : 1;
             }
           }
 
             var sSince = bDelta ? ' since ' + g_tStartTime.toLocaleString() : '';
             var dataset = [{ label: '&nbsp;' + sGraphName + sSince, data: data, color: "#54b9f8" }];
 
+
+            var toLocaleString = function (v, axis) { return v.toLocaleString(); };
 
             var options = {
                 series: {
@@ -352,26 +356,26 @@
                 bars: {
                     align: "center",
                     barWidth: 0.7,
-                    horizontal: true,
+                    horizontal: bHorizontal,
                 },
                 xaxis: {
-                    axisLabel: sGraphUnits,
+                    axisLabel: ( bHorizontal ? sGraphUnits : "<?=$g_sFirstColName?>" ),
                     axisLabelUseCanvas: true,
                     axisLabelFontSizePixels: 14,
                     axisLabelFontFamily: 'Verdana, Arial',
                     axisLabelPadding: 20,
                     labelWidth: 100,
-                    tickFormatter: function (v, axis) {
-                        return v.toLocaleString();
-                    }
+                    ticks: ( bHorizontal ? null : ticks ),
+                    tickFormatter: ( bHorizontal ? toLocaleString : null )
                 },
                 yaxis: {
-                    axisLabel: "<?=$g_sFirstColName?>",
+                    axisLabel: bHorizontal ? "<?=$g_sFirstColName?>" : sGraphUnits,
                     axisLabelUseCanvas: true,
                     axisLabelFontSizePixels: 14,
                     axisLabelFontFamily: 'Verdana, Arial',
                     axisLabelPadding: 20,
-                    ticks: ticks
+                    ticks: bHorizontal ? ticks : null,
+                    tickFormatter: ( bHorizontal ? null : toLocaleString )
                 },
                 legend: {
                     noColumns: 0,
@@ -385,22 +389,30 @@
             };
 
             console.log( '======> plot!' );
-            tGraphDiv.css( 'height', ( data.length * 40 ) + 100);
+            if ( bHorizontal )
+            {
+              tGraphDiv.css( 'height', ( data.length * 40 ) + 100);
+            }
 
                 $.plot( tGraphDiv, dataset, options );
+                if ( bHorizontal )
+                {
+                  $( '.flot-y-axis .flot-tick-label' ).addClass( 'flot-y-tick-horizontal' );
+                }
+                else
+                {
+                  $( '.flot-x-axis .flot-tick-label' ).addClass( 'flot-x-tick-vertical' );
+                }
 
 
         var previousPoint = null, previousLabel = null;
 
-        showTooltip = function (x, y, color, contents) {
+        var showTooltip = function (x, y, color, contents) {
             $('<div id="tooltip">' + contents + '</div>').css({
                 position: 'absolute',
                 display: 'none',
-                // top: y+10,
-                // left: x-30,
-                top: y-16,
-                left: x+10,
-
+                top: bHorizontal ? y-16 : y+10,
+                left: bHorizontal ? x+10 : x-30,
                 border: '2px solid ' + color,
                 padding: '3px',
                 'font-size': '9px',
@@ -424,10 +436,19 @@
 
                         var color = item.series.color;
 
-                        showTooltip(item.pageX,
-                        item.pageY,
-                        color,
-                        item.series.yaxis.ticks[nRows - y - 1].label + "<br/><strong>" + x.toLocaleString() + "</strong> " + item.series.xaxis.options.axisLabel
+                        showTooltip(
+                          item.pageX,
+                          item.pageY,
+                          color,
+                          ( bHorizontal ? item.series.yaxis.ticks[nBars - y - 1].label : item.series.xaxis.ticks[x].label )
+                          +
+                          "<br/><strong>"
+                          +
+                          ( bHorizontal ? x.toLocaleString() : y.toLocaleString() )
+                          +
+                          "</strong> "
+                          +
+                          ( bHorizontal ? item.series.xaxis.options.axisLabel : item.series.yaxis.options.axisLabel )
                         );
                     }
                 } else {
@@ -622,7 +643,18 @@
     cursor: pointer;
   }
 
-  .flot-y-axis .flot-tick-label
+  .flot-x-tick-vertical
+  {
+    line-height: 1;
+    padding: 20px;
+    transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg); /* IE 9 */
+    -moz-transform: rotate(-45deg); /* Firefox */
+    -webkit-transform: rotate(-45deg); /* Safari and Chrome */
+    -o-transform: rotate(-45deg); /* Opera */
+  }
+
+  .flot-y-tick-horizontal
   {
     line-height: 1;
     max-width: 70px;
