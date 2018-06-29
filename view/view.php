@@ -358,7 +358,7 @@
                     axisLabelFontSizePixels: 14,
                     axisLabelFontFamily: 'Verdana, Arial',
                     axisLabelPadding: 75,
-                    labelWidth: 75,
+                    labelWidth: 100,
                     ticks: ticks
                 },
                 yaxis: {
@@ -635,8 +635,8 @@
 
   .bar-graph
   {
-    width: 90%;
-    height: 400px;
+    width: 100%;
+    height: 430px;
     margin-left: auto;
     margin-right: auto;
     cursor: pointer;
@@ -645,12 +645,12 @@
   .flot-x-axis .flot-tick-label
   {
     line-height: 1;
-    transform-origin: top right;
-    transform: rotate(-60deg);
-    -ms-transform: rotate(-60deg); /* IE 9 */
-    -moz-transform: rotate(-60deg); /* Firefox */
-    -webkit-transform: rotate(-60deg); /* Safari and Chrome */
-    -o-transform: rotate(-60deg); /* Opera */
+    padding: 20px;
+    transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg); /* IE 9 */
+    -moz-transform: rotate(-45deg); /* Firefox */
+    -webkit-transform: rotate(-45deg); /* Safari and Chrome */
+    -o-transform: rotate(-45deg); /* Opera */
   }
 
 
