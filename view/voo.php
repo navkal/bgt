@@ -323,14 +323,15 @@
     if ( <?=$bFlot?> )
     {
 
+      var bHorizontal = g_aRows.length > 10;
       var nBars = Object.keys( tGraphData ).length;
-      var bHorizontal = nBars > 10;
+      var iOffset = bHorizontal ? ( nBars - 1 ) : 0;
+
       console.log( '===> nBars=' + nBars + ' bHorizontal=' + bHorizontal );
 
 
           var data = [];
           var ticks = [];
-          var iOffset = bHorizontal ? ( nBars - 1 ) : 0;
           for ( var sRowLabel in tGraphData )
           {
             var tRow = tGraphData[sRowLabel];
