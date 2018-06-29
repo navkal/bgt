@@ -363,7 +363,7 @@
                     axisLabelUseCanvas: true,
                     axisLabelFontSizePixels: 14,
                     axisLabelFontFamily: 'Verdana, Arial',
-                    axisLabelPadding: 20,
+                    axisLabelPadding: ( bHorizontal ? 20 : 55 ),
                     labelWidth: 100,
                     ticks: ( bHorizontal ? null : ticks ),
                     tickFormatter: ( bHorizontal ? toLocaleString : null )
