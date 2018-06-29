@@ -6,8 +6,22 @@
   $g_aColNames =
     [
       [
-        'value_col_name' => 'Meter Reading',
-        'units_col_name' => 'Units'
+        'value_col_name' => 'Power',
+        'units_col_name' => 'Power Units',
+        'graph' =>
+          [
+            'graph_id' => 'power',
+            'delta' => false
+          ]
+      ],
+      [
+        'value_col_name' => 'Energy',
+        'units_col_name' => 'Energy Units',
+        'graph' =>
+          [
+            'graph_id' => 'energy',
+            'delta' => true
+          ]
       ]
     ];
 
