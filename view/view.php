@@ -378,7 +378,7 @@
                 grid: {
                     hoverable: true,
                     borderWidth: 2,
-                    backgroundColor: { colors: ["#ffffff", "#e7f5fe"] }
+                    backgroundColor: { colors: ["#e7f5fe","#ffffff" ] }
                 }
             };
 
