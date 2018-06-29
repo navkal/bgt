@@ -357,7 +357,7 @@
                     axisLabelUseCanvas: true,
                     axisLabelFontSizePixels: 14,
                     axisLabelFontFamily: 'Verdana, Arial',
-                    axisLabelPadding: 45,
+                    axisLabelPadding: 55,
                     ticks: ticks
                 },
                 yaxis: {
@@ -365,7 +365,7 @@
                     axisLabelUseCanvas: true,
                     axisLabelFontSizePixels: 14,
                     axisLabelFontFamily: 'Verdana, Arial',
-                    axisLabelPadding: 18,
+                    axisLabelPadding: 20,
                     tickFormatter: function (v, axis) {
                         return v.toLocaleString();
                     }
