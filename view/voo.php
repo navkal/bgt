@@ -325,6 +325,7 @@
 
       var nBars = Object.keys( tGraphData ).length;
       var bHorizontal = nBars > 10;
+      console.log( '===> nBars=' + nBars + ' bHorizontal=' + bHorizontal );
 
 
           var data = [];
