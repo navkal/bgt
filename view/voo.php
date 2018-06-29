@@ -437,6 +437,8 @@
                         var y = item.datapoint[1];
 
                         var color = item.series.color;
+                        var tGraphData = g_tGraphData[sGraphId];
+                        var nBars = Object.keys( tGraphData ).length;
 
                         showTooltip(
                           item.pageX,
