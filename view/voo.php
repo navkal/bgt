@@ -389,6 +389,55 @@
                 $.plot( tGraphDiv, dataset, options );
                 tGraphDiv.UseTooltip();
 
+
+        var previousPoint = null, previousLabel = null;
+
+        showTooltip = function (x, y, color, contents) {
+            $('<div id="tooltip">' + contents + '</div>').css({
+                position: 'absolute',
+                display: 'none',
+                // top: y+10,
+                // left: x-30,
+                top: y-16,
+                left: x+10,
+
+                border: '2px solid ' + color,
+                padding: '3px',
+                'font-size': '9px',
+                'border-radius': '5px',
+                'background-color': '#fff',
+                'font-family': 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
+                opacity: 0.9
+            }).appendTo("body").fadeIn(200);
+        }
+
+        $.fn.UseTooltip = function () {
+            $(this).bind("plothover", function (event, pos, item) {
+                if (item) {
+                    if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
+                        previousPoint = item.dataIndex;
+                        previousLabel = item.series.label;
+                        $("#tooltip").remove();
+
+                        var x = item.datapoint[0];
+                        var y = item.datapoint[1];
+
+                        var color = item.series.color;
+
+                        showTooltip(item.pageX,
+                        item.pageY,
+                        color,
+                        item.series.yaxis.ticks[y].label + "<br/><strong>" + x.toLocaleString() + "</strong> " + item.series.xaxis.options.axisLabel
+                        );
+                    }
+                } else {
+                    $("#tooltip").remove();
+                    previousPoint = null;
+                }
+            });
+        };
+
+
     }
     else
     {
@@ -555,81 +604,6 @@
   {
     $( '#view' ).css( 'cursor', 'default' );
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          function gd(year, month, day) {
-            return new Date(year, month, day).getTime();
-        }
-
-        var previousPoint = null, previousLabel = null;
-
-        $.fn.UseTooltip = function () {
-            $(this).bind("plothover", function (event, pos, item) {
-                if (item) {
-                    if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
-                        previousPoint = item.dataIndex;
-                        previousLabel = item.series.label;
-                        $("#tooltip").remove();
-
-                        var x = item.datapoint[0];
-                        var y = item.datapoint[1];
-
-                        var color = item.series.color;
-
-                        showTooltip(item.pageX,
-                        item.pageY,
-                        color,
-                        item.series.yaxis.ticks[y].label + "<br/><strong>" + x.toLocaleString() + "</strong> " + item.series.xaxis.options.axisLabel
-                        );
-                    }
-                } else {
-                    $("#tooltip").remove();
-                    previousPoint = null;
-                }
-            });
-        };
-
-        function showTooltip(x, y, color, contents) {
-            $('<div id="tooltip">' + contents + '</div>').css({
-                position: 'absolute',
-                display: 'none',
-                // top: y+10,
-                // left: x-30,
-                top: y-16,
-                left: x+10,
-                 
-                border: '2px solid ' + color,
-                padding: '3px',
-                'font-size': '9px',
-                'border-radius': '5px',
-                'background-color': '#fff',
-                'font-family': 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
-                opacity: 0.9
-            }).appendTo("body").fadeIn(200);
-        }
-
-
-
 </script>
 
 <style>
