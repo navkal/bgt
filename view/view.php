@@ -357,7 +357,7 @@
                     axisLabelUseCanvas: true,
                     axisLabelFontSizePixels: 14,
                     axisLabelFontFamily: 'Verdana, Arial',
-                    axisLabelPadding: 75,
+                    axisLabelPadding: 20,
                     labelWidth: 100,
                     ticks: ticks
                 },
