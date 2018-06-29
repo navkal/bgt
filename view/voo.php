@@ -323,10 +323,11 @@
     if ( <?=$bFlot?> )
     {
 
-
+          
           var data = [];
           var ticks = [];
-          var iOffset = Object.keys( tGraphData ).length - 1;
+          var nRows = Object.keys( tGraphData ).length;
+          var iOffset = nRows - 1;
           for ( var sRowLabel in tGraphData )
           {
             var tRow = tGraphData[sRowLabel];
@@ -387,7 +388,6 @@
             tGraphDiv.css( 'height', ( data.length * 40 ) + 100);
 
                 $.plot( tGraphDiv, dataset, options );
-                tGraphDiv.UseTooltip();
 
 
         var previousPoint = null, previousLabel = null;
@@ -427,7 +427,7 @@
                         showTooltip(item.pageX,
                         item.pageY,
                         color,
-                        item.series.yaxis.ticks[y].label + "<br/><strong>" + x.toLocaleString() + "</strong> " + item.series.xaxis.options.axisLabel
+                        item.series.yaxis.ticks[nRows - y - 1].label + "<br/><strong>" + x.toLocaleString() + "</strong> " + item.series.xaxis.options.axisLabel
                         );
                     }
                 } else {
@@ -437,6 +437,7 @@
             });
         };
 
+                tGraphDiv.UseTooltip();
 
     }
     else
