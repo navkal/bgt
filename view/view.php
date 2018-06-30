@@ -458,7 +458,7 @@
             {
               position: 'absolute',
               display: 'none',
-              top: g_bHorizontal ? y-16 : y+10,
+              top: g_bHorizontal ? y-16 : y-40,
               left: g_bHorizontal ? x+10 : x-30,
               border: '2px solid ' + sColor,
               padding: '3px',
