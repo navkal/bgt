@@ -440,13 +440,18 @@
           tGraphDiv.css( 'height', ( aData.length * 40 ) + 100);
         }
 
+        //
         // Set up handler to display tooltip
+        //
+
+        // Initialize data structure to track previous tooltip
         var tPreviousTooltip =
         {
           dataIndex: null,
           seriesLabel: null
         };
 
+        // Define function to show tooltip
         var showTooltip = function( x, y, sColor, sContents )
         {
           $( '<div id="tooltip">' + sContents + '</div>' ).css(
@@ -466,6 +471,7 @@
           ).appendTo( 'body' ).fadeIn( 200 );
         };
 
+        // Define function to handle mouse hover event
         var onPlotHover = function( event, pos, item )
         {
           if ( item )
@@ -477,7 +483,7 @@
               tPreviousTooltip.dataIndex = item.dataIndex;
               tPreviousTooltip.seriesLabel = item.series.label;
 
-              // Remove previous tooltip
+              // Clear previous tooltip
               $( '#tooltip' ).remove();
 
               // Set up new tooltip
@@ -509,9 +515,10 @@
           }
         };
 
+        // Attach handler to graph div
         tGraphDiv.on( "plothover", onPlotHover );
 
-        // Draw the plot
+        // Clear previous tooltip and draw the plot
         $( '#tooltip' ).remove();
         $.plot( tGraphDiv, aDataset, tOptions );
       }
