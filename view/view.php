@@ -441,35 +441,32 @@
         }
 
         // Set up handler to display tooltip
-
-
-
-
-
         var tPreviousTooltip =
         {
           index: null,
           label: null
         }
 
-        var showTooltip = function( x, y, color, contents )
+        var showTooltip = function( x, y, sColor, sContents )
         {
-              $('<div id="tooltip">' + contents + '</div>').css({
-                  position: 'absolute',
-                  display: 'none',
-                  top: g_bHorizontal ? y-16 : y+10,
-                  left: g_bHorizontal ? x+10 : x-30,
-                  border: '2px solid ' + color,
-                  padding: '3px',
-                  'font-size': '9px',
-                  'border-radius': '5px',
-                  'background-color': '#fff',
-                  'font-family': 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
-                  opacity: 0.9
-              }).appendTo("body").fadeIn(200);
-          }
+          $( '<div id="tooltip">' + sContents + '</div>' ).css(
+            {
+              position: 'absolute',
+              display: 'none',
+              top: g_bHorizontal ? y-16 : y+10,
+              left: g_bHorizontal ? x+10 : x-30,
+              border: '2px solid ' + sColor,
+              padding: '3px',
+              'font-size': '9px',
+              'border-radius': '5px',
+              'background-color': '#fff',
+              'font-family': 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
+              opacity: 0.9
+            }
+          ).appendTo( 'body' ).fadeIn( 200 );
+        }
 
-          onPlotHover = function( event, pos, item )
+          var onPlotHover = function( event, pos, item )
           {
             if ( item )
             {
