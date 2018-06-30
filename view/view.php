@@ -443,9 +443,9 @@
         // Set up handler to display tooltip
         var tPreviousTooltip =
         {
-          index: null,
-          label: null
-        }
+          dataIndex: null,
+          seriesLabel: null
+        };
 
         var showTooltip = function( x, y, sColor, sContents )
         {
@@ -464,50 +464,50 @@
               opacity: 0.9
             }
           ).appendTo( 'body' ).fadeIn( 200 );
-        }
+        };
 
-          var onPlotHover = function( event, pos, item )
+        var onPlotHover = function( event, pos, item )
+        {
+          if ( item )
           {
-            if ( item )
+            // If tooltip coordinates have changed, update the tooltip
+            if ( ( tPreviousTooltip.seriesLabel != item.series.label ) || ( tPreviousTooltip.dataIndex != item.dataIndex ) )
             {
-              if ( (tPreviousTooltip.label != item.series.label) || (tPreviousTooltip.index != item.dataIndex))
-              {
-                // Save previous tooltip coordinates
-                tPreviousTooltip.index = item.dataIndex;
-                tPreviousTooltip.label = item.series.label;
+              // Save new tooltip coordinates
+              tPreviousTooltip.dataIndex = item.dataIndex;
+              tPreviousTooltip.seriesLabel = item.series.label;
 
-                // Remove previous tooltip (if any)
-                $( '#tooltip' ).remove();
-
-                // Set up new tooltip
-                var x = item.datapoint[0];
-                var y = item.datapoint[1];
-                var iTick = Object.keys( g_tGraphData[sGraphId] ).length - y - 1;
-
-                var color = item.series.color;
-
-                showTooltip(
-                  item.pageX,
-                  item.pageY,
-                  color,
-                  ( g_bHorizontal ? item.series.yaxis.ticks[iTick].label : item.series.xaxis.ticks[x].label )
-                  +
-                  "<br/><strong>"
-                  +
-                  ( g_bHorizontal ? x.toLocaleString() : y.toLocaleString() )
-                  +
-                  "</strong> "
-                  +
-                  ( g_bHorizontal ? item.series.xaxis.options.axisLabel : item.series.yaxis.options.axisLabel )
-                );
-              }
-            }
-            else
-            {
+              // Remove previous tooltip
               $( '#tooltip' ).remove();
-              tPreviousTooltip.index = null;
+
+              // Set up new tooltip
+              var x = item.datapoint[0];
+              var y = item.datapoint[1];
+              var iTick = Object.keys( g_tGraphData[sGraphId] ).length - y - 1;
+
+              showTooltip(
+                item.pageX,
+                item.pageY,
+                item.series.color,
+                ( g_bHorizontal ? item.series.yaxis.ticks[iTick].label : item.series.xaxis.ticks[x].label )
+                +
+                "<br/><strong>"
+                +
+                ( g_bHorizontal ? x.toLocaleString() : y.toLocaleString() )
+                +
+                "</strong> "
+                +
+                ( g_bHorizontal ? item.series.xaxis.options.axisLabel : item.series.yaxis.options.axisLabel )
+              );
             }
-          };
+          }
+          else
+          {
+            $( '#tooltip' ).remove();
+            tPreviousTooltip.dataIndex = null;
+            tPreviousTooltip.seriesLabel = null;
+          }
+        };
 
         tGraphDiv.on( "plothover", onPlotHover );
 
