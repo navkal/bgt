@@ -68,6 +68,8 @@
   var g_tStartTime = new( Date );
   var g_tStartValues = {};
   var g_tGraphData = {};
+  var g_bFlot = <?=$bFlot?>;
+  var g_bHorizontal = null;
 
   var g_sSuccessClass = 'bg-row-success';
   var g_sPendingClass = 'bg-row-pending';
@@ -111,6 +113,37 @@
 
     // Set handler to update graphs when graph tab is selected
     $( 'a.graph-tab' ).on( 'shown.tab.bs', onGraphTabShown );
+
+    // Initialize graph attributes
+    g_bHorizontal = g_aRows.length > 10;
+
+    if ( g_bFlot )
+    {
+      var sTickStyle =
+        g_bHorizontal ?
+          '<style>' +
+            '.flot-y-axis .flot-tick-label' +
+            '{' +
+              'line-height: 1;' +
+              'max-width: 70px;' +
+            '}' +
+          '</style>'
+        :
+          '<style>' +
+            '.flot-x-axis .flot-tick-label' +
+            '{' +
+              'line-height: 1;' +
+              'padding: 20px;' +
+              'transform: rotate(-45deg);' +
+              '-ms-transform: rotate(-45deg);' +
+              '-moz-transform: rotate(-45deg);' +
+              '-webkit-transform: rotate(-45deg);' +
+              '-o-transform: rotate(-45deg);' +
+            '}'
+          '</style>'
+        ;
+      $( 'head' ).append( sTickStyle );
+    }
 
     // Issue first request
     g_iInstanceOffset = 2;
@@ -320,27 +353,33 @@
     var tGraphData = g_tGraphData[sGraphId];
     var sGraphUnits = pickGraphUnits( tGraphData );
 
-    if ( <?=$bFlot?> )
+    if ( g_bFlot )
     {
+
+      var nBars = Object.keys( tGraphData ).length;
+      var iOffset = g_bHorizontal ? ( nBars - 1 ) : 0;
+
+      console.log( '===> nBars=' + nBars + ' g_bHorizontal=' + g_bHorizontal );
 
 
           var data = [];
           var ticks = [];
-          var iOffset = 0;
           for ( var sRowLabel in tGraphData )
           {
             var tRow = tGraphData[sRowLabel];
             if ( tRow.units == sGraphUnits )
             {
-              data.push( [ iOffset, tRow.value ] );
+              data.push( g_bHorizontal ? [ tRow.value, iOffset ] : [ iOffset, tRow.value ] );
               ticks.push( [ iOffset, sRowLabel ] );
-              iOffset ++;
+              iOffset += g_bHorizontal ? -1 : 1;
             }
           }
 
             var sSince = bDelta ? ' since ' + g_tStartTime.toLocaleString() : '';
             var dataset = [{ label: '&nbsp;' + sGraphName + sSince, data: data, color: "#54b9f8" }];
 
+
+            var toLocaleString = function (v, axis) { return v.toLocaleString(); };
 
             var options = {
                 series: {
@@ -350,26 +389,27 @@
                 },
                 bars: {
                     align: "center",
-                    barWidth: 0.7
+                    barWidth: 0.7,
+                    horizontal: g_bHorizontal,
                 },
                 xaxis: {
-                    axisLabel: "<?=$g_sFirstColName?>",
+                    axisLabel: ( g_bHorizontal ? sGraphUnits : "<?=$g_sFirstColName?>" ),
                     axisLabelUseCanvas: true,
                     axisLabelFontSizePixels: 14,
                     axisLabelFontFamily: 'Verdana, Arial',
-                    axisLabelPadding: 20,
+                    axisLabelPadding: ( g_bHorizontal ? 20 : 55 ),
                     labelWidth: 100,
-                    ticks: ticks
+                    ticks: ( g_bHorizontal ? null : ticks ),
+                    tickFormatter: ( g_bHorizontal ? toLocaleString : null )
                 },
                 yaxis: {
-                    axisLabel: sGraphUnits,
+                    axisLabel: g_bHorizontal ? "<?=$g_sFirstColName?>" : sGraphUnits,
                     axisLabelUseCanvas: true,
                     axisLabelFontSizePixels: 14,
                     axisLabelFontFamily: 'Verdana, Arial',
                     axisLabelPadding: 20,
-                    tickFormatter: function (v, axis) {
-                        return v.toLocaleString();
-                    }
+                    ticks: g_bHorizontal ? ticks : null,
+                    tickFormatter: ( g_bHorizontal ? null : toLocaleString )
                 },
                 legend: {
                     noColumns: 0,
@@ -383,17 +423,22 @@
             };
 
             console.log( '======> plot!' );
-                $.plot(tGraphDiv, dataset, options);
+            if ( g_bHorizontal )
+            {
+              tGraphDiv.css( 'height', ( data.length * 40 ) + 100);
+            }
+
+                $.plot( tGraphDiv, dataset, options );
 
 
         var previousPoint = null, previousLabel = null;
 
-        showTooltip = function (x, y, color, contents) {
+        var showTooltip = function (x, y, color, contents) {
             $('<div id="tooltip">' + contents + '</div>').css({
                 position: 'absolute',
                 display: 'none',
-                top: y+10,
-                left: x-30,
+                top: g_bHorizontal ? y-16 : y+10,
+                left: g_bHorizontal ? x+10 : x-30,
                 border: '2px solid ' + color,
                 padding: '3px',
                 'font-size': '9px',
@@ -416,13 +461,23 @@
                         var y = item.datapoint[1];
 
                         var color = item.series.color;
+                        var tGraphData = g_tGraphData[sGraphId];
+                        var nBars = Object.keys( tGraphData ).length;
 
-                        //console.log(item.series.xaxis.ticks[x].label);
-
-                        showTooltip(item.pageX,
-                        item.pageY,
-                        color,
-                        item.series.xaxis.ticks[x].label + "<br/><strong>" + y.toLocaleString() + "</strong> " + item.series.yaxis.options.axisLabel );
+                        showTooltip(
+                          item.pageX,
+                          item.pageY,
+                          color,
+                          ( g_bHorizontal ? item.series.yaxis.ticks[nBars - y - 1].label : item.series.xaxis.ticks[x].label )
+                          +
+                          "<br/><strong>"
+                          +
+                          ( g_bHorizontal ? x.toLocaleString() : y.toLocaleString() )
+                          +
+                          "</strong> "
+                          +
+                          ( g_bHorizontal ? item.series.xaxis.options.axisLabel : item.series.yaxis.options.axisLabel )
+                        );
                     }
                 } else {
                     $("#tooltip").remove();
@@ -614,17 +669,6 @@
     margin-left: auto;
     margin-right: auto;
     cursor: pointer;
-  }
-
-  .flot-x-axis .flot-tick-label
-  {
-    line-height: 1;
-    padding: 20px;
-    transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg); /* IE 9 */
-    -moz-transform: rotate(-45deg); /* Firefox */
-    -webkit-transform: rotate(-45deg); /* Safari and Chrome */
-    -o-transform: rotate(-45deg); /* Opera */
   }
 
 

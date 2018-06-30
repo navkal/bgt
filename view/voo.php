@@ -671,23 +671,6 @@
     cursor: pointer;
   }
 
-  .flot-x-tick-vertical
-  {
-    line-height: 1;
-    padding: 20px;
-    transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg); /* IE 9 */
-    -moz-transform: rotate(-45deg); /* Firefox */
-    -webkit-transform: rotate(-45deg); /* Safari and Chrome */
-    -o-transform: rotate(-45deg); /* Opera */
-  }
-
-  .flot-y-tick-horizontal
-  {
-    line-height: 1;
-    max-width: 70px;
-  }
-
 
 /* For the d3 graph display */
 .bar {
