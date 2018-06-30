@@ -475,45 +475,48 @@
             {
               if ( (tPreviousTooltip.label != item.series.label) || (tPreviousTooltip.index != item.dataIndex))
               {
-                  tPreviousTooltip.index = item.dataIndex;
-                  tPreviousTooltip.label = item.series.label;
-                  $("#tooltip").remove();
+                // Save previous tooltip coordinates
+                tPreviousTooltip.index = item.dataIndex;
+                tPreviousTooltip.label = item.series.label;
 
-                  var x = item.datapoint[0];
-                  var y = item.datapoint[1];
+                // Remove previous tooltip (if any)
+                $( '#tooltip' ).remove();
 
-                  var color = item.series.color;
-                  var tGraphData = g_tGraphData[sGraphId];
-                  var nBars = Object.keys( tGraphData ).length;
+                // Set up new tooltip
+                var x = item.datapoint[0];
+                var y = item.datapoint[1];
+                var iTick = Object.keys( g_tGraphData[sGraphId] ).length - y - 1;
 
-                  showTooltip(
-                    item.pageX,
-                    item.pageY,
-                    color,
-                    ( g_bHorizontal ? item.series.yaxis.ticks[nBars - y - 1].label : item.series.xaxis.ticks[x].label )
-                    +
-                    "<br/><strong>"
-                    +
-                    ( g_bHorizontal ? x.toLocaleString() : y.toLocaleString() )
-                    +
-                    "</strong> "
-                    +
-                    ( g_bHorizontal ? item.series.xaxis.options.axisLabel : item.series.yaxis.options.axisLabel )
-                  );
+                var color = item.series.color;
+
+                showTooltip(
+                  item.pageX,
+                  item.pageY,
+                  color,
+                  ( g_bHorizontal ? item.series.yaxis.ticks[iTick].label : item.series.xaxis.ticks[x].label )
+                  +
+                  "<br/><strong>"
+                  +
+                  ( g_bHorizontal ? x.toLocaleString() : y.toLocaleString() )
+                  +
+                  "</strong> "
+                  +
+                  ( g_bHorizontal ? item.series.xaxis.options.axisLabel : item.series.yaxis.options.axisLabel )
+                );
               }
             }
             else
             {
-                $("#tooltip").remove();
-                tPreviousTooltip.index = null;
+              $( '#tooltip' ).remove();
+              tPreviousTooltip.index = null;
             }
           };
 
         tGraphDiv.on( "plothover", onPlotHover );
 
         // Draw the plot
+        $( '#tooltip' ).remove();
         $.plot( tGraphDiv, aDataset, tOptions );
-
       }
       else
       {
