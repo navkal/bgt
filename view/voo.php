@@ -68,6 +68,7 @@
   var g_tStartTime = new( Date );
   var g_tStartValues = {};
   var g_tGraphData = {};
+  var g_bFlot = <?=$bFlot?>;
   var g_bHorizontal = null;
 
   var g_sSuccessClass = 'bg-row-success';
@@ -82,7 +83,6 @@
 
     // Load list of rows
     g_aRows = JSON.parse( '<?=$sLines?>' );
-    g_bHorizontal = g_aRows.length > 10;
 
     // Initialize table
     var sHtml = '';
@@ -113,6 +113,37 @@
 
     // Set handler to update graphs when graph tab is selected
     $( 'a.graph-tab' ).on( 'shown.tab.bs', onGraphTabShown );
+
+    // Initialize graph attributes
+    g_bHorizontal = g_aRows.length > 10;
+
+    if ( g_bFlot )
+    {
+      var sTickStyle =
+        g_bHorizontal ?
+          '<style>' +
+            '.flot-y-axis .flot-tick-label' +
+            '{' +
+              'line-height: 1;' +
+              'max-width: 70px;' +
+            '}' +
+          '</style>'
+        :
+          '<style>' +
+            '.flot-x-axis .flot-tick-label' +
+            '{' +
+              'line-height: 1;' +
+              'padding: 20px;' +
+              'transform: rotate(-45deg);' +
+              '-ms-transform: rotate(-45deg);' +
+              '-moz-transform: rotate(-45deg);' +
+              '-webkit-transform: rotate(-45deg);' +
+              '-o-transform: rotate(-45deg);' +
+            '}'
+          '</style>'
+        ;
+      $( 'head' ).append( sTickStyle );
+    }
 
     // Issue first request
     g_iInstanceOffset = 2;
@@ -322,7 +353,7 @@
     var tGraphData = g_tGraphData[sGraphId];
     var sGraphUnits = pickGraphUnits( tGraphData );
 
-    if ( <?=$bFlot?> )
+    if ( g_bFlot )
     {
 
       var nBars = Object.keys( tGraphData ).length;
@@ -398,14 +429,6 @@
             }
 
                 $.plot( tGraphDiv, dataset, options );
-                if ( g_bHorizontal )
-                {
-                  $( '.flot-y-axis .flot-tick-label' ).addClass( 'flot-y-tick-horizontal' );
-                }
-                else
-                {
-                  $( '.flot-x-axis .flot-tick-label' ).addClass( 'flot-x-tick-vertical' );
-                }
 
 
         var previousPoint = null, previousLabel = null;
