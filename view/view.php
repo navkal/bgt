@@ -440,17 +440,20 @@
           tGraphDiv.css( 'height', ( aData.length * 40 ) + 100);
         }
 
-        // Draw the plot
-        $.plot( tGraphDiv, aDataset, tOptions );
+        // Set up handler to display tooltip
 
 
 
 
 
+        var tPreviousTooltip =
+        {
+          index: null,
+          label: null
+        }
 
-          var previousPoint = null, previousLabel = null;
-
-          var showTooltip = function (x, y, color, contents) {
+        var showTooltip = function( x, y, color, contents )
+        {
               $('<div id="tooltip">' + contents + '</div>').css({
                   position: 'absolute',
                   display: 'none',
@@ -466,44 +469,50 @@
               }).appendTo("body").fadeIn(200);
           }
 
-          $.fn.UseTooltip = function () {
-              $(this).bind("plothover", function (event, pos, item) {
-                  if (item) {
-                      if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
-                          previousPoint = item.dataIndex;
-                          previousLabel = item.series.label;
-                          $("#tooltip").remove();
+          onPlotHover = function( event, pos, item )
+          {
+            if ( item )
+            {
+              if ( (tPreviousTooltip.label != item.series.label) || (tPreviousTooltip.index != item.dataIndex))
+              {
+                  tPreviousTooltip.index = item.dataIndex;
+                  tPreviousTooltip.label = item.series.label;
+                  $("#tooltip").remove();
 
-                          var x = item.datapoint[0];
-                          var y = item.datapoint[1];
+                  var x = item.datapoint[0];
+                  var y = item.datapoint[1];
 
-                          var color = item.series.color;
-                          var tGraphData = g_tGraphData[sGraphId];
-                          var nBars = Object.keys( tGraphData ).length;
+                  var color = item.series.color;
+                  var tGraphData = g_tGraphData[sGraphId];
+                  var nBars = Object.keys( tGraphData ).length;
 
-                          showTooltip(
-                            item.pageX,
-                            item.pageY,
-                            color,
-                            ( g_bHorizontal ? item.series.yaxis.ticks[nBars - y - 1].label : item.series.xaxis.ticks[x].label )
-                            +
-                            "<br/><strong>"
-                            +
-                            ( g_bHorizontal ? x.toLocaleString() : y.toLocaleString() )
-                            +
-                            "</strong> "
-                            +
-                            ( g_bHorizontal ? item.series.xaxis.options.axisLabel : item.series.yaxis.options.axisLabel )
-                          );
-                      }
-                  } else {
-                      $("#tooltip").remove();
-                      previousPoint = null;
-                  }
-              });
+                  showTooltip(
+                    item.pageX,
+                    item.pageY,
+                    color,
+                    ( g_bHorizontal ? item.series.yaxis.ticks[nBars - y - 1].label : item.series.xaxis.ticks[x].label )
+                    +
+                    "<br/><strong>"
+                    +
+                    ( g_bHorizontal ? x.toLocaleString() : y.toLocaleString() )
+                    +
+                    "</strong> "
+                    +
+                    ( g_bHorizontal ? item.series.xaxis.options.axisLabel : item.series.yaxis.options.axisLabel )
+                  );
+              }
+            }
+            else
+            {
+                $("#tooltip").remove();
+                tPreviousTooltip.index = null;
+            }
           };
 
-                  tGraphDiv.UseTooltip();
+        tGraphDiv.on( "plothover", onPlotHover );
+
+        // Draw the plot
+        $.plot( tGraphDiv, aDataset, tOptions );
 
       }
       else
