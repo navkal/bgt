@@ -266,7 +266,23 @@
     for ( var iData in g_aRowData )
     {
       var tData = g_aRowData[iData];
-      $( '#value_' + g_iRow + '_' + iPair ).html( ( tData.presentValue === '' ) ? '' : Math.round( tData.presentValue ) );
+
+      // Decide how to display the value
+      var value = null;
+      if ( tData.presentValue === '' )
+      {
+        value = '';
+      }
+      else if ( ( -1 < tData.presentValue ) && ( tData.presentValue < 1 ) )
+      {
+        value = Math.round( tData.presentValue * 100 ) / 100;
+      }
+      else
+      {
+        value = Math.round( tData.presentValue );
+      }
+
+      $( '#value_' + g_iRow + '_' + iPair ).html( value );
       $( '#units_' + g_iRow + '_' + iPair ).html( tData.units );
       iPair ++;
     }
