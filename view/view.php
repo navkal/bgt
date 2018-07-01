@@ -266,7 +266,7 @@
     for ( var iData in g_aRowData )
     {
       var tData = g_aRowData[iData];
-      $( '#value_' + g_iRow + '_' + iPair ).html( ( tData.presentValue == '' ) ? '' : Math.round( tData.presentValue ) );
+      $( '#value_' + g_iRow + '_' + iPair ).html( ( tData.presentValue === '' ) ? '' : Math.round( tData.presentValue ) );
       $( '#units_' + g_iRow + '_' + iPair ).html( tData.units );
       iPair ++;
     }
