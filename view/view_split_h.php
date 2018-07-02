@@ -57,6 +57,9 @@
   }
 ?>
 
+<link rel="stylesheet" href="/lib/split/split.css?version=<?=time()?>">
+<script src="/lib/split/split.min.js"></script>
+
 <script>
 
   var g_aRows = null;
@@ -84,18 +87,49 @@
     // Load list of rows
     g_aRows = JSON.parse( '<?=$sLines?>' );
 
+    // Initialize splitters
+    initSplitters();
+
     // Initialize table
     initTable();
 
     // Initialize graph styling
     initGraphs();
 
-    // Set handler to update graphs when graph tab is selected
-    $( 'a.graph-tab' ).on( 'shown.tab.bs', onGraphTabShown );
-
     // Issue first request
     g_iInstanceOffset = 2;
     rq();
+  }
+
+  function initSplitters()
+  {
+    Split(['#tablePane', '#graphPane'], {
+      gutterSize: 8,
+      minSize: 0,
+      cursor: 'col-resize'
+    })
+
+    var aGraphIds = [];
+
+    for ( var iCol in g_aColNames )
+    {
+      var tCol = g_aColNames[iCol];
+      if ( 'graph' in tCol )
+      {
+        aGraphIds.push( '#' + tCol['graph']['graph_id'] );
+      }
+    }
+
+    if ( aGraphIds.length )
+    {
+      Split(aGraphIds, {
+        direction: 'vertical',
+        sizes: [50, 50],
+        minSize: 0,
+        gutterSize: 8,
+        cursor: 'row-resize'
+      })
+    }
   }
 
   function initTable()
@@ -158,17 +192,6 @@
 
       $( 'head' ).append( sTickStyle );
     }
-  }
-
-  function onGraphTabShown( tEvent )
-  {
-    var sGraphId = $( tEvent.target ).attr( 'href' ).substring( 1 );
-    var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
-    var iGraph = getGraphIndex( sGraphId );
-    var sGraphName = g_aColNames[iGraph].value_col_name;
-    var bDelta = g_aColNames[iGraph].graph.delta;
-
-    updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
   }
 
   function rq()
@@ -747,57 +770,34 @@
 </style>
 
 
-<div class="container-fluid">
+<div class="container-fluid" style="height:85%" >
+  <div class="backdrop">
 
-  <ul class="nav nav-tabs">
-
-    <?php
-      $bTableTab = false;
-      foreach ( $g_aColNames as $aColPair )
-      {
-        if ( isset( $aColPair['graph'] ) )
-        {
-          if ( ! $bTableTab )
-          {
-            $bTableTab = true;
-    ?>
-            <li class="active"><a data-toggle="tab" href="#tableTab">Table</a></li>
-    <?php
-          }
-    ?>
-          <li><a class="graph-tab" data-toggle="tab" href="#<?=$aColPair['graph']['graph_id']?>"><?=$aColPair['value_col_name']?></a></li>
-    <?php
-        }
-      }
-    ?>
-  </ul>
-
-  <br/>
-
-  <div class="tab-content">
-
-    <div id="tableTab" class="tab-pane fade in active">
-      <div class="container">
+    <div id="tablePane" class="split split-horizontal">
+      <div class="split content">
         <?php
           include $_SERVER['DOCUMENT_ROOT'] . '/view/table.php';
         ?>
       </div>
     </div>
 
-    <?php
-      foreach ( $g_aColNames as $aColPair )
-      {
-        if ( isset( $aColPair['graph'] ) )
-        {
-    ?>
-          <div id="<?=$aColPair['graph']['graph_id']?>" class="tab-pane fade">
-            <div class="bar-graph" >
-            </div>
-          </div>
-    <?php
-        }
-      }
-    ?>
+    <div id="graphPane" class="split split-horizontal">
 
+      <?php
+        foreach ( $g_aColNames as $aColPair )
+        {
+          if ( isset( $aColPair['graph'] ) )
+          {
+      ?>
+            <div id="<?=$aColPair['graph']['graph_id']?>" class="split content">
+              <div class="bar-graph" >
+              </div>
+            </div>
+      <?php
+          }
+        }
+      ?>
+
+    </div>
   </div>
 </div>

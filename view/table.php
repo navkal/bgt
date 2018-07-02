@@ -2,41 +2,37 @@
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 ?>
 
-<div class="container">
-  <div>
-    <table id="bgt_table" class="table">
+<table id="bgt_table" class="table">
 
-      <thead>
-        <tr>
+  <thead>
+    <tr>
+      <th>
+        <?=$g_sFirstColName?>
+      </th>
+
+      <?php
+        foreach ( $g_aColNames as $tColNames )
+        {
+      ?>
+
+          <th style="text-align:right">
+            <?=$tColNames['value_col_name']?>
+          </th>
           <th>
-            <?=$g_sFirstColName?>
+            <?=$tColNames['units_col_name']?>
           </th>
 
-          <?php
-            foreach ( $g_aColNames as $tColNames )
-            {
-          ?>
+      <?php
+        }
+      ?>
 
-              <th style="text-align:right">
-                <?=$tColNames['value_col_name']?>
-              </th>
-              <th>
-                <?=$tColNames['units_col_name']?>
-              </th>
+      <th>
+        Update Time
+      </th>
+    </tr>
+  </thead>
 
-          <?php
-            }
-          ?>
+  <tbody>
+  </tbody>
 
-          <th>
-            Update Time
-          </th>
-        </tr>
-      </thead>
-
-      <tbody>
-      </tbody>
-
-    </table>
-  </div>
-</div>
+</table>

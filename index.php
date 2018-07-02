@@ -1,6 +1,11 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
+?>
 
+<!-- This inclusion of jQuery library is redundant with the one included in the document head, but needed by split.js. (Don't know why.) -->
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<?php
   @session_start();
   if ( ! isset( $_SESSION['bgt'] ) )
   {
