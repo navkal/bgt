@@ -84,6 +84,9 @@
     // Load list of rows
     g_aRows = JSON.parse( '<?=$sLines?>' );
 
+    // Initialize tabs
+    initTabs();
+
     // Initialize table
     initTable();
 
@@ -93,6 +96,28 @@
     // Issue first request
     g_iInstanceOffset = 2;
     rq();
+  }
+
+  function initTabs()
+  {
+    var aGraphIds = [];
+
+    for ( var iCol in g_aColNames )
+    {
+      var tCol = g_aColNames[iCol];
+      if ( 'graph' in tCol )
+      {
+        aGraphIds.push( '#' + tCol['graph']['graph_id'] );
+      }
+    }
+
+    if ( ! aGraphIds.length )
+    {
+      // Hide/remove tab styling
+      $( '#view > .container-fluid .nav.nav-tabs' ).remove();
+      $( '#view > .container-fluid .tab-content' ).removeClass();
+      $( '#tableTab' ).removeClass();
+    }
   }
 
   function initTable()
@@ -164,11 +189,16 @@
   {
     var sGraphId = $( tEvent.target ).attr( 'href' ).substring( 1 );
     var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
-    var iGraph = getGraphIndex( sGraphId );
-    var sGraphName = g_aColNames[iGraph].value_col_name;
-    var bDelta = g_aColNames[iGraph].graph.delta;
 
-    updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
+    var iGraph = getGraphIndex( sGraphId );
+
+    if ( iGraph !== null )
+    {
+      var sGraphName = g_aColNames[iGraph].value_col_name;
+      var bDelta = g_aColNames[iGraph].graph.delta;
+
+      updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
+    }
   }
 
   function rq()
@@ -314,17 +344,21 @@
       // Find the graph index
       var sGraphId = $( aGraphs[iGraph] ).parent().attr( 'id' );
       var iGraph = getGraphIndex( sGraphId );
-      var bDelta = g_aColNames[iGraph].graph.delta;
 
-      // Update the graph data structure
-      updateGraphData( sGraphId, g_aRowData[iGraph], bDelta );
-
-      // If graph is visible, update the display
-      var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
-      if ( tGraphDiv.is(':visible') )
+      if ( iGraph !== null )
       {
-        var sGraphName = g_aColNames[iGraph].value_col_name;
-        updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
+        var bDelta = g_aColNames[iGraph].graph.delta;
+
+        // Update the graph data structure
+        updateGraphData( sGraphId, g_aRowData[iGraph], bDelta );
+
+        // If graph is visible, update the display
+        var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
+        if ( tGraphDiv.is(':visible') )
+        {
+          var sGraphName = g_aColNames[iGraph].value_col_name;
+          updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
+        }
       }
     }
   }
@@ -647,15 +681,14 @@
   function getGraphIndex( sGraphId )
   {
     // Find index into row data that corresponds to target graph
-    for ( var iGraph in g_aColNames )
+    var bFound = false;
+    for ( var iGraph = 0; ( iGraph < g_aColNames.length ) && ! bFound; iGraph ++ )
     {
-      if ( sGraphId == g_aColNames[iGraph].graph.graph_id )
-      {
-        break;
-      }
+      var tCol = g_aColNames[iGraph];
+      bFound = ( 'graph' in tCol ) && ( sGraphId == tCol.graph.graph_id );
     }
 
-    return iGraph;
+    return bFound ? iGraph - 1 : null;
   }
 
   // Advance to next row

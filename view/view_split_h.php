@@ -57,6 +57,7 @@
   }
 ?>
 
+<!-- Split CSS and JS libraries -->
 <link rel="stylesheet" href="/lib/split/split.css?version=<?=time()?>">
 <script src="/lib/split/split.min.js"></script>
 
@@ -116,6 +117,10 @@
 
     if ( aGraphIds.length )
     {
+      // Set up splitter styling
+
+      $( '#view > .container-fluid' ).css( 'height', '85%' );
+
       Split(
         ['#tablePane', '#graphPane'],
         {
@@ -125,16 +130,40 @@
         }
       );
 
-      Split(
-        aGraphIds,
-        {
-          direction: 'vertical',
-          sizes: [50, 50],
-          minSize: 0,
-          gutterSize: 8,
-          cursor: 'row-resize'
-        }
-      );
+      if ( aGraphIds.length > 1 )
+      {
+        Split(
+          aGraphIds,
+          {
+            direction: 'vertical',
+            sizes: [50, 50],
+            minSize: 0,
+            gutterSize: 8,
+            cursor: 'row-resize'
+          }
+        );
+      }
+    }
+    else
+    {
+      // Remove splitter styling
+
+      $( '#view > .container-fluid' ).prepend( '<br/>' );
+
+      $( '#graphPane' ).hide();
+
+      $( '#tablePane > .split.content' )
+        .removeClass( 'split' )
+        .removeClass( 'content' )
+        .addClass( 'container' );
+
+      $( '#tablePane' )
+        .removeClass( 'split' )
+        .removeClass( 'split-horizontal' );
+
+      $( '#tablePane' )
+        .parent()
+        .removeClass( 'backdrop' );
     }
   }
 
@@ -343,17 +372,21 @@
       // Find the graph index
       var sGraphId = $( aGraphs[iGraph] ).parent().attr( 'id' );
       var iGraph = getGraphIndex( sGraphId );
-      var bDelta = g_aColNames[iGraph].graph.delta;
 
-      // Update the graph data structure
-      updateGraphData( sGraphId, g_aRowData[iGraph], bDelta );
-
-      // If graph is visible, update the display
-      var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
-      if ( tGraphDiv.is(':visible') )
+      if ( iGraph !== null )
       {
-        var sGraphName = g_aColNames[iGraph].value_col_name;
-        updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
+        var bDelta = g_aColNames[iGraph].graph.delta;
+
+        // Update the graph data structure
+        updateGraphData( sGraphId, g_aRowData[iGraph], bDelta );
+
+        // If graph is visible, update the display
+        var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
+        if ( tGraphDiv.is(':visible') )
+        {
+          var sGraphName = g_aColNames[iGraph].value_col_name;
+          updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
+        }
       }
     }
   }
@@ -676,15 +709,14 @@
   function getGraphIndex( sGraphId )
   {
     // Find index into row data that corresponds to target graph
-    for ( var iGraph in g_aColNames )
+    var bFound = false;
+    for ( var iGraph = 0; ( iGraph < g_aColNames.length ) && ! bFound; iGraph ++ )
     {
-      if ( sGraphId == g_aColNames[iGraph].graph.graph_id )
-      {
-        break;
-      }
+      var tCol = g_aColNames[iGraph];
+      bFound = ( 'graph' in tCol ) && ( sGraphId == tCol.graph.graph_id );
     }
 
-    return iGraph;
+    return bFound ? iGraph - 1 : null;
   }
 
   // Advance to next row
@@ -776,7 +808,8 @@
 </style>
 
 
-<div class="container-fluid" style="height:85%" >
+<div class="container-fluid" >
+
   <div class="backdrop">
 
     <div id="tablePane" class="split split-horizontal">
