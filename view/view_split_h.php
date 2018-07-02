@@ -103,15 +103,6 @@
 
   function initSplitters()
   {
-    Split(
-      ['#tablePane', '#graphPane'],
-      {
-        gutterSize: 8,
-        minSize: 0,
-        cursor: 'col-resize'
-      }
-    );
-
     var aGraphIds = [];
 
     for ( var iCol in g_aColNames )
@@ -125,6 +116,15 @@
 
     if ( aGraphIds.length )
     {
+      Split(
+        ['#tablePane', '#graphPane'],
+        {
+          gutterSize: 8,
+          minSize: 0,
+          cursor: 'col-resize'
+        }
+      );
+
       Split(
         aGraphIds,
         {
