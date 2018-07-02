@@ -90,9 +90,6 @@
     // Initialize graph styling
     initGraphs();
 
-    // Set handler to update graphs when graph tab is selected
-    $( 'a.graph-tab' ).on( 'shown.tab.bs', onGraphTabShown );
-
     // Issue first request
     g_iInstanceOffset = 2;
     rq();
@@ -158,6 +155,9 @@
 
       $( 'head' ).append( sTickStyle );
     }
+
+    // Set handler to update graphs when graph tab is selected
+    $( 'a.graph-tab' ).on( 'shown.tab.bs', onGraphTabShown );
   }
 
   function onGraphTabShown( tEvent )
