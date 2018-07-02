@@ -103,11 +103,14 @@
 
   function initSplitters()
   {
-    Split(['#tablePane', '#graphPane'], {
-      gutterSize: 8,
-      minSize: 0,
-      cursor: 'col-resize'
-    })
+    Split(
+      ['#tablePane', '#graphPane'],
+      {
+        gutterSize: 8,
+        minSize: 0,
+        cursor: 'col-resize'
+      }
+    );
 
     var aGraphIds = [];
 
@@ -122,13 +125,16 @@
 
     if ( aGraphIds.length )
     {
-      Split(aGraphIds, {
-        direction: 'vertical',
-        sizes: [50, 50],
-        minSize: 0,
-        gutterSize: 8,
-        cursor: 'row-resize'
-      })
+      Split(
+        aGraphIds,
+        {
+          direction: 'vertical',
+          sizes: [50, 50],
+          minSize: 0,
+          gutterSize: 8,
+          cursor: 'row-resize'
+        }
+      );
     }
   }
 
