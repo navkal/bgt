@@ -1,0 +1,25 @@
+/* Copyright 2018 BACnet Gateway.  All rights reserved. */
+
+.bg-row-pending
+{
+  color: #a6a6a6 !important;
+}
+
+.bar-graph
+{
+  width: 95%;
+  height: 350px;
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+}
+
+
+/* For the d3 graph display */
+.bar {
+  fill: steelblue;
+}
+.bar:hover {
+  fill: brown;
+}
