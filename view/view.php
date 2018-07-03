@@ -31,14 +31,14 @@
   usort( $aLines, "compareLines" );
   $sLines = json_encode( $aLines );
 
-
+  // Compare lines read from CSV file
   function compareLines( $aLine1, $aLine2 )
   {
     return strcmp( $aLine1[0], $aLine2[0] );
   }
 
 
-  // Set flag to use d3 or flot to display bar graphs
+  // Set flag to use flot or d3 to display bar graphs
   $bFlot = 1;
   if ( $bFlot )
   {
@@ -57,11 +57,20 @@
   }
 ?>
 
+
 <!-- CSS and JS libraries -->
 <link rel="stylesheet" href="/view/view.css?version=<?=time()?>">
 <script src="/view/view.js?version=<?=time()?>"></script>
-<link rel="stylesheet" href="/lib/split/split.css?version=<?=time()?>">
-<script src="/lib/split/split.min.js"></script>
+<?php
+  if ( $g_sLayoutMode == 'split' )
+  {
+?>
+  <link rel="stylesheet" href="/lib/split/split.css?version=<?=time()?>">
+  <script src="/lib/split/split.min.js"></script>
+<?php
+  }
+?>
+
 
 <!-- Constants -->
 <script>
@@ -73,12 +82,15 @@
   var g_sBacnetGatewayUrl = 'http://<?=$_SESSION['bgt']['host']?>:<?=$_SESSION['bgt']['port']?>/';
 </script>
 
+
+<!-- Layout -->
 <div class="container-fluid">
 <?php
   switch( $g_sLayoutMode )
   {
     case 'tab':
 ?>
+
   <!-- Tab layout -->
   <ul class="nav nav-tabs">
 
@@ -131,10 +143,12 @@
     ?>
 
   </div>
+
 <?php
       break;
     case 'split':
 ?>
+
   <!-- Split layout -->
   <div class="backdrop">
 
@@ -165,6 +179,7 @@
 
     </div>
   </div>
+
 <?php
       break;
     case 'scroll':
