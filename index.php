@@ -21,7 +21,9 @@
 
   $_SESSION['bgt']['bgt_'] = strpos( $_SERVER['DOCUMENT_ROOT'], '/bgt_' ) !== false;
 
-  $g_sLayoutModeDefault = 'tab';
+  define( 'LAYOUT_MODE_TAB', 'tab' );
+  define( 'LAYOUT_MODE_SPLIT', 'split' );
+  $g_sLayoutModeDefault = LAYOUT_MODE_TAB;
 
   include "../common/main.php";
 

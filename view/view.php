@@ -62,7 +62,7 @@
 <link rel="stylesheet" href="/view/view.css?version=<?=time()?>">
 <script src="/view/view.js?version=<?=time()?>"></script>
 <?php
-  if ( $g_sLayoutMode == 'split' )
+  if ( $g_sLayoutMode == LAYOUT_MODE_SPLIT )
   {
 ?>
   <link rel="stylesheet" href="/lib/split/split.css?version=<?=time()?>">
@@ -80,6 +80,8 @@
   var g_sLayoutMode = '<?=$g_sLayoutMode?>';
   var g_bFlot = <?=$bFlot?>;
   var g_sBacnetGatewayUrl = 'http://<?=$_SESSION['bgt']['host']?>:<?=$_SESSION['bgt']['port']?>/';
+  var LAYOUT_MODE_SPLIT = '<?=LAYOUT_MODE_SPLIT?>';
+  var LAYOUT_MODE_TAB = '<?=LAYOUT_MODE_TAB?>';
 </script>
 
 
@@ -88,7 +90,7 @@
 <?php
   switch( $g_sLayoutMode )
   {
-    case 'tab':
+    case LAYOUT_MODE_TAB:
 ?>
 
   <!-- Tab layout -->
@@ -145,8 +147,8 @@
   </div>
 
 <?php
-      break;
-    case 'split':
+    break;
+    case LAYOUT_MODE_SPLIT:
 ?>
 
   <!-- Split layout -->
@@ -180,11 +182,8 @@
     </div>
   </div>
 
-  <div id="test" style="display:none" >
-  </div>
-
 <?php
-      break;
+    break;
   }
 ?>
 

@@ -24,13 +24,13 @@ function onDocumentReady()
   // Initialize layout framework
   switch( g_sLayoutMode )
   {
-    case 'tab':
+    case LAYOUT_MODE_TAB:
     default:
       // Initialize tabs
       initTabs();
       break;
 
-    case 'split':
+    case LAYOUT_MODE_SPLIT:
       // Initialize splitters
       initSplitters();
       break;
