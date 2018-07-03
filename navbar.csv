@@ -5,11 +5,13 @@ energizeAndover@gmail.com
 # --- Public views ---
 about,Building Monitor,about/about.php
 dashboard,Dashboard,view/dashboard.php
-dishboard,Dishboard,view/dishboard.php
 ahs_electricity,AHS Electricity,view/ahs_electricity.php
 ahs_air,AHS Air,view/ahs_air.php
 #
 # --- P&F views ---
-south_air,South Air,view/south_air.php
-sanborn_air,Sanborn Air,view/sanborn_air.php
-advanced,Advanced,advanced/advanced.php
+#south_air,South Air,view/south_air.php
+#sanborn_air,Sanborn Air,view/sanborn_air.php
+#advanced,Advanced,advanced/advanced.php
+#
+# --- Test views ---
+#dishboard,Dishboard,view/dishboard.php
