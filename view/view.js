@@ -29,9 +29,6 @@ function onDocumentReady()
       // Initialize splitters
       initSplitters();
       break;
-
-    case 'scroll':
-      break;
   }
 
   // Initialize table

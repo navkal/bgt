@@ -182,10 +182,6 @@
 
 <?php
       break;
-    case 'scroll':
-?>
-<?php
-      break;
   }
 ?>
 
