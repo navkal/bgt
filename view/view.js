@@ -58,9 +58,14 @@ function initTabs()
     }
   }
 
-  if ( ! aGraphIds.length )
+  if ( aGraphIds.length )
   {
-    // Hide/remove tab styling
+    // Set handler to update graphs when graph tab is selected
+    $( 'a.graph-tab' ).on( 'shown.tab.bs', onGraphTabShown );
+  }
+  else
+  {
+    // Remove tab styling
     $( '#view > .container-fluid .nav.nav-tabs' ).remove();
     $( '#view > .container-fluid .tab-content' ).removeClass();
     $( '#tableTab' ).removeClass();
@@ -192,9 +197,6 @@ function initGraphs()
 
     $( 'head' ).append( sTickStyle );
   }
-
-  // Set handler to update graphs when graph tab is selected
-  $( 'a.graph-tab' ).on( 'shown.tab.bs', onGraphTabShown );
 }
 
 function onGraphTabShown( tEvent )
