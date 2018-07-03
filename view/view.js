@@ -12,6 +12,11 @@ var g_bHorizontal = null;
 var g_sSuccessClass = 'bg-row-success';
 var g_sPendingClass = 'bg-row-pending';
 
+var NARROW_MAX = 768;
+var SPLIT_MODE_NARROW = 'narrow';
+var SPLIT_MODE_WIDE = 'wide';
+var g_sSplitMode = SPLIT_MODE_WIDE;
+
 $( document ).ready( onDocumentReady );
 
 function onDocumentReady()
@@ -110,6 +115,10 @@ function initSplitters()
         }
       );
     }
+
+    // Set up toggling between wide and narrow modes
+    $( window ).on( 'resize', onWindowResize );
+    onWindowResize();
   }
   else
   {
@@ -132,6 +141,18 @@ function initSplitters()
       .parent()
       .removeClass( 'backdrop' );
   }
+}
+
+function onWindowResize()
+{
+  var sMode = ( $( window ).width() <= NARROW_MAX ) ? SPLIT_MODE_NARROW : SPLIT_MODE_WIDE;
+
+  if ( sMode != g_sSplitMode )
+  {
+    console.log( '==> ' + sMode );
+  }
+
+  g_sSplitMode = sMode;
 }
 
 function initTable()
@@ -346,7 +367,6 @@ function updateRow()
 
 function updateGraphs()
 {
-  console.log( 'updateGraphs()');
   var aGraphs = $( '.bar-graph' );
 
   // Iterate over all graphs
@@ -376,8 +396,6 @@ function updateGraphs()
 
 function updateGraphData( sGraphId, tBarData, bDelta )
 {
-  console.log( '==> updateGraphData id=' + sGraphId );
-
   // If data structure for target graph does not exist, create it
   if ( ! ( sGraphId in g_tGraphData ) )
   {
@@ -412,14 +430,11 @@ function updateGraphData( sGraphId, tBarData, bDelta )
 
     // Insert value into graph data structure
     tGraphData[sRowLabel] = { value: nValue, units: tBarData.units };
-    console.log( '===> Inserted into ' + sGraphId + ': ' + JSON.stringify( tGraphData[sRowLabel] ) );
   }
 }
 
 function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
 {
-  console.log( '==> updateGraphDisplay id=' + sGraphId );
-
   if ( sGraphId in g_tGraphData )
   {
     // Determine which units to show in graph
