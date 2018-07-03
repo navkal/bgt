@@ -31,8 +31,8 @@ function onDocumentReady()
       break;
 
     case LAYOUT_MODE_SPLIT:
-      // Initialize splitters
-      initSplitters();
+      // Initialize splits
+      initSplits();
       break;
   }
 
@@ -74,7 +74,7 @@ function initTabs()
   }
 }
 
-function initSplitters()
+function initSplits()
 {
   var aGraphIds = [];
 
@@ -89,7 +89,7 @@ function initSplitters()
 
   if ( aGraphIds.length )
   {
-    // Set up splitter styling
+    // Set up split styling
 
     $( '#view > .container-fluid' ).css( 'height', '85%' );
 
@@ -122,7 +122,7 @@ function initSplitters()
   }
   else
   {
-    // Remove splitter styling
+    // Remove split styling
 
     $( '#view > .container-fluid' ).prepend( '<br/>' );
 

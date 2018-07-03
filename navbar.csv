@@ -2,6 +2,9 @@ BACnet Gateway
 &copy; 2018 BACnet Gateway.  All rights reserved.
 energizeAndover@gmail.com
 #
+# --- Test views ---
+#dishboard,Dishboard,view/dishboard.php
+#
 # --- Public views ---
 about,Building Monitor,about/about.php
 dashboard,Dashboard,view/dashboard.php
@@ -12,6 +15,3 @@ ahs_air,AHS Air,view/ahs_air.php
 #south_air,South Air,view/south_air.php
 #sanborn_air,Sanborn Air,view/sanborn_air.php
 #advanced,Advanced,advanced/advanced.php
-#
-# --- Test views ---
-#dishboard,Dishboard,view/dishboard.php
