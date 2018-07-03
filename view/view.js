@@ -149,10 +149,27 @@ function onWindowResize()
 
   if ( sMode != g_sSplitMode )
   {
-    console.log( '==> ' + sMode );
+    if ( sMode == SPLIT_MODE_NARROW )
+    {
+      wideToNarrow();
+    }
+    else
+    {
+      narrowToWide();
+    }
   }
 
   g_sSplitMode = sMode;
+}
+
+function wideToNarrow()
+{
+  console.log( 'wideToNarrow()' );
+}
+
+function narrowToWide()
+{
+  console.log( 'narrowToWide()' );
 }
 
 function initTable()
