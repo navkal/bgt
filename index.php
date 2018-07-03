@@ -21,6 +21,8 @@
 
   $_SESSION['bgt']['bgt_'] = strpos( $_SERVER['DOCUMENT_ROOT'], '/bgt_' ) !== false;
 
+  $g_sLayoutModeDefault = 'tab';
+
   include "../common/main.php";
 
   if ( $_SESSION['bgt']['bgt_'] )
