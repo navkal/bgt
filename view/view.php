@@ -162,7 +162,7 @@
       </div>
     </div>
 
-    <div id="graphPane" class="split split-horizontal">
+    <div id="wideGraphPane" class="split split-horizontal">
       <?php
         foreach ( $g_aColNames as $aColPair )
         {
@@ -184,7 +184,7 @@
   <div id="narrow" style="display:none" >
     <div id="narrowTablePane">
     </div>
-    <div id="narrowGraphs">
+    <div id="narrowGraphPane">
       <?php
         include 'bar.php';
       ?>

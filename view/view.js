@@ -96,7 +96,7 @@ function initSplits()
     $( '#view > .container-fluid' ).css( 'height', '85%' );
 
     Split(
-      ['#wideTablePane', '#graphPane'],
+      ['#wideTablePane', '#wideGraphPane'],
       {
         gutterSize: 8,
         minSize: 0,
@@ -130,7 +130,7 @@ function initSplits()
 
     $( '#view > .container-fluid' ).prepend( '<br/>' );
 
-    $( '#graphPane' ).hide();
+    $( '#wideGraphPane' ).hide();
 
     $( '#wideTablePane > .split.content' )
       .removeClass( 'split' )
