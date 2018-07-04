@@ -160,11 +160,6 @@ function onWindowResize()
   }
 
   g_sSplitMode = sSplitMode;
-
-  if ( g_sSplitMode == SPLIT_MODE_NARROW )
-  {
-    $( '.bar-graph' ).css( 'height', '100%' );
-  }
 }
 
 function wideToNarrow()
@@ -194,6 +189,8 @@ function wideToNarrow()
   }
 
   $( '#narrow' ).show();
+
+  $( '#narrow .bar-graph' ).css( 'height', '100%' );
 }
 
 function narrowToWide()
