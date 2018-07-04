@@ -160,6 +160,11 @@ function onWindowResize()
   }
 
   g_sSplitMode = sSplitMode;
+
+  if ( g_sSplitMode == SPLIT_MODE_NARROW )
+  {
+    $( '.bar-graph' ).css( 'height', '100%' );
+  }
 }
 
 function wideToNarrow()
@@ -178,7 +183,13 @@ function wideToNarrow()
     var tCol = g_aColNames[iCol];
     if ( 'graph' in tCol )
     {
-      $( '#narrowGraphPane' ).append( $( '#' + tCol['graph']['graph_id'] ) );
+      tGraphDiv = $( '#' + tCol['graph']['graph_id'] );
+
+      $( '#narrowGraphPane' ).append( tGraphDiv );
+
+      tGraphDiv
+        .removeClass( 'split' )
+        .removeClass( 'content' );
     }
   }
 

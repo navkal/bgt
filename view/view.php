@@ -184,6 +184,7 @@
   <div id="narrow" style="display:none" >
     <div id="narrowTablePane">
     </div>
+    <br/>
     <div id="narrowGraphPane">
     </div>
   </div>
