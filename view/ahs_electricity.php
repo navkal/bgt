@@ -25,7 +25,7 @@
     ]
   ];
 
-  $g_sLayoutMode = $g_sLayoutModeDefault;
+  $g_sLayoutMode = LAYOUT_MODE_SPLIT;
 
   include $_SERVER['DOCUMENT_ROOT'] . '/view/view.php';
 ?>
