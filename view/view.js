@@ -16,6 +16,8 @@ var NARROW_MAX = 768;
 var SPLIT_MODE_NARROW = 'narrow';
 var SPLIT_MODE_WIDE = 'wide';
 var g_sSplitMode = SPLIT_MODE_WIDE;
+var g_tWideTableParent = null;
+var g_tNarrowTableParent = null;
 
 $( document ).ready( onDocumentReady );
 
@@ -94,13 +96,15 @@ function initSplits()
     $( '#view > .container-fluid' ).css( 'height', '85%' );
 
     Split(
-      ['#tablePane', '#graphPane'],
+      ['#wideTablePane', '#graphPane'],
       {
         gutterSize: 8,
         minSize: 0,
         cursor: 'col-resize'
       }
     );
+    g_tWideTableParent = $( '#wideTablePane .content' );
+    g_tNarrowTableParent = $( '#narrowTablePane' );
 
     if ( aGraphIds.length > 1 )
     {
@@ -128,16 +132,16 @@ function initSplits()
 
     $( '#graphPane' ).hide();
 
-    $( '#tablePane > .split.content' )
+    $( '#wideTablePane > .split.content' )
       .removeClass( 'split' )
       .removeClass( 'content' )
       .addClass( 'container' );
 
-    $( '#tablePane' )
+    $( '#wideTablePane' )
       .removeClass( 'split' )
       .removeClass( 'split-horizontal' );
 
-    $( '#tablePane' )
+    $( '#wideTablePane' )
       .parent()
       .removeClass( 'backdrop' );
   }
@@ -165,11 +169,22 @@ function onWindowResize()
 function wideToNarrow()
 {
   console.log( 'wideToNarrow()' );
+  $( '#wide' ).hide();
+
+  g_tNarrowTableParent.append( $( '#bgt_table' ) );
+
+  $( '#narrow' ).show();
 }
 
 function narrowToWide()
 {
   console.log( 'narrowToWide()' );
+  $( '#narrow' ).hide();
+
+  g_tWideTableParent.append( $( '#bgt_table' ) );
+  $( '#bgt_table' ).css( 'height', '95%' );
+
+  $( '#wide' ).show();
 }
 
 function initTable()
@@ -771,6 +786,7 @@ function nextRow( bSuccess )
 function onTablesorterReady()
 {
   $('#bgt_table').off( 'tablesorter-ready' );
+  $('#bgt_table').show();
   setTimeout( rq, g_iTimeoutMs );
 }
 

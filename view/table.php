@@ -2,7 +2,7 @@
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 ?>
 
-<table id="bgt_table" class="table">
+<table id="bgt_table" class="table" style="display:none" >
 
   <thead>
     <tr>

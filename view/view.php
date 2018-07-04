@@ -152,9 +152,9 @@
 ?>
 
   <!-- Split layout -->
-  <div class="backdrop">
+  <div id="wide" class="backdrop">
 
-    <div id="tablePane" class="split split-horizontal">
+    <div id="wideTablePane" class="split split-horizontal">
       <div class="split content">
         <?php
           include $_SERVER['DOCUMENT_ROOT'] . '/view/table.php';
@@ -163,7 +163,6 @@
     </div>
 
     <div id="graphPane" class="split split-horizontal">
-
       <?php
         foreach ( $g_aColNames as $aColPair )
         {
@@ -178,7 +177,20 @@
           }
         }
       ?>
+    </div>
 
+  </div>
+
+  <div id="narrow" style="display:none" >
+    <div id="narrowTablePane">
+    </div>
+    <div id="narrowGraphs">
+      <?php
+        include 'bar.php';
+      ?>
+      <?php
+        include 'bar.php';
+      ?>
     </div>
   </div>
 
