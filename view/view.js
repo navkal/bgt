@@ -1,5 +1,20 @@
 // Copyright 2018 BACnet Gateway.  All rights reserved.
 
+if ( ! Array.prototype.fill )
+{
+  Array.prototype.fill = function( value )
+  {
+    var aFill = [];
+
+    for ( var i = 0; i < this.length; i++ )
+    {
+      aFill[i] = value;
+    }
+
+    return aFill;
+  };
+}
+
 var g_iInstanceOffset = 0;
 var g_iRow = 0;
 var g_iTimeoutMs = 0;
@@ -19,6 +34,7 @@ var SPLIT_MODE_WIDE = 'wide';
 var g_sSplitMode = SPLIT_MODE_WIDE;
 var g_tWideTableParent = null;
 var g_tNarrowTableParent = null;
+var g_tGraphSplit = null;
 
 $( document ).ready( onDocumentReady );
 
@@ -102,19 +118,8 @@ function initSplits()
     g_tWideTableParent = $( '#wideTablePane .content' );
     g_tNarrowTableParent = $( '#narrowTablePane' );
 
-    if ( g_aGraphIds.length > 1 )
-    {
-      Split(
-        g_aGraphIds,
-        {
-          direction: 'vertical',
-          sizes: [50, 50],
-          minSize: 0,
-          gutterSize: 8,
-          cursor: 'row-resize'
-        }
-      );
-    }
+    // Split the graph pane
+    splitGraphPane();
 
     // Set up toggling between wide and narrow modes
     $( window ).on( 'resize', onWindowResize );
@@ -143,6 +148,26 @@ function initSplits()
   }
 }
 
+function splitGraphPane()
+{
+  if ( g_aGraphIds.length > 1 )
+  {
+    var nGraphs = g_aGraphIds.length;
+    var aSizes = Array( nGraphs ).fill( Math.floor( 100 / nGraphs ) );
+
+    g_tGraphSplit = Split(
+      g_aGraphIds,
+      {
+        direction: 'vertical',
+        sizes: aSizes,
+        minSize: 0,
+        gutterSize: 8,
+        cursor: 'row-resize'
+      }
+    );
+  }
+}
+
 function onWindowResize()
 {
   var sSplitMode = ( $( window ).width() <= NARROW_MAX ) ? SPLIT_MODE_NARROW : SPLIT_MODE_WIDE;
@@ -166,31 +191,34 @@ function wideToNarrow()
 {
   console.log( 'wideToNarrow()' );
 
+  // Hide the wide div
   $( '#wide' ).hide();
 
   // Move the table
   g_tNarrowTableParent.append( $( '#bgt_table' ) );
 
+  // Clear the narrow graph pane
+  $( '#narrowGraphPane' ).html( '' );
+
   // Move the graphs
-  var aGraphIds = [];
-  for ( var iCol in g_aColNames )
+  for ( var iGraphId in g_aGraphIds )
   {
-    var tCol = g_aColNames[iCol];
-    if ( 'graph' in tCol )
-    {
-      tGraphDiv = $( '#' + tCol['graph']['graph_id'] );
+    var sGraphId = g_aGraphIds[iGraphId];
+    var tGraphDiv = $( sGraphId );
+    console.log( '===> moving ' + sGraphId );
 
-      $( '#narrowGraphPane' ).append( tGraphDiv );
-      $( '#narrowGraphPane' ).append( '<hr/>' );
+    $( '#narrowGraphPane' ).append( tGraphDiv );
+    $( '#narrowGraphPane' ).append( '<hr/>' );
 
-      tGraphDiv
-        .removeClass( 'split' )
-        .removeClass( 'content' );
-    }
+    tGraphDiv
+      .removeClass( 'split' )
+      .removeClass( 'content' );
   }
 
+  // Show the narrow div
   $( '#narrow' ).show();
 
+  // Set spacing around bar graphs
   $( '#narrow .bar-graph' )
     .css( 'margin-bottom', '70px' )
     .css( 'height', '100%' );
@@ -199,12 +227,41 @@ function wideToNarrow()
 function narrowToWide()
 {
   console.log( 'narrowToWide()' );
+
+  // Hide the narrow div
   $( '#narrow' ).hide();
 
   // Move the table
   g_tWideTableParent.append( $( '#bgt_table' ) );
   $( '#bgt_table' ).css( 'height', '95%' );
 
+  // Move the graphs
+  for ( var iGraphId in g_aGraphIds )
+  {
+    var sGraphId = g_aGraphIds[iGraphId];
+    var tGraphDiv = $( sGraphId );
+    console.log( '===> moving ' + sGraphId );
+
+    $( '#wideGraphPane' ).append( tGraphDiv );
+
+    tGraphDiv
+      .addClass( 'split' )
+      .addClass( 'content' );
+  }
+
+  // Clear spacing around bar graphs
+  $( '#wide .bar-graph' )
+    .css( 'margin-bottom', '' )
+    .css( 'height', '' );
+
+  // Re-split the graph pane
+  if ( g_tGraphSplit )
+  {
+    g_tGraphSplit.destroy();
+    splitGraphPane();
+  }
+
+  // Show the wide div
   $( '#wide' ).show();
 }
 
