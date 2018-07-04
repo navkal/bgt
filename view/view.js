@@ -6,6 +6,7 @@ var g_iTimeoutMs = 0;
 var g_aRowData = [];
 var g_tStartTime = new( Date );
 var g_tStartValues = {};
+var g_aGraphIds = null;
 var g_tGraphData = {};
 var g_bHorizontal = null;
 
@@ -23,17 +24,20 @@ $( document ).ready( onDocumentReady );
 
 function onDocumentReady()
 {
+  // Initialize list of graph IDs
+  initGraphIds();
+
   // Initialize layout framework
   switch( g_sLayoutMode )
   {
     case LAYOUT_MODE_TAB:
     default:
-      // Initialize tabs
+      // Initialize tab layout
       initTabs();
       break;
 
     case LAYOUT_MODE_SPLIT:
-      // Initialize splits
+      // Initialize split layout
       initSplits();
       break;
   }
@@ -49,20 +53,23 @@ function onDocumentReady()
   rq();
 }
 
-function initTabs()
+function initGraphIds()
 {
-  var aGraphIds = [];
+  g_aGraphIds = [];
 
   for ( var iCol in g_aColNames )
   {
     var tCol = g_aColNames[iCol];
     if ( 'graph' in tCol )
     {
-      aGraphIds.push( '#' + tCol['graph']['graph_id'] );
+      g_aGraphIds.push( '#' + tCol['graph']['graph_id'] );
     }
   }
+}
 
-  if ( aGraphIds.length )
+function initTabs()
+{
+  if ( g_aGraphIds.length )
   {
     // Set handler to update graphs when graph tab is selected
     $( 'a.graph-tab' ).on( 'shown.tab.bs', onGraphTabShown );
@@ -78,18 +85,7 @@ function initTabs()
 
 function initSplits()
 {
-  var aGraphIds = [];
-
-  for ( var iCol in g_aColNames )
-  {
-    var tCol = g_aColNames[iCol];
-    if ( 'graph' in tCol )
-    {
-      aGraphIds.push( '#' + tCol['graph']['graph_id'] );
-    }
-  }
-
-  if ( aGraphIds.length )
+  if ( g_aGraphIds.length )
   {
     // Set up split styling
 
@@ -106,10 +102,10 @@ function initSplits()
     g_tWideTableParent = $( '#wideTablePane .content' );
     g_tNarrowTableParent = $( '#narrowTablePane' );
 
-    if ( aGraphIds.length > 1 )
+    if ( g_aGraphIds.length > 1 )
     {
       Split(
-        aGraphIds,
+        g_aGraphIds,
         {
           direction: 'vertical',
           sizes: [50, 50],
@@ -149,11 +145,11 @@ function initSplits()
 
 function onWindowResize()
 {
-  var sMode = ( $( window ).width() <= NARROW_MAX ) ? SPLIT_MODE_NARROW : SPLIT_MODE_WIDE;
+  var sSplitMode = ( $( window ).width() <= NARROW_MAX ) ? SPLIT_MODE_NARROW : SPLIT_MODE_WIDE;
 
-  if ( sMode != g_sSplitMode )
+  if ( sSplitMode != g_sSplitMode )
   {
-    if ( sMode == SPLIT_MODE_NARROW )
+    if ( sSplitMode == SPLIT_MODE_NARROW )
     {
       wideToNarrow();
     }
@@ -163,15 +159,28 @@ function onWindowResize()
     }
   }
 
-  g_sSplitMode = sMode;
+  g_sSplitMode = sSplitMode;
 }
 
 function wideToNarrow()
 {
   console.log( 'wideToNarrow()' );
+
   $( '#wide' ).hide();
 
+  // Move the table
   g_tNarrowTableParent.append( $( '#bgt_table' ) );
+
+  // Move the graphs
+  var aGraphIds = [];
+  for ( var iCol in g_aColNames )
+  {
+    var tCol = g_aColNames[iCol];
+    if ( 'graph' in tCol )
+    {
+      $( '#narrowGraphPane' ).append( $( '#' + tCol['graph']['graph_id'] ) );
+    }
+  }
 
   $( '#narrow' ).show();
 }
@@ -181,6 +190,7 @@ function narrowToWide()
   console.log( 'narrowToWide()' );
   $( '#narrow' ).hide();
 
+  // Move the table
   g_tWideTableParent.append( $( '#bgt_table' ) );
   $( '#bgt_table' ).css( 'height', '95%' );
 

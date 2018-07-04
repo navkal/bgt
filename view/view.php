@@ -185,12 +185,6 @@
     <div id="narrowTablePane">
     </div>
     <div id="narrowGraphPane">
-      <?php
-        include 'bar.php';
-      ?>
-      <?php
-        include 'bar.php';
-      ?>
     </div>
   </div>
 
