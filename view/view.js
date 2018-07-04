@@ -215,13 +215,13 @@ function wideToNarrow()
       .removeClass( 'content' );
   }
 
-  // Show the narrow div
-  $( '#narrow' ).show();
-
   // Set spacing around bar graphs
   $( '#narrow .bar-graph' )
     .css( 'margin-bottom', '70px' )
     .css( 'height', '100%' );
+
+  // Show the narrow div
+  $( '#narrow' ).show();
 }
 
 function narrowToWide()
