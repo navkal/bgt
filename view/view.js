@@ -181,6 +181,7 @@ function wideToNarrow()
       tGraphDiv = $( '#' + tCol['graph']['graph_id'] );
 
       $( '#narrowGraphPane' ).append( tGraphDiv );
+      $( '#narrowGraphPane' ).append( '<hr/>' );
 
       tGraphDiv
         .removeClass( 'split' )
@@ -190,7 +191,9 @@ function wideToNarrow()
 
   $( '#narrow' ).show();
 
-  $( '#narrow .bar-graph' ).css( 'height', '100%' );
+  $( '#narrow .bar-graph' )
+    .css( 'margin-bottom', '70px' )
+    .css( 'height', '100%' );
 }
 
 function narrowToWide()
