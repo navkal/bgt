@@ -14,17 +14,17 @@
 
 <script>
 var g_tTableProps =
+{
+  theme : "dropbox",
+  headerTemplate : '{content} {icon}',
+  widgets : [ "uitheme", "resizable", "filter" ],
+  widgetOptions :
   {
-    theme : "dropbox",
-    headerTemplate : '{content} {icon}',
-    widgets : [ "uitheme", "resizable", "filter" ],
-    widgetOptions :
-    {
-      resizable: true,
-      filter_reset : ".reset",
-      filter_cssFilter: "form-control"
-    }
-  };
+    resizable: true,
+    filter_reset : ".reset",
+    filter_cssFilter: "form-control"
+  }
+};
 </script>
 
 <!-- tablesorter theme -->

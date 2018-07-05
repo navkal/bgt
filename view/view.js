@@ -35,6 +35,7 @@ var g_sSplitMode = SPLIT_MODE_WIDE;
 var g_tWideTableParent = null;
 var g_tNarrowTableParent = null;
 var g_tGraphSplit = null;
+var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProps );
 
 $( document ).ready( onDocumentReady );
 
@@ -291,7 +292,7 @@ function initTable()
   $( '#bgt_table > tbody' ).html( sHtml );
 
   // Initialize the tablesorter
-  $( '#bgt_table' ).tablesorter( g_tTableProps );
+  $( '#bgt_table' ).tablesorter( g_tViewTableProps );
 }
 
 function initGraphs()
@@ -855,16 +856,28 @@ function nextRow( bSuccess )
   g_iInstanceOffset = 2;
   g_aRowData = [];
 
-  // Update tablesorter cache and trigger next request sequence
-  var tTable = $( '#bgt_table' )
+  // Update tablesorter event handlers
+  var tTable = $( '#bgt_table' );
+  tTable.off( 'sortEnd' );
+  tTable.on( 'sortEnd', onSortEnd );
   tTable.on( 'tablesorter-ready', onTablesorterReady );
+
+  // Trigger event to update tabelsorter cache
   tTable.trigger( 'update' );
+}
+
+function onSortEnd()
+{
+  console.log( 'sortEnd' );
+  var tTable = $( '#bgt_table' );
 }
 
 function onTablesorterReady()
 {
-  $('#bgt_table').off( 'tablesorter-ready' );
-  $('#bgt_table').show();
+  console.log( 'tablesorter-ready' );
+  var tTable = $( '#bgt_table' );
+  tTable.off( 'tablesorter-ready' );
+  tTable.show();
   setTimeout( rq, g_iTimeoutMs );
 }
 
