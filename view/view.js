@@ -37,7 +37,6 @@ var g_sSplitMode = SPLIT_MODE_WIDE;
 var g_tWideTableParent = null;
 var g_tNarrowTableParent = null;
 var g_tGraphSplit = null;
-var g_aFilterState = null;
 var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProps );
 
 $( document ).ready( onDocumentReady );
@@ -193,8 +192,6 @@ function onWindowResize()
 
 function wideToNarrow()
 {
-  console.log( 'wideToNarrow()' );
-
   // Hide the wide div
   $( '#wide' ).hide();
 
@@ -209,7 +206,6 @@ function wideToNarrow()
   {
     var sGraphId = g_aGraphIds[iGraphId];
     var tGraphDiv = $( sGraphId );
-    console.log( '===> moving ' + sGraphId );
 
     $( '#narrowGraphPane' ).append( tGraphDiv );
     $( '#narrowGraphPane' ).append( '<hr/>' );
@@ -230,8 +226,6 @@ function wideToNarrow()
 
 function narrowToWide()
 {
-  console.log( 'narrowToWide()' );
-
   // Hide the narrow div
   $( '#narrow' ).hide();
 
@@ -244,7 +238,6 @@ function narrowToWide()
   {
     var sGraphId = g_aGraphIds[iGraphId];
     var tGraphDiv = $( sGraphId );
-    console.log( '===> moving ' + sGraphId );
 
     $( '#wideGraphPane' ).append( tGraphDiv );
 
@@ -297,8 +290,6 @@ function initTable()
   // Initialize the tablesorter
   g_tTable = $( '#bgt_table' );
   g_tTable.tablesorter( g_tViewTableProps );
-  g_aFilterState = Array( g_aColNames.length + 2 ).fill( '' );
-  $.tablesorter.setFilters( g_tTable, g_aFilterState, true );
 }
 
 function initGraphs()
@@ -440,6 +431,7 @@ function rqDone( tRsp, sStatus, tJqXhr )
       updateRow();
 
       // Update graphs
+      console.log( 'rqDone()' );
       updateGraphs( true );
 
       // Advance to next row
@@ -484,6 +476,7 @@ function updateRow()
 
 function updateGraphs( bUpdateData )
 {
+  console.log( '===> updateGraphs(), updateData=' + bUpdateData );
   var aGraphs = $( '.bar-graph' );
 
   // Iterate over all graphs
@@ -580,7 +573,6 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
           aBarLabels.push( $( aRowLabels[iBar] ).text() );
         }
       }
-      console.log( JSON.stringify( aBarLabels ) );
 
       var iOffset = g_bHorizontal ? ( nBars - 1 ) : 0;
 
@@ -901,20 +893,18 @@ function nextRow( bSuccess )
 
 function onSortEnd( tEvent )
 {
-  console.log( 'sortEnd' );
+  console.log( 'onSortEnd()' );
   updateGraphs( false );
 }
 
 function onFilterEnd( tEvent )
 {
-  console.log( 'filterEnd' );
+  console.log( 'onFilterEnd()' );
   updateGraphs( false );
-  var g_aFilterState = $.tablesorter.getFilters(  g_tTable );
 }
 
 function onTablesorterReady()
 {
-  console.log( 'tablesorter-ready' );
   g_tTable.off( 'tablesorter-ready' );
   g_tTable.show();
   setTimeout( rq, g_iTimeoutMs );
