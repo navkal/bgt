@@ -431,7 +431,6 @@ function rqDone( tRsp, sStatus, tJqXhr )
       updateRow();
 
       // Update graphs
-      console.log( 'rqDone()' );
       updateGraphs( true );
 
       // Advance to next row
@@ -476,7 +475,6 @@ function updateRow()
 
 function updateGraphs( bUpdateData )
 {
-  console.log( '===> updateGraphs(), updateData=' + bUpdateData );
   var aGraphs = $( '.bar-graph' );
 
   // Iterate over all graphs
@@ -564,7 +562,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
       }
       else
       {
-        var aRowLabels = $( '.row-label' );
+        var aRowLabels = $( 'tr:not(.filtered) .row-label' );
         var nBars = Math.min( aRowLabels.length, VERTICAL_MAX );
 
         var aBarLabels = [];
@@ -573,6 +571,8 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
           aBarLabels.push( $( aRowLabels[iBar] ).text() );
         }
       }
+      
+      console.log( '==> aBarLabels=' + JSON.stringify( aBarLabels ) );
 
       var iOffset = g_bHorizontal ? ( nBars - 1 ) : 0;
 
@@ -893,13 +893,11 @@ function nextRow( bSuccess )
 
 function onSortEnd( tEvent )
 {
-  console.log( 'onSortEnd()' );
   updateGraphs( false );
 }
 
 function onFilterEnd( tEvent )
 {
-  console.log( 'onFilterEnd()' );
   updateGraphs( false );
 }
 
