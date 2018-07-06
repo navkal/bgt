@@ -37,9 +37,7 @@ var g_sSplitMode = SPLIT_MODE_WIDE;
 var g_tWideTableParent = null;
 var g_tNarrowTableParent = null;
 var g_tGraphSplit = null;
-var g_aSortState = [[0,0]];
 var g_aFilterState = null;
-var g_tViewTableProps = jQuery.extend( true, { sortList: g_aSortState }, g_tTableProps );
 
 $( document ).ready( onDocumentReady );
 
@@ -297,7 +295,7 @@ function initTable()
 
   // Initialize the tablesorter
   g_tTable = $( '#bgt_table' );
-  g_tTable.tablesorter( g_tViewTableProps );
+  g_tTable.tablesorter( g_tTableProps );
   g_aFilterState = Array( g_aColNames.length + 2 ).fill( '' );
   $.tablesorter.setFilters( g_tTable, g_aFilterState, true );
 }
@@ -904,7 +902,6 @@ function onSortEnd( tEvent )
 {
   console.log( 'sortEnd' );
   updateGraphs( false );
-  g_aSortState = tEvent.target.config.sortList;
 }
 
 function onFilterEnd( tEvent )
