@@ -3,7 +3,7 @@ BACnet Gateway
 energizeAndover@gmail.com
 #
 # --- Test views ---
-dishboard,Dishboard,view/dishboard.php
+#dishboard,Dishboard,view/dishboard.php
 #
 # --- Public views ---
 about,Building Monitor,about/about.php
@@ -12,6 +12,6 @@ ahs_electricity,AHS Electricity,view/ahs_electricity.php
 ahs_air,AHS Air,view/ahs_air.php
 #
 # --- P&F views ---
-south_air,South Air,view/south_air.php
-sanborn_air,Sanborn Air,view/sanborn_air.php
-advanced,Advanced,advanced/advanced.php
+#south_air,South Air,view/south_air.php
+#sanborn_air,Sanborn Air,view/sanborn_air.php
+#advanced,Advanced,advanced/advanced.php
