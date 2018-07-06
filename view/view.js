@@ -15,6 +15,7 @@ if ( ! Array.prototype.fill )
   };
 }
 
+var g_tTable = null;
 var g_iInstanceOffset = 0;
 var g_iRow = 0;
 var g_iTimeoutMs = 0;
@@ -37,6 +38,7 @@ var g_tWideTableParent = null;
 var g_tNarrowTableParent = null;
 var g_tGraphSplit = null;
 var g_aSortState = [[0,0]];
+var g_aFilterState = null;
 var g_tViewTableProps = jQuery.extend( true, { sortList: g_aSortState }, g_tTableProps );
 
 $( document ).ready( onDocumentReady );
@@ -198,7 +200,7 @@ function wideToNarrow()
   $( '#wide' ).hide();
 
   // Move the table
-  g_tNarrowTableParent.append( $( '#bgt_table' ) );
+  g_tNarrowTableParent.append( g_tTable );
 
   // Clear the narrow graph pane
   $( '#narrowGraphPane' ).html( '' );
@@ -235,8 +237,8 @@ function narrowToWide()
   $( '#narrow' ).hide();
 
   // Move the table
-  g_tWideTableParent.append( $( '#bgt_table' ) );
-  $( '#bgt_table' ).css( 'height', '95%' );
+  g_tWideTableParent.append( g_tTable );
+  g_tTable.css( 'height', '95%' );
 
   // Move the graphs
   for ( var iGraphId in g_aGraphIds )
@@ -294,7 +296,10 @@ function initTable()
   $( '#bgt_table > tbody' ).html( sHtml );
 
   // Initialize the tablesorter
-  $( '#bgt_table' ).tablesorter( g_tViewTableProps );
+  g_tTable = $( '#bgt_table' );
+  g_tTable.tablesorter( g_tViewTableProps );
+  g_aFilterState = Array( g_aColNames.length + 2 ).fill( '' );
+  $.tablesorter.setFilters( g_tTable, g_aFilterState, true );
 }
 
 function initGraphs()
@@ -885,32 +890,35 @@ function nextRow( bSuccess )
   g_aRowData = [];
 
   // Update tablesorter event handlers
-  var tTable = $( '#bgt_table' );
-  tTable.off( 'sortEnd' );
-  tTable.on( 'sortEnd', onSortEnd );
-  tTable.on( 'tablesorter-ready', onTablesorterReady );
+  g_tTable.off( 'sortEnd' );
+  g_tTable.off( 'filterEnd' );
+  g_tTable.on( 'sortEnd', onSortEnd );
+  g_tTable.on( 'filterEnd', onFilterEnd );
+  g_tTable.on( 'tablesorter-ready', onTablesorterReady );
 
   // Trigger event to update tabelsorter cache
-  tTable.trigger( 'update' );
+  g_tTable.trigger( 'update' );
 }
 
 function onSortEnd( tEvent )
 {
   console.log( 'sortEnd' );
-  var aSortState = tEvent.target.config.sortList;
-  if ( aSortState != g_aSortState )
-  {
-    updateGraphs( false );
-    g_aSortState = aSortState;
-  }
+  updateGraphs( false );
+  g_aSortState = tEvent.target.config.sortList;
+}
+
+function onFilterEnd( tEvent )
+{
+  console.log( 'filterEnd' );
+  updateGraphs( false );
+  var g_aFilterState = $.tablesorter.getFilters(  g_tTable );
 }
 
 function onTablesorterReady()
 {
   console.log( 'tablesorter-ready' );
-  var tTable = $( '#bgt_table' );
-  tTable.off( 'tablesorter-ready' );
-  tTable.show();
+  g_tTable.off( 'tablesorter-ready' );
+  g_tTable.show();
   setTimeout( rq, g_iTimeoutMs );
 }
 
