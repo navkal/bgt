@@ -572,8 +572,6 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
         }
       }
       
-      console.log( '==> aBarLabels=' + JSON.stringify( aBarLabels ) );
-
       var iOffset = g_bHorizontal ? ( nBars - 1 ) : 0;
 
       // Load data values and tick labels
