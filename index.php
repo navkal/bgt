@@ -23,7 +23,7 @@
 
   define( 'LAYOUT_MODE_TAB', 'tab' );
   define( 'LAYOUT_MODE_SPLIT', 'split' );
-  $g_sLayoutModeDefault = LAYOUT_MODE_TAB;
+  $g_sLayoutModeDefault = LAYOUT_MODE_SPLIT;
 
   include "../common/main.php";
 

@@ -28,6 +28,7 @@ var g_bHorizontal = null;
 var g_sSuccessClass = 'bg-row-success';
 var g_sPendingClass = 'bg-row-pending';
 
+var VERTICAL_MAX = 10;
 var NARROW_MAX = 768;
 var SPLIT_MODE_NARROW = 'narrow';
 var SPLIT_MODE_WIDE = 'wide';
@@ -35,7 +36,8 @@ var g_sSplitMode = SPLIT_MODE_WIDE;
 var g_tWideTableParent = null;
 var g_tNarrowTableParent = null;
 var g_tGraphSplit = null;
-var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProps );
+var g_aSortState = [[0,0]];
+var g_tViewTableProps = jQuery.extend( true, { sortList: g_aSortState }, g_tTableProps );
 
 $( document ).ready( onDocumentReady );
 
@@ -275,7 +277,7 @@ function initTable()
     sHtml += '<tr id="row_' + iRow + '">';
 
     // Create cell for label in first column
-    sHtml += '<td>' + g_aRows[iRow][0] + '</td>';
+    sHtml += '<td class="row-label" >' + g_aRows[iRow][0] + '</td>';
 
     // Create cells for value-unit pairs
     for ( var iPair = 2; iPair < g_aRows[iRow].length; iPair ++ )
@@ -297,7 +299,7 @@ function initTable()
 
 function initGraphs()
 {
-  g_bHorizontal = g_aRows.length > 10;
+  g_bHorizontal = ( g_sLayoutMode == LAYOUT_MODE_TAB ) ? ( g_aRows.length > VERTICAL_MAX ) : false;
 
   if ( g_bFlot )
   {
@@ -434,7 +436,7 @@ function rqDone( tRsp, sStatus, tJqXhr )
       updateRow();
 
       // Update graphs
-      updateGraphs();
+      updateGraphs( true );
 
       // Advance to next row
       nextRow( true );
@@ -476,7 +478,7 @@ function updateRow()
   $( '#time_' + g_iRow ).html( sTime );
 }
 
-function updateGraphs()
+function updateGraphs( bUpdateData )
 {
   var aGraphs = $( '.bar-graph' );
 
@@ -491,12 +493,15 @@ function updateGraphs()
     {
       var bDelta = g_aColNames[iGraph].graph.delta;
 
-      // Update the graph data structure
-      updateGraphData( sGraphId, g_aRowData[iGraph], bDelta );
+      // Optionally update the graph data structure
+      if ( bUpdateData )
+      {
+        updateGraphData( sGraphId, g_aRowData[iGraph], bDelta );
+      }
 
       // If graph is visible, update the display
       var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
-      if ( tGraphDiv.is(':visible') )
+      if ( tGraphDiv.is( ':visible' ) )
       {
         var sGraphName = g_aColNames[iGraph].value_col_name;
         updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
@@ -554,20 +559,43 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
 
     if ( g_bFlot )
     {
-      var nBars = Object.keys( tGraphData ).length;
+      // Determine which bars to show in graph
+      if ( g_sLayoutMode == LAYOUT_MODE_TAB )
+      {
+        var aBarLabels = Object.keys( tGraphData );
+        var nBars = aBarLabels.length;
+      }
+      else
+      {
+        var aRowLabels = $( '.row-label' );
+        var nBars = Math.min( aRowLabels.length, VERTICAL_MAX );
+
+        var aBarLabels = [];
+        for ( var iBar = 0; iBar < nBars; iBar ++ )
+        {
+          aBarLabels.push( $( aRowLabels[iBar] ).text() );
+        }
+      }
+      console.log( JSON.stringify( aBarLabels ) );
+
       var iOffset = g_bHorizontal ? ( nBars - 1 ) : 0;
 
       // Load data values and tick labels
       var aData = [];
       var aTicks = [];
-      for ( var sRowLabel in tGraphData )
+      for ( var iBarLabel in aBarLabels )
       {
-        var tRow = tGraphData[sRowLabel];
-        if ( tRow.units == sGraphUnits )
+        var sBarLabel = aBarLabels[iBarLabel];
+
+        if ( sBarLabel in tGraphData )
         {
-          aData.push( g_bHorizontal ? [ tRow.value, iOffset ] : [ iOffset, tRow.value ] );
-          aTicks.push( [ iOffset, sRowLabel ] );
-          iOffset += g_bHorizontal ? -1 : 1;
+          var tRow = tGraphData[sBarLabel];
+          if ( tRow.units == sGraphUnits )
+          {
+            aData.push( g_bHorizontal ? [ tRow.value, iOffset ] : [ iOffset, tRow.value ] );
+            aTicks.push( [ iOffset, sBarLabel ] );
+            iOffset += g_bHorizontal ? -1 : 1;
+          }
         }
       }
 
@@ -866,10 +894,15 @@ function nextRow( bSuccess )
   tTable.trigger( 'update' );
 }
 
-function onSortEnd()
+function onSortEnd( tEvent )
 {
   console.log( 'sortEnd' );
-  var tTable = $( '#bgt_table' );
+  var aSortState = tEvent.target.config.sortList;
+  if ( aSortState != g_aSortState )
+  {
+    updateGraphs( false );
+    g_aSortState = aSortState;
+  }
 }
 
 function onTablesorterReady()
