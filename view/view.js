@@ -21,7 +21,7 @@ var g_iRow = 0;
 var g_iTimeoutMs = 0;
 var g_aRowData = [];
 var g_tStartTime = new( Date );
-var g_tStartValues = {};
+var g_tBaselines = {};
 var g_aGraphIds = null;
 var g_tGraphData = {};
 var g_bHorizontal = null;
@@ -45,6 +45,8 @@ function onDocumentReady()
 {
   // Initialize list of graph IDs
   initGraphIds();
+
+  // Initialize baseline values
 
   // Initialize layout framework
   switch( g_sLayoutMode )
@@ -511,7 +513,10 @@ function updateGraphData( sGraphId, tBarData, bDelta )
   if ( ! ( sGraphId in g_tGraphData ) )
   {
     g_tGraphData[sGraphId] = {};
-    g_tStartValues[sGraphId] = {};
+    if ( bDelta )
+    {
+      g_tBaselines[sGraphId] = {};
+    }
   }
 
   // Update target graph data
@@ -525,18 +530,21 @@ function updateGraphData( sGraphId, tBarData, bDelta )
   }
   else
   {
-    // Save initial value in start data structure
-    var tStartValues = g_tStartValues[sGraphId];
-    if ( ! ( sRowLabel in tStartValues ) )
-    {
-      tStartValues[sRowLabel] = Math.round( tBarData.presentValue );
-    }
-
-    // Determine value to be shown in graph: raw value or delta since start
+    // Get raw value
     var nValue =  Math.round( tBarData.presentValue );
+
+    // Determine value to be shown in graph: raw value or delta since baseline
     if ( bDelta )
     {
-      nValue -= tStartValues[sRowLabel];
+      var tBaselines = g_tBaselines[sGraphId];
+      if ( ! ( sRowLabel in tBaselines ) )
+      {
+        // Save initial value in baseline data structure
+        tBaselines[sRowLabel] = Math.round( tBarData.presentValue );
+      }
+
+      // Calculate delta value
+      nValue -= tBaselines[sRowLabel];
     }
 
     // Insert value into graph data structure
@@ -571,7 +579,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
           aBarLabels.push( $( aRowLabels[iBar] ).text() );
         }
       }
-      
+
       var iOffset = g_bHorizontal ? ( nBars - 1 ) : 0;
 
       // Load data values and tick labels
