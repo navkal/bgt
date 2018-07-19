@@ -10,8 +10,7 @@
       'units_col_name' => 'Temperature Units',
       'graph' =>
       [
-        'graph_id' => 'temperature',
-        'delta' => false
+        'graph_id' => 'temperature'
       ]
     ],
     [
@@ -19,8 +18,7 @@
       'units_col_name' => 'CO2 Units',
       'graph' =>
       [
-        'graph_id' => 'co2',
-        'delta' => false
+        'graph_id' => 'co2'
       ]
     ]
   ];

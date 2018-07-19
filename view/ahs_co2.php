@@ -10,8 +10,7 @@
       'units_col_name' => 'Units',
       'graph' =>
       [
-        'graph_id' => 'co2',
-        'delta' => false
+        'graph_id' => 'co2'
       ]
     ]
   ];

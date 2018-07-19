@@ -10,8 +10,7 @@
       'units_col_name' => 'Units',
       'graph' =>
       [
-        'graph_id' => 'temperature',
-        'delta' => false
+        'graph_id' => 'temperature'
       ]
     ]
   ];

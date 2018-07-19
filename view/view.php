@@ -3,6 +3,40 @@
 
   include $_SERVER['DOCUMENT_ROOT'] . '/util/tablesorter.php';
 
+  //
+  // Determine whether graph should show delta values
+  //
+
+  // Get name of CSV file for this view
+  $sCsvBasename = basename( $g_sCsvFilename, '.csv' );
+
+  // Look for this view's CSV filename in baselines file
+  $file = fopen( 'baselines/baselines.csv', 'r' );
+  while( ! feof( $file ) )
+  {
+    $aLine = fgetcsv( $file );
+    if ( is_array( $aLine ) && ( count( $aLine ) > 1 ) && ( $aLine[0][0] != '#' ) )
+    {
+      // If current line starts with matching CSV filename, set delta flags for all columns in current view
+      if ( $sCsvBasename == $aLine[0] )
+      {
+        // Remove CSV filename from line array
+        array_shift( $aLine );
+
+        // Traverse array that describes the columns of current view
+        for ( $iCol = 0; $iCol < count( $g_aColNames ); $iCol ++ )
+        {
+          // If this column has a graph, set the delta value
+          if ( array_key_exists( 'graph', $g_aColNames[$iCol] ) )
+          {
+            $g_aColNames[$iCol]['graph']['delta'] = in_array( $g_aColNames[$iCol]['value_col_name'], $aLine );
+          }
+        }
+      }
+    }
+  }
+  fclose( $file );
+
   // Convert column name list to JSON
   $sColNames = json_encode( $g_aColNames );
 
