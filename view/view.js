@@ -22,7 +22,7 @@ var g_iTimeoutMs = 0;
 var g_aRowData = [];
 var g_tStartTime = new( Date );
 var g_tBaselines = {};
-var g_aGraphIds = null;
+var g_aGraphSelectors = null;
 var g_tGraphData = {};
 var g_bHorizontal = null;
 
@@ -47,6 +47,7 @@ function onDocumentReady()
   initGraphIds();
 
   // Initialize baseline values
+  initBaselines();
 
   // Initialize layout framework
   switch( g_sLayoutMode )
@@ -76,21 +77,28 @@ function onDocumentReady()
 
 function initGraphIds()
 {
-  g_aGraphIds = [];
+  g_aGraphSelectors = [];
 
   for ( var iCol in g_aColNames )
   {
     var tCol = g_aColNames[iCol];
     if ( 'graph' in tCol )
     {
-      g_aGraphIds.push( '#' + tCol['graph']['graph_id'] );
+      g_aGraphSelectors.push( '#' + tCol['graph']['graph_id'] );
     }
   }
 }
 
+function initBaselines()
+{
+  console.log( '=> g_aGraphSelectors=' + JSON.stringify( g_aGraphSelectors ) );
+  console.log( '=> g_aColNames=' + JSON.stringify( g_aColNames ) );
+
+}
+
 function initTabs()
 {
-  if ( g_aGraphIds.length )
+  if ( g_aGraphSelectors.length )
   {
     // Set handler to update graphs when graph tab is selected
     $( 'a.graph-tab' ).on( 'shown.tab.bs', onGraphTabShown );
@@ -106,7 +114,7 @@ function initTabs()
 
 function initSplits()
 {
-  if ( g_aGraphIds.length )
+  if ( g_aGraphSelectors.length )
   {
     // Set up split styling
 
@@ -155,13 +163,13 @@ function initSplits()
 
 function splitGraphPane()
 {
-  if ( g_aGraphIds.length > 1 )
+  if ( g_aGraphSelectors.length > 1 )
   {
-    var nGraphs = g_aGraphIds.length;
+    var nGraphs = g_aGraphSelectors.length;
     var aSizes = Array( nGraphs ).fill( Math.floor( 100 / nGraphs ) );
 
     g_tGraphSplit = Split(
-      g_aGraphIds,
+      g_aGraphSelectors,
       {
         direction: 'vertical',
         sizes: aSizes,
@@ -204,10 +212,9 @@ function wideToNarrow()
   $( '#narrowGraphPane' ).html( '' );
 
   // Move the graphs
-  for ( var iGraphId in g_aGraphIds )
+  for ( var iGraphSel in g_aGraphSelectors )
   {
-    var sGraphId = g_aGraphIds[iGraphId];
-    var tGraphDiv = $( sGraphId );
+    var tGraphDiv = $( g_aGraphSelectors[iGraphSel] );
 
     $( '#narrowGraphPane' ).append( tGraphDiv );
     $( '#narrowGraphPane' ).append( '<hr/>' );
@@ -236,10 +243,9 @@ function narrowToWide()
   g_tTable.css( 'height', '95%' );
 
   // Move the graphs
-  for ( var iGraphId in g_aGraphIds )
+  for ( var iGraphSel in g_aGraphSelectors )
   {
-    var sGraphId = g_aGraphIds[iGraphId];
-    var tGraphDiv = $( sGraphId );
+    var tGraphDiv = $( g_aGraphSelectors[iGraphSel] );
 
     $( '#wideGraphPane' ).append( tGraphDiv );
 
@@ -515,6 +521,7 @@ function updateGraphData( sGraphId, tBarData, bDelta )
     g_tGraphData[sGraphId] = {};
     if ( bDelta )
     {
+      console.log( '==> sGraphId=' + sGraphId );
       g_tBaselines[sGraphId] = {};
     }
   }
