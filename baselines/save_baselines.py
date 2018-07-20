@@ -21,16 +21,17 @@ def open_db():
 
     if not db_exists:
 
-        cur.executescript('''
+        cur.execute('''
             CREATE TABLE IF NOT EXISTS Baselines (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                facility TEXT,
-                oid TEXT,
-                value FLOAT,
+                csv_filename TEXT,
+                column_name TEXT,
+                row_label TEXT,
+                value INTEGER,
                 units TEXT,
                 timestamp FLOAT
-            );
-        ''');
+            )
+        ''')
 
         conn.commit()
 
@@ -44,42 +45,48 @@ def save_baselines( baselines_row ):
     #   - Facility
     #   - Instance ID of power meter
     #   - Instance ID of energy meter
-    filename = baselines_row[0]
-    df = pd.read_csv( '../csv/' + filename + '.csv', na_filter=False, comment='#' )
+    csv_filename = baselines_row[0]
+    df = pd.read_csv( '../csv/' + csv_filename + '.csv', na_filter=False, comment='#' )
 
     # Output column headings
     print( '---' )
-    print( 'CSV file:', filename )
+    print( 'CSV file:', csv_filename )
     print( '---' )
-    oid_column_name = baselines_row[1]
-    print( 'Timestamp,Facility,' + oid_column_name + ',' + oid_column_name + 'Units' )
+    column_name = baselines_row[1]
+    print( 'Timestamp,Label,' + column_name + ',' + column_name + ' Units' )
 
     # Iterate over the rows of the dataframe, getting values for each row
     for index, oid_row in df.iterrows():
-        save_baseline( oid_column_name, oid_row )
+        save_baseline( csv_filename, column_name, oid_row )
 
 
-def save_baseline( oid_column_name, oid_row ):
+def save_baseline( csv_filename, column_name, oid_row ):
 
-    # Retrieve data
+    # Retrieve data, retrying if necessary
     facility = oid_row['Facility']
-    oid = oid_row[oid_column_name]
-    value, units = get_value_and_units( facility, oid, args.hostname, args.port )
-    value = int( value ) if value else ''
-    units = units if units else ''
+    oid = oid_row[column_name]
+    row_label = oid_row['Label']
+    for i in range( 1, 6 ):
+        value, units = get_value_and_units( facility, oid, args.hostname, args.port )
+        print( '{0},{1},{2},{3}'.format( time.ctime( timestamp ), row_label, value, units ) )
+        if ( value and units ):
+            break
 
-    # Debug
-    print( '{0},{1},{2},{3}'.format( time.ctime( timestamp ), oid_row['Label'], value, units ) )
+    # Process retrieved data
+    if ( value and units ):
 
-    # Save in database
-    cur.execute( 'SELECT id FROM Baselines WHERE ( facility=? AND oid=? )', ( facility, oid ) )
-    row = cur.fetchone()
-    if row:
-        cur.execute( 'UPDATE Baselines SET value=?, units=?, timestamp=? WHERE id=?', ( value, units, timestamp, row[0] ) )
+        # Got baseline; save in database
+        value = int( value )
+        cur.execute( 'SELECT id FROM Baselines WHERE ( csv_filename=? AND column_name=? AND row_label=? )', ( csv_filename, column_name, row_label ) )
+        row = cur.fetchone()
+
+        if row:
+            cur.execute( 'UPDATE Baselines SET value=?, units=?, timestamp=? WHERE id=?', ( value, units, timestamp, row[0] ) )
+        else:
+            cur.execute( 'INSERT INTO Baselines ( csv_filename, column_name, row_label, value, units, timestamp ) VALUES(?,?,?,?,?,?)', ( csv_filename, column_name, row_label, value, units, timestamp ) )
     else:
-        cur.execute( 'INSERT INTO Baselines ( facility, oid, value, units, timestamp ) VALUES(?,?,?,?,?)', ( facility, oid, value, units, timestamp ) )
-
-    conn.commit()
+        # Failed to get baseline; remove from database
+        cur.execute( 'DELETE FROM Baselines WHERE ( csv_filename=? AND column_name=? AND row_label=? )', ( csv_filename, column_name, row_label ) )
 
 
 if __name__ == '__main__':
@@ -104,3 +111,4 @@ if __name__ == '__main__':
         for baselines_row in reader:
             save_baselines( baselines_row )
 
+    conn.commit()

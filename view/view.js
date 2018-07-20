@@ -20,7 +20,7 @@ var g_iInstanceOffset = 0;
 var g_iRow = 0;
 var g_iTimeoutMs = 0;
 var g_aRowData = [];
-var g_tStartTime = new( Date );
+var g_tStartTime = null;
 var g_tBaselines = {};
 var g_aGraphSelectors = null;
 var g_tGraphData = {};
@@ -91,9 +91,36 @@ function initGraphIds()
 
 function initBaselines()
 {
-  console.log( '=> g_aGraphSelectors=' + JSON.stringify( g_aGraphSelectors ) );
-  console.log( '=> g_aColNames=' + JSON.stringify( g_aColNames ) );
+  // console.log( '=> g_aGraphSelectors=' + JSON.stringify( g_aGraphSelectors ) );
+  // console.log( '=> g_aColNames=' + JSON.stringify( g_aColNames ) );
+  console.log( '=> g_aBaselines=' + JSON.stringify( g_aBaselines ) );
+  for ( var iCol in g_aColNames )
+  {
+    var tCol = g_aColNames[iCol];
+    if ( ( 'graph' in tCol ) && ( tCol.graph.delta) )
+    {
+      var sColName = tCol.value_col_name;
+      var sGraphId = tCol.graph.graph_id;
+      console.log( '========> init baseline for csv basename=' + g_sCsvBasename + ', colname=' + sColName + ', id=' + sGraphId );
+      g_tBaselines[sGraphId] = {};
+      for ( var iRow = 0; iRow < g_aBaselines.length; iRow ++ )
+      {
+        var aRow = g_aBaselines[iRow];
+        if ( aRow[1] == g_sCsvBasename )
+        {
+          console.log( JSON.stringify( aRow ) );
+          var sRowLabel = aRow[3];
+          g_tBaselines[sGraphId][sRowLabel] = {};
+          g_tBaselines[sGraphId][sRowLabel].value = aRow[4];
+          g_tBaselines[sGraphId][sRowLabel].units = aRow[5];
+          g_tStartTime = new Date( aRow[6] * 1000 );
+        }
+      }
+    }
+  }
 
+  console.log( '===> initBaselines() done initializing baselines.  Result is' );
+  console.log( JSON.stringify( g_tBaselines ) );
 }
 
 function initTabs()
@@ -519,11 +546,6 @@ function updateGraphData( sGraphId, tBarData, bDelta )
   if ( ! ( sGraphId in g_tGraphData ) )
   {
     g_tGraphData[sGraphId] = {};
-    if ( bDelta )
-    {
-      console.log( '==> sGraphId=' + sGraphId );
-      g_tBaselines[sGraphId] = {};
-    }
   }
 
   // Update target graph data
@@ -540,23 +562,29 @@ function updateGraphData( sGraphId, tBarData, bDelta )
     // Get raw value
     var nValue =  Math.round( tBarData.presentValue );
 
-    // Determine value to be shown in graph: raw value or delta since baseline
+    // Determine value to be shown in graph: raw value or delta from baseline
     if ( bDelta )
     {
       var tBaselines = g_tBaselines[sGraphId];
-      if ( ! ( sRowLabel in tBaselines ) )
+      if ( ( sRowLabel in tBaselines ) && ( tBaselines[sRowLabel].units == tBarData.units ) )
       {
-        // Save initial value in baseline data structure
-        tBaselines[sRowLabel] = nValue;
+        // Baseline is available, and units match.  Save delta value.
+        tGraphData[sRowLabel] = { value: nValue - tBaselines[sRowLabel].value, units: tBarData.units };
       }
-
-      // Calculate delta value
-      nValue -= tBaselines[sRowLabel];
+      else
+      {
+        // Baseline not available, or units do not match; remove element from graph data structure
+        delete tGraphData[sRowLabel];
+      }
     }
-
-    // Insert value into graph data structure
-    tGraphData[sRowLabel] = { value: nValue, units: tBarData.units };
+    else
+    {
+      // Save raw value
+      tGraphData[sRowLabel] = { value: nValue, units: tBarData.units };
+    }
   }
+
+  console.log( JSON.stringify( g_tGraphData ) );
 }
 
 function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )

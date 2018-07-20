@@ -9,7 +9,7 @@
 
   // Look for this view's CSV filename in baselines file
   $bDelta = false;
-  $sCsvBasename = basename( $g_sCsvFilename, '.csv' );
+  $g_sCsvBasename = basename( $g_sCsvFilename, '.csv' );
   $file = fopen( 'baselines/baselines.csv', 'r' );
   while( ! feof( $file ) )
   {
@@ -17,7 +17,7 @@
     if ( is_array( $aLine ) && ( count( $aLine ) > 1 ) && ( $aLine[0][0] != '#' ) )
     {
       // If current line starts with matching CSV filename, set delta flags for all columns in current view
-      if ( $sCsvBasename == $aLine[0] )
+      if ( $g_sCsvBasename == $aLine[0] )
       {
         // Remove CSV filename from line array
         array_shift( $aLine );
@@ -123,6 +123,7 @@
 
 <!-- Constants -->
 <script>
+  var g_sCsvBasename = '<?=$g_sCsvBasename?>';
   var g_sFirstColName = '<?=$g_sFirstColName?>';
   var g_aColNames = JSON.parse( '<?=$sColNames?>' );
   var g_aBaselines = JSON.parse( '<?=$sBaselines?>' );
