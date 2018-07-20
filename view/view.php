@@ -7,10 +7,9 @@
   // Determine whether graph should show delta values
   //
 
-  // Get name of CSV file for this view
-  $sCsvBasename = basename( $g_sCsvFilename, '.csv' );
-
   // Look for this view's CSV filename in baselines file
+  $bDelta = false;
+  $sCsvBasename = basename( $g_sCsvFilename, '.csv' );
   $file = fopen( 'baselines/baselines.csv', 'r' );
   while( ! feof( $file ) )
   {
@@ -30,12 +29,28 @@
           if ( array_key_exists( 'graph', $g_aColNames[$iCol] ) )
           {
             $g_aColNames[$iCol]['graph']['delta'] = in_array( $g_aColNames[$iCol]['value_col_name'], $aLine );
+            $bDelta = $bDelta || $g_aColNames[$iCol]['graph']['delta'];
           }
         }
       }
     }
   }
   fclose( $file );
+
+  $sBaselines = '[]';
+  if ( $bDelta )
+  {
+    // Format command
+    $command = quote( getenv( 'PYTHON' ) ) . ' baselines/get_baselines.py 2>&1';
+
+    // Execute command
+    error_log( '==> command=' . $command );
+    exec( $command, $output, $status );
+    error_log( '==> output=' . print_r( $output, true ) );
+
+    // Echo status
+    $sBaselines = $output[ count( $output ) - 1 ];
+  }
 
   // Convert column name list to JSON
   $sColNames = json_encode( $g_aColNames );
@@ -110,6 +125,7 @@
 <script>
   var g_sFirstColName = '<?=$g_sFirstColName?>';
   var g_aColNames = JSON.parse( '<?=$sColNames?>' );
+  var g_aBaselines = JSON.parse( '<?=$sBaselines?>' );
   var g_aRows = JSON.parse( '<?=$sLines?>' );
   var g_sLayoutMode = '<?=$g_sLayoutMode?>';
   var g_bFlot = <?=$bFlot?>;

@@ -85,7 +85,7 @@ def save_baseline( oid_column_name, oid_row ):
 if __name__ == '__main__':
 
     # Get hostname and port of BACnet Gateway, and name of input CSV file
-    parser = argparse.ArgumentParser( description='Test BACnet Gateway', add_help=False )
+    parser = argparse.ArgumentParser( description='Save baseline values in database', add_help=False )
     parser.add_argument( '-h', dest='hostname' )
     parser.add_argument( '-p', dest='port' )
     args = parser.parse_args()
@@ -103,5 +103,4 @@ if __name__ == '__main__':
 
         for baselines_row in reader:
             save_baselines( baselines_row )
-
 

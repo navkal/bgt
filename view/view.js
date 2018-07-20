@@ -547,7 +547,7 @@ function updateGraphData( sGraphId, tBarData, bDelta )
       if ( ! ( sRowLabel in tBaselines ) )
       {
         // Save initial value in baseline data structure
-        tBaselines[sRowLabel] = Math.round( tBarData.presentValue );
+        tBaselines[sRowLabel] = nValue;
       }
 
       // Calculate delta value
