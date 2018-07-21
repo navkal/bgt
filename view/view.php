@@ -46,10 +46,10 @@
           error_log( '==> output=' . print_r( $output, true ) );
 
           // Set delta flag and save baseline values
-          $tResult = json_decode( $output[ count( $output ) - 1 ] );
-          if ( $g_aColNames[$iCol]['graph']['delta'] = ! empty( $tResult ) )
+          $tBaseline = json_decode( $output[ count( $output ) - 1 ] );
+          if ( $g_aColNames[$iCol]['graph']['delta'] = ! empty( $tBaseline ) )
           {
-            $tBaselines[$g_aColNames[$iCol]['graph']['graph_id']] = $tResult;
+            $tBaselines[$g_aColNames[$iCol]['graph']['graph_id']] = $tBaseline;
           }
         }
       }
