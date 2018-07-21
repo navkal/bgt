@@ -13,15 +13,16 @@ args = parser.parse_args()
 
 db = 'baselines/baselines.sqlite'
 
+baselines = []
+
 if os.path.exists( db ):
     # Retrieve baselines from database
     conn = sqlite3.connect( db )
     cur = conn.cursor()
     cur.execute( 'SELECT * FROM Baselines WHERE ( csv_filename=? AND column_name=? )', ( args.csv_filename, args.column_name ) )
-    baselines = cur.fetchall()
-else:
-    # No database; set empty list
-    baselines = []
+    rows = cur.fetchall()
+    for row in rows:
+        baselines.append( { 'csv_filename': row[1], 'column_name': row[2], 'row_label': row[3], 'value': row[4], 'units': row[5], 'timestamp': row[6] * 1000 } )
 
 # Return list of baseline values
 print( json.dumps( baselines ) )

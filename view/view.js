@@ -105,15 +105,15 @@ function initBaselines()
       g_tBaselines[sGraphId] = {};
       for ( var iRow = 0; iRow < g_aBaselines.length; iRow ++ )
       {
-        var aRow = g_aBaselines[iRow];
-        if ( aRow[1] == g_sCsvBasename )
+        var tRow = g_aBaselines[iRow];
+        if ( tRow.csv_filename == g_sCsvBasename )
         {
-          console.log( JSON.stringify( aRow ) );
-          var sRowLabel = aRow[3];
+          console.log( JSON.stringify( tRow ) );
+          var sRowLabel = tRow.row_label;
           g_tBaselines[sGraphId][sRowLabel] = {};
-          g_tBaselines[sGraphId][sRowLabel].value = aRow[4];
-          g_tBaselines[sGraphId][sRowLabel].units = aRow[5];
-          g_tStartTime = new Date( aRow[6] * 1000 );
+          g_tBaselines[sGraphId][sRowLabel].value = tRow.value;
+          g_tBaselines[sGraphId][sRowLabel].units = tRow.units;
+          g_tStartTime = new Date( tRow.timestamp );
         }
       }
     }
