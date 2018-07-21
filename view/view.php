@@ -44,9 +44,9 @@
           error_log( '==> command=' . $command );
           exec( $command, $output, $status );
           error_log( '==> output=' . print_r( $output, true ) );
-          $aResult = json_decode( $output[ count( $output ) - 1 ] );
 
           // Set delta flag and save baseline values
+          $aResult = json_decode( $output[ count( $output ) - 1 ] );
           if ( $g_aColNames[$iCol]['graph']['delta'] = ! empty( $aResult ) )
           {
             $aBaselines = array_merge( $aBaselines, $aResult );
