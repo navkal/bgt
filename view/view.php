@@ -8,7 +8,7 @@
   //
 
   // Look for this view's CSV filename in baselines file
-  $bDelta = false;
+  $aDeltaGraphs = [];
   $g_sCsvBasename = basename( $g_sCsvFilename, '.csv' );
   $file = fopen( 'baselines/baselines.csv', 'r' );
   while( ! feof( $file ) )
@@ -29,7 +29,10 @@
           if ( array_key_exists( 'graph', $g_aColNames[$iCol] ) )
           {
             $g_aColNames[$iCol]['graph']['delta'] = in_array( $g_aColNames[$iCol]['value_col_name'], $aLine );
-            $bDelta = $bDelta || $g_aColNames[$iCol]['graph']['delta'];
+            if ( $g_aColNames[$iCol]['graph']['delta'] )
+            {
+              array_push( $aDeltaGraphs, [ 'csv_filename' => $g_sCsvBasename, 'column_name' => $g_aColNames[$iCol]['value_col_name'] ] );
+            }
           }
         }
       }
@@ -38,10 +41,10 @@
   fclose( $file );
 
   $sBaselines = '[]';
-  if ( $bDelta )
+  if ( count( $aDeltaGraphs ) )
   {
     // Format command
-    $command = quote( getenv( 'PYTHON' ) ) . ' baselines/get_baselines.py 2>&1';
+    $command = quote( getenv( 'PYTHON' ) ) . ' baselines/get_baselines.py 2>&1 -d "' . addslashes( json_encode( $aDeltaGraphs ) ) . '"';
 
     // Execute command
     error_log( '==> command=' . $command );
@@ -50,7 +53,9 @@
 
     // Echo status
     $sBaselines = $output[ count( $output ) - 1 ];
+
   }
+
 
   // Convert column name list to JSON
   $sColNames = json_encode( $g_aColNames );
@@ -127,6 +132,7 @@
   var g_sFirstColName = '<?=$g_sFirstColName?>';
   var g_aColNames = JSON.parse( '<?=$sColNames?>' );
   var g_aBaselines = JSON.parse( '<?=$sBaselines?>' );
+  console.log( JSON.stringify( g_aBaselines ) );
   var g_aRows = JSON.parse( '<?=$sLines?>' );
   var g_sLayoutMode = '<?=$g_sLayoutMode?>';
   var g_bFlot = <?=$bFlot?>;
