@@ -59,8 +59,6 @@
 
 
 
-
-
   // Read CSV file describing data to be retrieved and presented
   $file = fopen( $g_sCsvFilename, 'r' );
   fgetcsv( $file );
@@ -82,9 +80,8 @@
   }
   fclose( $file );
 
-  // Sort and convert to JSON
+  // Sort lines
   usort( $aLines, "compareLines" );
-  $sLines = json_encode( $aLines );
 
   // Compare lines read from CSV file
   function compareLines( $aLine1, $aLine2 )
@@ -132,10 +129,8 @@
   var g_sCsvBasename = '<?=$g_sCsvBasename?>';
   var g_sFirstColName = '<?=$g_sFirstColName?>';
   var g_aColNames = JSON.parse( '<?=json_encode( $g_aColNames )?>' );
-  console.log( JSON.stringify( g_aColNames ) );
   var g_aBaselines = JSON.parse( '<?=json_encode( $aBaselines )?>' );
-  console.log( JSON.stringify( g_aBaselines ) );
-  var g_aRows = JSON.parse( '<?=$sLines?>' );
+  var g_aRows = JSON.parse( '<?=json_encode( $aLines )?>' );
   var g_sLayoutMode = '<?=$g_sLayoutMode?>';
   var g_bFlot = <?=$bFlot?>;
   var g_sBacnetGatewayUrl = 'http://<?=$_SESSION['bgt']['host']?>:<?=$_SESSION['bgt']['port']?>/';
