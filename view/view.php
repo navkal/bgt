@@ -3,35 +3,60 @@
 
   include $_SERVER['DOCUMENT_ROOT'] . '/util/tablesorter.php';
 
-  //
-  // Determine whether graph should show delta values
-  //
+  // Set up delta flags and retrieve baselines for graphs in view
 
-  // Look for this view's CSV filename in baselines file
-  $aDeltaGraphs = [];
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // The baselines CSV file 'baselines/baselines.csv' is structured like so -
+  // Column 1: Basename of CSV filename that describes a view
+  // Columns 2-n: Names of columns in the view whose corresponding graphs should display delta values
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // Get base name of CSV file that specifies the contents of this view
   $g_sCsvBasename = basename( $g_sCsvFilename, '.csv' );
+
+  // Initialize list of baseline values
+  $aBaselines = [];
+
+  // Iterate over baselines CSV file
   $file = fopen( 'baselines/baselines.csv', 'r' );
-  while( ! feof( $file ) )
+  $bFound = false;
+  while( ! feof( $file ) && ! $bFound )
   {
     $aLine = fgetcsv( $file );
-    if ( is_array( $aLine ) && ( count( $aLine ) > 1 ) && ( $aLine[0][0] != '#' ) )
+    if ( is_array( $aLine ) && ( count( $aLine ) > 1 ) && ( $aLine[0][0] != '#' ) && ( $g_sCsvBasename == $aLine[0] ) )
     {
-      // If current line starts with matching CSV filename, set delta flags for all columns in current view
-      if ( $g_sCsvBasename == $aLine[0] )
-      {
-        // Remove CSV filename from line array
-        array_shift( $aLine );
+      // Current line starts with matching CSV filename
+      $bFound = true;
 
-        // Traverse array that describes the columns of current view
-        for ( $iCol = 0; $iCol < count( $g_aColNames ); $iCol ++ )
+      // Remove CSV filename from line array
+      array_shift( $aLine );
+
+      // Traverse array that describes current view
+      for ( $iCol = 0; $iCol < count( $g_aColNames ); $iCol ++ )
+      {
+        // If this column has a graph, set its delta flag and optionally retrieve baseline data
+        if ( array_key_exists( 'graph', $g_aColNames[$iCol] ) )
         {
-          // If this column has a graph, set the delta value
-          if ( array_key_exists( 'graph', $g_aColNames[$iCol] ) )
+          if ( $g_aColNames[$iCol]['graph']['delta'] = in_array( $g_aColNames[$iCol]['value_col_name'], $aLine ) )
           {
-            $g_aColNames[$iCol]['graph']['delta'] = in_array( $g_aColNames[$iCol]['value_col_name'], $aLine );
-            if ( $g_aColNames[$iCol]['graph']['delta'] )
+            // Format command
+            $command = quote( getenv( 'PYTHON' ) ) . ' baselines/get_baselines.py 2>&1 -f ' . quote( $g_sCsvBasename ) . ' -c ' . $g_aColNames[$iCol]['value_col_name'];
+
+            // Execute command
+            error_log( '==> command=' . $command );
+            exec( $command, $output, $status );
+            error_log( '==> output=' . print_r( $output, true ) );
+            $aResult = json_decode( $output[ count( $output ) - 1 ] );
+
+            if ( empty( $aResult ) )
             {
-              array_push( $aDeltaGraphs, [ 'csv_filename' => $g_sCsvBasename, 'column_name' => $g_aColNames[$iCol]['value_col_name'] ] );
+              // No baseline data; clear the flag
+              $g_aColNames[$iCol]['graph']['delta'] = false;
+            }
+            else
+            {
+              // Got baseline data; append to array
+              $aBaselines = array_merge( $aBaselines, $aResult );
             }
           }
         }
@@ -40,25 +65,9 @@
   }
   fclose( $file );
 
-  $sBaselines = '[]';
-  if ( count( $aDeltaGraphs ) )
-  {
-    // Format command
-    $command = quote( getenv( 'PYTHON' ) ) . ' baselines/get_baselines.py 2>&1 -d "' . addslashes( json_encode( $aDeltaGraphs ) ) . '"';
-
-    // Execute command
-    error_log( '==> command=' . $command );
-    exec( $command, $output, $status );
-    error_log( '==> output=' . print_r( $output, true ) );
-
-    // Echo status
-    $sBaselines = $output[ count( $output ) - 1 ];
-
-  }
 
 
-  // Convert column name list to JSON
-  $sColNames = json_encode( $g_aColNames );
+
 
   // Read CSV file describing data to be retrieved and presented
   $file = fopen( $g_sCsvFilename, 'r' );
@@ -130,8 +139,9 @@
 <script>
   var g_sCsvBasename = '<?=$g_sCsvBasename?>';
   var g_sFirstColName = '<?=$g_sFirstColName?>';
-  var g_aColNames = JSON.parse( '<?=$sColNames?>' );
-  var g_aBaselines = JSON.parse( '<?=$sBaselines?>' );
+  var g_aColNames = JSON.parse( '<?=json_encode( $g_aColNames )?>' );
+  console.log( JSON.stringify( g_aColNames ) );
+  var g_aBaselines = JSON.parse( '<?=json_encode( $aBaselines )?>' );
   console.log( JSON.stringify( g_aBaselines ) );
   var g_aRows = JSON.parse( '<?=$sLines?>' );
   var g_sLayoutMode = '<?=$g_sLayoutMode?>';
