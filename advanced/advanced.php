@@ -153,9 +153,7 @@
     var sHtml = '';
     for ( var sLocation in aLocations )
     {
-      console.log( sLocation );
       var sInstance = aLocations[sLocation];
-      console.log( sInstance );
       sHtml += '<option value="' + aLocations[sLocation] + '">' + sLocation + '</option>';
     }
     $( '#location' ).html( sHtml );
@@ -199,7 +197,6 @@
 
   function rqDone( tRsp, sStatus, tJqXhr )
   {
-    console.log( tRsp );
     clearWaitCursor();
 
     // Extract results from response

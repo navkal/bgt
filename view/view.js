@@ -91,9 +91,6 @@ function initGraphIds()
 
 function initBaselines()
 {
-  // console.log( '=> g_aGraphSelectors=' + JSON.stringify( g_aGraphSelectors ) );
-  // console.log( '=> g_aColNames=' + JSON.stringify( g_aColNames ) );
-  console.log( '=> g_aBaselines=' + JSON.stringify( g_aBaselines ) );
   for ( var iCol in g_aColNames )
   {
     var tCol = g_aColNames[iCol];
@@ -101,14 +98,13 @@ function initBaselines()
     {
       var sColName = tCol.value_col_name;
       var sGraphId = tCol.graph.graph_id;
-      console.log( '========> init baseline for csv basename=' + g_sCsvBasename + ', colname=' + sColName + ', id=' + sGraphId );
+
       g_tBaselines[sGraphId] = {};
       for ( var iRow = 0; iRow < g_aBaselines.length; iRow ++ )
       {
         var tRow = g_aBaselines[iRow];
         if ( tRow.csv_filename == g_sCsvBasename )
         {
-          console.log( JSON.stringify( tRow ) );
           var sRowLabel = tRow.row_label;
           g_tBaselines[sGraphId][sRowLabel] = {};
           g_tBaselines[sGraphId][sRowLabel].value = tRow.value;
@@ -118,9 +114,6 @@ function initBaselines()
       }
     }
   }
-
-  console.log( '===> initBaselines() done initializing baselines.  Result is' );
-  console.log( JSON.stringify( g_tBaselines ) );
 }
 
 function initTabs()
@@ -583,8 +576,6 @@ function updateGraphData( sGraphId, tBarData, bDelta )
       tGraphData[sRowLabel] = { value: nValue, units: tBarData.units };
     }
   }
-
-  console.log( JSON.stringify( g_tGraphData ) );
 }
 
 function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
