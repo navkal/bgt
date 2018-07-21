@@ -15,7 +15,7 @@
   $g_sCsvBasename = basename( $g_sCsvFilename, '.csv' );
 
   // Initialize list of baseline values
-  $aBaselines = [];
+  $tBaselines = [];
 
   // Iterate over baselines CSV file
   $file = fopen( 'baselines/baselines.csv', 'r' );
@@ -46,10 +46,10 @@
           error_log( '==> output=' . print_r( $output, true ) );
 
           // Set delta flag and save baseline values
-          $aResult = json_decode( $output[ count( $output ) - 1 ] );
-          if ( $g_aColNames[$iCol]['graph']['delta'] = ! empty( $aResult ) )
+          $tResult = json_decode( $output[ count( $output ) - 1 ] );
+          if ( $g_aColNames[$iCol]['graph']['delta'] = ! empty( $tResult ) )
           {
-            $aBaselines = array_merge( $aBaselines, $aResult );
+            $tBaselines[$g_aColNames[$iCol]['graph']['graph_id']] = $tResult;
           }
         }
       }
@@ -129,7 +129,7 @@
   var g_sCsvBasename = '<?=$g_sCsvBasename?>';
   var g_sFirstColName = '<?=$g_sFirstColName?>';
   var g_aColNames = JSON.parse( '<?=json_encode( $g_aColNames )?>' );
-  var g_aBaselines = JSON.parse( '<?=json_encode( $aBaselines )?>' );
+  var g_tBaselines = JSON.parse( '<?=json_encode( $tBaselines )?>' );
   var g_aRows = JSON.parse( '<?=json_encode( $aLines )?>' );
   var g_sLayoutMode = '<?=$g_sLayoutMode?>';
   var g_bFlot = <?=$bFlot?>;

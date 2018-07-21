@@ -20,8 +20,6 @@ var g_iInstanceOffset = 0;
 var g_iRow = 0;
 var g_iTimeoutMs = 0;
 var g_aRowData = [];
-var g_tStartTime = null;
-var g_tBaselines = {};
 var g_aGraphSelectors = null;
 var g_tGraphData = {};
 var g_bHorizontal = null;
@@ -45,9 +43,6 @@ function onDocumentReady()
 {
   // Initialize list of graph IDs
   initGraphIds();
-
-  // Initialize baseline values
-  initBaselines();
 
   // Initialize layout framework
   switch( g_sLayoutMode )
@@ -85,33 +80,6 @@ function initGraphIds()
     if ( 'graph' in tCol )
     {
       g_aGraphSelectors.push( '#' + tCol['graph']['graph_id'] );
-    }
-  }
-}
-
-function initBaselines()
-{
-  for ( var iCol in g_aColNames )
-  {
-    var tCol = g_aColNames[iCol];
-    if ( ( 'graph' in tCol ) && ( tCol.graph.delta) )
-    {
-      var sColName = tCol.value_col_name;
-      var sGraphId = tCol.graph.graph_id;
-
-      g_tBaselines[sGraphId] = {};
-      for ( var iRow = 0; iRow < g_aBaselines.length; iRow ++ )
-      {
-        var tRow = g_aBaselines[iRow];
-        if ( tRow.csv_filename == g_sCsvBasename )
-        {
-          var sRowLabel = tRow.row_label;
-          g_tBaselines[sGraphId][sRowLabel] = {};
-          g_tBaselines[sGraphId][sRowLabel].value = tRow.value;
-          g_tBaselines[sGraphId][sRowLabel].units = tRow.units;
-          g_tStartTime = new Date( tRow.timestamp );
-        }
-      }
     }
   }
 }
@@ -628,7 +596,12 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
       }
 
       // Define dataset consisting of one series
-      var sSince = bDelta ? ' since ' + g_tStartTime.toLocaleString() : '';
+      var sSince = '';
+      if ( bDelta )
+      {
+        tTime = new Date( g_tBaselines[sGraphId][Object.keys( g_tBaselines[sGraphId] )[0]].timestamp );
+        sSince = ' since ' + tTime.toLocaleString();
+      }
       var aDataset = [ { label: '&nbsp;' + sGraphName + sSince, data: aData, color: "#54b9f8" } ];
 
       // Define tick formatter function
