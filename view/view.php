@@ -38,7 +38,7 @@
         if ( array_key_exists( 'graph', $g_aColNames[$iCol] ) && in_array( $g_aColNames[$iCol]['value_col_name'], $aLine ) )
         {
           // Format command
-          $command = quote( getenv( 'PYTHON' ) ) . ' baselines/get_baselines.py 2>&1 -f ' . quote( $g_sCsvBasename ) . ' -c ' . $g_aColNames[$iCol]['value_col_name'];
+          $command = quote( getenv( 'PYTHON' ) ) . ' baselines/get_baseline.py 2>&1 -f ' . quote( $g_sCsvBasename ) . ' -c ' . $g_aColNames[$iCol]['value_col_name'];
 
           // Execute command
           error_log( '==> command=' . $command );

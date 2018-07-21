@@ -16,7 +16,7 @@ db = 'baselines/baselines.sqlite'
 baseline = {}
 
 if os.path.exists( db ):
-    # Retrieve baseline from database
+    # Retrieve baseline values from database
     conn = sqlite3.connect( db )
     cur = conn.cursor()
     cur.execute( 'SELECT * FROM Baselines WHERE ( csv_filename=? AND column_name=? )', ( args.csv_filename, args.column_name ) )
