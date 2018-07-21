@@ -34,30 +34,22 @@
       // Traverse array that describes current view
       for ( $iCol = 0; $iCol < count( $g_aColNames ); $iCol ++ )
       {
-        // If this column has a graph, set its delta flag and optionally retrieve baseline data
-        if ( array_key_exists( 'graph', $g_aColNames[$iCol] ) )
+        // If this column has a graph, and its column name is in the list, try to retrieve baseline data
+        if ( array_key_exists( 'graph', $g_aColNames[$iCol] ) && in_array( $g_aColNames[$iCol]['value_col_name'], $aLine ) )
         {
-          if ( $g_aColNames[$iCol]['graph']['delta'] = in_array( $g_aColNames[$iCol]['value_col_name'], $aLine ) )
+          // Format command
+          $command = quote( getenv( 'PYTHON' ) ) . ' baselines/get_baselines.py 2>&1 -f ' . quote( $g_sCsvBasename ) . ' -c ' . $g_aColNames[$iCol]['value_col_name'];
+
+          // Execute command
+          error_log( '==> command=' . $command );
+          exec( $command, $output, $status );
+          error_log( '==> output=' . print_r( $output, true ) );
+          $aResult = json_decode( $output[ count( $output ) - 1 ] );
+
+          // Set delta flag and save baseline values
+          if ( $g_aColNames[$iCol]['graph']['delta'] = ! empty( $aResult ) )
           {
-            // Format command
-            $command = quote( getenv( 'PYTHON' ) ) . ' baselines/get_baselines.py 2>&1 -f ' . quote( $g_sCsvBasename ) . ' -c ' . $g_aColNames[$iCol]['value_col_name'];
-
-            // Execute command
-            error_log( '==> command=' . $command );
-            exec( $command, $output, $status );
-            error_log( '==> output=' . print_r( $output, true ) );
-            $aResult = json_decode( $output[ count( $output ) - 1 ] );
-
-            if ( empty( $aResult ) )
-            {
-              // No baseline data; clear the flag
-              $g_aColNames[$iCol]['graph']['delta'] = false;
-            }
-            else
-            {
-              // Got baseline data; append to array
-              $aBaselines = array_merge( $aBaselines, $aResult );
-            }
+            $aBaselines = array_merge( $aBaselines, $aResult );
           }
         }
       }
