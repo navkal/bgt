@@ -600,7 +600,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
       if ( bDelta )
       {
         tTime = new Date( g_tBaselines[sGraphId].timestamp );
-        sSince = ' since <span title="baseline chooser coming soon!" style="color:#065d93"><b>' + tTime.toLocaleString() + '</b></span>';
+        sSince = ' since <span onclick="alert(\'Baseline Picker coming soon!\');" title="Baseline Picker coming soon!" style="color:#065d93"><b>' + tTime.toLocaleString() + '</b></span>';
       }
       var aDataset = [ { label: '&nbsp;' + sGraphName + sSince, data: aData, color: "#54b9f8" } ];
 
