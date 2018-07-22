@@ -13,7 +13,7 @@ args = parser.parse_args()
 
 db = 'baselines/baselines.sqlite'
 
-baseline = {}
+values = {}
 
 if os.path.exists( db ):
     # Retrieve baseline values from database
@@ -26,7 +26,8 @@ if os.path.exists( db ):
     cur.execute( 'SELECT * FROM Baselines WHERE ( csv_filename=? AND column_name=? )', ( args.csv_filename, args.column_name ) )
     rows = cur.fetchall()
     for row in rows:
-        baseline[row[3]] = { 'value': row[4], 'units': row[5], 'timestamp': timestamp }
+        values[row[3]] = { 'value': row[4], 'units': row[5] }
 
-# Return list of baseline values
+# Return timestamp and values
+baseline = { 'timestamp': timestamp, 'values': values }
 print( json.dumps( baseline ) )

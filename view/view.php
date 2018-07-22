@@ -47,7 +47,7 @@
 
           // Set delta flag and save baseline values
           $tBaseline = json_decode( $output[ count( $output ) - 1 ] );
-          if ( $g_aColNames[$iCol]['graph']['delta'] = ! empty( $tBaseline ) )
+          if ( $g_aColNames[$iCol]['graph']['delta'] = ! empty( $tBaseline->values ) )
           {
             $tBaselines[$g_aColNames[$iCol]['graph']['graph_id']] = $tBaseline;
           }

@@ -526,11 +526,11 @@ function updateGraphData( sGraphId, tBarData, bDelta )
     // Determine value to be shown in graph: raw value or delta from baseline
     if ( bDelta )
     {
-      var tBaselines = g_tBaselines[sGraphId];
-      if ( ( sRowLabel in tBaselines ) && ( tBaselines[sRowLabel].units == tBarData.units ) )
+      var tValues = g_tBaselines[sGraphId].values;
+      if ( ( sRowLabel in tValues ) && ( tValues[sRowLabel].units == tBarData.units ) )
       {
         // Baseline is available, and units match.  Save delta value.
-        tGraphData[sRowLabel] = { value: nValue - tBaselines[sRowLabel].value, units: tBarData.units };
+        tGraphData[sRowLabel] = { value: nValue - tValues[sRowLabel].value, units: tBarData.units };
       }
       else
       {
@@ -599,8 +599,8 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
       var sSince = '';
       if ( bDelta )
       {
-        tTime = new Date( g_tBaselines[sGraphId][Object.keys( g_tBaselines[sGraphId] )[0]].timestamp );
-        sSince = ' since ' + tTime.toLocaleString();
+        tTime = new Date( g_tBaselines[sGraphId].timestamp );
+        sSince = ' since <span title="baseline chooser coming soon!" style="color:#065d93"><b>' + tTime.toLocaleString() + '</b></span>';
       }
       var aDataset = [ { label: '&nbsp;' + sGraphName + sSince, data: aData, color: "#54b9f8" } ];
 
