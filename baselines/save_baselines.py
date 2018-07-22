@@ -66,10 +66,6 @@ def save_baselines( baselines_row ):
 
 def save_baseline( csv_filename, column_name, oid_row ):
 
-    # Save timestamp
-    cur.execute( 'DELETE FROM Timestamps' )
-    cur.execute( 'INSERT INTO Timestamps ( timestamp ) VALUES(?)', ( timestamp, ) )
-
     # Retrieve data, retrying if necessary
     facility = oid_row['Facility']
     oid = oid_row[column_name]
@@ -97,6 +93,16 @@ def save_baseline( csv_filename, column_name, oid_row ):
         cur.execute( 'DELETE FROM Baselines WHERE ( csv_filename=? AND column_name=? AND row_label=? )', ( csv_filename, column_name, row_label ) )
 
 
+def save_timestamp():
+    timestamp = time.time()
+    print( '---' )
+    print( 'Timestamp:', time.strftime( '%b %d %Y %H:%M:%S', time.localtime( timestamp ) ) )
+    print( '---' )
+    cur.execute( 'DELETE FROM Timestamps' )
+    cur.execute( 'INSERT INTO Timestamps ( timestamp ) VALUES(?)', ( timestamp, ) )
+
+
+
 if __name__ == '__main__':
 
     # Get hostname and port of BACnet Gateway, and name of input CSV file
@@ -108,9 +114,6 @@ if __name__ == '__main__':
     # Open the database
     conn, cur = open_db()
 
-    # Set timestamp for this run
-    timestamp = time.time()
-
     # Update the baselines
     with open( 'baselines.csv', newline='' ) as csvfile:
 
@@ -118,5 +121,7 @@ if __name__ == '__main__':
 
         for baselines_row in reader:
             save_baselines( baselines_row )
+
+    save_timestamp()
 
     conn.commit()
