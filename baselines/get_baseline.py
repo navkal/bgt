@@ -19,10 +19,14 @@ if os.path.exists( db ):
     # Retrieve baseline values from database
     conn = sqlite3.connect( db )
     cur = conn.cursor()
+
+    cur.execute( 'SELECT timestamp FROM Timestamps' )
+    timestamp = cur.fetchone()[0] * 1000
+
     cur.execute( 'SELECT * FROM Baselines WHERE ( csv_filename=? AND column_name=? )', ( args.csv_filename, args.column_name ) )
     rows = cur.fetchall()
     for row in rows:
-        baseline[row[3]] = { 'value': row[4], 'units': row[5], 'timestamp': row[6] * 1000 }
+        baseline[row[3]] = { 'value': row[4], 'units': row[5], 'timestamp': timestamp }
 
 # Return list of baseline values
 print( json.dumps( baseline ) )

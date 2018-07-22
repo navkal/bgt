@@ -21,16 +21,20 @@ def open_db():
 
     if not db_exists:
 
-        cur.execute('''
+        cur.executescript('''
+            CREATE TABLE IF NOT EXISTS Timestamps (
+                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+                timestamp FLOAT
+            );
+
             CREATE TABLE IF NOT EXISTS Baselines (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
                 csv_filename TEXT,
                 column_name TEXT,
                 row_label TEXT,
                 value INTEGER,
-                units TEXT,
-                timestamp FLOAT
-            )
+                units TEXT
+            );
         ''')
 
         conn.commit()
@@ -53,7 +57,7 @@ def save_baselines( baselines_row ):
     print( 'CSV file:', csv_filename )
     print( '---' )
     column_name = baselines_row[1]
-    print( 'Timestamp,Label,' + column_name + ',' + column_name + ' Units' )
+    print( 'Label,' + column_name + ',' + column_name + ' Units' )
 
     # Iterate over the rows of the dataframe, getting values for each row
     for index, oid_row in df.iterrows():
@@ -62,13 +66,17 @@ def save_baselines( baselines_row ):
 
 def save_baseline( csv_filename, column_name, oid_row ):
 
+    # Save timestamp
+    cur.execute( 'DELETE FROM Timestamps' )
+    cur.execute( 'INSERT INTO Timestamps ( timestamp ) VALUES(?)', ( timestamp, ) )
+
     # Retrieve data, retrying if necessary
     facility = oid_row['Facility']
     oid = oid_row[column_name]
     row_label = oid_row['Label']
     for i in range( 1, 6 ):
         value, units = get_value_and_units( facility, oid, args.hostname, args.port )
-        print( '{0},{1},{2},{3}'.format( time.ctime( timestamp ), row_label, value, units ) )
+        print( '{0},{1},{2}'.format( row_label, value, units ) )
         if ( value and units ):
             break
 
@@ -81,9 +89,9 @@ def save_baseline( csv_filename, column_name, oid_row ):
         row = cur.fetchone()
 
         if row:
-            cur.execute( 'UPDATE Baselines SET value=?, units=?, timestamp=? WHERE id=?', ( value, units, timestamp, row[0] ) )
+            cur.execute( 'UPDATE Baselines SET value=?, units=? WHERE id=?', ( value, units, row[0] ) )
         else:
-            cur.execute( 'INSERT INTO Baselines ( csv_filename, column_name, row_label, value, units, timestamp ) VALUES(?,?,?,?,?,?)', ( csv_filename, column_name, row_label, value, units, timestamp ) )
+            cur.execute( 'INSERT INTO Baselines ( csv_filename, column_name, row_label, value, units ) VALUES(?,?,?,?,?)', ( csv_filename, column_name, row_label, value, units ) )
     else:
         # Failed to get baseline; remove from database
         cur.execute( 'DELETE FROM Baselines WHERE ( csv_filename=? AND column_name=? AND row_label=? )', ( csv_filename, column_name, row_label ) )
