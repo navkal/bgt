@@ -94,9 +94,9 @@ def save_baseline( csv_filename, column_name, oid_row ):
 
 
 def save_timestamp():
-    timestamp = time.time()
+    timestamp = int( time.time() * 1000 )
     print( '---' )
-    print( 'Timestamp:', time.strftime( '%b %d %Y %H:%M:%S', time.localtime( timestamp ) ) )
+    print( 'Timestamp:', time.strftime( '%b %d %Y %H:%M:%S', time.localtime( timestamp / 1000 ) ) )
     print( '---' )
     cur.execute( 'DELETE FROM Timestamps' )
     cur.execute( 'INSERT INTO Timestamps ( timestamp ) VALUES(?)', ( timestamp, ) )
