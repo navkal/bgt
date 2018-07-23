@@ -33,13 +33,24 @@ def open_db():
                 column_name TEXT,
                 row_label TEXT,
                 value INTEGER,
-                units TEXT
+                units TEXT,
+                timestamp_id
             );
         ''')
 
         conn.commit()
 
     return conn, cur
+
+
+def save_timestamp():
+    timestamp = int( time.time() * 1000 )
+    print( '---' )
+    print( 'Timestamp:', time.strftime( '%b %d %Y %H:%M:%S', time.localtime( timestamp / 1000 ) ) )
+    print( '---' )
+    cur.execute( 'INSERT INTO Timestamps ( timestamp ) VALUES(?)', ( timestamp, ) )
+    timestamp_id = cur.lastrowid
+    return timestamp_id
 
 
 def save_baselines( baselines_row ):
@@ -76,31 +87,9 @@ def save_baseline( csv_filename, column_name, oid_row ):
         if ( value and units ):
             break
 
-    # Process retrieved data
+    # Save retrieved data in database
     if ( value and units ):
-
-        # Got baseline; save in database
-        value = int( value )
-        cur.execute( 'SELECT id FROM Baselines WHERE ( csv_filename=? AND column_name=? AND row_label=? )', ( csv_filename, column_name, row_label ) )
-        row = cur.fetchone()
-
-        if row:
-            cur.execute( 'UPDATE Baselines SET value=?, units=? WHERE id=?', ( value, units, row[0] ) )
-        else:
-            cur.execute( 'INSERT INTO Baselines ( csv_filename, column_name, row_label, value, units ) VALUES(?,?,?,?,?)', ( csv_filename, column_name, row_label, value, units ) )
-    else:
-        # Failed to get baseline; remove from database
-        cur.execute( 'DELETE FROM Baselines WHERE ( csv_filename=? AND column_name=? AND row_label=? )', ( csv_filename, column_name, row_label ) )
-
-
-def save_timestamp():
-    timestamp = int( time.time() * 1000 )
-    print( '---' )
-    print( 'Timestamp:', time.strftime( '%b %d %Y %H:%M:%S', time.localtime( timestamp / 1000 ) ) )
-    print( '---' )
-    cur.execute( 'DELETE FROM Timestamps' )
-    cur.execute( 'INSERT INTO Timestamps ( timestamp ) VALUES(?)', ( timestamp, ) )
-
+        cur.execute( 'INSERT INTO Baselines ( csv_filename, column_name, row_label, value, units, timestamp_id ) VALUES(?,?,?,?,?,?)', ( csv_filename, column_name, row_label, value, units, timestamp_id ) )
 
 
 if __name__ == '__main__':
@@ -114,6 +103,9 @@ if __name__ == '__main__':
     # Open the database
     conn, cur = open_db()
 
+    # Save timestamp of this operation
+    timestamp_id = save_timestamp()
+
     # Update the baselines
     with open( 'baselines.csv', newline='' ) as csvfile:
 
@@ -121,7 +113,5 @@ if __name__ == '__main__':
 
         for baselines_row in reader:
             save_baselines( baselines_row )
-
-    save_timestamp()
 
     conn.commit()
