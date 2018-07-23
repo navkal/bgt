@@ -3,6 +3,7 @@
 import argparse
 import sqlite3
 import os
+import collections
 import json
 
 # Get arguments
@@ -14,7 +15,7 @@ args = parser.parse_args()
 
 db = 'baselines/baselines.sqlite'
 
-values = {}
+baseline = {}
 
 if os.path.exists( db ):
 
@@ -31,14 +32,21 @@ if os.path.exists( db ):
         which_timestamp = '( SELECT MAX( timestamp ) FROM Timestamps )'
 
     # Retrieve the timestamp
-    cur.execute( 'SELECT timestamp FROM Timestamps WHERE timestamp=' + which_timestamp )
-    timestamp = cur.fetchone()[0]
+    cur.execute( 'SELECT id, timestamp FROM Timestamps WHERE timestamp=' + which_timestamp )
+    row = cur.fetchone()
+    timestamp_id = row[0]
+    timestamp = row[1]
 
-    cur.execute( 'SELECT * FROM Baselines WHERE ( csv_filename=? AND column_name=? )', ( args.csv_filename, args.column_name ) )
+    # Retrieve values
+    cur.execute( 'SELECT row_label, value, units FROM Baselines WHERE ( csv_filename=? AND column_name=? AND timestamp_id=? )', ( args.csv_filename, args.column_name, timestamp_id ) )
     rows = cur.fetchall()
+    values = {}
     for row in rows:
-        values[row[3]] = { 'value': row[4], 'units': row[5] }
+        values[row[0]] = { 'value': row[1], 'units': row[2] }
+
+    values = collections.OrderedDict( sorted( values.items() ) )
+    baseline = { 'timestamp': timestamp, 'values': values }
+    baseline = collections.OrderedDict( sorted( baseline.items() ) )
 
 # Return timestamp and values
-baseline = { 'timestamp': timestamp, 'values': values }
 print( json.dumps( baseline ) )
