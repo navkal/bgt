@@ -340,8 +340,34 @@ function onShowBaselinePicker( tEvent )
 
 function onSubmitBaselinePicker( tEvent )
 {
-  g_sBaselinePickerValue = $( 'input[name="baselinePicker"]:checked' ).val();
   $( '#baselinePickerDialog' ).modal( 'hide' );
+
+  // Save baseline picker value
+  g_sBaselinePickerValue = $( 'input[name="baselinePicker"]:checked' ).val();
+
+  var tPostData = new FormData();
+  tPostData.append( 'csv_basename', g_sCsvBasename );
+  tPostData.append( 'graph_name', $( tEvent.relatedTarget ).data( 'graphname' ) );
+  tPostData.append( 'baseline_pick', g_sBaselinePickerValue );
+
+  // Post request to server
+  $.ajax(
+    '/baselines/baseline.php',
+    {
+      type: 'POST',
+      processData: false,
+      contentType: false,
+      dataType : 'json',
+      data: tPostData
+    }
+  )
+  .done( submitBaselinePickerDone )
+  .fail( handleAjaxError );
+}
+
+function submitBaselinePickerDone( tRsp, sStatus, tJqXhr )
+{
+  alert( JSON.stringify( tRsp ) );
 }
 
 function onGraphTabShown( tEvent )
@@ -939,7 +965,11 @@ function onTablesorterReady()
 function rqFail( tJqXhr, sStatus, sErrorThrown )
 {
   clearWaitCursor();
+  handleAjaxError( tJqXhr, sStatus, sErrorThrown );
+}
 
+function handleAjaxError( tJqXhr, sStatus, sErrorThrown )
+{
   console.log( "=> ERROR=" + sStatus + " " + sErrorThrown );
   console.log( "=> HEADER=" + JSON.stringify( tJqXhr ) );
 }
