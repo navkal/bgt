@@ -39,9 +39,9 @@ if os.path.exists( db ):
 
     # Retrieve values
     cur.execute( 'SELECT row_label, value, units FROM Baselines WHERE ( csv_filename=? AND column_name=? AND timestamp_id=? )', ( args.csv_filename, args.column_name, timestamp_id ) )
-    rows = cur.fetchall()
+    value_rows = cur.fetchall()
     values = {}
-    for value_row in rows:
+    for value_row in value_rows:
         values[value_row[0]] = { 'value': value_row[1], 'units': value_row[2] }
 
     values = collections.OrderedDict( sorted( values.items() ) )
