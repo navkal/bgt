@@ -26,7 +26,7 @@ if os.path.exists( db ):
     # Determine which timestamp to retrieve
     if args.timestamp:
         # Specified timestamp
-        which_timestamp = args.timestamp
+        which_timestamp = '( SELECT MAX( timestamp ) FROM ( SELECT timestamp from Timestamps WHERE timestamp<=' + args.timestamp + ' ) )'
     else:
         # Default: Latest timestamp
         which_timestamp = '( SELECT MAX( timestamp ) FROM Timestamps )'
