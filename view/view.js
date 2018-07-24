@@ -22,6 +22,7 @@ var g_iTimeoutMs = 0;
 var g_aRowData = [];
 var g_aGraphSelectors = null;
 var g_tGraphData = {};
+var g_sBaselinePickerValue = 'day';
 var g_bHorizontal = null;
 
 var g_sSuccessClass = 'bg-row-success';
@@ -64,6 +65,9 @@ function onDocumentReady()
 
   // Initialize graphs
   initGraphs();
+
+  // Initialize baseline picker
+  initBaselinePicker();
 
   // Issue first request
   g_iInstanceOffset = 2;
@@ -319,6 +323,25 @@ function initGraphs()
 
     $( 'head' ).append( sTickStyle );
   }
+}
+
+function initBaselinePicker()
+{
+  $( '#baselinePickerDialog' ).on( 'show.bs.modal', onShowBaselinePicker );
+}
+
+function onShowBaselinePicker( tEvent )
+{
+  var tRelatedTarget = $( tEvent.relatedTarget );
+  var sGraphName = tRelatedTarget.data( 'graphname' );
+  $( '#baselinePickerGraphName' ).text( sGraphName );
+  $( 'input[name="baselinePicker"][value="' + g_sBaselinePickerValue + '"]' ).prop( 'checked', true );
+}
+
+function onSubmitBaselinePicker( tEvent )
+{
+  g_sBaselinePickerValue = $( 'input[name="baselinePicker"]:checked' ).val();
+  $( '#baselinePickerDialog' ).modal( 'hide' );
 }
 
 function onGraphTabShown( tEvent )
@@ -600,7 +623,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
       if ( bDelta )
       {
         tTime = new Date( g_tBaselines[sGraphId].timestamp );
-        sSince = ' since <span onclick="alert(\'Baseline Picker coming soon!\');" title="Baseline Picker coming soon!" style="color:#065d93"><b>' + tTime.toLocaleString() + '</b></span>';
+        sSince = ' since <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#baselinePickerDialog" data-graphname="' + sGraphName + '">' + tTime.toLocaleString() + '</button>';
       }
       var aDataset = [ { label: '&nbsp;' + sGraphName + sSince, data: aData, color: "#54b9f8" } ];
 

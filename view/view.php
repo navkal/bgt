@@ -247,5 +247,52 @@
     break;
   }
 ?>
-
+  <!-- Baseline Picker modal dialog -->
+  <div class="modal fade" id="baselinePickerDialog" tabindex="-1" role="dialog" aria-labelledby="baselinePickerLabel">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="baselinePickerLabel"><span id="baselinePickerGraphName"></span> Baseline</h4>
+        </div>
+        <div class="modal-body">
+          <form onsubmit="onSubmitBaselinePicker(event); return false;" >
+            <div class="form-group">
+              <div class="radio">
+                <label>
+                  <input type="radio" name="baselinePicker" value="day">
+                  Today
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="baselinePicker" value="week">
+                  This week
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="baselinePicker" value="month">
+                  This month
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="baselinePicker" value="year">
+                  This year
+                </label>
+              </div>
+            </div>
+            <button id="baselinePickerSubmitButton" type="submit" style="display:none" ></button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <div style="text-align:center;" >
+            <button type="button" id="baselinePickerFormSubmitProxy" class="btn btn-primary" onclick="$('#baselinePickerSubmitButton').click()" >Change Baseline</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
