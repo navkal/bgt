@@ -23,6 +23,7 @@ var g_aRowData = [];
 var g_aGraphSelectors = null;
 var g_tGraphData = {};
 var g_sBaselinePickerValue = 'day';
+var g_sBaselinePickerGraphName = null;
 var g_bHorizontal = null;
 
 var g_sSuccessClass = 'bg-row-success';
@@ -333,8 +334,8 @@ function initBaselinePicker()
 function onShowBaselinePicker( tEvent )
 {
   var tRelatedTarget = $( tEvent.relatedTarget );
-  var sGraphName = tRelatedTarget.data( 'graphname' );
-  $( '#baselinePickerGraphName' ).text( sGraphName );
+  g_sBaselinePickerGraphName = tRelatedTarget.data( 'graphname' );
+  $( '#baselinePickerGraphName' ).text( g_sBaselinePickerGraphName );
   $( 'input[name="baselinePicker"][value="' + g_sBaselinePickerValue + '"]' ).prop( 'checked', true );
 }
 
@@ -347,7 +348,7 @@ function onSubmitBaselinePicker( tEvent )
 
   var tPostData = new FormData();
   tPostData.append( 'csv_basename', g_sCsvBasename );
-  tPostData.append( 'graph_name', $( tEvent.relatedTarget ).data( 'graphname' ) );
+  tPostData.append( 'graph_name', g_sBaselinePickerGraphName );
   tPostData.append( 'baseline_pick', g_sBaselinePickerValue );
 
   // Post request to server
