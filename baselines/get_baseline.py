@@ -33,16 +33,16 @@ if os.path.exists( db ):
 
     # Retrieve the timestamp
     cur.execute( 'SELECT id, timestamp FROM Timestamps WHERE timestamp=' + which_timestamp )
-    row = cur.fetchone()
-    timestamp_id = row[0]
-    timestamp = row[1]
+    timestamp_row = cur.fetchone()
+    timestamp_id = timestamp_row[0]
+    timestamp = timestamp_row[1]
 
     # Retrieve values
     cur.execute( 'SELECT row_label, value, units FROM Baselines WHERE ( csv_filename=? AND column_name=? AND timestamp_id=? )', ( args.csv_filename, args.column_name, timestamp_id ) )
     rows = cur.fetchall()
     values = {}
-    for row in rows:
-        values[row[0]] = { 'value': row[1], 'units': row[2] }
+    for value_row in rows:
+        values[value_row[0]] = { 'value': value_row[1], 'units': value_row[2] }
 
     values = collections.OrderedDict( sorted( values.items() ) )
     baseline = { 'timestamp': timestamp, 'values': values }
