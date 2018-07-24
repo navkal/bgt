@@ -288,7 +288,7 @@
         </div>
         <div class="modal-footer">
           <div style="text-align:center;" >
-            <button type="button" id="baselinePickerFormSubmitProxy" class="btn btn-primary" onclick="$('#baselinePickerSubmitButton').click()" >Change Baseline</button>
+            <button type="button" id="baselinePickerFormSubmitProxy" class="btn btn-primary" onclick="$('#baselinePickerSubmitButton').click()" >Set Baseline</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           </div>
         </div>
