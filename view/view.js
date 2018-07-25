@@ -327,7 +327,11 @@ function initGraphs()
 function initBaselinePicker()
 {
   // Initialize the datepicker
-  $( '#baselinePickerDatepicker' ).datepicker();
+  $( '#baselinePickerDatepicker' ).datepicker(
+    {
+      autoclose: true
+    }
+  );
 
   // Set handler for baseline picker dialog show event
   $( '#baselinePickerDialog' ).on( 'show.bs.modal', onShowBaselinePicker );

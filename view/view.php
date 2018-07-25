@@ -261,7 +261,12 @@
         <div class="modal-body">
           <form onsubmit="onSubmitBaselinePicker(event); return false;" >
             <div class="form-group">
-              <input id="baselinePickerDatepicker" type="text" class="form-control">
+              <div id="baselinePickerDatepicker" class="input-group date">
+                <input type="text" class="form-control" readonly>
+                <span class="input-group-addon btn btn-default">
+                  <span class="glyphicon glyphicon-th"></span>
+                </span>
+              </div>
             </div>
             <button id="baselinePickerSubmitButton" type="submit" style="display:none" ></button>
           </form>
