@@ -14,7 +14,8 @@
     $tResult = [ 'debug' => 'debug' ];
 
     // Format command
-    $command = quote( getenv( 'PYTHON' ) ) . ' get_baseline.py 2>&1 -f ' . quote( $sCsvBasename ) . ' -c ' . $sGraphName ;
+    chdir( '..' );
+    $command = quote( getenv( 'PYTHON' ) ) . ' baselines/get_baseline.py 2>&1 -f ' . quote( $sCsvBasename ) . ' -c ' . $sGraphName ;
 
     // Execute command
     error_log( '==> command=' . $command );
