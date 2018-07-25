@@ -9,10 +9,11 @@
   {
     $sCsvBasename = $_POST['csv_basename'];
     $sGraphName = $_POST['graph_name'];
+    $iTimestamp = $_POST['timestamp'];
 
     // Format command
     chdir( '..' );
-    $command = quote( getenv( 'PYTHON' ) ) . ' baselines/get_baseline.py 2>&1 -f ' . quote( $sCsvBasename ) . ' -c ' . $sGraphName;
+    $command = quote( getenv( 'PYTHON' ) ) . ' baselines/get_baseline.py 2>&1 -f ' . quote( $sCsvBasename ) . ' -c ' . $sGraphName . ' -t ' . $iTimestamp;
 
     // Execute command
     error_log( '==> command=' . $command );

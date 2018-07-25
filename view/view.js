@@ -355,24 +355,33 @@ function onSubmitBaselinePicker( tEvent )
   // Hide the modal dialog
   $( '#baselinePickerDialog' ).modal( 'hide' );
 
-  // Set post arguments
-  var tPostData = new FormData();
-  tPostData.append( 'csv_basename', g_sCsvBasename );
-  tPostData.append( 'graph_name', $( '#baselinePickerDatepicker' ).attr( 'graph_name' ) );
+  // Extract the timestamp from the datepicker
+  var sDate = $( '#baselinePickerDatepicker input' ).val();
+  if ( sDate )
+  {
+    var tDate = new Date( sDate );
+    var iTimestamp = tDate.getTime();
 
-  // Post request to server
-  $.ajax(
-    '/baselines/baseline.php',
-    {
-      type: 'POST',
-      processData: false,
-      contentType: false,
-      dataType : 'json',
-      data: tPostData
-    }
-  )
-  .done( submitBaselinePickerDone )
-  .fail( handleAjaxError );
+    // Set post arguments
+    var tPostData = new FormData();
+    tPostData.append( 'csv_basename', g_sCsvBasename );
+    tPostData.append( 'graph_name', $( '#baselinePickerDatepicker' ).attr( 'graph_name' ) );
+    tPostData.append( 'timestamp', iTimestamp );
+
+    // Post request to server
+    $.ajax(
+      '/baselines/baseline.php',
+      {
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        dataType : 'json',
+        data: tPostData
+      }
+    )
+    .done( submitBaselinePickerDone )
+    .fail( handleAjaxError );
+  }
 }
 
 function submitBaselinePickerDone( tRsp, sStatus, tJqXhr )
