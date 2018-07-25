@@ -109,6 +109,9 @@
   }
 ?>
 
+<!-- bootstrap-datepicker libraries -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" integrity="sha256-JDBcnYeV19J14isGd3EtnsCQK05d8PczJ5+fvEvBJvI=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js" integrity="sha256-tW5LzEC7QjhG0CiAvxlseMTs2qJS7u3DRPauDjFJ3zo=" crossorigin="anonymous"></script>
 
 <!-- CSS and JS libraries -->
 <link rel="stylesheet" href="/view/view.css?version=<?=time()?>">
@@ -247,5 +250,29 @@
     break;
   }
 ?>
-
+  <!-- Baseline Picker modal dialog -->
+  <div class="modal fade" id="baselinePickerDialog" tabindex="-1" role="dialog" aria-labelledby="baselinePickerLabel">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="baselinePickerLabel"><span id="baselinePickerGraphName"></span> Baseline</h4>
+        </div>
+        <div class="modal-body">
+          <form onsubmit="onSubmitBaselinePicker(event); return false;" >
+            <div class="form-group">
+              <input id="baselinePickerDatepicker" type="text" class="form-control">
+            </div>
+            <button id="baselinePickerSubmitButton" type="submit" style="display:none" ></button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <div style="text-align:center;" >
+            <button type="button" id="baselinePickerFormSubmitProxy" class="btn btn-primary" onclick="$('#baselinePickerSubmitButton').click()" >Set Baseline</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

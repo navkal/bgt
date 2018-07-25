@@ -65,6 +65,9 @@ function onDocumentReady()
   // Initialize graphs
   initGraphs();
 
+  // Initialize baseline picker
+  initBaselinePicker();
+
   // Issue first request
   g_iInstanceOffset = 2;
   rq();
@@ -321,11 +324,37 @@ function initGraphs()
   }
 }
 
-function setBaseline( sGraphName )
+function initBaselinePicker()
 {
+  // Initialize the datepicker
+  $( '#baselinePickerDatepicker' ).datepicker();
+
+  // Set handler for baseline picker dialog show event
+  $( '#baselinePickerDialog' ).on( 'show.bs.modal', onShowBaselinePicker );
+}
+
+function onShowBaselinePicker( tEvent )
+{
+  // Get graph name
+  var tRelatedTarget = $( tEvent.relatedTarget );
+  var sGraphName = tRelatedTarget.data( 'graphname' );
+
+  // Display graph name in dialog box
+  $( '#baselinePickerGraphName' ).text( sGraphName );
+
+  // Set graph name attribute in datepicker
+  $( '#baselinePickerDatepicker' ).attr( 'graph_name', sGraphName );
+}
+
+function onSubmitBaselinePicker( tEvent )
+{
+  // Hide the modal dialog
+  $( '#baselinePickerDialog' ).modal( 'hide' );
+
+  // Set post arguments
   var tPostData = new FormData();
   tPostData.append( 'csv_basename', g_sCsvBasename );
-  tPostData.append( 'graph_name', sGraphName );
+  tPostData.append( 'graph_name', $( '#baselinePickerDatepicker' ).attr( 'graph_name' ) );
 
   // Post request to server
   $.ajax(
@@ -338,11 +367,11 @@ function setBaseline( sGraphName )
       data: tPostData
     }
   )
-  .done( setBaselineDone )
+  .done( submitBaselinePickerDone )
   .fail( handleAjaxError );
 }
 
-function setBaselineDone( tRsp, sStatus, tJqXhr )
+function submitBaselinePickerDone( tRsp, sStatus, tJqXhr )
 {
   alert( JSON.stringify( tRsp ) );
 }
@@ -626,7 +655,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
       if ( bDelta )
       {
         tTime = new Date( g_tBaselines[sGraphId].timestamp );
-        sSince = ' since <button type="button" class="btn btn-default btn-xs" onclick="setBaseline('+"'"+sGraphName+"'"+')">' + tTime.toLocaleString() + '</button>';
+        sSince = ' since <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#baselinePickerDialog" data-graphname="' + sGraphName + '">' + tTime.toLocaleString() + '</button>';
       }
       var aDataset = [ { label: '&nbsp;' + sGraphName + sSince, data: aData, color: "#54b9f8" } ];
 
