@@ -655,7 +655,7 @@ function updateGraphData( sGraphId, tBarData, bDelta )
 
 function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
 {
-  if ( sGraphId in g_tGraphData )
+  if ( ( sGraphId in g_tGraphData ) && ( tGraphDiv.width() > 0 ) )
   {
     // Determine which units to show in graph
     var tGraphData = g_tGraphData[sGraphId];
