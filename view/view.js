@@ -402,7 +402,7 @@ function onSubmitBaselinePicker( tEvent )
 function submitBaselinePickerDone( tRsp, sStatus, tJqXhr )
 {
   g_tBaselines[tRsp.graph_id] = tRsp;
-  updateGraphs( false );
+  updateGraphs( true );
 }
 
 function onGraphTabShown( tEvent )
