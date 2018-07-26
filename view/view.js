@@ -339,21 +339,29 @@ function onShowBaselinePicker( tEvent )
   // Display graph name in dialog box
   $( '#baselinePickerGraphName' ).text( sGraphName );
 
-  // Initialize the datepicker
+  // Save graph name in datepicker
+  $( '#baselinePickerDatepicker' ).attr( 'graph_name', sGraphName );
+
+  // Set initial datepicker value
+  var tCurrentDate = new Date( tRelatedTarget.data( 'timestamp' ) );
+  var tFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
+  var sCurrentDate = tCurrentDate.toLocaleDateString( 'en-US', tFormatOptions ).replace( ',', '' );
+  $( '#baselinePickerDatepicker input' ).val( sCurrentDate );
+
+  // Determine lower and upper datepicker bounds
   var tStartDate = new Date( tRelatedTarget.data( 'first_timestamp' ) );
   var tEndDate = new Date();
+
+  // Initialize the datepicker
   $( '#baselinePickerDatepicker' ).datepicker(
     {
       autoclose: true,
+      todayHighlight: true,
+      format: 'D mm/dd/yyyy',
       startDate: tStartDate.toLocaleDateString(),
       endDate: tEndDate.toLocaleDateString()
     }
   );
-
-  $( '#baselinePickerDatepicker' ).attr( 'graph_name', sGraphName );
-  var tCurrentDate = new Date( tRelatedTarget.data( 'timestamp' ) );
-  $( '#baselinePickerDatepicker input' ).val( tCurrentDate.toLocaleDateString() );
-
 }
 
 function onSubmitBaselinePicker( tEvent )
