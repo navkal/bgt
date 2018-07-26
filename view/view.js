@@ -334,17 +334,19 @@ function onShowBaselinePicker( tEvent )
 {
   // Get graph name
   var tRelatedTarget = $( tEvent.relatedTarget );
-  var sGraphName = tRelatedTarget.data( 'graphname' );
+  var sGraphName = tRelatedTarget.data( 'graph_name' );
 
   // Display graph name in dialog box
   $( '#baselinePickerGraphName' ).text( sGraphName );
 
   // Initialize the datepicker
-  var tDate = new Date();
+  var tStartDate = new Date( tRelatedTarget.data( 'first_timestamp' ) );
+  var tEndDate = new Date();
   $( '#baselinePickerDatepicker' ).datepicker(
     {
       autoclose: true,
-      endDate: tDate.toLocaleDateString()
+      startDate: tStartDate.toLocaleDateString(),
+      endDate: tEndDate.toLocaleDateString()
     }
   );
 
@@ -669,7 +671,18 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
       if ( bDelta )
       {
         tTime = new Date( g_tBaselines[sGraphId].timestamp );
-        sSince = ' since <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#baselinePickerDialog" data-graphname="' + sGraphName + '">' + tTime.toLocaleString() + '</button>';
+        sSince =
+          ' since ' +
+          '<button ' +
+            'type="button" ' +
+            'class="btn btn-default btn-xs" ' +
+            'data-toggle="modal" ' +
+            'data-target="#baselinePickerDialog" ' +
+            'data-first_timestamp="' + g_tBaselines[sGraphId].first_timestamp + '" ' +
+            'data-graph_name="' + sGraphName + '" ' +
+            '>' +
+          tTime.toLocaleString() +
+          '</button>';
       }
       var aDataset = [ { label: '&nbsp;' + sGraphName + sSince, data: aData, color: "#54b9f8" } ];
 
