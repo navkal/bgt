@@ -401,8 +401,31 @@ function onSubmitBaselinePicker( tEvent )
 
 function submitBaselinePickerDone( tRsp, sStatus, tJqXhr )
 {
-  g_tBaselines[tRsp.graph_id] = tRsp;
-  updateGraphs( true );
+  var sGraphId = tRsp.graph_id;
+  g_tBaselines[sGraphId] = tRsp;
+
+  // Pause the rq() cycle
+
+  // Update all rows of the delta graph
+  console.log( JSON.stringify( g_tGraphData[sGraphId] ) );
+  var tGraphData = g_tGraphData[sGraphId];
+  for ( var sRowLabel in tGraphData )
+  {
+    var tBarData = tGraphData[sRowLabel];
+    var tBarBaseline = g_tBaselines[sGraphId].values[sRowLabel];
+    if ( tBarBaseline.units == tBarData.units )
+    {
+      tBarData.value = tBarData.raw_value - tBarBaseline.value;
+    }
+    else
+    {
+      delete( tGraphData[sRowLabel] );
+    }
+  }
+  updateGraphs( false );
+
+  // Resume the rq() cycle
+  debugger;
 }
 
 function onGraphTabShown( tEvent )
@@ -614,7 +637,7 @@ function updateGraphData( sGraphId, tBarData, bDelta )
       if ( ( sRowLabel in tValues ) && ( tValues[sRowLabel].units == tBarData.units ) )
       {
         // Baseline is available, and units match.  Save delta value.
-        tGraphData[sRowLabel] = { value: nValue - tValues[sRowLabel].value, units: tBarData.units };
+        tGraphData[sRowLabel] = { raw_value: nValue, value: nValue - tValues[sRowLabel].value, units: tBarData.units };
       }
       else
       {
