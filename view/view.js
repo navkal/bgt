@@ -353,7 +353,7 @@ function onShowBaselinePicker( tEvent )
 
   // Determine lower and upper datepicker bounds
   var tStartDate = new Date( tRelatedTarget.data( 'first_timestamp' ) );
-  var tEndDate = new Date();
+  var tEndDate = new Date( tRelatedTarget.data( 'last_timestamp' ) );
 
   // Initialize the datepicker
   $( '#baselinePickerDatepicker' ).datepicker(
@@ -402,7 +402,7 @@ function onSubmitBaselinePicker( tEvent )
 function submitBaselinePickerDone( tRsp, sStatus, tJqXhr )
 {
   g_tBaselines[tRsp.graph_id] = tRsp;
-  updateGraphs( false );  
+  updateGraphs( false );
 }
 
 function onGraphTabShown( tEvent )
@@ -693,6 +693,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
             'data-target="#baselinePickerDialog" ' +
             'data-timestamp="' + g_tBaselines[sGraphId].timestamp + '" ' +
             'data-first_timestamp="' + g_tBaselines[sGraphId].first_timestamp + '" ' +
+            'data-last_timestamp="' + g_tBaselines[sGraphId].last_timestamp + '" ' +
             'data-graph_name="' + sGraphName + '" ' +
             'data-graph_id="' + sGraphId + '" ' +
             '>' +
