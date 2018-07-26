@@ -37,6 +37,8 @@ var g_tNarrowTableParent = null;
 var g_tGraphSplit = null;
 var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProps );
 
+var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
+
 $( document ).ready( onDocumentReady );
 
 function onDocumentReady()
@@ -344,8 +346,7 @@ function onShowBaselinePicker( tEvent )
 
   // Set initial datepicker value
   var tCurrentDate = new Date( tRelatedTarget.data( 'timestamp' ) );
-  var tFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
-  var sCurrentDate = tCurrentDate.toLocaleDateString( 'en-US', tFormatOptions ).replace( ',', '' );
+  var sCurrentDate = tCurrentDate.toLocaleDateString( 'en-US', g_tDateFormatOptions ).replace( ',', '' );
   $( '#baselinePickerDatepicker input' ).val( sCurrentDate );
 
   // Determine lower and upper datepicker bounds
@@ -693,7 +694,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
             'data-first_timestamp="' + g_tBaselines[sGraphId].first_timestamp + '" ' +
             'data-graph_name="' + sGraphName + '" ' +
             '>' +
-          tTime.toLocaleString() +
+          tTime.toLocaleDateString( 'en-US', g_tDateFormatOptions ).replace( ',', '' ) +
           '</button>';
       }
       var aDataset = [ { label: '&nbsp;' + sGraphName + sSince, data: aData, color: "#54b9f8" } ];
