@@ -404,9 +404,7 @@ function submitBaselinePickerDone( tRsp, sStatus, tJqXhr )
   var sGraphId = tRsp.graph_id;
   g_tBaselines[sGraphId] = tRsp;
 
-  // Pause the rq() cycle
-
-  // Update all rows of the delta graph
+  // Update all rows (bars) of the delta graph
   console.log( JSON.stringify( g_tGraphData[sGraphId] ) );
   var tGraphData = g_tGraphData[sGraphId];
   for ( var sRowLabel in tGraphData )
@@ -422,10 +420,9 @@ function submitBaselinePickerDone( tRsp, sStatus, tJqXhr )
       delete( tGraphData[sRowLabel] );
     }
   }
-  updateGraphs( false );
 
-  // Resume the rq() cycle
-  debugger;
+  // Update graph displays
+  updateGraphs( false );
 }
 
 function onGraphTabShown( tEvent )
