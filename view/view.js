@@ -401,16 +401,19 @@ function onSubmitBaselinePicker( tEvent )
 
 function submitBaselinePickerDone( tRsp, sStatus, tJqXhr )
 {
+  // Save new baseline for the target graph
   var sGraphId = tRsp.graph_id;
   g_tBaselines[sGraphId] = tRsp;
 
-  // Update all rows (bars) of the delta graph
-  console.log( JSON.stringify( g_tGraphData[sGraphId] ) );
+  // Update all bars of the target graph
   var tGraphData = g_tGraphData[sGraphId];
   for ( var sRowLabel in tGraphData )
   {
+    // Get data and baseline of next bar
     var tBarData = tGraphData[sRowLabel];
     var tBarBaseline = g_tBaselines[sGraphId].values[sRowLabel];
+
+    // Update bar value
     if ( tBarBaseline.units == tBarData.units )
     {
       tBarData.value = tBarData.raw_value - tBarBaseline.value;
