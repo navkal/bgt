@@ -351,6 +351,9 @@ function onShowBaselinePicker( tEvent )
   );
 
   $( '#baselinePickerDatepicker' ).attr( 'graph_name', sGraphName );
+  var tCurrentDate = new Date( tRelatedTarget.data( 'timestamp' ) );
+  $( '#baselinePickerDatepicker input' ).val( tCurrentDate.toLocaleDateString() );
+
 }
 
 function onSubmitBaselinePicker( tEvent )
@@ -678,6 +681,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
             'class="btn btn-default btn-xs" ' +
             'data-toggle="modal" ' +
             'data-target="#baselinePickerDialog" ' +
+            'data-timestamp="' + g_tBaselines[sGraphId].timestamp + '" ' +
             'data-first_timestamp="' + g_tBaselines[sGraphId].first_timestamp + '" ' +
             'data-graph_name="' + sGraphName + '" ' +
             '>' +
