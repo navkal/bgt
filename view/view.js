@@ -337,12 +337,14 @@ function onShowBaselinePicker( tEvent )
   // Get graph name
   var tRelatedTarget = $( tEvent.relatedTarget );
   var sGraphName = tRelatedTarget.data( 'graph_name' );
+  var sGraphId = tRelatedTarget.data( 'graph_id' );
 
   // Display graph name in dialog box
   $( '#baselinePickerGraphName' ).text( sGraphName );
 
-  // Save graph name in datepicker
+  // Save graph name and id in datepicker
   $( '#baselinePickerDatepicker' ).attr( 'graph_name', sGraphName );
+  $( '#baselinePickerDatepicker' ).attr( 'graph_id', sGraphId );
 
   // Set initial datepicker value
   var tCurrentDate = new Date( tRelatedTarget.data( 'timestamp' ) );
@@ -372,36 +374,35 @@ function onSubmitBaselinePicker( tEvent )
 
   // Extract the timestamp from the datepicker
   var sDate = $( '#baselinePickerDatepicker input' ).val();
-  if ( sDate )
-  {
-    var tDate = new Date( sDate );
-    var iTimestamp = tDate.getTime();
+  var tDate = new Date( sDate );
+  var iTimestamp = tDate.getTime();
 
-    // Set post arguments
-    var tPostData = new FormData();
-    tPostData.append( 'csv_basename', g_sCsvBasename );
-    tPostData.append( 'graph_name', $( '#baselinePickerDatepicker' ).attr( 'graph_name' ) );
-    tPostData.append( 'timestamp', iTimestamp );
+  // Set post arguments
+  var tPostData = new FormData();
+  tPostData.append( 'csv_basename', g_sCsvBasename );
+  tPostData.append( 'graph_name', $( '#baselinePickerDatepicker' ).attr( 'graph_name' ) );
+  tPostData.append( 'graph_id', $( '#baselinePickerDatepicker' ).attr( 'graph_id' ) );
+  tPostData.append( 'timestamp', iTimestamp );
 
-    // Post request to server
-    $.ajax(
-      '/baselines/baseline.php',
-      {
-        type: 'POST',
-        processData: false,
-        contentType: false,
-        dataType : 'json',
-        data: tPostData
-      }
-    )
-    .done( submitBaselinePickerDone )
-    .fail( handleAjaxError );
-  }
+  // Post request to server
+  $.ajax(
+    '/baselines/baseline.php',
+    {
+      type: 'POST',
+      processData: false,
+      contentType: false,
+      dataType : 'json',
+      data: tPostData
+    }
+  )
+  .done( submitBaselinePickerDone )
+  .fail( handleAjaxError );
 }
 
 function submitBaselinePickerDone( tRsp, sStatus, tJqXhr )
 {
-  alert( JSON.stringify( tRsp ) );
+  g_tBaselines[tRsp.graph_id] = tRsp;
+  updateGraphs( false );  
 }
 
 function onGraphTabShown( tEvent )
@@ -693,6 +694,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
             'data-timestamp="' + g_tBaselines[sGraphId].timestamp + '" ' +
             'data-first_timestamp="' + g_tBaselines[sGraphId].first_timestamp + '" ' +
             'data-graph_name="' + sGraphName + '" ' +
+            'data-graph_id="' + sGraphId + '" ' +
             '>' +
           tTime.toLocaleDateString( 'en-US', g_tDateFormatOptions ).replace( ',', '' ) +
           '</button>';

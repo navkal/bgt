@@ -9,6 +9,7 @@
   {
     $sCsvBasename = $_POST['csv_basename'];
     $sGraphName = $_POST['graph_name'];
+    $sGraphId = $_POST['graph_id'];
     $iTimestamp = $_POST['timestamp'];
 
     // Format command
@@ -19,8 +20,15 @@
     error_log( '==> command=' . $command );
     exec( $command, $output, $status );
     error_log( '==> output=' . print_r( $output, true ) );
-    $tResult = $output[ count( $output ) - 1 ];
+
+    // Return graph name with result
+    $sResult = $output[ count( $output ) - 1 ];
+    $tResult = json_decode( $sResult );
+    $tResult->graph_name = $sGraphName;
+    $tResult->graph_id = $sGraphId;
+    $aResult = (array) $tResult;
+    ksort( $aResult );
   }
 
-  echo json_encode( $tResult );
+  echo json_encode( $aResult );
 ?>
