@@ -326,13 +326,6 @@ function initGraphs()
 
 function initBaselinePicker()
 {
-  // Initialize the datepicker
-  $( '#baselinePickerDatepicker' ).datepicker(
-    {
-      autoclose: true
-    }
-  );
-
   // Set handler for baseline picker dialog show event
   $( '#baselinePickerDialog' ).on( 'show.bs.modal', onShowBaselinePicker );
 }
@@ -346,7 +339,15 @@ function onShowBaselinePicker( tEvent )
   // Display graph name in dialog box
   $( '#baselinePickerGraphName' ).text( sGraphName );
 
-  // Set graph name attribute in datepicker
+  // Initialize the datepicker
+  var tDate = new Date();
+  $( '#baselinePickerDatepicker' ).datepicker(
+    {
+      autoclose: true,
+      endDate: tDate.toLocaleDateString()
+    }
+  );
+
   $( '#baselinePickerDatepicker' ).attr( 'graph_name', sGraphName );
 }
 
