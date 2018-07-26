@@ -46,10 +46,16 @@ if os.path.exists( db ):
         for value_row in value_rows:
             values[value_row[0]] = { 'value': value_row[1], 'units': value_row[2] }
 
-        # Sort values and attach to baseline
-        values = collections.OrderedDict( sorted( values.items() ) )
-        baseline = { 'timestamp': timestamp, 'values': values }
-        baseline = collections.OrderedDict( sorted( baseline.items() ) )
 
-# Return timestamp and values
+        # Find earliest timestamp available for target graph
+        if values:
+            cur.execute( 'SELECT timestamp from Timestamps where id=( SELECT MIN( timestamp_id ) FROM Baselines WHERE ( csv_filename=? AND column_name=? ) )', ( args.csv_filename, args.column_name ) )
+            first_timestamp = cur.fetchone()[0]
+
+            # Build baseline data structure consisting of values and timestamps
+            values = collections.OrderedDict( sorted( values.items() ) )
+            baseline = { 'timestamp': timestamp, 'first_timestamp': first_timestamp, 'values': values }
+            baseline = collections.OrderedDict( sorted( baseline.items() ) )
+
+# Return baseline
 print( json.dumps( baseline ) )
