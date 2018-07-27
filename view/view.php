@@ -57,7 +57,22 @@
   }
   fclose( $file );
 
-
+  // Build maps from graph names and graph IDs to corresponding columns array element
+  $g_tGraphNameMap = [];
+  $g_tGraphIdMap = [];
+  $g_aGraphSelectors = [];
+  for ( $iCol = 0; $iCol < count( $g_aColNames ); $iCol ++ )
+  {
+    $tColInfo = $g_aColNames[$iCol];
+    if ( isset( $tColInfo['graph'] ) )
+    {
+      $sGraphName = $tColInfo['value_col_name'];
+      $g_tGraphNameMap[$sGraphName] = $iCol;
+      $sGraphId = $tColInfo['graph']['graph_id'];
+      $g_tGraphIdMap[$sGraphId] = $iCol;
+      array_push( $g_aGraphSelectors, '#' . $sGraphId );
+    }
+  }
 
   // Read CSV file describing data to be retrieved and presented
   $file = fopen( $g_sCsvFilename, 'r' );
@@ -132,6 +147,9 @@
   var g_sCsvBasename = '<?=$g_sCsvBasename?>';
   var g_sFirstColName = '<?=$g_sFirstColName?>';
   var g_aColNames = JSON.parse( '<?=json_encode( $g_aColNames )?>' );
+  var g_tGraphNameMap = JSON.parse( '<?=json_encode( $g_tGraphNameMap )?>' );
+  var g_tGraphIdMap = JSON.parse( '<?=json_encode( $g_tGraphIdMap )?>' );
+  var g_aGraphSelectors = JSON.parse( '<?=json_encode( $g_aGraphSelectors )?>' );
   var g_tBaselines = JSON.parse( '<?=json_encode( $tBaselines )?>' );
   var g_aRows = JSON.parse( '<?=json_encode( $aLines )?>' );
   var g_sLayoutMode = '<?=$g_sLayoutMode?>';

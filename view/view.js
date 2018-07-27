@@ -20,7 +20,6 @@ var g_iInstanceOffset = 0;
 var g_iRow = 0;
 var g_iTimeoutMs = 0;
 var g_aRowData = [];
-var g_aGraphSelectors = null;
 var g_tGraphData = {};
 var g_bHorizontal = null;
 
@@ -43,9 +42,6 @@ $( document ).ready( onDocumentReady );
 
 function onDocumentReady()
 {
-  // Initialize list of graph IDs
-  initGraphIds();
-
   // Initialize layout framework
   switch( g_sLayoutMode )
   {
@@ -73,20 +69,6 @@ function onDocumentReady()
   // Issue first request
   g_iInstanceOffset = 2;
   rq();
-}
-
-function initGraphIds()
-{
-  g_aGraphSelectors = [];
-
-  for ( var iCol in g_aColNames )
-  {
-    var tCol = g_aColNames[iCol];
-    if ( 'graph' in tCol )
-    {
-      g_aGraphSelectors.push( '#' + tCol['graph']['graph_id'] );
-    }
-  }
 }
 
 function initTabs()
@@ -439,15 +421,12 @@ function onGraphTabShown( tEvent )
   var sGraphId = $( tEvent.target ).attr( 'href' ).substring( 1 );
   var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
 
-  var iGraph = getGraphIndex( sGraphId );
+  var iGraph = g_tGraphIdMap[sGraphId];
+  var sGraphName = g_aColNames[iGraph].value_col_name;
+  var bDelta = g_aColNames[iGraph].graph.delta;
 
-  if ( iGraph !== null )
-  {
-    var sGraphName = g_aColNames[iGraph].value_col_name;
-    var bDelta = g_aColNames[iGraph].graph.delta;
+  updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
 
-    updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
-  }
 }
 
 function rq()
@@ -591,25 +570,22 @@ function updateGraphs( bUpdateData )
   {
     // Find the graph index
     var sGraphId = $( aGraphs[iGraph] ).parent().attr( 'id' );
-    var iGraph = getGraphIndex( sGraphId );
+    var iGraph = g_tGraphIdMap[sGraphId];
 
-    if ( iGraph !== null )
+    var bDelta = g_aColNames[iGraph].graph.delta;
+
+    // Optionally update the graph data structure
+    if ( bUpdateData )
     {
-      var bDelta = g_aColNames[iGraph].graph.delta;
+      updateGraphData( sGraphId, g_aRowData[iGraph], bDelta );
+    }
 
-      // Optionally update the graph data structure
-      if ( bUpdateData )
-      {
-        updateGraphData( sGraphId, g_aRowData[iGraph], bDelta );
-      }
-
-      // If graph is visible, update the display
-      var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
-      if ( tGraphDiv.is( ':visible' ) )
-      {
-        var sGraphName = g_aColNames[iGraph].value_col_name;
-        updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
-      }
+    // If graph is visible, update the display
+    var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
+    if ( tGraphDiv.is( ':visible' ) )
+    {
+      var sGraphName = g_aColNames[iGraph].value_col_name;
+      updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
     }
   }
 }
@@ -969,19 +945,6 @@ function pickGraphUnits( tGraphData )
 
   // Return prevalent units string
   return sGraphUnits;
-}
-
-function getGraphIndex( sGraphId )
-{
-  // Find index into row data that corresponds to target graph
-  var bFound = false;
-  for ( var iGraph = 0; ( iGraph < g_aColNames.length ) && ! bFound; iGraph ++ )
-  {
-    var tCol = g_aColNames[iGraph];
-    bFound = ( 'graph' in tCol ) && ( sGraphId == tCol.graph.graph_id );
-  }
-
-  return bFound ? iGraph - 1 : null;
 }
 
 // Advance to next row
