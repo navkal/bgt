@@ -390,7 +390,9 @@ function onSubmitBaselinePicker( tEvent )
 function submitBaselinePickerDone( tRsp, sStatus, tJqXhr )
 {
   // Save new baseline for the target graph
-  var sGraphId = tRsp.graph_id;
+  var sGraphName = tRsp.graph_name;
+  var iGraph = g_tGraphNameMap[sGraphName];
+  var sGraphId = g_aColNames[iGraph].graph.graph_id;
   g_tBaselines[sGraphId] = tRsp;
 
   // Update all bars of the target graph
@@ -426,7 +428,6 @@ function onGraphTabShown( tEvent )
   var bDelta = g_aColNames[iGraph].graph.delta;
 
   updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
-
 }
 
 function rq()

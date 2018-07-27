@@ -57,7 +57,7 @@
   }
   fclose( $file );
 
-  // Build maps from graph names and graph IDs to corresponding columns array element
+  // Build graph-related data structures
   $g_tGraphNameMap = [];
   $g_tGraphIdMap = [];
   $g_aGraphSelectors = [];
