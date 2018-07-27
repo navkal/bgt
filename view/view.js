@@ -338,12 +338,11 @@ function onShowBaselinePicker( tEvent )
 
   // Get graph name
   var sGraphName = tRelatedTarget.data( 'graph_name' );
-  console.log( sGraphName );
 
   if ( typeof sGraphName != 'undefined' )
   {
+    // Get graph ID
     var sGraphId = tRelatedTarget.data( 'graph_id' );
-    console.log( sGraphId );
 
     // Display graph name in dialog box
     $( '#baselinePickerGraphName' ).text( sGraphName );
@@ -360,7 +359,6 @@ function onShowBaselinePicker( tEvent )
     // Determine lower and upper datepicker bounds
     var tStartDate = new Date( tRelatedTarget.data( 'first_timestamp' ) );
     var tEndDate = new Date( tRelatedTarget.data( 'last_timestamp' ) );
-    console.log( tStartDate.toLocaleDateString() + ' to ' + tEndDate.toLocaleDateString() );
 
     // Initialize the datepicker
     $( '#baselinePickerDatepicker' ).datepicker(
