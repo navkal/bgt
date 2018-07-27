@@ -9,7 +9,6 @@
   {
     $sCsvBasename = $_POST['csv_basename'];
     $sGraphName = $_POST['graph_name'];
-    $sGraphId = $_POST['graph_id'];
     $iTimestamp = $_POST['timestamp'];
 
     // Format command
@@ -25,7 +24,6 @@
     $sResult = $output[ count( $output ) - 1 ];
     $tResult = json_decode( $sResult );
     $tResult->graph_name = $sGraphName;
-    $tResult->graph_id = $sGraphId;
     $aResult = (array) $tResult;
     ksort( $aResult );
   }

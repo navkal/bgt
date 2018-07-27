@@ -323,15 +323,11 @@ function onShowBaselinePicker( tEvent )
 
   if ( typeof sGraphName != 'undefined' )
   {
-    // Get graph ID
-    var sGraphId = tRelatedTarget.data( 'graph_id' );
-
     // Display graph name in dialog box
     $( '#baselinePickerGraphName' ).text( sGraphName );
 
-    // Save graph name and id in datepicker
+    // Save graph name in datepicker
     $( '#baselinePickerDatepicker' ).attr( 'graph_name', sGraphName );
-    $( '#baselinePickerDatepicker' ).attr( 'graph_id', sGraphId );
 
     // Set initial datepicker value
     var tCurrentDate = new Date( tRelatedTarget.data( 'timestamp' ) );
@@ -369,7 +365,6 @@ function onSubmitBaselinePicker( tEvent )
   var tPostData = new FormData();
   tPostData.append( 'csv_basename', g_sCsvBasename );
   tPostData.append( 'graph_name', $( '#baselinePickerDatepicker' ).attr( 'graph_name' ) );
-  tPostData.append( 'graph_id', $( '#baselinePickerDatepicker' ).attr( 'graph_id' ) );
   tPostData.append( 'timestamp', iTimestamp );
 
   // Post request to server
@@ -701,7 +696,6 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
             'data-first_timestamp="' + g_tBaselines[sGraphId].first_timestamp + '" ' +
             'data-last_timestamp="' + g_tBaselines[sGraphId].last_timestamp + '" ' +
             'data-graph_name="' + sGraphName + '" ' +
-            'data-graph_id="' + sGraphId + '" ' +
             '>' +
           tTime.toLocaleDateString( 'en-US', g_tDateFormatOptions ).replace( ',', '' ) +
           '</button>';
