@@ -334,37 +334,45 @@ function initBaselinePicker()
 
 function onShowBaselinePicker( tEvent )
 {
-  // Get graph name
   var tRelatedTarget = $( tEvent.relatedTarget );
+
+  // Get graph name
   var sGraphName = tRelatedTarget.data( 'graph_name' );
-  var sGraphId = tRelatedTarget.data( 'graph_id' );
+  console.log( sGraphName );
 
-  // Display graph name in dialog box
-  $( '#baselinePickerGraphName' ).text( sGraphName );
+  if ( typeof sGraphName != 'undefined' )
+  {
+    var sGraphId = tRelatedTarget.data( 'graph_id' );
+    console.log( sGraphId );
 
-  // Save graph name and id in datepicker
-  $( '#baselinePickerDatepicker' ).attr( 'graph_name', sGraphName );
-  $( '#baselinePickerDatepicker' ).attr( 'graph_id', sGraphId );
+    // Display graph name in dialog box
+    $( '#baselinePickerGraphName' ).text( sGraphName );
 
-  // Set initial datepicker value
-  var tCurrentDate = new Date( tRelatedTarget.data( 'timestamp' ) );
-  var sCurrentDate = tCurrentDate.toLocaleDateString( 'en-US', g_tDateFormatOptions ).replace( ',', '' );
-  $( '#baselinePickerDatepicker input' ).val( sCurrentDate );
+    // Save graph name and id in datepicker
+    $( '#baselinePickerDatepicker' ).attr( 'graph_name', sGraphName );
+    $( '#baselinePickerDatepicker' ).attr( 'graph_id', sGraphId );
 
-  // Determine lower and upper datepicker bounds
-  var tStartDate = new Date( tRelatedTarget.data( 'first_timestamp' ) );
-  var tEndDate = new Date( tRelatedTarget.data( 'last_timestamp' ) );
+    // Set initial datepicker value
+    var tCurrentDate = new Date( tRelatedTarget.data( 'timestamp' ) );
+    var sCurrentDate = tCurrentDate.toLocaleDateString( 'en-US', g_tDateFormatOptions ).replace( ',', '' );
+    $( '#baselinePickerDatepicker input' ).val( sCurrentDate );
 
-  // Initialize the datepicker
-  $( '#baselinePickerDatepicker' ).datepicker(
-    {
-      autoclose: true,
-      todayHighlight: true,
-      format: 'D mm/dd/yyyy',
-      startDate: tStartDate.toLocaleDateString(),
-      endDate: tEndDate.toLocaleDateString()
-    }
-  );
+    // Determine lower and upper datepicker bounds
+    var tStartDate = new Date( tRelatedTarget.data( 'first_timestamp' ) );
+    var tEndDate = new Date( tRelatedTarget.data( 'last_timestamp' ) );
+    console.log( tStartDate.toLocaleDateString() + ' to ' + tEndDate.toLocaleDateString() );
+
+    // Initialize the datepicker
+    $( '#baselinePickerDatepicker' ).datepicker(
+      {
+        autoclose: true,
+        todayHighlight: true,
+        format: 'D mm/dd/yyyy',
+        startDate: tStartDate.toLocaleDateString(),
+        endDate: tEndDate.toLocaleDateString()
+      }
+    );
+  }
 }
 
 function onSubmitBaselinePicker( tEvent )
