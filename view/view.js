@@ -419,18 +419,6 @@ function validateGraphOptions()
 {
   var bValid = true;
   $( '.has-error' ).removeClass( 'has-error' );
-
-  if ( $( '#showAsCost' ).prop( 'checked' ) )
-  {
-    var nVal = Number( $( '#dollarsPerUnit' ).val() );
-    var nMin = $( '#dollarsPerUnit' ).attr( 'min' );
-    if ( isNaN( nVal ) || ( nVal < nMin ) )
-    {
-      $( '#dollarsPerUnit' ).closest( '.input-group' ).addClass( 'has-error' );
-      bValid = false;
-    }
-  }
-
   return bValid;
 }
 

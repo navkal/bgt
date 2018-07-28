@@ -296,7 +296,7 @@
               </div>
               <div class="input-group">
                 <span class="input-group-addon">$</span>
-                <input id="dollarsPerUnit" class="form-control" type="number" min="0.01" step="0.01"  onchange="onChangeDollarsPerUnit()" />
+                <input id="dollarsPerUnit" class="form-control" type="number" min="0.01" step="0.01" onchange="onChangeDollarsPerUnit()" required />
                 <span class="input-group-addon">per unit</span>
               </div>
             </div>
