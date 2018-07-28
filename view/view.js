@@ -696,6 +696,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
           '<button ' +
             'type="button" ' +
             'class="btn btn-default btn-xs" ' +
+            'title="Graph Options" ' +
             'data-toggle="modal" ' +
             'data-target="#baselinePickerDialog" ' +
             'data-timestamp="' + g_tBaselines[sGraphId].timestamp + '" ' +
@@ -703,7 +704,8 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
             'data-last_timestamp="' + g_tBaselines[sGraphId].last_timestamp + '" ' +
             'data-graph_name="' + sGraphName + '" ' +
             '>' +
-          tTime.toLocaleDateString( 'en-US', g_tDateFormatOptions ).replace( ',', '' ) +
+              tTime.toLocaleDateString( 'en-US', g_tDateFormatOptions ).replace( ',', '' ) + ' ' +
+              '<span class="glyphicon glyphicon-cog"></span> ' +
           '</button>';
       }
       var aDataset = [ { label: '&nbsp;' + sGraphName + sSince, data: aData, color: "#54b9f8" } ];

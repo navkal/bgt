@@ -274,7 +274,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="baselinePickerLabel"><span id="baselinePickerGraphName"></span> Baseline</h4>
+          <h4 class="modal-title" id="baselinePickerLabel"><span id="baselinePickerGraphName"></span> Graph Options</h4>
         </div>
         <div class="modal-body">
           <form onsubmit="onSubmitBaselinePicker(event); return false;" >
@@ -282,7 +282,7 @@
               <div id="baselinePickerDatepicker" class="input-group date">
                 <input type="text" class="form-control" readonly>
                 <span class="input-group-addon btn btn-default">
-                  <span class="glyphicon glyphicon-th"></span>
+                  <span class="glyphicon glyphicon-calendar" style="font-size:20px"></span>
                 </span>
               </div>
             </div>
@@ -291,7 +291,7 @@
         </div>
         <div class="modal-footer">
           <div style="text-align:center;" >
-            <button type="button" id="baselinePickerFormSubmitProxy" class="btn btn-primary" onclick="$('#baselinePickerSubmitButton').click()" >Set Baseline</button>
+            <button type="button" id="baselinePickerFormSubmitProxy" class="btn btn-primary" onclick="$('#baselinePickerSubmitButton').click()" >Set Options</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           </div>
         </div>
