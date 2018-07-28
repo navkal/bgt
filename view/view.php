@@ -268,7 +268,7 @@
     break;
   }
 ?>
-  <!-- Baseline Picker modal dialog -->
+  <!-- Graph Options modal dialog -->
   <div class="modal fade" id="graphOptionsDialog" tabindex="-1" role="dialog" aria-labelledby="graphOptionsLabel">
     <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
