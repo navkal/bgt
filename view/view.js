@@ -359,7 +359,7 @@ function onChangeShowAsCost( tEvent )
   $( '#dollarsPerUnit' ).val( bChecked ? $( '#dollarsPerUnit' ).val() : '' );
 }
 
-function onSubmitBaselinePicker( tEvent )
+function onSubmitGraphOptions( tEvent )
 {
   // Hide the modal dialog
   $( '#graphOptionsDialog' ).modal( 'hide' );

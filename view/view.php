@@ -277,7 +277,7 @@
           <h4 class="modal-title" id="graphOptionsLabel"><span id="graphOptionsGraphName"></span> Graph Options</h4>
         </div>
         <div class="modal-body">
-          <form onsubmit="onSubmitBaselinePicker(event); return false;" >
+          <form onsubmit="onSubmitGraphOptions(event); return false;" >
             <div class="form-group">
               <label class="control-label" for="baselinePickerDatepicker" >Show delta since</label>
               <div id="baselinePickerDatepicker" class="input-group date">
