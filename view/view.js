@@ -63,8 +63,8 @@ function onDocumentReady()
   // Initialize graphs
   initGraphs();
 
-  // Initialize baseline picker
-  initBaselinePicker();
+  // Initialize graph options dialog
+  initGraphOptionsDialog();
 
   // Issue first request
   g_iInstanceOffset = 2;
@@ -308,9 +308,9 @@ function initGraphs()
   }
 }
 
-function initBaselinePicker()
+function initGraphOptionsDialog()
 {
-  // Set handler for baseline picker dialog show event
+  // Set handler for dialog show event
   $( '#graphOptionsDialog' ).on( 'show.bs.modal', onShowBaselinePicker );
 }
 
