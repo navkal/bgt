@@ -300,12 +300,12 @@
                 <span class="input-group-addon">per unit</span>
               </div>
             </div>
-            <button id="baselinePickerSubmitButton" type="submit" style="display:none" ></button>
+            <button id="graphOptionsSubmitButton" type="submit" style="display:none" ></button>
           </form>
         </div>
         <div class="modal-footer">
           <div style="text-align:center;" >
-            <button type="button" id="baselinePickerFormSubmitProxy" class="btn btn-primary" onclick="$('#baselinePickerSubmitButton').click()" >Set Options</button>
+            <button type="button" id="baselinePickerFormSubmitProxy" class="btn btn-primary" onclick="$('#graphOptionsSubmitButton').click()" >Set Options</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           </div>
         </div>
