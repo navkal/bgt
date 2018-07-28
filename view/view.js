@@ -312,6 +312,7 @@ function initGraphOptionsDialog()
 {
   // Set handler for dialog show event
   $( '#graphOptionsDialog' ).on( 'show.bs.modal', onShowGraphOptionsDialog );
+  $( '#dollarsPerUnit' ).attr( 'default_cost', '0.16' );
 }
 
 function onShowGraphOptionsDialog( tEvent )
@@ -356,7 +357,12 @@ function onChangeShowAsCost( tEvent )
 {
   var bChecked = $( '#showAsCost' ).prop( 'checked' );
   $( '#dollarsPerUnit' ).prop( 'disabled', ! bChecked );
-  $( '#dollarsPerUnit' ).val( bChecked ? $( '#dollarsPerUnit' ).val() : '' );
+  $( '#dollarsPerUnit' ).val( bChecked ? ( $( '#dollarsPerUnit' ).val() ? $( '#dollarsPerUnit' ).val() : $( '#dollarsPerUnit' ).attr( 'default_cost' ) ) : '' );
+}
+
+function onChangeDollarsPerUnit( tEvent )
+{
+  $( '#dollarsPerUnit' ).attr( 'default_cost', $( '#dollarsPerUnit' ).val() );
 }
 
 function onSubmitGraphOptions( tEvent )

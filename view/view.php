@@ -287,7 +287,7 @@
                 </span>
               </div>
             </div>
-            <div class="form-group" style="display:none">
+            <div class="form-group" >
               <div class="checkbox" >
                 <label>
                   <input type="checkbox" id="showAsCost" onchange="onChangeShowAsCost()" />
@@ -296,7 +296,7 @@
               </div>
               <div class="input-group">
                 <span class="input-group-addon">$</span>
-                <input id="dollarsPerUnit" class="form-control" type="number" min="0.01" step="0.01" id="cost" />
+                <input id="dollarsPerUnit" class="form-control" type="number" min="0.01" step="0.01"  onchange="onChangeDollarsPerUnit()" />
                 <span class="input-group-addon">per unit</span>
               </div>
             </div>
