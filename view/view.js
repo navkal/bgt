@@ -38,6 +38,8 @@ var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProp
 
 var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
 
+var g_sDollarsPerUnit = '0.16';
+
 $( document ).ready( onDocumentReady );
 
 function onDocumentReady()
@@ -312,7 +314,9 @@ function initGraphOptionsDialog()
 {
   // Set handler for dialog show event
   $( '#graphOptionsDialog' ).on( 'show.bs.modal', onShowGraphOptionsDialog );
-  $( '#dollarsPerUnit' ).attr( 'default_cost', '0.16' );
+
+  // Initialize default last cost value
+  $( '#dollarsPerUnit' ).attr( 'last_value', g_sDollarsPerUnit );
 }
 
 function onShowGraphOptionsDialog( tEvent )
@@ -357,12 +361,17 @@ function onChangeShowAsCost( tEvent )
 {
   var bChecked = $( '#showAsCost' ).prop( 'checked' );
   $( '#dollarsPerUnit' ).prop( 'disabled', ! bChecked );
-  $( '#dollarsPerUnit' ).val( bChecked ? ( $( '#dollarsPerUnit' ).val() ? $( '#dollarsPerUnit' ).val() : $( '#dollarsPerUnit' ).attr( 'default_cost' ) ) : '' );
+  $( '#dollarsPerUnit' ).val( bChecked ? $( '#dollarsPerUnit' ).attr( 'last_value' ) : '' );
 }
 
 function onChangeDollarsPerUnit( tEvent )
 {
-  $( '#dollarsPerUnit' ).attr( 'default_cost', $( '#dollarsPerUnit' ).val() );
+  var sVal = $( '#dollarsPerUnit' ).val();
+  var nVal = Number( sVal );
+  if ( ! isNaN( nVal ) && nVal > 0 )
+  {
+    $( '#dollarsPerUnit' ).attr( 'last_value', nVal );
+  }
 }
 
 function onSubmitGraphOptions( tEvent )
