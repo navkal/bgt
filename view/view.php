@@ -279,8 +279,8 @@
         <div class="modal-body">
           <form onsubmit="onSubmitGraphOptions(event); return false;" >
             <div class="form-group">
-              <label class="control-label" for="baselinePickerDatepicker" >Show delta since</label>
-              <div id="baselinePickerDatepicker" class="input-group date">
+              <label class="control-label" for="baselineDatepicker" >Show delta since</label>
+              <div id="baselineDatepicker" class="input-group date">
                 <input type="text" class="form-control" readonly>
                 <span class="input-group-addon btn btn-default">
                   <span class="glyphicon glyphicon-calendar" style="font-size:20px"></span>

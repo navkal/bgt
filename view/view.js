@@ -327,12 +327,12 @@ function onShowGraphOptionsDialog( tEvent )
     $( '#graphOptionsGraphName' ).text( sGraphName );
 
     // Save graph name in datepicker
-    $( '#baselinePickerDatepicker' ).attr( 'graph_name', sGraphName );
+    $( '#baselineDatepicker' ).attr( 'graph_name', sGraphName );
 
     // Set initial datepicker value
     var tCurrentDate = new Date( tOptionsButton.data( 'timestamp' ) );
     var sCurrentDate = tCurrentDate.toLocaleDateString( 'en-US', g_tDateFormatOptions ).replace( ',', '' );
-    $( '#baselinePickerDatepicker input' ).val( sCurrentDate );
+    $( '#baselineDatepicker input' ).val( sCurrentDate );
     $( '#graphOptionsDialog' ).attr( 'original_date', sCurrentDate );
 
     // Determine lower and upper datepicker bounds
@@ -340,7 +340,7 @@ function onShowGraphOptionsDialog( tEvent )
     var tEndDate = new Date( tOptionsButton.data( 'last_timestamp' ) );
 
     // Initialize the datepicker
-    $( '#baselinePickerDatepicker' ).datepicker(
+    $( '#baselineDatepicker' ).datepicker(
       {
         autoclose: true,
         todayHighlight: true,
@@ -364,7 +364,7 @@ function onSubmitGraphOptions( tEvent )
   // Hide the modal dialog
   $( '#graphOptionsDialog' ).modal( 'hide' );
 
-  var sDate = $( '#baselinePickerDatepicker input' ).val();
+  var sDate = $( '#baselineDatepicker input' ).val();
   var sOriginalDate = $( '#graphOptionsDialog' ).attr( 'original_date' );
 
   if ( sDate != sOriginalDate )
@@ -376,7 +376,7 @@ function onSubmitGraphOptions( tEvent )
     // Set post arguments
     var tPostData = new FormData();
     tPostData.append( 'csv_basename', g_sCsvBasename );
-    tPostData.append( 'graph_name', $( '#baselinePickerDatepicker' ).attr( 'graph_name' ) );
+    tPostData.append( 'graph_name', $( '#baselineDatepicker' ).attr( 'graph_name' ) );
     tPostData.append( 'timestamp', iTimestamp );
 
     // Post request to server
