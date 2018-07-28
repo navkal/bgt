@@ -311,10 +311,10 @@ function initGraphs()
 function initGraphOptionsDialog()
 {
   // Set handler for dialog show event
-  $( '#graphOptionsDialog' ).on( 'show.bs.modal', onShowBaselinePicker );
+  $( '#graphOptionsDialog' ).on( 'show.bs.modal', onShowGraphOptionsDialog );
 }
 
-function onShowBaselinePicker( tEvent )
+function onShowGraphOptionsDialog( tEvent )
 {
   if ( $( tEvent.target ).attr( 'id' ) == 'graphOptionsDialog' )
   {
