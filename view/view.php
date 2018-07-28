@@ -279,11 +279,25 @@
         <div class="modal-body">
           <form onsubmit="onSubmitBaselinePicker(event); return false;" >
             <div class="form-group">
+              <label class="control-label" for="baselinePickerDatepicker" >Show delta since</label>
               <div id="baselinePickerDatepicker" class="input-group date">
                 <input type="text" class="form-control" readonly>
                 <span class="input-group-addon btn btn-default">
                   <span class="glyphicon glyphicon-calendar" style="font-size:20px"></span>
                 </span>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="checkbox" >
+                <label>
+                  <input type="checkbox" id="showAsCost" onchange="onChangeShowAsCost()" />
+                  <b>Show as cost</b>
+                </label>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input id="dollarsPerUnit" class="form-control" type="number" min="0.01" step="0.01" id="cost" />
+                <span class="input-group-addon">per unit</span>
               </div>
             </div>
             <button id="baselinePickerSubmitButton" type="submit" style="display:none" ></button>

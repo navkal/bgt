@@ -352,6 +352,13 @@ function onShowBaselinePicker( tEvent )
   }
 }
 
+function onChangeShowAsCost( tEvent )
+{
+  var bChecked = $( '#showAsCost' ).prop( 'checked' );
+  $( '#dollarsPerUnit' ).prop( 'disabled', ! bChecked );
+  $( '#dollarsPerUnit' ).val( bChecked ? $( '#dollarsPerUnit' ).val() : '' );
+}
+
 function onSubmitBaselinePicker( tEvent )
 {
   // Hide the modal dialog
