@@ -324,7 +324,7 @@ function onShowGraphOptionsDialog( tEvent )
     var sGraphName = tOptionsButton.data( 'graph_name' );
 
     // Display graph name in dialog box
-    $( '#baselinePickerGraphName' ).text( sGraphName );
+    $( '#graphOptionsGraphName' ).text( sGraphName );
 
     // Save graph name in datepicker
     $( '#baselinePickerDatepicker' ).attr( 'graph_name', sGraphName );
