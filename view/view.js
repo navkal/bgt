@@ -359,13 +359,9 @@ function onSubmitBaselinePicker( tEvent )
 
   var sDate = $( '#baselinePickerDatepicker input' ).val();
   var sOriginalDate = $( '#baselinePickerDialog' ).attr( 'original_date' );
-  
-  console.log( 'date=<' + sDate + '> original date=<' + sOriginalDate + '>' );
 
   if ( sDate != sOriginalDate )
   {
-    console.log( 'requesting baseline from ' + sDate );
-
     // Extract the timestamp from the datepicker
     var tDate = new Date( sDate );
     var iTimestamp = tDate.getTime();
@@ -390,7 +386,6 @@ function onSubmitBaselinePicker( tEvent )
     .done( submitBaselinePickerDone )
     .fail( handleAjaxError );
   }
-
 }
 
 function submitBaselinePickerDone( tRsp, sStatus, tJqXhr )
