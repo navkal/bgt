@@ -311,12 +311,12 @@ function initGraphs()
 function initBaselinePicker()
 {
   // Set handler for baseline picker dialog show event
-  $( '#baselinePickerDialog' ).on( 'show.bs.modal', onShowBaselinePicker );
+  $( '#graphOptionsDialog' ).on( 'show.bs.modal', onShowBaselinePicker );
 }
 
 function onShowBaselinePicker( tEvent )
 {
-  if ( $( tEvent.target ).attr( 'id' ) == 'baselinePickerDialog' )
+  if ( $( tEvent.target ).attr( 'id' ) == 'graphOptionsDialog' )
   {
     var tOptionsButton = $( tEvent.relatedTarget );
 
@@ -333,7 +333,7 @@ function onShowBaselinePicker( tEvent )
     var tCurrentDate = new Date( tOptionsButton.data( 'timestamp' ) );
     var sCurrentDate = tCurrentDate.toLocaleDateString( 'en-US', g_tDateFormatOptions ).replace( ',', '' );
     $( '#baselinePickerDatepicker input' ).val( sCurrentDate );
-    $( '#baselinePickerDialog' ).attr( 'original_date', sCurrentDate );
+    $( '#graphOptionsDialog' ).attr( 'original_date', sCurrentDate );
 
     // Determine lower and upper datepicker bounds
     var tStartDate = new Date( tOptionsButton.data( 'first_timestamp' ) );
@@ -362,10 +362,10 @@ function onChangeShowAsCost( tEvent )
 function onSubmitBaselinePicker( tEvent )
 {
   // Hide the modal dialog
-  $( '#baselinePickerDialog' ).modal( 'hide' );
+  $( '#graphOptionsDialog' ).modal( 'hide' );
 
   var sDate = $( '#baselinePickerDatepicker input' ).val();
-  var sOriginalDate = $( '#baselinePickerDialog' ).attr( 'original_date' );
+  var sOriginalDate = $( '#graphOptionsDialog' ).attr( 'original_date' );
 
   if ( sDate != sOriginalDate )
   {
@@ -705,7 +705,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
             'class="btn btn-default btn-xs" ' +
             'title="' + sGraphName + ' Graph Options" ' +
             'data-toggle="modal" ' +
-            'data-target="#baselinePickerDialog" ' +
+            'data-target="#graphOptionsDialog" ' +
             'data-timestamp="' + g_tBaselines[sGraphId].timestamp + '" ' +
             'data-first_timestamp="' + g_tBaselines[sGraphId].first_timestamp + '" ' +
             'data-last_timestamp="' + g_tBaselines[sGraphId].last_timestamp + '" ' +

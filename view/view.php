@@ -269,7 +269,7 @@
   }
 ?>
   <!-- Baseline Picker modal dialog -->
-  <div class="modal fade" id="baselinePickerDialog" tabindex="-1" role="dialog" aria-labelledby="baselinePickerLabel">
+  <div class="modal fade" id="graphOptionsDialog" tabindex="-1" role="dialog" aria-labelledby="baselinePickerLabel">
     <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-header">
