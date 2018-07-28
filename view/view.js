@@ -390,12 +390,12 @@ function onSubmitGraphOptions( tEvent )
         data: tPostData
       }
     )
-    .done( submitBaselinePickerDone )
+    .done( submitGraphOptionsDone )
     .fail( handleAjaxError );
   }
 }
 
-function submitBaselinePickerDone( tRsp, sStatus, tJqXhr )
+function submitGraphOptionsDone( tRsp, sStatus, tJqXhr )
 {
   // Save new baseline for the target graph
   var sGraphName = tRsp.graph_name;
