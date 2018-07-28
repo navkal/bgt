@@ -316,13 +316,13 @@ function initBaselinePicker()
 
 function onShowBaselinePicker( tEvent )
 {
-  var tRelatedTarget = $( tEvent.relatedTarget );
-
-  // Get graph name
-  var sGraphName = tRelatedTarget.data( 'graph_name' );
-
-  if ( typeof sGraphName != 'undefined' )
+  if ( $( tEvent.target ).attr( 'id' ) == 'baselinePickerDialog' )
   {
+    var tOptionsButton = $( tEvent.relatedTarget );
+
+    // Get graph name
+    var sGraphName = tOptionsButton.data( 'graph_name' );
+
     // Display graph name in dialog box
     $( '#baselinePickerGraphName' ).text( sGraphName );
 
@@ -330,20 +330,21 @@ function onShowBaselinePicker( tEvent )
     $( '#baselinePickerDatepicker' ).attr( 'graph_name', sGraphName );
 
     // Set initial datepicker value
-    var tCurrentDate = new Date( tRelatedTarget.data( 'timestamp' ) );
+    var tCurrentDate = new Date( tOptionsButton.data( 'timestamp' ) );
     var sCurrentDate = tCurrentDate.toLocaleDateString( 'en-US', g_tDateFormatOptions ).replace( ',', '' );
     $( '#baselinePickerDatepicker input' ).val( sCurrentDate );
+    $( '#baselinePickerDialog' ).attr( 'original_date', sCurrentDate );
 
     // Determine lower and upper datepicker bounds
-    var tStartDate = new Date( tRelatedTarget.data( 'first_timestamp' ) );
-    var tEndDate = new Date( tRelatedTarget.data( 'last_timestamp' ) );
+    var tStartDate = new Date( tOptionsButton.data( 'first_timestamp' ) );
+    var tEndDate = new Date( tOptionsButton.data( 'last_timestamp' ) );
 
     // Initialize the datepicker
     $( '#baselinePickerDatepicker' ).datepicker(
       {
         autoclose: true,
         todayHighlight: true,
-        format: 'D mm/dd/yyyy',
+        format: 'D m/d/yyyy',
         startDate: tStartDate.toLocaleDateString(),
         endDate: tEndDate.toLocaleDateString()
       }
@@ -356,30 +357,40 @@ function onSubmitBaselinePicker( tEvent )
   // Hide the modal dialog
   $( '#baselinePickerDialog' ).modal( 'hide' );
 
-  // Extract the timestamp from the datepicker
   var sDate = $( '#baselinePickerDatepicker input' ).val();
-  var tDate = new Date( sDate );
-  var iTimestamp = tDate.getTime();
+  var sOriginalDate = $( '#baselinePickerDialog' ).attr( 'original_date' );
+  
+  console.log( 'date=<' + sDate + '> original date=<' + sOriginalDate + '>' );
 
-  // Set post arguments
-  var tPostData = new FormData();
-  tPostData.append( 'csv_basename', g_sCsvBasename );
-  tPostData.append( 'graph_name', $( '#baselinePickerDatepicker' ).attr( 'graph_name' ) );
-  tPostData.append( 'timestamp', iTimestamp );
+  if ( sDate != sOriginalDate )
+  {
+    console.log( 'requesting baseline from ' + sDate );
 
-  // Post request to server
-  $.ajax(
-    '/baselines/baseline.php',
-    {
-      type: 'POST',
-      processData: false,
-      contentType: false,
-      dataType : 'json',
-      data: tPostData
-    }
-  )
-  .done( submitBaselinePickerDone )
-  .fail( handleAjaxError );
+    // Extract the timestamp from the datepicker
+    var tDate = new Date( sDate );
+    var iTimestamp = tDate.getTime();
+
+    // Set post arguments
+    var tPostData = new FormData();
+    tPostData.append( 'csv_basename', g_sCsvBasename );
+    tPostData.append( 'graph_name', $( '#baselinePickerDatepicker' ).attr( 'graph_name' ) );
+    tPostData.append( 'timestamp', iTimestamp );
+
+    // Post request to server
+    $.ajax(
+      '/baselines/baseline.php',
+      {
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        dataType : 'json',
+        data: tPostData
+      }
+    )
+    .done( submitBaselinePickerDone )
+    .fail( handleAjaxError );
+  }
+
 }
 
 function submitBaselinePickerDone( tRsp, sStatus, tJqXhr )
