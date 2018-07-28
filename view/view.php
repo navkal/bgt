@@ -269,12 +269,12 @@
   }
 ?>
   <!-- Baseline Picker modal dialog -->
-  <div class="modal fade" id="graphOptionsDialog" tabindex="-1" role="dialog" aria-labelledby="baselinePickerLabel">
+  <div class="modal fade" id="graphOptionsDialog" tabindex="-1" role="dialog" aria-labelledby="graphOptionsLabel">
     <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="baselinePickerLabel"><span id="baselinePickerGraphName"></span> Graph Options</h4>
+          <h4 class="modal-title" id="graphOptionsLabel"><span id="baselinePickerGraphName"></span> Graph Options</h4>
         </div>
         <div class="modal-body">
           <form onsubmit="onSubmitBaselinePicker(event); return false;" >
