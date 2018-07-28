@@ -696,7 +696,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
           '<button ' +
             'type="button" ' +
             'class="btn btn-default btn-xs" ' +
-            'title="Graph Options" ' +
+            'title="' + sGraphName + ' Graph Options" ' +
             'data-toggle="modal" ' +
             'data-target="#baselinePickerDialog" ' +
             'data-timestamp="' + g_tBaselines[sGraphId].timestamp + '" ' +
