@@ -38,8 +38,6 @@ var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProp
 
 var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
 
-var g_sDollarsPerUnit = '0.16';
-
 $( document ).ready( onDocumentReady );
 
 function onDocumentReady()
@@ -315,8 +313,10 @@ function initGraphOptionsDialog()
   // Set handler for dialog show event
   $( '#graphOptionsDialog' ).on( 'show.bs.modal', onShowGraphOptionsDialog );
 
-  // Initialize default last cost value
-  $( '#dollarsPerUnit' ).attr( 'last_value', g_sDollarsPerUnit );
+  // Initialize cost fields
+  $( '#showAsCost' ).prop( 'checked', false );
+  $( '#dollarsPerUnit' ).prop( 'disabled', true );
+  $( '#dollarsPerUnit' ).attr( 'last_value', 0.16 );
 }
 
 function onShowGraphOptionsDialog( tEvent )
@@ -366,48 +366,72 @@ function onChangeShowAsCost( tEvent )
 
 function onChangeDollarsPerUnit( tEvent )
 {
-  var sVal = $( '#dollarsPerUnit' ).val();
-  var nVal = Number( sVal );
-  if ( ! isNaN( nVal ) && nVal > 0 )
+  // If cost value is valid, save as last value
+  var nVal = Number( $( '#dollarsPerUnit' ).val() );
+  var nMin = $( '#dollarsPerUnit' ).attr( 'min' );
+  if ( ! isNaN( nVal ) && ( nVal >= nMin ) )
   {
+    $( '#dollarsPerUnit' ).val( nVal );
     $( '#dollarsPerUnit' ).attr( 'last_value', nVal );
   }
 }
 
 function onSubmitGraphOptions( tEvent )
 {
-  // Hide the modal dialog
-  $( '#graphOptionsDialog' ).modal( 'hide' );
-
-  var sDate = $( '#baselineDatepicker input' ).val();
-  var sOriginalDate = $( '#graphOptionsDialog' ).attr( 'original_date' );
-
-  if ( sDate != sOriginalDate )
+  if ( validateGraphOptions() )
   {
-    // Extract the timestamp from the datepicker
-    var tDate = new Date( sDate );
-    var iTimestamp = tDate.getTime();
+    // Hide the modal dialog
+    $( '#graphOptionsDialog' ).modal( 'hide' );
 
-    // Set post arguments
-    var tPostData = new FormData();
-    tPostData.append( 'csv_basename', g_sCsvBasename );
-    tPostData.append( 'graph_name', $( '#baselineDatepicker' ).attr( 'graph_name' ) );
-    tPostData.append( 'timestamp', iTimestamp );
+    var sDate = $( '#baselineDatepicker input' ).val();
+    var sOriginalDate = $( '#graphOptionsDialog' ).attr( 'original_date' );
 
-    // Post request to server
-    $.ajax(
-      '/baselines/baseline.php',
-      {
-        type: 'POST',
-        processData: false,
-        contentType: false,
-        dataType : 'json',
-        data: tPostData
-      }
-    )
-    .done( submitGraphOptionsDone )
-    .fail( handleAjaxError );
+    if ( sDate != sOriginalDate )
+    {
+      // Extract the timestamp from the datepicker
+      var tDate = new Date( sDate );
+      var iTimestamp = tDate.getTime();
+
+      // Set post arguments
+      var tPostData = new FormData();
+      tPostData.append( 'csv_basename', g_sCsvBasename );
+      tPostData.append( 'graph_name', $( '#baselineDatepicker' ).attr( 'graph_name' ) );
+      tPostData.append( 'timestamp', iTimestamp );
+
+      // Post request to server
+      $.ajax(
+        '/baselines/baseline.php',
+        {
+          type: 'POST',
+          processData: false,
+          contentType: false,
+          dataType : 'json',
+          data: tPostData
+        }
+      )
+      .done( submitGraphOptionsDone )
+      .fail( handleAjaxError );
+    }
   }
+}
+
+function validateGraphOptions()
+{
+  var bValid = true;
+  $( '.has-error' ).removeClass( 'has-error' );
+
+  if ( $( '#showAsCost' ).prop( 'checked' ) )
+  {
+    var nVal = Number( $( '#dollarsPerUnit' ).val() );
+    var nMin = $( '#dollarsPerUnit' ).attr( 'min' );
+    if ( isNaN( nVal ) || ( nVal < nMin ) )
+    {
+      $( '#dollarsPerUnit' ).closest( '.input-group' ).addClass( 'has-error' );
+      bValid = false;
+    }
+  }
+
+  return bValid;
 }
 
 function submitGraphOptionsDone( tRsp, sStatus, tJqXhr )
