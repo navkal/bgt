@@ -37,7 +37,6 @@ var g_tGraphSplit = null;
 var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProps );
 
 var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
-var g_nDollarsPerUnit = 0;
 
 $( document ).ready( onDocumentReady );
 
@@ -385,7 +384,8 @@ function onSubmitGraphOptions( tEvent )
     $( '#graphOptionsDialog' ).modal( 'hide' );
 
     // Save cost configuration
-    g_nDollarsPerUnit = $( '#showAsCost' ).prop( 'checked' ) ? $( '#dollarsPerUnit' ).val() : 0;
+    var sGraphName = $( '#baselineDatepicker' ).attr( 'graph_name' );
+    g_tGraphOptions[sGraphName].dollarsPerUnit = $( '#showAsCost' ).prop( 'checked' ) ? $( '#dollarsPerUnit' ).val() : 0;
 
     var sDate = $( '#baselineDatepicker input' ).val();
     var sOriginalDate = $( '#graphOptionsDialog' ).attr( 'original_date' );
@@ -400,7 +400,7 @@ function onSubmitGraphOptions( tEvent )
       // Set post arguments
       var tPostData = new FormData();
       tPostData.append( 'csv_basename', g_sCsvBasename );
-      tPostData.append( 'graph_name', $( '#baselineDatepicker' ).attr( 'graph_name' ) );
+      tPostData.append( 'graph_name', sGraphName );
       tPostData.append( 'timestamp', iTimestamp );
 
       // Post request to server
@@ -659,12 +659,15 @@ function updateGraphData( sGraphId, tBarData, bDelta )
 
 function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
 {
-  console.log( '===> updateGraphDisplay(), graph name=' + sGraphName + ', multiplier=' + g_nDollarsPerUnit );
   if ( ( sGraphId in g_tGraphData ) && ( tGraphDiv.width() > 0 ) )
   {
+    console.log( '===> updateGraphDisplay(), graph name=' + sGraphName + ', multiplier=' + g_tGraphOptions[sGraphName].dollarsPerUnit );
     // Determine which units to show in graph
     var tGraphData = g_tGraphData[sGraphId];
     var sGraphUnits = pickGraphUnits( tGraphData );
+
+    // Get access to graph options object
+    var tGraphOptions = g_tGraphOptions[sGraphName];
 
     if ( g_bFlot )
     {
@@ -740,6 +743,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
       };
 
       // Set up graph options
+      var sRangeLabel = tGraphOptions.dollarsPerUnit ? '$' : sGraphUnits;
       var tOptions =
       {
         series:
@@ -757,7 +761,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
         },
         xaxis:
         {
-          axisLabel: ( g_bHorizontal ? sGraphUnits : g_sFirstColName ),
+          axisLabel: ( g_bHorizontal ? sRangeLabel : g_sFirstColName ),
           axisLabelUseCanvas: true,
           axisLabelFontSizePixels: 14,
           axisLabelFontFamily: 'Verdana, Arial',
@@ -768,7 +772,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
         },
         yaxis:
         {
-          axisLabel: g_bHorizontal ? g_sFirstColName : sGraphUnits,
+          axisLabel: g_bHorizontal ? g_sFirstColName : sRangeLabel,
           axisLabelUseCanvas: true,
           axisLabelFontSizePixels: 14,
           axisLabelFontFamily: 'Verdana, Arial',
@@ -935,7 +939,6 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
           .attr("height", function(d) { return height - y(d.value); });
     }
   }
-
 }
 
 // Determine graph units based on prevalence in data structure

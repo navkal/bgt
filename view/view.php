@@ -61,16 +61,18 @@
   $g_tGraphNameMap = [];
   $g_tGraphIdMap = [];
   $g_aGraphSelectors = [];
+  $g_tGraphOptions = [];
   for ( $iCol = 0; $iCol < count( $g_aColNames ); $iCol ++ )
   {
     $tColInfo = $g_aColNames[$iCol];
     if ( isset( $tColInfo['graph'] ) )
     {
       $sGraphName = $tColInfo['value_col_name'];
-      $g_tGraphNameMap[$sGraphName] = $iCol;
       $sGraphId = $tColInfo['graph']['graph_id'];
+      $g_tGraphNameMap[$sGraphName] = $iCol;
       $g_tGraphIdMap[$sGraphId] = $iCol;
       array_push( $g_aGraphSelectors, '#' . $sGraphId );
+      $g_tGraphOptions[$sGraphName] = (object)[];
     }
   }
 
@@ -150,6 +152,7 @@
   var g_tGraphNameMap = JSON.parse( '<?=json_encode( $g_tGraphNameMap )?>' );
   var g_tGraphIdMap = JSON.parse( '<?=json_encode( $g_tGraphIdMap )?>' );
   var g_aGraphSelectors = JSON.parse( '<?=json_encode( $g_aGraphSelectors )?>' );
+  var g_tGraphOptions = JSON.parse( '<?=json_encode( $g_tGraphOptions )?>' );
   var g_tBaselines = JSON.parse( '<?=json_encode( $tBaselines )?>' );
   var g_aRows = JSON.parse( '<?=json_encode( $aLines )?>' );
   var g_sLayoutMode = '<?=$g_sLayoutMode?>';
