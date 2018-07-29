@@ -72,7 +72,8 @@
       $g_tGraphNameMap[$sGraphName] = $iCol;
       $g_tGraphIdMap[$sGraphId] = $iCol;
       array_push( $g_aGraphSelectors, '#' . $sGraphId );
-      $g_tGraphOptions[$sGraphName] = [ 'dollarsPerUnit' => 0.16 ];
+      $tColInfo['graph']['delta'] = isset( $tColInfo['graph']['delta'] ) && $tColInfo['graph']['delta'];
+      $g_tGraphOptions[$sGraphName] = $tColInfo['graph']['delta'] ? [ 'dollarsPerUnit' => 0.16 ] : [];
     }
   }
 
