@@ -755,7 +755,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
       };
 
       // Set up graph options
-      var sRangeLabel = tGraphOptions.dollarsPerUnit ? '$' : sGraphUnits;
+      var sRangeLabel = tGraphOptions.dollarsPerUnit ? '$ (' + tGraphOptions.dollarsPerUnit + ' per unit)' : sGraphUnits;
       var tOptions =
       {
         series:
