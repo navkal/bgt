@@ -728,7 +728,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
       {
         tTime = new Date( g_tBaselines[sGraphId].timestamp );
         sSince =
-         ( g_tGraphOptions[sGraphName].dollarsPerUnit ? ' Cost' : '' ) +
+         ( g_tGraphOptions[sGraphName].dollarsPerUnit ? ' cost' : '' ) +
           ' since ' +
           '<button ' +
             'type="button" ' +
@@ -863,11 +863,11 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
 
             // Format tooltip text
             var sBarLabel = g_bHorizontal ? item.series.yaxis.ticks[iTick].label : item.series.xaxis.ticks[x].label;
-            var sBarValue = g_bHorizontal ? x.toLocaleString() : y.toLocaleString();
+            var sBarValue = Math.round( g_bHorizontal ? x.toLocaleString() : y.toLocaleString() );
             var sGraphUnits = g_bHorizontal ? item.series.xaxis.options.axisLabel : item.series.yaxis.options.axisLabel;
-            if ( sGraphUnits == '$' )
+            if ( sGraphUnits.startsWith( '$' ) )
             {
-              sBarValue = sGraphUnits + sBarValue;
+              sBarValue = '$' + sBarValue;
               sGraphUnits = '';
             }
             var sTooltip = sBarLabel + '<br/><strong>' + sBarValue + '</strong> ' + sGraphUnits;
