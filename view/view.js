@@ -850,20 +850,18 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
             var y = item.datapoint[1];
             var iTick = Object.keys( g_tGraphData[sGraphId] ).length - y - 1;
 
-            showTooltip(
-              item.pageX,
-              item.pageY,
-              item.series.color,
-              ( g_bHorizontal ? item.series.yaxis.ticks[iTick].label : item.series.xaxis.ticks[x].label )
-              +
-              "<br/><strong>"
-              +
-              ( g_bHorizontal ? x.toLocaleString() : y.toLocaleString() )
-              +
-              "</strong> "
-              +
-              ( g_bHorizontal ? item.series.xaxis.options.axisLabel : item.series.yaxis.options.axisLabel )
-            );
+            // Format tooltip text
+            var sBarLabel = g_bHorizontal ? item.series.yaxis.ticks[iTick].label : item.series.xaxis.ticks[x].label;
+            var sBarValue = g_bHorizontal ? x.toLocaleString() : y.toLocaleString();
+            var sGraphUnits = g_bHorizontal ? item.series.xaxis.options.axisLabel : item.series.yaxis.options.axisLabel;
+            if ( sGraphUnits == '$' )
+            {
+              sBarValue = sGraphUnits + sBarValue;
+              sGraphUnits = '';
+            }
+            var sTooltip = sBarLabel + '<br/><strong>' + sBarValue + '</strong> ' + sGraphUnits;
+
+            showTooltip( item.pageX, item.pageY, item.series.color, sTooltip );
           }
         }
         else
