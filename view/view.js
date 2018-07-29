@@ -646,7 +646,7 @@ function updateGraphData( sGraphId, tBarData, bDelta )
 
   if ( ( tBarData.presentValue == '' ) || ( bDelta && ( ! ( sRowLabel in g_tBaselines[sGraphId].values ) || ( g_tBaselines[sGraphId].values[sRowLabel].units != tBarData.units ) ) ) )
   {
-    // Value is missing, or for delta graph, baseline is missing or incompatible; remove bar from graph data structure
+    // Value is missing, or for delta graph, baseline is missing or incompatible. Remove bar from graph data structure.
     delete tGraphData[sRowLabel];
   }
   else
