@@ -644,27 +644,16 @@ function updateGraphData( sGraphId, tBarData, bDelta )
   var tGraphData = g_tGraphData[sGraphId];
   var sRowLabel = g_aRows[g_iRow][0];
 
-  if ( tBarData.presentValue == '' )
+  if ( ( tBarData.presentValue == '' ) || ( bDelta && ( ! ( sRowLabel in g_tBaselines[sGraphId].values ) || ( g_tBaselines[sGraphId].values[sRowLabel].units != tBarData.units ) ) ) )
   {
-    // No value; remove element from graph data structure
+    // Value is missing, or for delta graph, baseline is missing or incompatible; remove bar from graph data structure
     delete tGraphData[sRowLabel];
   }
   else
   {
-    // Save raw value
+    // Save value
     var nValue =  Math.round( tBarData.presentValue );
     tGraphData[sRowLabel] = { value: nValue, units: tBarData.units };
-
-    // If this is a delta graph, save baseline value
-    if ( bDelta )
-    {
-      var tBaselineValues = g_tBaselines[sGraphId].values;
-      if ( ! ( sRowLabel in tBaselineValues ) || ( tBaselineValues[sRowLabel].units != tBarData.units ) )
-      {
-        // Baseline not available, or units do not match; remove element from graph data structure
-        delete tGraphData[sRowLabel];
-      }
-    }
   }
 }
 
