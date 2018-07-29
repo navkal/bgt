@@ -721,6 +721,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
       {
         tTime = new Date( g_tBaselines[sGraphId].timestamp );
         sSince =
+         ( g_tGraphOptions[sGraphName].dollarsPerUnit ? ' cost' : '' ) +
           ' since ' +
           '<button ' +
             'type="button" ' +
