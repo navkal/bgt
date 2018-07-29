@@ -3,7 +3,7 @@ BACnet Gateway
 energizeAndover@gmail.com
 #
 # --- Test views ---
-dishboard,Dishboard,view/dishboard.php
+#dishboard,Dishboard,view/dishboard.php
 #
 # --- Public views ---
 about,Building Monitor,about/about.php
