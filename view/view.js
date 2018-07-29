@@ -37,6 +37,7 @@ var g_tGraphSplit = null;
 var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProps );
 
 var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
+var g_nDollarsPerUnit = 0;
 
 $( document ).ready( onDocumentReady );
 
@@ -383,11 +384,15 @@ function onSubmitGraphOptions( tEvent )
     // Hide the modal dialog
     $( '#graphOptionsDialog' ).modal( 'hide' );
 
+    // Save cost configuration
+    g_nDollarsPerUnit = $( '#showAsCost' ).prop( 'checked' ) ? $( '#dollarsPerUnit' ).val() : 0;
+
     var sDate = $( '#baselineDatepicker input' ).val();
     var sOriginalDate = $( '#graphOptionsDialog' ).attr( 'original_date' );
 
     if ( sDate != sOriginalDate )
     {
+      console.log( '=====> ajax and update' );
       // Extract the timestamp from the datepicker
       var tDate = new Date( sDate );
       var iTimestamp = tDate.getTime();
@@ -411,6 +416,11 @@ function onSubmitGraphOptions( tEvent )
       )
       .done( submitGraphOptionsDone )
       .fail( handleAjaxError );
+    }
+    else
+    {
+      console.log( '=====> just update' );
+      updateGraphs( false );
     }
   }
 }
@@ -673,6 +683,7 @@ function updateGraphData( sGraphId, tBarData, bDelta )
 
 function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
 {
+  console.log( '===> updateGraphDisplay(), multiplier=' + g_nDollarsPerUnit );
   if ( ( sGraphId in g_tGraphData ) && ( tGraphDiv.width() > 0 ) )
   {
     // Determine which units to show in graph
