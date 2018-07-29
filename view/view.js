@@ -704,7 +704,10 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
           if ( tRow.units == sGraphUnits )
           {
             var nValue = bDelta ? tRow.value - g_tBaselines[sGraphId].values[sBarLabel].value : tRow.value;
-            console.log( '===> raw val=' + tRow.value + ' display val=' + nValue );
+            if ( g_tGraphOptions[sGraphName].dollarsPerUnit )
+            {
+              nValue *= g_tGraphOptions[sGraphName].dollarsPerUnit;
+            }
             aData.push( g_bHorizontal ? [ nValue, iOffset ] : [ iOffset, nValue ] );
             aTicks.push( [ iOffset, sBarLabel ] );
             iOffset += g_bHorizontal ? -1 : 1;
