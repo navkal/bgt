@@ -312,11 +312,6 @@ function initGraphOptionsDialog()
 {
   // Set handler for dialog show event
   $( '#graphOptionsDialog' ).on( 'show.bs.modal', onShowGraphOptionsDialog );
-
-  // Initialize cost fields
-  $( '#showAsCost' ).prop( 'checked', false );
-  $( '#dollarsPerUnit' ).prop( 'disabled', true );
-  $( '#dollarsPerUnit' ).attr( 'last_value', 0.16 );
 }
 
 function onShowGraphOptionsDialog( tEvent )
@@ -361,6 +356,10 @@ function onShowGraphOptionsDialog( tEvent )
     {
       $( '#showAsCost' ).prop( 'checked', true );
       $( '#dollarsPerUnit' ).val( tGraphOptions.dollarsPerUnit );
+      if ( ! $( '#dollarsPerUnit' ).attr( 'last_value' ) )
+      {
+        $( '#dollarsPerUnit' ).attr( 'last_value', $( '#dollarsPerUnit' ).val() );
+      }
     }
   }
 }

@@ -72,7 +72,7 @@
       $g_tGraphNameMap[$sGraphName] = $iCol;
       $g_tGraphIdMap[$sGraphId] = $iCol;
       array_push( $g_aGraphSelectors, '#' . $sGraphId );
-      $g_tGraphOptions[$sGraphName] = (object)[];
+      $g_tGraphOptions[$sGraphName] = [ 'dollarsPerUnit' => 0.16 ];
     }
   }
 
