@@ -449,11 +449,7 @@ function submitGraphOptionsDone( tRsp, sStatus, tJqXhr )
     var tBarBaseline = g_tBaselines[sGraphId].values[sRowLabel];
 
     // Update baseline value in graph data structure
-    if ( tBarBaseline.units == tBarData.units )
-    {
-      tBarData.baseline_value = tBarBaseline.value;
-    }
-    else
+    if ( tBarBaseline.units != tBarData.units )
     {
       delete( tGraphData[sRowLabel] );
     }
@@ -663,12 +659,7 @@ function updateGraphData( sGraphId, tBarData, bDelta )
     if ( bDelta )
     {
       var tBaselineValues = g_tBaselines[sGraphId].values;
-      if ( ( sRowLabel in tBaselineValues ) && ( tBaselineValues[sRowLabel].units == tBarData.units ) )
-      {
-        // Baseline is available, and units match.  Save baseline value.
-        tGraphData[sRowLabel]['baseline_value'] = tBaselineValues[sRowLabel].value;
-      }
-      else
+      if ( ! ( sRowLabel in tBaselineValues ) || ( tBaselineValues[sRowLabel].units != tBarData.units ) )
       {
         // Baseline not available, or units do not match; remove element from graph data structure
         delete tGraphData[sRowLabel];
@@ -720,7 +711,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
           var tRow = tGraphData[sBarLabel];
           if ( tRow.units == sGraphUnits )
           {
-            var nValue = bDelta ? tRow.value - tRow.baseline_value : tRow.value;
+            var nValue = bDelta ? tRow.value - g_tBaselines[sGraphId].values[sBarLabel].value : tRow.value;
             console.log( '===> raw val=' + tRow.value + ' display val=' + nValue );
             aData.push( g_bHorizontal ? [ nValue, iOffset ] : [ iOffset, nValue ] );
             aTicks.push( [ iOffset, sBarLabel ] );
