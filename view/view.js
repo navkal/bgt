@@ -354,6 +354,14 @@ function onShowGraphOptionsDialog( tEvent )
         endDate: tEndDate.toLocaleDateString()
       }
     );
+
+    // Initialize cost fields
+    var tGraphOptions = g_tGraphOptions[sGraphName];
+    if ( tGraphOptions.dollarsPerUnit )
+    {
+      $( '#showAsCost' ).prop( 'checked', true );
+      $( '#dollarsPerUnit' ).val( tGraphOptions.dollarsPerUnit );
+    }
   }
 }
 
@@ -721,7 +729,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
       {
         tTime = new Date( g_tBaselines[sGraphId].timestamp );
         sSince =
-         ( g_tGraphOptions[sGraphName].dollarsPerUnit ? ' cost' : '' ) +
+         ( g_tGraphOptions[sGraphName].dollarsPerUnit ? ' Cost' : '' ) +
           ' since ' +
           '<button ' +
             'type="button" ' +
