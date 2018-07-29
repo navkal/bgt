@@ -448,10 +448,10 @@ function submitGraphOptionsDone( tRsp, sStatus, tJqXhr )
     var tBarData = tGraphData[sRowLabel];
     var tBarBaseline = g_tBaselines[sGraphId].values[sRowLabel];
 
-    // Update bar value
+    // Update baseline value in graph data structure
     if ( tBarBaseline.units == tBarData.units )
     {
-      tBarData.value = tBarData.raw_value - tBarBaseline.value;
+      tBarData.baseline_value = tBarBaseline.value;
     }
     else
     {
@@ -655,17 +655,18 @@ function updateGraphData( sGraphId, tBarData, bDelta )
   }
   else
   {
-    // Get raw value
+    // Save raw value
     var nValue =  Math.round( tBarData.presentValue );
+    tGraphData[sRowLabel] = { value: nValue, units: tBarData.units };
 
-    // Determine value to be shown in graph: raw value or delta from baseline
+    // If this is a delta graph, save baseline value
     if ( bDelta )
     {
-      var tValues = g_tBaselines[sGraphId].values;
-      if ( ( sRowLabel in tValues ) && ( tValues[sRowLabel].units == tBarData.units ) )
+      var tBaselineValues = g_tBaselines[sGraphId].values;
+      if ( ( sRowLabel in tBaselineValues ) && ( tBaselineValues[sRowLabel].units == tBarData.units ) )
       {
-        // Baseline is available, and units match.  Save delta value.
-        tGraphData[sRowLabel] = { raw_value: nValue, value: nValue - tValues[sRowLabel].value, units: tBarData.units };
+        // Baseline is available, and units match.  Save baseline value.
+        tGraphData[sRowLabel]['baseline_value'] = tBaselineValues[sRowLabel].value;
       }
       else
       {
@@ -673,17 +674,12 @@ function updateGraphData( sGraphId, tBarData, bDelta )
         delete tGraphData[sRowLabel];
       }
     }
-    else
-    {
-      // Save raw value
-      tGraphData[sRowLabel] = { value: nValue, units: tBarData.units };
-    }
   }
 }
 
 function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
 {
-  console.log( '===> updateGraphDisplay(), multiplier=' + g_nDollarsPerUnit );
+  console.log( '===> updateGraphDisplay(), graph name=' + sGraphName + ', multiplier=' + g_nDollarsPerUnit );
   if ( ( sGraphId in g_tGraphData ) && ( tGraphDiv.width() > 0 ) )
   {
     // Determine which units to show in graph
@@ -724,7 +720,9 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
           var tRow = tGraphData[sBarLabel];
           if ( tRow.units == sGraphUnits )
           {
-            aData.push( g_bHorizontal ? [ tRow.value, iOffset ] : [ iOffset, tRow.value ] );
+            var nValue = bDelta ? tRow.value - tRow.baseline_value : tRow.value;
+            console.log( '===> raw val=' + tRow.value + ' display val=' + nValue );
+            aData.push( g_bHorizontal ? [ nValue, iOffset ] : [ iOffset, nValue ] );
             aTicks.push( [ iOffset, sBarLabel ] );
             iOffset += g_bHorizontal ? -1 : 1;
           }
