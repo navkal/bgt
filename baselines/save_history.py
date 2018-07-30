@@ -45,7 +45,7 @@ df = df.sort_index()
 
 
 # Open the database
-conn, cur = common.open_db()
+conn, cur = common.open_db( remove=False )
 
 for index, row in df.iterrows():
     print( '=============' )
