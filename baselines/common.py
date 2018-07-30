@@ -41,13 +41,30 @@ def open_db( remove=False ):
 
 
 def save_timestamp( cur, timestamp=None ):
+
     if timestamp == None:
-        timestamp = int( time.time() * 1000 )
+        timestamp = int( time.time() )
+
+    timestamp *= 1000
+
     print( '---' )
     print( 'Timestamp:', time.strftime( '%b %d %Y %H:%M:%S', time.localtime( timestamp / 1000 ) ) )
     print( '---' )
-    cur.execute( 'INSERT INTO Timestamps ( timestamp ) VALUES(?)', ( timestamp, ) )
-    timestamp_id = cur.lastrowid
+
+    # Find out if this timestamp already exists
+    cur.execute( 'SELECT id FROM Timestamps WHERE timestamp=?', ( timestamp, ) )
+    rows = cur.fetchall()
+
+    if rows:
+        # Timestmap exists; get its id
+        print( 'using old timestamp' )
+        timestamp_id = rows[0][0]
+    else:
+        # Timestamp does not exist; insert it
+        print( 'inserting new timestamp' )
+        cur.execute( 'INSERT INTO Timestamps ( timestamp ) VALUES(?)', ( timestamp, ) )
+        timestamp_id = cur.lastrowid
+
     return timestamp_id
 
 

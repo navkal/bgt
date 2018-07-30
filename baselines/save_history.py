@@ -3,14 +3,12 @@
 import common
 import csv
 import pandas as pd
+import datetime
 
 #
 # Note: As currently implemented, this script requires bar labels to be unique,
 # although they may appear in different views!
 #
-
-# Open the database
-conn, cur = common.open_db( remove=True )
 
 # Initialize map of bar labels
 bar_map = {}
@@ -32,5 +30,24 @@ print( '\nbar map\n', bar_map )
 
 
 # Read history file into dataframe
-df_history = pd.read_csv( 'history.csv', na_filter=False, comment='#' )
-print( '\nhistory columns\n', df_history.columns )
+df = pd.read_csv( 'history.csv', index_col=[0] )
+
+# Trim column headers
+df = df.rename( columns=lambda x: x.strip() )
+
+df.index = pd.to_datetime( df.index, infer_datetime_format=True )
+df = df.sort_index()
+
+
+# Open the database
+conn, cur = common.open_db()
+
+for index, row in df.iterrows():
+    print( '=============' )
+    timestamp_id = common.save_timestamp( cur,  datetime.datetime.timestamp( index ) )
+    print( 'timestamp_id', timestamp_id )
+    # sr = df.loc[index]
+    # sr = sr.dropna()
+    # print( sr )
+    
+conn.commit()
