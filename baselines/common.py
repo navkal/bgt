@@ -45,3 +45,8 @@ def save_timestamp( cur, timestamp=None ):
     cur.execute( 'INSERT INTO Timestamps ( timestamp ) VALUES(?)', ( timestamp, ) )
     timestamp_id = cur.lastrowid
     return timestamp_id
+
+    
+def save_baseline_value( cur, csv_filename, column_name, row_label, value, units, timestamp_id ):
+    if ( value and units ):
+        cur.execute( 'INSERT INTO Baselines ( csv_filename, column_name, row_label, value, units, timestamp_id ) VALUES(?,?,?,?,?,?)', ( csv_filename, column_name, row_label, value, units, timestamp_id ) )

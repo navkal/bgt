@@ -41,9 +41,7 @@ def save_baseline( csv_filename, column_name, oid_row ):
         if ( value and units ):
             break
 
-    # Save retrieved data in database
-    if ( value and units ):
-        cur.execute( 'INSERT INTO Baselines ( csv_filename, column_name, row_label, value, units, timestamp_id ) VALUES(?,?,?,?,?,?)', ( csv_filename, column_name, row_label, value, units, timestamp_id ) )
+    common.save_baseline_value(  cur, csv_filename, column_name, row_label, value, units, timestamp_id )
 
 
 if __name__ == '__main__':
