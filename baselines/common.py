@@ -75,8 +75,6 @@ def save_baseline_value( cur, csv_filename, column_name, row_label, value, units
         cur.execute( 'SELECT id FROM Baselines WHERE ( csv_filename=? AND column_name=? AND row_label=? AND timestamp_id=? )', ( csv_filename, column_name, row_label, timestamp_id ) )
         rows = cur.fetchall()
         if rows:
-            print( 'UPDATE' )
             cur.execute( 'UPDATE Baselines SET value=?, units=? WHERE id=?', ( value, units, timestamp_id ) )
         else:
-            print( 'INSERT' )
             cur.execute( 'INSERT INTO Baselines ( csv_filename, column_name, row_label, value, units, timestamp_id ) VALUES (?,?,?,?,?,?)', ( csv_filename, column_name, row_label, value, units, timestamp_id ) )
