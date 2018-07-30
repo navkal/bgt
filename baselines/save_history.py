@@ -34,8 +34,8 @@ print( '\nbar map\n', bar_map )
 # Read history file into dataframe
 df = pd.read_csv( args.history_filename, index_col=[0] )
 
-# Replace n/a with empty strings
-df = df.fillna( '' )
+# Replace n/a with zeros
+df = df.fillna( 0 )
 
 # Trim column headers
 df = df.rename( columns=lambda x: x.strip() )
@@ -45,16 +45,15 @@ df = df.sort_index()
 
 
 # Open the database
-conn, cur = common.open_db( remove=True )
+conn, cur = common.open_db()
 
 for index, row in df.iterrows():
     print( '=============' )
     timestamp_id = common.save_timestamp( cur, datetime.datetime.timestamp( index ) )
     print( 'timestamp_id', timestamp_id )
     sr = df.loc[index]
-    sr = sr.dropna()
+    sr = sr[sr > 0]
     for row_label, value in sr.iteritems():
-        print( row_label, 'val=<' + str(value) + '>' )
         csv_filename = bar_map[row_label]['csv_filename']
         column_name = bar_map[row_label]['column_name']
         common.save_baseline_value( cur, csv_filename, column_name, row_label, value, args.units, timestamp_id )

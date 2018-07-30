@@ -453,10 +453,17 @@ function submitGraphOptionsDone( tRsp, sStatus, tJqXhr )
   {
     // Get data and baseline of next bar
     var tBarData = tGraphData[sRowLabel];
-    var tBarBaseline = g_tBaselines[sGraphId].values[sRowLabel];
+    if ( sRowLabel in g_tBaselines[sGraphId].values )
+    {
+      var tBarBaseline = g_tBaselines[sGraphId].values[sRowLabel];
 
-    // Update baseline value in graph data structure
-    if ( tBarBaseline.units != tBarData.units )
+      // Update baseline value in graph data structure
+      if ( tBarBaseline.units != tBarData.units )
+      {
+        delete( tGraphData[sRowLabel] );
+      }
+    }
+    else
     {
       delete( tGraphData[sRowLabel] );
     }

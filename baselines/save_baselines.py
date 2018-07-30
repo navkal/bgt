@@ -39,9 +39,8 @@ def save_baseline( csv_filename, column_name, oid_row ):
         value, units = get_value_and_units( facility, oid, args.hostname, args.port )
         print( '{0},{1},{2}'.format( row_label, value, units ) )
         if ( value and units ):
+            common.save_baseline_value(  cur, csv_filename, column_name, row_label, value, units, timestamp_id )
             break
-
-    common.save_baseline_value(  cur, csv_filename, column_name, row_label, value, units, timestamp_id )
 
 
 if __name__ == '__main__':
