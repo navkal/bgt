@@ -870,7 +870,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
 
             // Format tooltip text
             var sBarLabel = g_bHorizontal ? item.series.yaxis.ticks[iTick].label : item.series.xaxis.ticks[x].label;
-            var sBarValue = Math.round( g_bHorizontal ? x.toLocaleString() : y.toLocaleString() );
+            var sBarValue = g_bHorizontal ? Math.round(x).toLocaleString() : Math.round(y).toLocaleString();
             var sGraphUnits = g_bHorizontal ? item.series.xaxis.options.axisLabel : item.series.yaxis.options.axisLabel;
             if ( sGraphUnits.startsWith( '$' ) )
             {
