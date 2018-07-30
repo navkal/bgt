@@ -8,6 +8,7 @@ import datetime
 
 # Get filename and units
 parser = argparse.ArgumentParser( description='Save historic baseline values in database', add_help=False )
+parser.add_argument( '-b', dest='baselines_filename' )
 parser.add_argument( '-h', dest='history_filename' )
 parser.add_argument( '-u', dest='units' )
 args = parser.parse_args()
@@ -16,7 +17,7 @@ args = parser.parse_args()
 bar_map = {}
 
 # Get list of views for which we need baselines
-with open( 'baselines.csv', newline='' ) as baselines_file:
+with open( args.baselines_filename, newline='' ) as baselines_file:
     baselines_reader = csv.reader( baselines_file )
 
     for baselines_row in baselines_reader:
