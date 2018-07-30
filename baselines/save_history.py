@@ -6,15 +6,11 @@ import csv
 import pandas as pd
 import datetime
 
+# Get filename and units
 parser = argparse.ArgumentParser( description='Save historic baseline values in database', add_help=False )
 parser.add_argument( '-h', dest='history_filename' )
 parser.add_argument( '-u', dest='units' )
 args = parser.parse_args()
-
-#
-# Note: As currently implemented, this script requires bar labels to be unique,
-# although they may appear in different views!
-#
 
 # Initialize map of bar labels
 bar_map = {}
