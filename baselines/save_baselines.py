@@ -1,56 +1,10 @@
 # Copyright 2018 BACnet Gateway.  All rights reserved.
 
 import argparse
-import sqlite3
-import os
 import csv
 import pandas as pd
-import time
 from bacnet_gateway_requests import get_value_and_units
-
-
-
-
-def open_db():
-
-    db = 'baselines.sqlite'
-    db_exists = os.path.exists( db )
-
-    conn = sqlite3.connect( db )
-    cur = conn.cursor()
-
-    if not db_exists:
-
-        cur.executescript('''
-            CREATE TABLE IF NOT EXISTS Timestamps (
-                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                timestamp FLOAT
-            );
-
-            CREATE TABLE IF NOT EXISTS Baselines (
-                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                csv_filename TEXT,
-                column_name TEXT,
-                row_label TEXT,
-                value INTEGER,
-                units TEXT,
-                timestamp_id
-            );
-        ''')
-
-        conn.commit()
-
-    return conn, cur
-
-
-def save_timestamp():
-    timestamp = int( time.time() * 1000 )
-    print( '---' )
-    print( 'Timestamp:', time.strftime( '%b %d %Y %H:%M:%S', time.localtime( timestamp / 1000 ) ) )
-    print( '---' )
-    cur.execute( 'INSERT INTO Timestamps ( timestamp ) VALUES(?)', ( timestamp, ) )
-    timestamp_id = cur.lastrowid
-    return timestamp_id
+import common
 
 
 def save_baselines( baselines_row ):
@@ -101,10 +55,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Open the database
-    conn, cur = open_db()
+    conn, cur = common.open_db()
 
     # Save timestamp of this operation
-    timestamp_id = save_timestamp()
+    timestamp_id = common.save_timestamp( cur )
 
     # Update the baselines
     with open( 'baselines.csv', newline='' ) as csvfile:
