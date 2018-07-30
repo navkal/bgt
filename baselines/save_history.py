@@ -4,7 +4,7 @@
 import common
 import csv
 
-barMap = {}
+bar_map = {}
 
 # Open the database
 conn, cur = common.open_db( remove=True )
@@ -25,6 +25,6 @@ with open( 'baselines.csv', newline='' ) as baselines_file:
             for view_row in view_reader:
                 bar_label = view_row[0]
                 print( bar_label )
-                barMap[ bar_label ] = { 'csv_filename': csv_filename, 'column_name': column_name }
+                bar_map[ bar_label ] = { 'csv_filename': csv_filename, 'column_name': column_name }
 
-    print( barMap )
+    print( bar_map )
