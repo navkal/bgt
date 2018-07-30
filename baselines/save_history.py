@@ -1,9 +1,14 @@
 # Copyright 2018 BACnet Gateway.  All rights reserved.
 
+import argparse
 import common
 import csv
 import pandas as pd
 import datetime
+
+parser = argparse.ArgumentParser( description='Save historic baseline values in database', add_help=False )
+parser.add_argument( '-h', dest='history_filename' )
+args = parser.parse_args()
 
 #
 # Note: As currently implemented, this script requires bar labels to be unique,
@@ -30,7 +35,7 @@ print( '\nbar map\n', bar_map )
 
 
 # Read history file into dataframe
-df = pd.read_csv( 'history.csv', index_col=[0] )
+df = pd.read_csv( args.history_filename, index_col=[0] )
 
 # Trim column headers
 df = df.rename( columns=lambda x: x.strip() )
