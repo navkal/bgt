@@ -4,9 +4,13 @@ import time
 
 
 
-def open_db():
+def open_db( remove=False ):
 
     db = 'baselines.sqlite'
+
+    if ( remove ):
+        os.remove( db )
+
     db_exists = os.path.exists( db )
 
     conn = sqlite3.connect( db )
@@ -46,7 +50,7 @@ def save_timestamp( cur, timestamp=None ):
     timestamp_id = cur.lastrowid
     return timestamp_id
 
-    
+
 def save_baseline_value( cur, csv_filename, column_name, row_label, value, units, timestamp_id ):
     if ( value and units ):
         cur.execute( 'INSERT INTO Baselines ( csv_filename, column_name, row_label, value, units, timestamp_id ) VALUES(?,?,?,?,?,?)', ( csv_filename, column_name, row_label, value, units, timestamp_id ) )
