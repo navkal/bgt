@@ -6,6 +6,7 @@ import pandas as pd
 from bacnet_gateway_requests import get_value_and_units
 import common
 
+nothing = ( None, '' )
 
 def save_baselines( baselines_row ):
 
@@ -38,7 +39,7 @@ def save_baseline( csv_filename, column_name, oid_row ):
     for i in range( 1, 6 ):
         value, units = get_value_and_units( facility, oid, args.hostname, args.port )
         print( '{0},{1},{2}'.format( row_label, value, units ) )
-        if ( value and units ):
+        if ( not ( ( value in nothing ) or ( units in nothing ) ) ):
             common.save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id )
             break
 
