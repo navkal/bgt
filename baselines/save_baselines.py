@@ -49,10 +49,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser( description='Save baseline values in database', add_help=False )
     parser.add_argument( '-h', dest='hostname' )
     parser.add_argument( '-p', dest='port' )
+    parser.add_argument( '-r', dest='remove' )
     args = parser.parse_args()
 
     # Open the database
-    common.open_db()
+    common.open_db( remove=args.remove )
 
     # Save timestamp of this operation
     timestamp_id = common.save_timestamp()

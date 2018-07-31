@@ -56,20 +56,27 @@ def save_timestamp( timestamp=None ):
 
     timestamp *= 1000
 
+    timestamp_id = save_field( 'Timestamps', 'timestamp', timestamp )
 
-    # Find out if this timestamp already exists
-    cur.execute( 'SELECT id FROM Timestamps WHERE timestamp=?', ( timestamp, ) )
+    return timestamp_id
+
+
+def save_field( table, field_name, field_value ):
+
+    # Find out if this field value already exists in the specified table
+    cur.execute( 'SELECT id FROM ' + table + ' WHERE ' + field_name + '=?', ( field_value, ) )
     rows = cur.fetchall()
 
     if rows:
-        # Timestmap exists; get its id
-        timestamp_id = rows[0][0]
+        # Field value exists; get its id
+        row_id = rows[0][0]
     else:
-        # Timestamp does not exist; insert it
-        cur.execute( 'INSERT INTO Timestamps ( timestamp ) VALUES(?)', ( timestamp, ) )
-        timestamp_id = cur.lastrowid
+        # Field value does not exist; insert it
+        cur.execute( 'INSERT INTO ' + table + ' ( ' + field_name + ' ) VALUES(?)', ( field_value, ) )
+        row_id = cur.lastrowid
 
-    return timestamp_id
+    # Return id
+    return row_id
 
 
 def save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id ):

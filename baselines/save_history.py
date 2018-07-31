@@ -11,6 +11,7 @@ parser = argparse.ArgumentParser( description='Save historic baseline values in 
 parser.add_argument( '-b', dest='baselines_filename' )
 parser.add_argument( '-h', dest='history_filename' )
 parser.add_argument( '-u', dest='units' )
+parser.add_argument( '-r', dest='remove' )
 args = parser.parse_args()
 
 # Initialize map of bar labels
@@ -46,7 +47,7 @@ df = df.sort_index()
 
 
 # Open the database
-common.open_db( remove=True )
+common.open_db( remove=args.remove )
 
 for index, row in df.iterrows():
     timestamp_id = common.save_timestamp( datetime.datetime.timestamp( index ) )
