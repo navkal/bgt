@@ -38,7 +38,7 @@ def open_db( remove=False ):
                 column_id INTEGER,
                 row_id INTEGER,
                 value INTEGER,
-                units TEXT,
+                units_id INTEGER,
                 timestamp_id INTEGER
             );
 
@@ -55,6 +55,11 @@ def open_db( remove=False ):
             CREATE TABLE IF NOT EXISTS Rows (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
                 row_label TEXT UNIQUE
+            );
+
+            CREATE TABLE IF NOT EXISTS Units (
+                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+                units TEXT UNIQUE
             );
 
         ''')
@@ -118,13 +123,14 @@ def save_baseline_value( csv_filename, column_name, row_label, value, units, tim
         view_id = save_field( 'Views', 'csv_filename', csv_filename )
         column_id = save_field( 'Columns', 'column_name', column_name )
         row_id = save_field( 'Rows', 'row_label', row_label )
+        units_id = save_field( 'Units', 'units', units )
 
         cur.execute( 'SELECT id FROM Baselines WHERE ( view_id=? AND column_id=? AND row_id=? AND timestamp_id=? )', ( view_id, column_id, row_id, timestamp_id ) )
         rows = cur.fetchall()
         if rows:
-            cur.execute( 'UPDATE Baselines SET value=?, units=? WHERE id=?', ( value, units, timestamp_id ) )
+            cur.execute( 'UPDATE Baselines SET value=?, units_id=? WHERE id=?', ( value, units_id, timestamp_id ) )
         else:
-            cur.execute( 'INSERT INTO Baselines ( view_id, column_id, row_id, value, units, timestamp_id ) VALUES (?,?,?,?,?,?)', ( view_id, column_id, row_id, value, units, timestamp_id ) )
+            cur.execute( 'INSERT INTO Baselines ( view_id, column_id, row_id, value, units_id, timestamp_id ) VALUES (?,?,?,?,?,?)', ( view_id, column_id, row_id, value, units_id, timestamp_id ) )
 
 
 def commit():
