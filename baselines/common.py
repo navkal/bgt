@@ -82,11 +82,14 @@ def save_field( table, field_name, field_value ):
     return row_id
 
 
-def get_id( table, field_name, field_value ):
+def get_id( table, field_name, field_value, cursor=None ):
+
+    if not cursor:
+        cursor = cur
 
     # Retrieve ID corresponding to supplied field value
-    cur.execute( 'SELECT id FROM ' + table + ' WHERE ' + field_name + '=?', ( field_value, ) )
-    row = cur.fetchone()
+    cursor.execute( 'SELECT id FROM ' + table + ' WHERE ' + field_name + '=?', ( field_value, ) )
+    row = cursor.fetchone()
 
     if row:
         row_id = row[0]

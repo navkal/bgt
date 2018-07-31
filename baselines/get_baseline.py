@@ -5,6 +5,7 @@ import sqlite3
 import os
 import collections
 import json
+import common
 
 # Get arguments
 parser = argparse.ArgumentParser( description='Get baseline values from database', add_help=False )
@@ -39,8 +40,11 @@ if os.path.exists( db ):
         timestamp_id = timestamp_row[0]
         timestamp = timestamp_row[1]
 
+        # Map CSV filename to ID
+        view_id = common.get_id( 'Views', 'csv_filename', args.csv_filename, cursor=cur )
+
         # Retrieve values
-        cur.execute( 'SELECT row_label, value, units FROM Baselines WHERE ( csv_filename=? AND column_name=? AND timestamp_id=? )', ( args.csv_filename, args.column_name, timestamp_id ) )
+        cur.execute( 'SELECT row_label, value, units FROM Baselines WHERE ( view_id=? AND column_name=? AND timestamp_id=? )', ( view_id, args.column_name, timestamp_id ) )
         value_rows = cur.fetchall()
         values = {}
         for value_row in value_rows:
@@ -49,10 +53,10 @@ if os.path.exists( db ):
 
         # Find earliest timestamp available for target graph
         if values:
-            cur.execute( 'SELECT timestamp FROM Timestamps WHERE id=( SELECT MIN( timestamp_id ) FROM Baselines WHERE ( csv_filename=? AND column_name=? ) )', ( args.csv_filename, args.column_name ) )
+            cur.execute( 'SELECT timestamp FROM Timestamps WHERE id=( SELECT MIN( timestamp_id ) FROM Baselines WHERE ( view_id=? AND column_name=? ) )', ( view_id, args.column_name ) )
             first_timestamp = cur.fetchone()[0]
 
-            cur.execute( 'SELECT timestamp FROM Timestamps WHERE id=( SELECT MAX( timestamp_id ) FROM Baselines WHERE ( csv_filename=? AND column_name=? ) )', ( args.csv_filename, args.column_name ) )
+            cur.execute( 'SELECT timestamp FROM Timestamps WHERE id=( SELECT MAX( timestamp_id ) FROM Baselines WHERE ( view_id=? AND column_name=? ) )', ( view_id, args.column_name ) )
             last_timestamp = cur.fetchone()[0]
 
             # Build baseline data structure consisting of values and timestamps
