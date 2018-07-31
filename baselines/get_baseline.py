@@ -43,20 +43,29 @@ if os.path.exists( db ):
         # Map CSV filename to ID
         view_id = common.get_id( 'Views', 'csv_filename', args.csv_filename, cursor=cur )
 
+        # Map column name to ID
+        column_id = common.get_id( 'Columns', 'column_name', args.column_name, cursor=cur )
+
         # Retrieve values
-        cur.execute( 'SELECT row_label, value, units FROM Baselines WHERE ( view_id=? AND column_name=? AND timestamp_id=? )', ( view_id, args.column_name, timestamp_id ) )
+        cur.execute('''
+            SELECT
+                row_label, value, units
+            FROM Baselines
+            LEFT JOIN Rows ON Baselines.row_id=Rows.id
+            WHERE ( view_id=? AND column_id=? AND timestamp_id=? )
+        ''', ( view_id, column_id, timestamp_id )
+        )
         value_rows = cur.fetchall()
         values = {}
         for value_row in value_rows:
             values[value_row[0]] = { 'value': value_row[1], 'units': value_row[2] }
 
-
         # Find earliest timestamp available for target graph
         if values:
-            cur.execute( 'SELECT MIN( timestamp ) FROM Timestamps WHERE id in ( SELECT timestamp_id FROM Baselines WHERE ( view_id=? AND column_name=? ) )', ( view_id, args.column_name ) )
+            cur.execute( 'SELECT MIN( timestamp ) FROM Timestamps WHERE id in ( SELECT timestamp_id FROM Baselines WHERE ( view_id=? AND column_id=? ) )', ( view_id, column_id ) )
             first_timestamp = cur.fetchone()[0]
 
-            cur.execute( 'SELECT MAX( timestamp ) FROM Timestamps WHERE id in ( SELECT timestamp_id FROM Baselines WHERE ( view_id=? AND column_name=? ) )', ( view_id, args.column_name ) )
+            cur.execute( 'SELECT MAX( timestamp ) FROM Timestamps WHERE id in ( SELECT timestamp_id FROM Baselines WHERE ( view_id=? AND column_id=? ) )', ( view_id, column_id ) )
             last_timestamp = cur.fetchone()[0]
 
             # Build baseline data structure consisting of values and timestamps
