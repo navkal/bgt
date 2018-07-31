@@ -51,7 +51,8 @@ if os.path.exists( db ):
             SELECT
                 row_label, value, units
             FROM Baselines
-            LEFT JOIN Rows ON Baselines.row_id=Rows.id
+                LEFT JOIN Rows ON Baselines.row_id=Rows.id
+                LEFT JOIN Units ON Baselines.units_id=Units.id
             WHERE ( view_id=? AND column_id=? AND timestamp_id=? )
         ''', ( view_id, column_id, timestamp_id )
         )
