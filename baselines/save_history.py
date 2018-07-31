@@ -46,12 +46,10 @@ df = df.sort_index()
 
 
 # Open the database
-common.open_db( remove=False )
+common.open_db( remove=True )
 
 for index, row in df.iterrows():
-    print( '=============' )
     timestamp_id = common.save_timestamp( datetime.datetime.timestamp( index ) )
-    print( 'timestamp_id', timestamp_id )
     sr = df.loc[index]
     sr = sr[sr > 0]
     for row_label, value in sr.iteritems():

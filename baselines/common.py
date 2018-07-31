@@ -52,11 +52,10 @@ def save_timestamp( timestamp=None ):
     if timestamp == None:
         timestamp = int( time.time() )
 
+    print( 'Timestamp:', time.strftime( '%b %d %Y %H:%M:%S', time.localtime( timestamp ) ) )
+
     timestamp *= 1000
 
-    print( '---' )
-    print( 'Timestamp:', time.strftime( '%b %d %Y %H:%M:%S', time.localtime( timestamp / 1000 ) ) )
-    print( '---' )
 
     # Find out if this timestamp already exists
     cur.execute( 'SELECT id FROM Timestamps WHERE timestamp=?', ( timestamp, ) )
