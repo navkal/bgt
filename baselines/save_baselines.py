@@ -39,7 +39,7 @@ def save_baseline( csv_filename, column_name, oid_row ):
         value, units = get_value_and_units( facility, oid, args.hostname, args.port )
         print( '{0},{1},{2}'.format( row_label, value, units ) )
         if ( value and units ):
-            common.save_baseline_value(  cur, csv_filename, column_name, row_label, value, units, timestamp_id )
+            common.save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id )
             break
 
 
@@ -52,10 +52,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Open the database
-    conn, cur = common.open_db()
+    common.open_db()
 
     # Save timestamp of this operation
-    timestamp_id = common.save_timestamp( cur )
+    timestamp_id = common.save_timestamp()
 
     # Update the baselines
     with open( 'baselines.csv', newline='' ) as csvfile:
@@ -65,4 +65,5 @@ if __name__ == '__main__':
         for baselines_row in reader:
             save_baselines( baselines_row )
 
-    conn.commit()
+    # Commit changes
+    common.commit()

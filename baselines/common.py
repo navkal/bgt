@@ -3,8 +3,12 @@ import sqlite3
 import time
 
 
+cur = None
+conn = None
 
 def open_db( remove=False ):
+    global cur
+    global conn
 
     db = 'baselines.sqlite'
 
@@ -43,7 +47,7 @@ def open_db( remove=False ):
     return conn, cur
 
 
-def save_timestamp( cur, timestamp=None ):
+def save_timestamp( timestamp=None ):
 
     if timestamp == None:
         timestamp = int( time.time() )
@@ -69,7 +73,7 @@ def save_timestamp( cur, timestamp=None ):
     return timestamp_id
 
 
-def save_baseline_value( cur, csv_filename, column_name, row_label, value, units, timestamp_id ):
+def save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id ):
 
     if ( value and units ):
         cur.execute( 'SELECT id FROM Baselines WHERE ( csv_filename=? AND column_name=? AND row_label=? AND timestamp_id=? )', ( csv_filename, column_name, row_label, timestamp_id ) )
@@ -78,3 +82,7 @@ def save_baseline_value( cur, csv_filename, column_name, row_label, value, units
             cur.execute( 'UPDATE Baselines SET value=?, units=? WHERE id=?', ( value, units, timestamp_id ) )
         else:
             cur.execute( 'INSERT INTO Baselines ( csv_filename, column_name, row_label, value, units, timestamp_id ) VALUES (?,?,?,?,?,?)', ( csv_filename, column_name, row_label, value, units, timestamp_id ) )
+
+
+def commit():
+    conn.commit()

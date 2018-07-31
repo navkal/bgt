@@ -46,17 +46,18 @@ df = df.sort_index()
 
 
 # Open the database
-conn, cur = common.open_db( remove=False )
+common.open_db( remove=False )
 
 for index, row in df.iterrows():
     print( '=============' )
-    timestamp_id = common.save_timestamp( cur, datetime.datetime.timestamp( index ) )
+    timestamp_id = common.save_timestamp( datetime.datetime.timestamp( index ) )
     print( 'timestamp_id', timestamp_id )
     sr = df.loc[index]
     sr = sr[sr > 0]
     for row_label, value in sr.iteritems():
         csv_filename = bar_map[row_label]['csv_filename']
         column_name = bar_map[row_label]['column_name']
-        common.save_baseline_value( cur, csv_filename, column_name, row_label, value, args.units, timestamp_id )
+        common.save_baseline_value( csv_filename, column_name, row_label, value, args.units, timestamp_id )
 
-conn.commit()
+# Commit changes
+common.commit()
