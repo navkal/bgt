@@ -53,10 +53,10 @@ if os.path.exists( db ):
 
         # Find earliest timestamp available for target graph
         if values:
-            cur.execute( 'SELECT timestamp FROM Timestamps WHERE id=( SELECT MIN( timestamp_id ) FROM Baselines WHERE ( view_id=? AND column_name=? ) )', ( view_id, args.column_name ) )
+            cur.execute( 'SELECT MIN( timestamp ) FROM Timestamps WHERE id in ( SELECT timestamp_id FROM Baselines WHERE ( view_id=? AND column_name=? ) )', ( view_id, args.column_name ) )
             first_timestamp = cur.fetchone()[0]
 
-            cur.execute( 'SELECT timestamp FROM Timestamps WHERE id=( SELECT MAX( timestamp_id ) FROM Baselines WHERE ( view_id=? AND column_name=? ) )', ( view_id, args.column_name ) )
+            cur.execute( 'SELECT MAX( timestamp ) FROM Timestamps WHERE id in ( SELECT timestamp_id FROM Baselines WHERE ( view_id=? AND column_name=? ) )', ( view_id, args.column_name ) )
             last_timestamp = cur.fetchone()[0]
 
             # Build baseline data structure consisting of values and timestamps
