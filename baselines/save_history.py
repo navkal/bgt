@@ -30,8 +30,6 @@ with open( args.baselines_filename, newline='' ) as baselines_file:
         for index, row in df_view.iterrows():
             bar_map[ row.Label ] = { 'csv_filename': csv_filename, 'column_name': column_name }
 
-print( '\nbar map\n', bar_map )
-
 
 # Read history file into dataframe
 df = pd.read_csv( args.history_filename, index_col=[0] )
