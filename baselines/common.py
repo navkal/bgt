@@ -26,20 +26,27 @@ def open_db( remove=False ):
     if not db_exists:
 
         cur.executescript('''
+
             CREATE TABLE IF NOT EXISTS Timestamps (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                timestamp FLOAT
+                timestamp FLOAT UNIQUE
             );
 
             CREATE TABLE IF NOT EXISTS Baselines (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                csv_filename TEXT,
+                view_id INTEGER,
                 column_name TEXT,
                 row_label TEXT,
                 value INTEGER,
                 units TEXT,
-                timestamp_id
+                timestamp_id INTEGER
             );
+
+            CREATE TABLE IF NOT EXISTS Views (
+                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+                csv_filename TEXT UNIQUE
+            );
+
         ''')
 
         conn.commit()
@@ -64,14 +71,10 @@ def save_timestamp( timestamp=None ):
 def save_field( table, field_name, field_value ):
 
     # Find out if this field value already exists in the specified table
-    cur.execute( 'SELECT id FROM ' + table + ' WHERE ' + field_name + '=?', ( field_value, ) )
-    rows = cur.fetchall()
+    row_id = get_id( table, field_name, field_value )
 
-    if rows:
-        # Field value exists; get its id
-        row_id = rows[0][0]
-    else:
-        # Field value does not exist; insert it
+    # Field value does not exist; insert it
+    if row_id == None:
         cur.execute( 'INSERT INTO ' + table + ' ( ' + field_name + ' ) VALUES(?)', ( field_value, ) )
         row_id = cur.lastrowid
 
@@ -79,15 +82,34 @@ def save_field( table, field_name, field_value ):
     return row_id
 
 
+def get_id( table, field_name, field_value ):
+
+    # Retrieve ID corresponding to supplied field value
+    cur.execute( 'SELECT id FROM ' + table + ' WHERE ' + field_name + '=?', ( field_value, ) )
+    row = cur.fetchone()
+
+    if row:
+        row_id = row[0]
+    else:
+        row_id = None
+
+    # Return id
+    return row_id
+
+
+
 def save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id ):
 
     if ( value and units ):
-        cur.execute( 'SELECT id FROM Baselines WHERE ( csv_filename=? AND column_name=? AND row_label=? AND timestamp_id=? )', ( csv_filename, column_name, row_label, timestamp_id ) )
+
+        view_id = save_field( 'Views', 'csv_filename', csv_filename )
+
+        cur.execute( 'SELECT id FROM Baselines WHERE ( view_id=? AND column_name=? AND row_label=? AND timestamp_id=? )', ( view_id, column_name, row_label, timestamp_id ) )
         rows = cur.fetchall()
         if rows:
             cur.execute( 'UPDATE Baselines SET value=?, units=? WHERE id=?', ( value, units, timestamp_id ) )
         else:
-            cur.execute( 'INSERT INTO Baselines ( csv_filename, column_name, row_label, value, units, timestamp_id ) VALUES (?,?,?,?,?,?)', ( csv_filename, column_name, row_label, value, units, timestamp_id ) )
+            cur.execute( 'INSERT INTO Baselines ( view_id, column_name, row_label, value, units, timestamp_id ) VALUES (?,?,?,?,?,?)', ( view_id, column_name, row_label, value, units, timestamp_id ) )
 
 
 def commit():

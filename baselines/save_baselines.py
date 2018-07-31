@@ -49,7 +49,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser( description='Save baseline values in database', add_help=False )
     parser.add_argument( '-h', dest='hostname' )
     parser.add_argument( '-p', dest='port' )
-    parser.add_argument( '-r', dest='remove' )
+    parser.add_argument( '-r', dest='remove', action='store_true' )
     args = parser.parse_args()
 
     # Open the database

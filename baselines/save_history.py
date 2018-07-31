@@ -11,7 +11,7 @@ parser = argparse.ArgumentParser( description='Save historic baseline values in 
 parser.add_argument( '-b', dest='baselines_filename' )
 parser.add_argument( '-h', dest='history_filename' )
 parser.add_argument( '-u', dest='units' )
-parser.add_argument( '-r', dest='remove' )
+parser.add_argument( '-r', dest='remove', action='store_true' )
 args = parser.parse_args()
 
 # Initialize map of bar labels
