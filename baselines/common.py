@@ -74,7 +74,7 @@ def save_timestamp( timestamp=None ):
     if timestamp == None:
         timestamp = int( time.time() )
 
-    print( 'Timestamp:', time.strftime( '%b %d %Y %H:%M:%S', time.localtime( timestamp ) ) )
+    print( time.strftime( '%b %d %Y %H:%M:%S', time.localtime( timestamp ) ) )
 
     timestamp *= 1000
 
