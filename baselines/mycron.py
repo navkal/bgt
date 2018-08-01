@@ -1,3 +1,5 @@
+# Copyright 2018 BACnet Gateway.  All rights reserved.
+
 import os
 
 for i in range( 1, 26 ):
