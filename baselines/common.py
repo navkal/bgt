@@ -1,6 +1,7 @@
 import os
 import sqlite3
 import time
+import datetime
 
 
 cur = None
@@ -74,10 +75,12 @@ def save_timestamp( timestamp=None ):
     if timestamp == None:
         timestamp = int( time.time() )
 
-    print( time.strftime( '%b %d %Y %H:%M:%S', time.localtime( timestamp ) ) )
+    # Normalize timestamp
+    date = datetime.datetime.fromtimestamp( timestamp ).replace( hour=0, minute=0, second=0, microsecond=0 )
+    print ( date.strftime('%m/%d/%Y') )
+    timestamp = date.timestamp() * 1000
 
-    timestamp *= 1000
-
+    # Save timestamp
     timestamp_id = save_field( 'Timestamps', 'timestamp', timestamp )
 
     return timestamp_id
