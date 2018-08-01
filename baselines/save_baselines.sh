@@ -6,7 +6,7 @@
 #   sudo crontab -e
 #
 # Enter this line:
-#   0 0 * * * /opt/nav/bgt/baselines/baselines.sh
+#   0 0 * * * sh /opt/nav/bgt/baselines/save_baselines.sh > /opt/nav/bgt/baselines/save_baselines.log
 #
 
 # Set working directory to public site
