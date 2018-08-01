@@ -1,3 +1,5 @@
+# Copyright 2018 BACnet Gateway.  All rights reserved.
+
 import requests
 import json
 
