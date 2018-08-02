@@ -55,11 +55,6 @@ def report_missing_dates():
     ''')
     timestamp_rows = cur.fetchall()
 
-    # Debug
-    del timestamp_rows[123]
-    del timestamp_rows[123]
-    del timestamp_rows[234]
-
     # Construct and sort dataframe of timestamps
     df = pd.DataFrame( timestamp_rows, columns=['timestamp'] )
     df = df.sort_values( by=['timestamp'] )
