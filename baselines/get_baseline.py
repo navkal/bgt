@@ -14,7 +14,7 @@ parser.add_argument( '-c', dest='column_name' )
 parser.add_argument( '-t', dest='timestamp' )
 args = parser.parse_args()
 
-db = 'baselines/baselines.sqlite'
+db = '../bgt_db/baselines.sqlite'
 
 baseline = {}
 

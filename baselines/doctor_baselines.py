@@ -6,7 +6,7 @@ import time
 
 
 # Connect to the database
-conn = sqlite3.connect( 'baselines.sqlite' )
+conn = sqlite3.connect( '../../bgt_db/baselines.sqlite' )
 cur = conn.cursor()
 
 # Retrieve all timestamp IDs in descending order

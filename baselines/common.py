@@ -13,7 +13,7 @@ def open_db( remove=False ):
     global cur
     global conn
 
-    db = 'baselines.sqlite'
+    db = '../../bgt_db/baselines.sqlite'
 
     if ( remove ):
         try:

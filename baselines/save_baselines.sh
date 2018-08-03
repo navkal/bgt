@@ -14,6 +14,3 @@ cd /opt/nav/bgt/baselines
 
 # Save new baseline
 /home/ea/anaconda3/bin/python ./save_baselines.py -h localhost -p 8000
-
-# Copy updated database to P&F site
-cp ./baselines.sqlite /opt/nav/bgt_/baselines/baselines.sqlite
