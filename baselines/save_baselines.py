@@ -46,36 +46,42 @@ def save_baseline( csv_filename, column_name, oid_row ):
 
 def report_missing_dates():
 
-    # Retrieve distinct timestamps from database
+    # Retrieve sorted, distinct timestamps from database
     cur.execute('''
         SELECT DISTINCT
             timestamp
         FROM Baselines
             LEFT JOIN Timestamps ON Baselines.timestamp_id=Timestamps.id
+        ORDER BY timestamp ASC;
     ''')
     timestamp_rows = cur.fetchall()
 
-    # Construct and sort dataframe of timestamps
+    # Load timestamps into dataframe
     df = pd.DataFrame( timestamp_rows, columns=['timestamp'] )
-    df = df.sort_values( by=['timestamp'] )
 
-    # Extract date and find row-to-row differences
+    # Extract dates
     df['datetime'] = pd.to_datetime( df['timestamp'], unit='ms' )
     df['date'] = pd.DatetimeIndex( df['datetime'] ).normalize()
+
+    # Report statistics
+    print( '\nDates found in database' )
+    print( 'First:', df['date'].ix[0].date() )
+    print( 'Last:', df['date'].ix[len(df)-1].date() )
+    print( 'Total:', len( df ) )
+
+    # Look for gaps
     df['diff'] = df['date'].diff()
-
-    # Remove first row, where difference is irrelevant
     df = df.iloc[1:]
-
-    # Look for omissions
     df = df[ df['diff'].ne( '1 days' ) ]
 
-    # Report omissions, if any
+    # Report findings
     if len( df ):
-        print( '\n!!! Omissions found in database !!!\n' )
+        print( '\nGaps found in database!\n' )
         df = df[ [ 'date', 'diff' ] ]
-        df = df.rename( index=str, columns={ 'date': 'Ending at', 'diff': 'Interval between readings' } )
+        df = df.rename( index=str, columns={ 'date': 'Before', 'diff': 'Gap'  } )
         print( df.to_string( index=False ) )
+    else:
+        print( '\nNo gaps found.\n' )
 
     return
 
@@ -93,6 +99,7 @@ if __name__ == '__main__':
     conn, cur = common.open_db( remove=args.remove )
 
     # Save timestamp of this operation
+    print( 'Saving new baselines on' )
     timestamp_id = common.save_timestamp()
 
     # Update the baselines
