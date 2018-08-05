@@ -136,7 +136,6 @@ def save_baseline_value( csv_filename, column_name, row_label, value, units, tim
 
         if not baseline_rows:
             # Entry does not exist; create it
-            print( 'creating entry at timestamp', timestamp_id )
             cur.execute( 'INSERT INTO Baselines ( view_id, column_id, row_id, value, units_id, timestamp_id ) VALUES (?,?,?,?,?,?)', ( view_id, column_id, row_id, value, units_id, timestamp_id ) )
 
 
