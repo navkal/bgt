@@ -137,8 +137,6 @@ def save_baseline_value( csv_filename, column_name, row_label, value, units, tim
         if baseline_rows:
             # Entry exists; update it
             baseline_row_id = baseline_rows[0][0]
-            print( '--------------------> Updating at', view_id, column_id, row_id, timestamp_id )
-            print( '===========> id=', baseline_row_id, 'instead of', timestamp_id  )
             cur.execute( 'UPDATE Baselines SET value=?, units_id=? WHERE id=?', ( value, units_id, baseline_row_id ) )
         else:
             # Entry does not exist; create it
