@@ -134,12 +134,9 @@ def save_baseline_value( csv_filename, column_name, row_label, value, units, tim
         cur.execute( 'SELECT id FROM Baselines WHERE ( view_id=? AND column_id=? AND row_id=? AND timestamp_id=? )', ( view_id, column_id, row_id, timestamp_id ) )
         baseline_rows = cur.fetchall()
 
-        if baseline_rows:
-            # Entry exists; update it
-            baseline_row_id = baseline_rows[0][0]
-            cur.execute( 'UPDATE Baselines SET value=?, units_id=? WHERE id=?', ( value, units_id, baseline_row_id ) )
-        else:
+        if not baseline_rows:
             # Entry does not exist; create it
+            print( 'creating entry at timestamp', timestamp_id )
             cur.execute( 'INSERT INTO Baselines ( view_id, column_id, row_id, value, units_id, timestamp_id ) VALUES (?,?,?,?,?,?)', ( view_id, column_id, row_id, value, units_id, timestamp_id ) )
 
 
