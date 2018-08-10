@@ -120,7 +120,6 @@ def get_id( table, field_name, field_value, cursor=None ):
     return row_id
 
 
-
 def save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id ):
 
     if ( value and units ):
