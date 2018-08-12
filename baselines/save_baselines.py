@@ -65,6 +65,7 @@ def report_missing_dates():
     df = pd.DataFrame( timestamp_rows, columns=['timestamp'] )
 
     # Extract dates
+    df = df.multiply( 1000, ['timestamp'] )
     df['datetime'] = pd.to_datetime( df['timestamp'], unit='ms' )
     df['date'] = pd.DatetimeIndex( df['datetime'] ).normalize()
 
