@@ -100,11 +100,15 @@
 
   // Sort lines
   usort( $aLines, "compareLines" );
-
-  // Compare lines read from CSV file
   function compareLines( $aLine1, $aLine2 )
   {
     return strcmp( $aLine1[0], $aLine2[0] );
+  }
+
+  // Retrieve values from cache
+  foreach ( $aLines as $aLine )
+  {
+    error_log( '======> ' . print_r( $aLine, true ) );
   }
 
 

@@ -17,9 +17,11 @@ rows = cur.fetchall()
 day = datetime.datetime.today()
 for row in rows:
     timestamp = int( time.mktime( day.timetuple() ) )
+    date = datetime.datetime.fromtimestamp( timestamp ).replace( hour=0, minute=0, second=0, microsecond=0 )
+    timestamp = int( date.timestamp() )
     id = row[0]
     cur.execute( 'UPDATE Timestamps SET timestamp=? WHERE id=?', ( timestamp, id ) )
-    print( id, datetime.datetime.fromtimestamp( timestamp ) )
+    print( id, date.strftime('%m/%d/%Y') )
     day -= datetime.timedelta( days=1 )
 
 # Commit changes
