@@ -27,7 +27,7 @@ if os.path.exists( db ):
     # Determine which timestamp to retrieve
     if args.timestamp:
         # Specified timestamp
-        which_timestamp = '( SELECT MIN( timestamp ) FROM ( SELECT timestamp from Timestamps WHERE timestamp>=' + args.timestamp + ' ) )'
+        which_timestamp = '( SELECT MIN( timestamp ) FROM ( SELECT timestamp from Timestamps WHERE timestamp>=' + str( int( args.timestamp ) / 1000 ) + ' ) )'
     else:
         # Default: Latest timestamp
         which_timestamp = '( SELECT MAX( timestamp ) FROM Timestamps )'
@@ -38,7 +38,7 @@ if os.path.exists( db ):
 
     if timestamp_row:
         timestamp_id = timestamp_row[0]
-        timestamp = timestamp_row[1]
+        timestamp = timestamp_row[1] * 1000
 
         # Map CSV filename to ID
         view_id = common.get_id( 'Views', 'csv_filename', args.csv_filename, cursor=cur )
@@ -64,10 +64,10 @@ if os.path.exists( db ):
         # Find earliest timestamp available for target graph
         if values:
             cur.execute( 'SELECT MIN( timestamp ) FROM Timestamps WHERE id in ( SELECT timestamp_id FROM Baselines WHERE ( view_id=? AND column_id=? ) )', ( view_id, column_id ) )
-            first_timestamp = cur.fetchone()[0]
+            first_timestamp = cur.fetchone()[0] * 1000
 
             cur.execute( 'SELECT MAX( timestamp ) FROM Timestamps WHERE id in ( SELECT timestamp_id FROM Baselines WHERE ( view_id=? AND column_id=? ) )', ( view_id, column_id ) )
-            last_timestamp = cur.fetchone()[0]
+            last_timestamp = cur.fetchone()[0] * 1000
 
             # Build baseline data structure consisting of values and timestamps
             values = collections.OrderedDict( sorted( values.items() ) )

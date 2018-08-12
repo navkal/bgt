@@ -16,10 +16,10 @@ rows = cur.fetchall()
 # Iterate over descending IDs, replacing timestamps with consecutive days, starting with today
 day = datetime.datetime.today()
 for row in rows:
-    timestamp = int( time.mktime( day.timetuple() ) ) * 1000
+    timestamp = int( time.mktime( day.timetuple() ) )
     id = row[0]
     cur.execute( 'UPDATE Timestamps SET timestamp=? WHERE id=?', ( timestamp, id ) )
-    print( id, datetime.datetime.fromtimestamp( timestamp/1000 ) )
+    print( id, datetime.datetime.fromtimestamp( timestamp ) )
     day -= datetime.timedelta( days=1 )
 
 # Commit changes

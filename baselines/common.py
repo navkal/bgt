@@ -79,11 +79,10 @@ def save_timestamp( timestamp=None ):
 
     # Normalize timestamp
     date = datetime.datetime.fromtimestamp( timestamp ).replace( hour=0, minute=0, second=0, microsecond=0 )
-    print ( date.strftime('%m/%d/%Y') )
-    timestamp = int( date.timestamp() ) * 1000
+    print( date.strftime('%m/%d/%Y') )
 
     # Save timestamp
-    timestamp_id = save_field( 'Timestamps', 'timestamp', timestamp )
+    timestamp_id = save_field( 'Timestamps', 'timestamp', int( date.timestamp() ) )
 
     return timestamp_id
 
