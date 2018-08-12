@@ -54,7 +54,7 @@ for index, row in df.iterrows():
     for row_label, value in sr.iteritems():
         csv_filename = bar_map[row_label]['csv_filename']
         column_name = bar_map[row_label]['column_name']
-        common.save_baseline_value( csv_filename, column_name, row_label, value, args.units, timestamp_id )
+        common.save_baseline_value( csv_filename, column_name, row_label, int( value ), args.units, timestamp_id )
 
 # Commit changes
 common.commit()

@@ -42,6 +42,7 @@ def save_baseline( csv_filename, column_name, oid_row ):
     row_label = oid_row['Label']
     for i in range( 1, 6 ):
         value, units = get_value_and_units( facility, oid, args.hostname, args.port )
+        value = int( value )
         print( '{0},{1},{2}'.format( row_label, value, units ) )
         if ( not ( ( value in nothing ) or ( units in nothing ) ) ):
             common.save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id )
