@@ -32,7 +32,7 @@ def open_db( remove=False ):
 
             CREATE TABLE IF NOT EXISTS Timestamps (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                timestamp REAL UNIQUE
+                timestamp INTEGER UNIQUE
             );
 
             CREATE TABLE IF NOT EXISTS Baselines (
@@ -75,12 +75,12 @@ def open_db( remove=False ):
 def save_timestamp( timestamp=None ):
 
     if timestamp == None:
-        timestamp = int( time.time() )
+        timestamp = time.time()
 
     # Normalize timestamp
     date = datetime.datetime.fromtimestamp( timestamp ).replace( hour=0, minute=0, second=0, microsecond=0 )
     print ( date.strftime('%m/%d/%Y') )
-    timestamp = date.timestamp() * 1000
+    timestamp = int( date.timestamp() ) * 1000
 
     # Save timestamp
     timestamp_id = save_field( 'Timestamps', 'timestamp', timestamp )
