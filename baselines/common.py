@@ -32,7 +32,7 @@ def open_db( remove=False ):
 
             CREATE TABLE IF NOT EXISTS Timestamps (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                timestamp FLOAT UNIQUE
+                timestamp REAL UNIQUE
             );
 
             CREATE TABLE IF NOT EXISTS Baselines (

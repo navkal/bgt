@@ -93,7 +93,7 @@ def report_missing_dates():
 
 if __name__ == '__main__':
 
-    # Get hostname and port of BACnet Gateway, and name of input CSV file
+    # Get hostname and port of BACnet Gateway
     parser = argparse.ArgumentParser( description='Save baseline values in database', add_help=False )
     parser.add_argument( '-h', dest='hostname' )
     parser.add_argument( '-p', dest='port' )
