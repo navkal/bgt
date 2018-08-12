@@ -144,12 +144,7 @@ if __name__ == '__main__':
     # Open the database
     conn, cur = open_db()
 
-    import glob
-    print( glob.glob( '../csv/*.csv' ) )
-
-
-    import os
-
+    # Traverse CSV files.  Each represents one view.
     for root, dirs, files in os.walk( '../csv/' ):
         for filename in files:
             print( filename )
