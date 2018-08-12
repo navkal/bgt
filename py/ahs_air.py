@@ -3,6 +3,9 @@
 try:
     import argparse
     import pandas as pd
+
+    import sys
+    sys.path.append( '../util' )
     from bacnet_gateway_requests import get_value_and_units
 
     # Get hostname and port of BACnet Gateway
@@ -16,7 +19,7 @@ try:
     #   - Location
     #   - Instance ID of CO2 sensor
     #   - Instance ID of temperature sensor
-    df = pd.read_csv( 'csv/ahs_air.csv', na_filter=False, comment='#' )
+    df = pd.read_csv( '../csv/ahs_air.csv', na_filter=False, comment='#' )
 
     # Output column headings
     print( 'Location,Temperature,Temperature Units,CO2,CO2 Units' )
@@ -39,5 +42,4 @@ try:
 
 except KeyboardInterrupt:
     print( 'Bye' )
-    import sys
     sys.exit()

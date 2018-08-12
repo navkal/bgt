@@ -3,6 +3,8 @@
 try:
     import argparse
     import pandas as pd
+    import sys
+    sys.path.append( '../util' )
     from bacnet_gateway_requests import get_value_and_units
 
     # Get hostname and port of BACnet Gateway
@@ -15,7 +17,7 @@ try:
     # Each row contains the following:
     #   - Feeder
     #   - Instance ID of electric meter
-    df = pd.read_csv( 'csv/ahs_elec.csv' )
+    df = pd.read_csv( '../csv/ahs_elec.csv' )
 
     # Output column headings
     print( 'Feeder,Meter,Units' )
@@ -34,5 +36,4 @@ try:
 
 except KeyboardInterrupt:
     print( 'Bye' )
-    import sys
     sys.exit()

@@ -2,9 +2,11 @@
 
 import argparse
 import pandas as pd
-import time, sys
+import time
 import datetime
 
+import sys
+sys.path.append( '../util' )
 from bacnet_gateway_requests import get_value_and_units
 
 # Get hostname and port of BACnet Gateway
@@ -18,7 +20,7 @@ args = parser.parse_args()
 #   - Feeder
 #   - Instance ID of Power oid
 #   - Instance ID of Energy oid
-df = pd.read_csv( 'csv/dashboard.csv', na_filter=False )
+df = pd.read_csv( '../csv/dashboard.csv', na_filter=False )
 # print( '---Feeder---' )
 # print( df['Feeder'] )
 # print( '---Power---' )

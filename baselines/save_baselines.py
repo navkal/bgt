@@ -3,7 +3,11 @@
 import argparse
 import csv
 import pandas as pd
+
+import sys
+sys.path.append( '../util' )
 from bacnet_gateway_requests import get_value_and_units
+
 import common
 
 nothing = ( None, '' )
