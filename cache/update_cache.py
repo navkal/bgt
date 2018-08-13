@@ -3,6 +3,7 @@
 import argparse
 import os
 import sqlite3
+import pandas as pd
 import time
 import datetime
 
@@ -29,6 +30,8 @@ def open_db():
 
     if not db_exists:
 
+        print( 'creating database' )
+
         cur.executescript('''
 
             CREATE TABLE IF NOT EXISTS Cache (
@@ -48,7 +51,7 @@ def open_db():
 
             CREATE TABLE IF NOT EXISTS Facilities (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                facility_name TEXT UNIQUE
+                facility TEXT UNIQUE
             );
 
             CREATE TABLE IF NOT EXISTS Units (
@@ -146,8 +149,22 @@ if __name__ == '__main__':
 
     # Traverse CSV files.  Each represents one view.
     for root, dirs, files in os.walk( '../csv/' ):
+
         for filename in files:
+
+            print( '----------->' )
             print( filename )
+            # Traverse all rows in the view
+            df = pd.read_csv( '../csv/' + filename, na_filter=False, comment='#' )
+
+            # Iterate over the rows of the dataframe, getting temperature and CO2 values for each location
+            for index, row in df.iterrows():
+                facility = row.iloc[1]
+                print( 'facility=', facility )
+                for i in range( 2, len( row ) ):
+                    print( 'instance=', row.iloc[i] )
+
+
     exit()
 
 
