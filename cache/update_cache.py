@@ -7,6 +7,10 @@ import pandas as pd
 import time
 import datetime
 
+import sys
+sys.path.append( '../util' )
+from bacnet_gateway_requests import get_value_and_units
+
 
 cur = None
 conn = None
@@ -46,7 +50,7 @@ def open_db():
 
             CREATE TABLE IF NOT EXISTS Views (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                csv_filename TEXT UNIQUE
+                view TEXT UNIQUE
             );
 
             CREATE TABLE IF NOT EXISTS Facilities (
@@ -64,21 +68,6 @@ def open_db():
         conn.commit()
 
     return conn, cur
-
-
-def save_timestamp( timestamp=None ):
-
-    if timestamp == None:
-        timestamp = time.time()
-
-    # Normalize timestamp
-    date = datetime.datetime.fromtimestamp( timestamp ).replace( hour=0, minute=0, second=0, microsecond=0 )
-    print( date.strftime('%m/%d/%Y') )
-
-    # Save timestamp
-    timestamp_id = save_field( 'Timestamps', 'timestamp', int( date.timestamp() ) )
-
-    return timestamp_id
 
 
 def save_field( table, field_name, field_value ):
@@ -150,19 +139,42 @@ if __name__ == '__main__':
     # Traverse CSV files.  Each represents one view.
     for root, dirs, files in os.walk( '../csv/' ):
 
-        for filename in files:
+        for view in files:
 
             print( '----------->' )
-            print( filename )
-            # Traverse all rows in the view
-            df = pd.read_csv( '../csv/' + filename, na_filter=False, comment='#' )
+            print( view )
 
-            # Iterate over the rows of the dataframe, getting temperature and CO2 values for each location
-            for index, row in df.iterrows():
-                facility = row.iloc[1]
-                print( 'facility=', facility )
-                for i in range( 2, len( row ) ):
-                    print( 'instance=', row.iloc[i] )
+            # Traverse all rows in the view
+
+            df = pd.read_csv( '../csv/' + view, na_filter=False, comment='#' )
+
+            for index, view_row in df.iterrows():
+
+                facility = view_row.iloc[1]
+
+                # Traverse instances in current row
+                for i in range( 2, len( view_row ) ):
+
+                    instance = view_row.iloc[i]
+                    v, u = get_value_and_units( facility, instance, args.hostname, args.port )
+                    print( facility, instance, v, u )
+                    if ( v != None ) and ( u != None ):
+                        timestamp = int( time.time() )
+                        print( timestamp )
+                        cur.execute( '''
+                            SELECT
+                                Cache.id
+                            FROM Cache
+                                LEFT JOIN Views ON Cache.view_id=Views.id
+                                LEFT JOIN Facilities ON Cache.facility_id=Facilities.id
+                            WHERE ( Views.view=? AND Facilities.facility=? AND instance=? );
+                        ''', ( view, facility, instance )
+                        )
+                        cache_row = cur.fetchone()
+                        if cache_row:
+                            print( 'already there' )
+                        else:
+                            print( 'NOT there' )
 
 
     exit()
