@@ -8,7 +8,7 @@ import sys
 sys.path.append( '../util' )
 from bacnet_gateway_requests import get_value_and_units
 
-import common
+import baselines_db
 
 nothing = ( None, '' )
 
@@ -45,7 +45,7 @@ def save_baseline( csv_filename, column_name, oid_row ):
         value = int( value )
         print( '{0},{1},{2}'.format( row_label, value, units ) )
         if ( not ( ( value in nothing ) or ( units in nothing ) ) ):
-            common.save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id )
+            baselines_db.save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id )
             break
 
 
@@ -102,11 +102,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Open the database
-    conn, cur = common.open_db( remove=args.remove )
+    conn, cur = baselines_db.open_db( remove=args.remove )
 
     # Save timestamp of this operation
     print( 'Saving new baselines on' )
-    timestamp_id = common.save_timestamp()
+    timestamp_id = baselines_db.save_timestamp()
 
     # Update the baselines
     with open( 'baselines.csv', newline='' ) as csvfile:
@@ -120,4 +120,4 @@ if __name__ == '__main__':
     report_missing_dates()
 
     # Commit changes
-    common.commit()
+    baselines_db.commit()

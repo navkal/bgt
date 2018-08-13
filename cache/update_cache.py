@@ -9,6 +9,7 @@ import time
 import sys
 sys.path.append( '../util' )
 from bacnet_gateway_requests import get_value_and_units
+import db_util
 
 
 cur = None
@@ -106,7 +107,7 @@ def update_cache():
 
                         if value and units:
 
-                            units_id = save_field( 'Units', 'units', units )
+                            units_id = db_util.save_field( 'Units', 'units', units, cur )
                             timestamp = int( time.time() )
 
                             cur.execute( '''
@@ -130,8 +131,8 @@ def update_cache():
                             else:
 
                                 print( 'NOT there' )
-                                view_id = save_field( 'Views', 'view', view )
-                                facility_id = save_field( 'Facilities', 'facility', facility )
+                                view_id = db_util.save_field( 'Views', 'view', view )
+                                facility_id = db_util.save_field( 'Facilities', 'facility', facility )
                                 cur.execute( 'INSERT INTO Cache ( view_id, facility_id, instance, value, units_id, timestamp ) VALUES (?,?,?,?,?,?)', ( view_id, facility_id, instance, value, units_id, timestamp ) )
 
                             conn.commit()
@@ -140,68 +141,18 @@ def update_cache():
 
 
 
-
-def save_field( table, field_name, field_value ):
-
-    # Find out if this field value already exists in the specified table
-    row_id = get_id( table, field_name, field_value )
-
-    # Field value does not exist; insert it
-    if row_id == None:
-        cur.execute( 'INSERT INTO ' + table + ' ( ' + field_name + ' ) VALUES(?)', ( field_value, ) )
-        row_id = cur.lastrowid
-
-    # Return id
-    return row_id
-
-
-def get_id( table, field_name, field_value, cursor=None ):
-
-    if not cursor:
-        cursor = cur
-
-    # Retrieve ID corresponding to supplied field value
-    cursor.execute( 'SELECT id FROM ' + table + ' WHERE ' + field_name + '=?', ( field_value, ) )
-    row = cursor.fetchone()
-
-    if row:
-        row_id = row[0]
-    else:
-        row_id = None
-
-    # Return id
-    return row_id
-
-
-def save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id ):
-
-    if ( value and units ):
-
-        view_id = save_field( 'Views', 'csv_filename', csv_filename )
-        column_id = save_field( 'Columns', 'column_name', column_name )
-        row_id = save_field( 'Rows', 'row_label', row_label )
-        units_id = save_field( 'Units', 'units', units )
-
-        # Determine whether an entry is already present for this view, column, row, and timestamp
-        cur.execute( 'SELECT id FROM Baselines WHERE ( view_id=? AND column_id=? AND row_id=? AND timestamp_id=? )', ( view_id, column_id, row_id, timestamp_id ) )
-        baseline_rows = cur.fetchall()
-
-        if not baseline_rows:
-            # Entry does not exist; create it
-            cur.execute( 'INSERT INTO Baselines ( view_id, column_id, row_id, value, units_id, timestamp_id ) VALUES (?,?,?,?,?,?)', ( view_id, column_id, row_id, value, units_id, timestamp_id ) )
-
-
-def commit():
-    conn.commit()
-
-
-    
 if __name__ == '__main__':
-    
+
+    # Get list of running processes
     ps = os.popen( 'ps -elf' ).read()
+
+    # Find out how many occurrences of this script are running
     dups = ps.count( __file__ )
-    
+
+    # If multiple occurrences of this script are running, exit
     if dups > 1:
+
+        # Do nothing
         print( 'Duplicate process ' + __file__ + ' exiting' )
 
     else:

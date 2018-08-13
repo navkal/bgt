@@ -6,6 +6,11 @@ import time
 import datetime
 
 
+import sys
+sys.path.append( '../util' )
+import db_util
+
+
 cur = None
 conn = None
 
@@ -82,51 +87,19 @@ def save_timestamp( timestamp=None ):
     print( date.strftime('%m/%d/%Y') )
 
     # Save timestamp
-    timestamp_id = save_field( 'Timestamps', 'timestamp', int( date.timestamp() ) )
+    timestamp_id = db_util.save_field( 'Timestamps', 'timestamp', int( date.timestamp() ), cur )
 
     return timestamp_id
-
-
-def save_field( table, field_name, field_value ):
-
-    # Find out if this field value already exists in the specified table
-    row_id = get_id( table, field_name, field_value )
-
-    # Field value does not exist; insert it
-    if row_id == None:
-        cur.execute( 'INSERT INTO ' + table + ' ( ' + field_name + ' ) VALUES(?)', ( field_value, ) )
-        row_id = cur.lastrowid
-
-    # Return id
-    return row_id
-
-
-def get_id( table, field_name, field_value, cursor=None ):
-
-    if not cursor:
-        cursor = cur
-
-    # Retrieve ID corresponding to supplied field value
-    cursor.execute( 'SELECT id FROM ' + table + ' WHERE ' + field_name + '=?', ( field_value, ) )
-    row = cursor.fetchone()
-
-    if row:
-        row_id = row[0]
-    else:
-        row_id = None
-
-    # Return id
-    return row_id
 
 
 def save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id ):
 
     if ( value and units ):
 
-        view_id = save_field( 'Views', 'csv_filename', csv_filename )
-        column_id = save_field( 'Columns', 'column_name', column_name )
-        row_id = save_field( 'Rows', 'row_label', row_label )
-        units_id = save_field( 'Units', 'units', units )
+        view_id = db_util.save_field( 'Views', 'csv_filename', csv_filename, cur )
+        column_id = db_util.save_field( 'Columns', 'column_name', column_name, cur )
+        row_id = db_util.save_field( 'Rows', 'row_label', row_label, cur )
+        units_id = db_util.save_field( 'Units', 'units', units, cur )
 
         # Determine whether an entry is already present for this view, column, row, and timestamp
         cur.execute( 'SELECT id FROM Baselines WHERE ( view_id=? AND column_id=? AND row_id=? AND timestamp_id=? )', ( view_id, column_id, row_id, timestamp_id ) )

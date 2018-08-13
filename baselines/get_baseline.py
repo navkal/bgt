@@ -5,7 +5,10 @@ import sqlite3
 import os
 import collections
 import json
-import common
+
+import sys
+sys.path.append( 'util' )
+import db_util
 
 # Get arguments
 parser = argparse.ArgumentParser( description='Get baseline values from database', add_help=False )
@@ -41,10 +44,10 @@ if os.path.exists( db ):
         timestamp = timestamp_row[1] * 1000
 
         # Map CSV filename to ID
-        view_id = common.get_id( 'Views', 'csv_filename', args.csv_filename, cursor=cur )
+        view_id = db_util.get_id( 'Views', 'csv_filename', args.csv_filename, cur )
 
         # Map column name to ID
-        column_id = common.get_id( 'Columns', 'column_name', args.column_name, cursor=cur )
+        column_id = db_util.get_id( 'Columns', 'column_name', args.column_name, cur )
 
         # Retrieve values
         cur.execute('''
