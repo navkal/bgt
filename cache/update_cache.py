@@ -150,35 +150,55 @@ if __name__ == '__main__':
 
             for index, view_row in df.iterrows():
 
+                print( '==' )
+                print( view_row )
+                print( '==' )
+
                 facility = view_row.iloc[1]
 
                 # Traverse instances in current row
                 for i in range( 2, len( view_row ) ):
 
                     instance = view_row.iloc[i]
-                    v, u = get_value_and_units( facility, instance, args.hostname, args.port )
-                    print( facility, instance, v, u )
-                    if ( v != None ) and ( u != None ):
-                        timestamp = int( time.time() )
-                        print( timestamp )
-                        cur.execute( '''
-                            SELECT
-                                Cache.id
-                            FROM Cache
-                                LEFT JOIN Views ON Cache.view_id=Views.id
-                                LEFT JOIN Facilities ON Cache.facility_id=Facilities.id
-                            WHERE ( Views.view=? AND Facilities.facility=? AND instance=? );
-                        ''', ( view, facility, instance )
-                        )
-                        cache_row = cur.fetchone()
-                        if cache_row:
-                            print( 'already there' )
-                        else:
-                            print( 'NOT there' )
 
+                    if instance:
+
+                        value, units = get_value_and_units( facility, instance, args.hostname, args.port )
+                        print( facility, instance, value, units )
+
+                        if value and units:
+
+                            units_id = save_field( 'Units', 'units', units )
+                            timestamp = int( time.time() )
+
+                            cur.execute( '''
+                                SELECT
+                                    Cache.id
+                                FROM Cache
+                                    LEFT JOIN Views ON Cache.view_id=Views.id
+                                    LEFT JOIN Facilities ON Cache.facility_id=Facilities.id
+                                WHERE ( Views.view=? AND Facilities.facility=? AND instance=? );
+                            ''', ( view, facility, instance )
+                            )
+                            cache_row = cur.fetchone()
+
+
+                            if cache_row:
+
+                                print( 'already there' )
+                                cache_id = cache_row[0]
+                                cur.execute( 'UPDATE Cache SET value=?, units_id=?, timestamp=? WHERE id=?', ( value, units_id, timestamp, cache_id ) )
+
+                            else:
+
+                                print( 'NOT there' )
+                                view_id = save_field( 'Views', 'view', view )
+                                facility_id = save_field( 'Facilities', 'facility', facility )
+                                cur.execute( 'INSERT INTO Cache ( view_id, facility_id, instance, value, units_id, timestamp ) VALUES (?,?,?,?,?,?)', ( view_id, facility_id, instance, value, units_id, timestamp ) )
+
+                conn.commit()
 
     exit()
-
 
 
 
