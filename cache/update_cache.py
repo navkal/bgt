@@ -73,25 +73,20 @@ def open_db():
 
 def update_cache():
 
-    # Traverse CSV files.  Each represents one view.
+    # Traverse CSV files; each corresponds to one view
     for root, dirs, files in os.walk( '../csv/' ):
 
         for csv_filename in files:
 
-            print( '----------->' )
-            print( csv_filename )
-
-
-            # Traverse all rows in the view
-
-            df = pd.read_csv( '../csv/' + csv_filename, na_filter=False, comment='#' )
+            # Format view name
             view = os.path.splitext( csv_filename )[0]
+            print( '-----VIEW---->', view )
 
+            # Load dataframe representing current view
+            df = pd.read_csv( '../csv/' + csv_filename, na_filter=False, comment='#' )
+
+            # Traverse rows in current view
             for index, view_row in df.iterrows():
-
-                print( '==' )
-                print( view_row )
-                print( '==' )
 
                 facility = view_row.iloc[1]
 
@@ -100,44 +95,49 @@ def update_cache():
 
                     instance = view_row.iloc[i]
 
+                    # If instance is not empty, issue BACnet request
                     if instance:
-
                         value, units = get_value_and_units( facility, instance, args.hostname, args.port )
                         print( facility, instance, value, units )
 
+                        # If we got value and units, save them in the cache
                         if value and units:
-
-                            units_id = db_util.save_field( 'Units', 'units', units, cur )
-                            timestamp = int( time.time() )
-
-                            cur.execute( '''
-                                SELECT
-                                    Cache.id
-                                FROM Cache
-                                    LEFT JOIN Views ON Cache.view_id=Views.id
-                                    LEFT JOIN Facilities ON Cache.facility_id=Facilities.id
-                                WHERE ( Views.view=? AND Facilities.facility=? AND instance=? );
-                            ''', ( view, facility, instance )
-                            )
-                            cache_row = cur.fetchone()
+                            save_value_and_units( view, facility, instance, value, units )
 
 
-                            if cache_row:
+def save_value_and_units( view, facility, instance, value, units ):
 
-                                print( 'already there' )
-                                cache_id = cache_row[0]
-                                cur.execute( 'UPDATE Cache SET value=?, units_id=?, timestamp=? WHERE id=?', ( value, units_id, timestamp, cache_id ) )
+    units_id = db_util.save_field( 'Units', 'units', units, cur )
+    timestamp = int( time.time() )
 
-                            else:
+    # Test whether entry for current view, facility, and instance already exists
+    cur.execute( '''
+        SELECT
+            Cache.id
+        FROM Cache
+            LEFT JOIN Views ON Cache.view_id=Views.id
+            LEFT JOIN Facilities ON Cache.facility_id=Facilities.id
+        WHERE ( Views.view=? AND Facilities.facility=? AND instance=? );
+    ''', ( view, facility, instance )
+    )
+    cache_row = cur.fetchone()
 
-                                print( 'NOT there' )
-                                view_id = db_util.save_field( 'Views', 'view', view, cur )
-                                facility_id = db_util.save_field( 'Facilities', 'facility', facility, cur )
-                                cur.execute( 'INSERT INTO Cache ( view_id, facility_id, instance, value, units_id, timestamp ) VALUES (?,?,?,?,?,?)', ( view_id, facility_id, instance, value, units_id, timestamp ) )
+    if cache_row:
 
-                            conn.commit()
+        # Entry exists; update it
+        print( 'UPDATE' )
+        cache_id = cache_row[0]
+        cur.execute( 'UPDATE Cache SET value=?, units_id=?, timestamp=? WHERE id=?', ( value, units_id, timestamp, cache_id ) )
 
+    else:
 
+        # Entry does not exist; insert it
+        print( 'INSERT' )
+        view_id = db_util.save_field( 'Views', 'view', view, cur )
+        facility_id = db_util.save_field( 'Facilities', 'facility', facility, cur )
+        cur.execute( 'INSERT INTO Cache ( view_id, facility_id, instance, value, units_id, timestamp ) VALUES (?,?,?,?,?,?)', ( view_id, facility_id, instance, value, units_id, timestamp ) )
+
+    conn.commit()
 
 
 
@@ -170,4 +170,3 @@ if __name__ == '__main__':
         # Update cache continuously
         while True:
             update_cache()
-
