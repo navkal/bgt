@@ -139,14 +139,16 @@ if __name__ == '__main__':
     # Traverse CSV files.  Each represents one view.
     for root, dirs, files in os.walk( '../csv/' ):
 
-        for view in files:
+        for csv_filename in files:
 
             print( '----------->' )
-            print( view )
+            print( csv_filename )
+
 
             # Traverse all rows in the view
 
-            df = pd.read_csv( '../csv/' + view, na_filter=False, comment='#' )
+            df = pd.read_csv( '../csv/' + csv_filename, na_filter=False, comment='#' )
+            view = os.path.splitext( csv_filename )[0]
 
             for index, view_row in df.iterrows():
 
