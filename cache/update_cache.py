@@ -35,8 +35,6 @@ def open_db():
 
     if not db_exists:
 
-        print( 'creating database' )
-
         cur.executescript('''
 
             CREATE TABLE IF NOT EXISTS Cache (
@@ -80,7 +78,7 @@ def update_cache():
 
             # Format view name
             view = os.path.splitext( csv_filename )[0]
-            print( '-----VIEW---->', view )
+            print( '\n---', view, '---' )
 
             # Load dataframe representing current view
             df = pd.read_csv( '../csv/' + csv_filename, na_filter=False, comment='#' )
@@ -125,14 +123,12 @@ def save_value_and_units( view, facility, instance, value, units ):
     if cache_row:
 
         # Entry exists; update it
-        print( 'UPDATE' )
         cache_id = cache_row[0]
         cur.execute( 'UPDATE Cache SET value=?, units_id=?, timestamp=? WHERE id=?', ( value, units_id, timestamp, cache_id ) )
 
     else:
 
         # Entry does not exist; insert it
-        print( 'INSERT' )
         view_id = db_util.save_field( 'Views', 'view', view, cur )
         facility_id = db_util.save_field( 'Facilities', 'facility', facility, cur )
         cur.execute( 'INSERT INTO Cache ( view_id, facility_id, instance, value, units_id, timestamp ) VALUES (?,?,?,?,?,?)', ( view_id, facility_id, instance, value, units_id, timestamp ) )
