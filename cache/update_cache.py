@@ -131,8 +131,8 @@ def update_cache():
                             else:
 
                                 print( 'NOT there' )
-                                view_id = db_util.save_field( 'Views', 'view', view )
-                                facility_id = db_util.save_field( 'Facilities', 'facility', facility )
+                                view_id = db_util.save_field( 'Views', 'view', view, cur )
+                                facility_id = db_util.save_field( 'Facilities', 'facility', facility, cur )
                                 cur.execute( 'INSERT INTO Cache ( view_id, facility_id, instance, value, units_id, timestamp ) VALUES (?,?,?,?,?,?)', ( view_id, facility_id, instance, value, units_id, timestamp ) )
 
                             conn.commit()
