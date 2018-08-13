@@ -196,36 +196,4 @@ if __name__ == '__main__':
                                 facility_id = save_field( 'Facilities', 'facility', facility )
                                 cur.execute( 'INSERT INTO Cache ( view_id, facility_id, instance, value, units_id, timestamp ) VALUES (?,?,?,?,?,?)', ( view_id, facility_id, instance, value, units_id, timestamp ) )
 
-                conn.commit()
-
-    exit()
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # Save timestamp of this operation
-    print( 'Saving new baselines on' )
-    timestamp_id = save_timestamp()
-
-    # Update the baselines
-    with open( 'baselines.csv', newline='' ) as csvfile:
-
-        reader = csv.reader( csvfile )
-
-        for baselines_row in reader:
-            save_baselines( baselines_row )
-
-    # Report missing dates, from the first database entry until today
-    report_missing_dates()
-
-    # Commit changes
-    commit()
+                            conn.commit()
