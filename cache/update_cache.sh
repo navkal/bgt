@@ -5,8 +5,8 @@
 # To run this script every midnight, edit the root crontab:
 #   sudo crontab -e
 #
-# To start process every hour on the half-hour, enter this line:
-#   30 * * * * sh /opt/nav/bgt/cache/update_cache.sh
+# To start process at 5 minutes past every hour, enter this line:
+#   5 * * * * sh /opt/nav/bgt/cache/update_cache.sh
 #
 
 # Set working directory
