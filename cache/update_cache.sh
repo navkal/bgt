@@ -6,7 +6,7 @@
 #   sudo crontab -e
 #
 # To start process every hour on the half-hour, enter this line:
-#   30 * * * * sh /opt/nav/bgt/cache/update_cache.sh > /opt/nav/bgt_db/update_cache.log
+#   30 * * * * sh /opt/nav/bgt/cache/update_cache.sh
 #
 
 # Set working directory
