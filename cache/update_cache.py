@@ -94,7 +94,8 @@ def update_cache():
 
                     # If instance is not empty, issue BACnet request
                     if instance:
-                        time.sleep( 3 )
+                        print( 'sleeping', sleep_time, 'seconds' )
+                        time.sleep( sleep_time )
                         cache_time = time.time()
                         value, units = get_value_and_units( facility, instance, args.hostname, args.port )
 
@@ -166,7 +167,9 @@ if __name__ == '__main__':
         conn, cur = open_db()
 
         # Update cache continuously
+        sleep_time = 0
         while True:
             start_time = time.time()
             update_cache()
             print( 'Full cache update: %s seconds' % ( time.time() - start_time ) )
+            sleep_time = 4
