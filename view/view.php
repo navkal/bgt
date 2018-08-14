@@ -109,6 +109,13 @@
   foreach ( $aLines as $aLine )
   {
     error_log( '======> ' . print_r( $aLine, true ) );
+    error_log( '===> Retrieve based on' );
+    error_log( '===> view=' . $g_sCsvBasename );
+    error_log( '===> facility=' . $aLine[1] );
+    for ( $iCell = 2; $iCell < count( $aLine ); $iCell ++ )
+    {
+      error_log( '===> instance[' . ( $iCell - 2 ) . ']=' . $aLine[$iCell] );
+    }
   }
 
 

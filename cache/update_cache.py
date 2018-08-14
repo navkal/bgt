@@ -5,6 +5,7 @@ import os
 import sqlite3
 import pandas as pd
 import time
+from datetime import timedelta
 
 import sys
 sys.path.append( '../util' )
@@ -187,4 +188,4 @@ if __name__ == '__main__':
         while True:
             start_time = time.time()
             update_cache()
-            log( 'Full cache update: ' + str( time.time() - start_time ) + ' seconds' )
+            log( 'Full cache update time: ' + str( timedelta( seconds=int( time.time() - start_time ) ) ) )
