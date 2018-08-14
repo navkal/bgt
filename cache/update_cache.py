@@ -78,7 +78,7 @@ def update_cache():
 
             # Format view name
             view = os.path.splitext( csv_filename )[0]
-            print( current_time(), 'Starting view', view )
+            log( "Starting view '" + view + "'" )
 
             # Load dataframe representing current view
             df = pd.read_csv( '../csv/' + csv_filename, na_filter=False, comment='#' )
@@ -104,7 +104,7 @@ def update_cache():
                             save_value_and_units( view, facility, instance, value, units )
                             n_saved += 1
 
-            print( current_time(), 'Saved', n_saved, 'values')
+            log( 'Saved ' + str( n_saved ) + ' values')
 
 
 def save_value_and_units( view, facility, instance, value, units ):
@@ -140,9 +140,12 @@ def save_value_and_units( view, facility, instance, value, units ):
     conn.commit()
 
 
-def current_time():
-    return time.strftime("%Y-%m-%d %H:%M:%S", time. gmtime())
+def log( s ):
+    print( current_time(), s )
 
+
+def current_time():
+    return '[' + time.strftime( '%Y-%m-%d %H:%M:%S', time.localtime() ) + ']'
 
 
 if __name__ == '__main__':
@@ -157,7 +160,7 @@ if __name__ == '__main__':
     if dups > 1:
 
         # Do nothing
-        print( current_time(), 'Duplicate process ' + __file__ + ' exiting' )
+        log( 'Duplicate process ' + __file__ + ' exiting' )
 
     else:
 
@@ -176,4 +179,4 @@ if __name__ == '__main__':
         while True:
             start_time = time.time()
             update_cache()
-            print( current_time(), 'Full cache update: %s seconds' % ( time.time() - start_time ) )
+            log( 'Full cache update: ' + str( time.time() - start_time ) + ' seconds' )
