@@ -94,15 +94,14 @@ def update_cache():
 
                     # If instance is not empty, issue BACnet request
                     if instance:
-                        print( 'sleeping', sleep_time, 'seconds' )
-                        time.sleep( sleep_time )
+                        time.sleep( sleep_interval )
                         cache_time = time.time()
                         value, units = get_value_and_units( facility, instance, args.hostname, args.port )
 
                         # If we got value and units, save them in the cache
                         if value and units:
                             save_value_and_units( view, facility, instance, value, units )
-                            print( 'get -> save: %s seconds' % ( time.time() - cache_time ) )
+                            print( 'sleep: %s", operation: %s"' % ( sleep_interval, time.time() - cache_time ) )
 
 
 def save_value_and_units( view, facility, instance, value, units ):
@@ -167,9 +166,9 @@ if __name__ == '__main__':
         conn, cur = open_db()
 
         # Update cache continuously
-        sleep_time = 0
+        sleep_interval = 0
         while True:
             start_time = time.time()
             update_cache()
             print( 'Full cache update: %s seconds' % ( time.time() - start_time ) )
-            sleep_time = 4
+            sleep_interval = 4
