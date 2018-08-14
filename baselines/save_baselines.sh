@@ -1,15 +1,15 @@
 # Copyright 2018 BACnet Gateway.  All rights reserved.
 #
-# Save new baseline in database of public site and copy updated database to P&F site
+# Save new baseline in database
 #
 # To run this script every midnight, edit the root crontab:
 #   sudo crontab -e
 #
 # Enter this line:
-#   0 0 * * * sh /opt/nav/bgt/baselines/save_baselines.sh > /opt/nav/bgt/baselines/save_baselines.log
+#   0 0 * * * sh /opt/nav/bgt/baselines/save_baselines.sh > /opt/nav/bgt_db/save_baselines.log
 #
 
-# Set working directory to public site
+# Set working directory
 cd /opt/nav/bgt/baselines
 
 # Save new baseline
