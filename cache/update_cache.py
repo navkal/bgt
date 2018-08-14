@@ -78,7 +78,6 @@ def update_cache():
 
             # Format view name
             view = os.path.splitext( csv_filename )[0]
-            print( '\n---', view, '---' )
 
             # Load dataframe representing current view
             df = pd.read_csv( '../csv/' + csv_filename, na_filter=False, comment='#' )
@@ -124,6 +123,7 @@ def save_value_and_units( view, facility, instance, value, units ):
         # Entry exists; update it
         cache_id = cache_row[0]
         cur.execute( 'UPDATE Cache SET value=?, units_id=?, timestamp=? WHERE id=?', ( value, units_id, timestamp, cache_id ) )
+        print( 'UPDATE:', view, facility, instance )
 
     else:
 
@@ -163,8 +163,7 @@ if __name__ == '__main__':
         conn, cur = open_db()
 
         # Update cache continuously
-        start_time = time.time()
         while True:
+            start_time = time.time()
             update_cache()
             print( 'Elapsed time: %s seconds' % (time.time() - start_time))
-            exit()
