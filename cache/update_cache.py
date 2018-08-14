@@ -94,11 +94,14 @@ def update_cache():
 
                     # If instance is not empty, issue BACnet request
                     if instance:
+                        time.sleep( 3 )
+                        cache_time = time.time()
                         value, units = get_value_and_units( facility, instance, args.hostname, args.port )
 
                         # If we got value and units, save them in the cache
                         if value and units:
                             save_value_and_units( view, facility, instance, value, units )
+                            print( 'get -> save: %s seconds' % ( time.time() - cache_time ) )
 
 
 def save_value_and_units( view, facility, instance, value, units ):
@@ -166,4 +169,4 @@ if __name__ == '__main__':
         while True:
             start_time = time.time()
             update_cache()
-            print( 'Elapsed time: %s seconds' % (time.time() - start_time))
+            print( 'Full cache update: %s seconds' % ( time.time() - start_time ) )
