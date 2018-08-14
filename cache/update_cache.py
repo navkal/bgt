@@ -14,6 +14,7 @@ import db_util
 
 cur = None
 conn = None
+logfile = None
 
 
 def open_db():
@@ -140,12 +141,20 @@ def save_value_and_units( view, facility, instance, value, units ):
     conn.commit()
 
 
-def log( s ):
-    print( current_time(), s )
+def log( msg ):
 
+    t = time.localtime()
+    s = '[' + time.strftime( '%Y-%m-%d %H:%M:%S', t ) + '] ' + msg
+    print( s )
 
-def current_time():
-    return '[' + time.strftime( '%Y-%m-%d %H:%M:%S', time.localtime() ) + ']'
+    global logfile
+
+    if not logfile:
+        logfile = open( '../../bgt_db/update_cache_' + time.strftime( '%Y-%m-%d_%H-%M-%S', t ) + '.log' , 'w' )
+
+    logfile.write( s + '\n' )
+    logfile.flush()
+
 
 
 if __name__ == '__main__':
