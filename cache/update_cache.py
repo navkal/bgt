@@ -14,6 +14,7 @@ import db_util
 
 cur = None
 conn = None
+logfile = None
 
 
 def open_db():
@@ -142,9 +143,19 @@ def save_value_and_units( view, facility, instance, value, units ):
 
 def log( msg ):
 
-    s = '[' + time.strftime( '%Y-%m-%d %H:%M:%S', time.localtime() ) + '] ' + msg
+    # Format output line
+    t = time.localtime()
+    s = '[' + time.strftime( '%Y-%m-%d %H:%M:%S', t ) + '] ' + msg
+
+    # Print to standard output
     print( s )
 
+    # Optionally create log file
+    global logfile
+    if not logfile:
+        logfile = open( '../../bgt_db/update_cache_' + time.strftime( '%Y-%m-%d_%H-%M-%S', t ) + '.log' , 'w' )
+
+    # Write to log file
     logfile.write( s + '\n' )
     logfile.flush()
 
@@ -152,22 +163,14 @@ def log( msg ):
 
 if __name__ == '__main__':
 
-    # Open log file
-    logfile = open( '../../bgt_db/update_cache_' + time.strftime( '%Y-%m-%d_%H-%M-%S', time.localtime() ) + '.log' , 'w' )
-
     # Get list of running processes
     ps = os.popen( 'ps -elf' ).read()
 
     # Find out how many occurrences of this script are running
     dups = ps.count( __file__ )
 
-    # If multiple occurrences of this script are running, exit
-    if dups > 1:
-
-        # Do nothing
-        log( 'Duplicate process ' + __file__ + ' exiting' )
-
-    else:
+    # If no other occurrences of this script are running, proceed to update cache
+    if dups <= 1:
 
         # Get command line arguments
         parser = argparse.ArgumentParser( description='Maintain cache of recent values used by Building Monitor', add_help=False )
@@ -185,6 +188,3 @@ if __name__ == '__main__':
             start_time = time.time()
             update_cache()
             log( 'Full cache update: ' + str( time.time() - start_time ) + ' seconds' )
-
-    # Close the log file
-    logfile.close()
