@@ -5,8 +5,8 @@
 # To run this script every midnight, edit the root crontab:
 #   sudo crontab -e
 #
-# Enter this line:
-#   0 0 * * * sh /opt/nav/bgt/cache/update_cache.sh > /opt/nav/bgt_db/update_cache.log
+# To start process daily at 1:00 AM, enter this line:
+#   0 1 * * * sh /opt/nav/bgt/cache/update_cache.sh > /opt/nav/bgt_db/update_cache.log
 #
 
 # Set working directory
