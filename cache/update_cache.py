@@ -14,7 +14,6 @@ import db_util
 
 cur = None
 conn = None
-logfile = None
 
 
 def open_db():
@@ -143,14 +142,8 @@ def save_value_and_units( view, facility, instance, value, units ):
 
 def log( msg ):
 
-    t = time.localtime()
-    s = '[' + time.strftime( '%Y-%m-%d %H:%M:%S', t ) + '] ' + msg
+    s = '[' + time.strftime( '%Y-%m-%d %H:%M:%S', time.localtime() ) + '] ' + msg
     print( s )
-
-    global logfile
-
-    if not logfile:
-        logfile = open( '../../bgt_db/update_cache_' + time.strftime( '%Y-%m-%d_%H-%M-%S', t ) + '.log' , 'w' )
 
     logfile.write( s + '\n' )
     logfile.flush()
@@ -158,6 +151,9 @@ def log( msg ):
 
 
 if __name__ == '__main__':
+
+    # Open log file
+    logfile = open( '../../bgt_db/update_cache_' + time.strftime( '%Y-%m-%d_%H-%M-%S', time.localtime() ) + '.log' , 'w' )
 
     # Get list of running processes
     ps = os.popen( 'ps -elf' ).read()
@@ -189,3 +185,6 @@ if __name__ == '__main__':
             start_time = time.time()
             update_cache()
             log( 'Full cache update: ' + str( time.time() - start_time ) + ' seconds' )
+
+    # Close the log file
+    logfile.close()
