@@ -78,11 +78,13 @@ def update_cache():
 
             # Format view name
             view = os.path.splitext( csv_filename )[0]
+            print( 'View:', view )
 
             # Load dataframe representing current view
             df = pd.read_csv( '../csv/' + csv_filename, na_filter=False, comment='#' )
 
             # Traverse rows in current view
+            n_saved = 0
             for index, view_row in df.iterrows():
 
                 facility = view_row.iloc[1]
@@ -94,12 +96,15 @@ def update_cache():
 
                     # If instance is not empty, issue BACnet request
                     if instance:
-                        time.sleep( sleep_interval )
+                        time.sleep( args.sleep_interval )
                         value, units = get_value_and_units( facility, instance, args.hostname, args.port )
 
                         # If we got value and units, save them in the cache
                         if value and units:
                             save_value_and_units( view, facility, instance, value, units )
+                            n_saved += 1
+
+            print( 'Saved', n_saved, 'values')
 
 
 def save_value_and_units( view, facility, instance, value, units ):
@@ -124,8 +129,6 @@ def save_value_and_units( view, facility, instance, value, units ):
         # Entry exists; update it
         cache_id = cache_row[0]
         cur.execute( 'UPDATE Cache SET value=?, units_id=?, timestamp=? WHERE id=?', ( value, units_id, timestamp, cache_id ) )
-        if sleep_interval == 0:
-            print( 'UPDATE:', view, facility, instance )
 
     else:
 
@@ -155,9 +158,10 @@ if __name__ == '__main__':
     else:
 
         # Get command line arguments
-        parser = argparse.ArgumentParser( description='Save recent values in cache', add_help=False )
+        parser = argparse.ArgumentParser( description='Maintain cache of recent values used by Building Monitor', add_help=False )
         parser.add_argument( '-h', dest='hostname' )
         parser.add_argument( '-p', dest='port' )
+        parser.add_argument( '-s', dest='sleep_interval', type=int )
         parser.add_argument( '-r', dest='remove', action='store_true' )
         args = parser.parse_args()
 
@@ -165,9 +169,7 @@ if __name__ == '__main__':
         conn, cur = open_db()
 
         # Update cache continuously
-        sleep_interval = 0
         while True:
             start_time = time.time()
             update_cache()
             print( 'Full cache update: %s seconds' % ( time.time() - start_time ) )
-            sleep_interval = 4
