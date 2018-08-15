@@ -103,7 +103,7 @@ def update_cache():
                         value, units = get_value_and_units( facility, instance, args.hostname, args.port )
 
                         # If we got value and units, save them in the cache
-                        if value and units:
+                        if isinstance( value, ( int, float ) ) and units:
                             save_value_and_units( view, facility, instance, value, units )
                             n_saved += 1
 
