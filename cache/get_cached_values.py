@@ -40,7 +40,9 @@ if os.path.exists( db ):
             facility = row[0]
             instance = row[1]
             cached_value = { 'facility': facility, 'instance': instance, 'value': row[2], 'units': row[3], 'timestamp': row[4] }
-            cached_values[ '%s.%d' % ( facility, instance ) ] = cached_value
+            if facility not in cached_values:
+                cached_values[facility] = {}
+            cached_values[facility][instance] = cached_value
 
         cached_values = collections.OrderedDict( sorted( cached_values.items() ) )
 

@@ -105,15 +105,6 @@
     return strcmp( $aLine1[0], $aLine2[0] );
   }
 
-
-
-
-
-
-
-
-
-
   //
   // Retrieve values from cache
   //
@@ -125,31 +116,7 @@
   error_log( '==> command=' . $command );
   exec( $command, $output, $status );
   error_log( '==> output=' . print_r( $output, true ) );
-
-  $g_tCachedValues = (array) json_decode( $output[ count( $output ) - 1 ] );
-
-  foreach( $g_tCachedValues as $sKey => $tCachedValue )
-  {
-    error_log( $sKey . ' => ' . print_r( $tCachedValue, true ) );
-  }
-
-
-  foreach ( $aLines as $aLine )
-  {
-    error_log( '======> ' . print_r( $aLine, true ) );
-    $sFacility = $aLine[1];
-    error_log( '===> facility=' . $sFacility );
-    for ( $iCell = 2; $iCell < count( $aLine ); $iCell ++ )
-    {
-      $sInstance = $aLine[$iCell];
-      error_log( '===> instance[' . ( $iCell - 2 ) . ']=' . $sInstance );
-      $tCachedValue = (array) $g_tCachedValues[$sFacility . '.' . $sInstance];
-      $sValue = $tCachedValue['value'];
-      $sUnits = $tCachedValue['units'];
-      $sTimestamp = $tCachedValue['timestamp'];
-      error_log( '====> CACHED VALUE --> ' . $sValue . ' ' . $sUnits . ' ' . $sTimestamp );
-    }
-  }
+  $g_tCachedValues = json_decode( $output[ count( $output ) - 1 ] );
 
 
   // Set flag to use flot or d3 to display bar graphs
@@ -194,6 +161,7 @@
   var g_sCsvBasename = '<?=$g_sCsvBasename?>';
   var g_sFirstColName = '<?=$g_sFirstColName?>';
   var g_aColNames = JSON.parse( '<?=json_encode( $g_aColNames )?>' );
+  var g_tCachedValues = JSON.parse( '<?=json_encode( $g_tCachedValues )?>' );
   var g_tGraphNameMap = JSON.parse( '<?=json_encode( $g_tGraphNameMap )?>' );
   var g_tGraphIdMap = JSON.parse( '<?=json_encode( $g_tGraphIdMap )?>' );
   var g_aGraphSelectors = JSON.parse( '<?=json_encode( $g_aGraphSelectors )?>' );

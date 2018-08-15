@@ -247,6 +247,8 @@ function narrowToWide()
 
 function initTable()
 {
+  console.log( g_tCachedValues );
+
   var sHtml = '';
   for ( var iRow in g_aRows )
   {
