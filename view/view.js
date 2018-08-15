@@ -270,7 +270,7 @@ function initTable()
       var sCachedUnits = '';
       if ( ( sFacility in g_tCachedValues ) && ( sInstance in g_tCachedValues[sFacility] ) )
       {
-        sCachedValue = g_tCachedValues[sFacility][sInstance].value;
+        sCachedValue = formatValue( g_tCachedValues[sFacility][sInstance].value );
         sCachedUnits = g_tCachedValues[sFacility][sInstance].units;
         aCachedTimestamps.push( g_tCachedValues[sFacility][sInstance].timestamp );
       }
@@ -612,23 +612,7 @@ function updateRow()
   for ( var iData in g_aRowData )
   {
     var tData = g_aRowData[iData];
-
-    // Decide how to display the value
-    var value = null;
-    if ( tData.presentValue === '' )
-    {
-      value = '';
-    }
-    else if ( ( -1 < tData.presentValue ) && ( tData.presentValue < 1 ) )
-    {
-      value = Math.round( tData.presentValue * 100 ) / 100;
-    }
-    else
-    {
-      value = Math.round( tData.presentValue );
-    }
-
-    $( '#value_' + g_iRow + '_' + iPair ).html( value );
+    $( '#value_' + g_iRow + '_' + iPair ).html( formatValue( tData.presentValue ) );
     $( '#units_' + g_iRow + '_' + iPair ).html( tData.units );
     iPair ++;
   }
@@ -637,6 +621,26 @@ function updateRow()
   var tDate = new Date;
   sTime = tDate.toLocaleString();
   $( '#time_' + g_iRow ).html( sTime );
+}
+
+function formatValue( rawValue )
+{
+    // Decide how to display the value
+    var value = null;
+    if ( rawValue === '' )
+    {
+      value = '';
+    }
+    else if ( ( -1 < rawValue ) && ( rawValue < 1 ) )
+    {
+      value = Math.round( rawValue * 100 ) / 100;
+    }
+    else
+    {
+      value = Math.round( rawValue );
+    }
+
+    return value;
 }
 
 function updateGraphs( bUpdateData )
