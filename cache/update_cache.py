@@ -15,7 +15,8 @@ import db_util
 
 cur = None
 conn = None
-logfile = None
+
+log_filename = None
 
 
 def open_db():
@@ -151,14 +152,15 @@ def log( msg ):
     # Print to standard output
     print( s )
 
-    # Optionally create log file
-    global logfile
-    if not logfile:
-        logfile = open( '../../bgt_db/update_cache_' + time.strftime( '%Y-%m-%d_%H-%M-%S', t ) + '.log' , 'w' )
+    # Optionally format new log filename
+    global log_filename
+    if not log_filename or not os.path.exists( log_filename ):
+        log_filename = '../../bgt_db/update_cache_' + time.strftime( '%Y-%m-%d_%H-%M-%S', t ) + '.log'
 
-    # Write to log file
+    # Open, write, and close log file
+    logfile = open( log_filename , 'a' )
     logfile.write( s + '\n' )
-    logfile.flush()
+    logfile.close()
 
 
 
@@ -188,4 +190,4 @@ if __name__ == '__main__':
         while True:
             start_time = time.time()
             update_cache()
-            log( 'Full cache update time: ' + str( timedelta( seconds=int( time.time() - start_time ) ) ) )
+            log( 'Time to update all views: ' + str( timedelta( seconds=int( time.time() - start_time ) ) ) )
