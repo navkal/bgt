@@ -3,6 +3,7 @@
 import os
 import argparse
 import sqlite3
+import collections
 import json
 
 
@@ -40,6 +41,8 @@ if os.path.exists( db ):
             instance = row[1]
             cached_value = { 'facility': facility, 'instance': instance, 'value': row[2], 'units': row[3], 'timestamp': row[4] }
             cached_values[ '%s.%d' % ( facility, instance ) ] = cached_value
+
+        cached_values = collections.OrderedDict( sorted( cached_values.items() ) )
 
 # Return view
 print( json.dumps( cached_values ) )

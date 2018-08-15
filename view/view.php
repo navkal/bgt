@@ -126,11 +126,11 @@
   exec( $command, $output, $status );
   error_log( '==> output=' . print_r( $output, true ) );
 
-  $g_aCachedValues = json_decode( $output[ count( $output ) - 1 ] );
+  $g_tCachedValues = json_decode( $output[ count( $output ) - 1 ] );
 
-  foreach( $g_aCachedValues as $tCachedValue )
+  foreach( $g_tCachedValues as $sKey => $tCachedValue )
   {
-    error_log( print_r( $tCachedValue, true ) );
+    error_log( $sKey . ' => ' . print_r( $tCachedValue, true ) );
   }
 
 
