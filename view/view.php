@@ -126,7 +126,7 @@
   exec( $command, $output, $status );
   error_log( '==> output=' . print_r( $output, true ) );
 
-  $g_tCachedValues = json_decode( $output[ count( $output ) - 1 ] );
+  $g_tCachedValues = (array) json_decode( $output[ count( $output ) - 1 ] );
 
   foreach( $g_tCachedValues as $sKey => $tCachedValue )
   {
@@ -137,12 +137,17 @@
   foreach ( $aLines as $aLine )
   {
     error_log( '======> ' . print_r( $aLine, true ) );
-    error_log( '===> Retrieve based on' );
-    error_log( '===> view=' . $g_sCsvBasename );
-    error_log( '===> facility=' . $aLine[1] );
+    $sFacility = $aLine[1];
+    error_log( '===> facility=' . $sFacility );
     for ( $iCell = 2; $iCell < count( $aLine ); $iCell ++ )
     {
-      error_log( '===> instance[' . ( $iCell - 2 ) . ']=' . $aLine[$iCell] );
+      $sInstance = $aLine[$iCell];
+      error_log( '===> instance[' . ( $iCell - 2 ) . ']=' . $sInstance );
+      $tCachedValue = (array) $g_tCachedValues[$sFacility . '.' . $sInstance];
+      $sValue = $tCachedValue['value'];
+      $sUnits = $tCachedValue['units'];
+      $sTimestamp = $tCachedValue['timestamp'];
+      error_log( '====> CACHED VALUE --> ' . $sValue . ' ' . $sUnits . ' ' . $sTimestamp );
     }
   }
 
