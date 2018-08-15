@@ -247,8 +247,6 @@ function narrowToWide()
 
 function initTable()
 {
-  console.log( g_tCachedValues );
-
   var sHtml = '';
   for ( var iRow in g_aRows )
   {
@@ -425,7 +423,6 @@ function onSubmitGraphOptions( tEvent )
 
     if ( sDate != sOriginalDate )
     {
-      console.log( '=====> ajax and update' );
       // Extract the timestamp from the datepicker
       var tDate = new Date( sDate );
       var iTimestamp = tDate.getTime();
@@ -452,7 +449,6 @@ function onSubmitGraphOptions( tEvent )
     }
     else
     {
-      console.log( '=====> just update' );
       updateGraphs( false );
     }
   }
@@ -705,7 +701,6 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
 {
   if ( ( sGraphId in g_tGraphData ) && ( tGraphDiv.width() > 0 ) )
   {
-    console.log( '===> updateGraphDisplay(), graph name=' + sGraphName + ', multiplier=' + g_tGraphOptions[sGraphName].dollarsPerUnit );
     // Determine which units to show in graph
     var tGraphData = g_tGraphData[sGraphId];
     var sGraphUnits = pickGraphUnits( tGraphData );
