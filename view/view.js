@@ -252,14 +252,16 @@ function initTable()
   var sHtml = '';
   for ( var iRow in g_aRows )
   {
+    var aRow = g_aRows[iRow];
+
     // Create row
     sHtml += '<tr id="row_' + iRow + '">';
 
     // Create cell for label in first column
-    sHtml += '<td class="row-label" >' + g_aRows[iRow][0] + '</td>';
+    sHtml += '<td class="row-label" >' + aRow[0] + '</td>';
 
     // Create cells for value-unit pairs
-    for ( var iPair = 2; iPair < g_aRows[iRow].length; iPair ++ )
+    for ( var iPair = 2; iPair < aRow.length; iPair ++ )
     {
       sHtml += '<td id="value_' + iRow + '_' + iPair + '" style="text-align:right" ></td>';
       sHtml += '<td id="units_' + iRow + '_' + iPair + '"></td>';
