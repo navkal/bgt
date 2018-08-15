@@ -285,7 +285,8 @@ function initTable()
 
     // Create cell for time
     sHtml += '<td id="time_' + iRow + '">';
-    sHtml += Math.max( ...aCachedTimestamps );
+    var tDate = new Date( Math.max( ...aCachedTimestamps ) );
+    sHtml += tDate.toLocaleString();
     sHtml += '</td>';
     sHtml += '</tr>';
   }
