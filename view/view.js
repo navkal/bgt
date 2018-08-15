@@ -261,14 +261,32 @@ function initTable()
     sHtml += '<td class="row-label" >' + aRow[0] + '</td>';
 
     // Create cells for value-unit pairs
+    var sFacility = aRow[1];
+    var aCachedTimestamps = [];
     for ( var iPair = 2; iPair < aRow.length; iPair ++ )
     {
-      sHtml += '<td id="value_' + iRow + '_' + iPair + '" style="text-align:right" ></td>';
-      sHtml += '<td id="units_' + iRow + '_' + iPair + '"></td>';
+      var sInstance = aRow[iPair];
+      var sCachedValue = '';
+      var sCachedUnits = '';
+      if ( ( sFacility in g_tCachedValues ) && ( sInstance in g_tCachedValues[sFacility] ) )
+      {
+        sCachedValue = g_tCachedValues[sFacility][sInstance].value;
+        sCachedUnits = g_tCachedValues[sFacility][sInstance].units;
+        aCachedTimestamps.push( g_tCachedValues[sFacility][sInstance].timestamp );
+      }
+
+      sHtml += '<td id="value_' + iRow + '_' + iPair + '" style="text-align:right" >';
+      sHtml += sCachedValue;
+      sHtml += '</td>';
+      sHtml += '<td id="units_' + iRow + '_' + iPair + '">';
+      sHtml += sCachedUnits;
+      sHtml += '</td>';
     }
 
     // Create cell for time
-    sHtml += '<td id="time_' + iRow + '"></td>';
+    sHtml += '<td id="time_' + iRow + '">';
+    sHtml += Math.max( ...aCachedTimestamps );
+    sHtml += '</td>';
     sHtml += '</tr>';
   }
 
