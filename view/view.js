@@ -268,7 +268,7 @@ function initTable()
       var sCachedUnits = '';
       if ( ( sFacility in g_tCachedValues ) && ( sInstance in g_tCachedValues[sFacility] ) )
       {
-        sCachedValue = formatValue( g_tCachedValues[sFacility][sInstance].value );
+        sCachedValue = formatValue( g_tCachedValues[sFacility][sInstance].presentValue );
         sCachedUnits = g_tCachedValues[sFacility][sInstance].units;
         aCachedTimestamps.push( g_tCachedValues[sFacility][sInstance].timestamp );
       }
