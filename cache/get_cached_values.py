@@ -6,7 +6,7 @@ import sqlite3
 import json
 
 
-cached_view = []
+cached_values = {}
 
 db = '../bgt_db/cache.sqlite'
 
@@ -36,8 +36,10 @@ if os.path.exists( db ):
         rows = cur.fetchall()
 
         for row in rows:
-            cell = { 'facility': row[0], 'instance': row[1], 'value': row[2], 'units': row[3], 'timestamp': row[4] }
-            cached_view.append( cell )
+            facility = row[0]
+            instance = row[1]
+            cached_value = { 'facility': facility, 'instance': instance, 'value': row[2], 'units': row[3], 'timestamp': row[4] }
+            cached_values[ '%s.%d' % ( facility, instance ) ] = cached_value
 
 # Return view
-print( json.dumps( cached_view ) )
+print( json.dumps( cached_values ) )

@@ -105,7 +105,35 @@
     return strcmp( $aLine1[0], $aLine2[0] );
   }
 
+
+
+
+
+
+
+
+
+
+  //
   // Retrieve values from cache
+  //
+
+  // Format command
+  $command = quote( getenv( 'PYTHON' ) ) . ' cache/get_cached_values.py 2>&1 -v ' . quote( $g_sCsvBasename );
+
+  // Execute command
+  error_log( '==> command=' . $command );
+  exec( $command, $output, $status );
+  error_log( '==> output=' . print_r( $output, true ) );
+
+  $g_aCachedValues = json_decode( $output[ count( $output ) - 1 ] );
+
+  foreach( $g_aCachedValues as $tCachedValue )
+  {
+    error_log( print_r( $tCachedValue, true ) );
+  }
+
+
   foreach ( $aLines as $aLine )
   {
     error_log( '======> ' . print_r( $aLine, true ) );
