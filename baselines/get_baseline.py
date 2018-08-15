@@ -11,7 +11,7 @@ sys.path.append( 'util' )
 import db_util
 
 # Get arguments
-parser = argparse.ArgumentParser( description='Get baseline values from database', add_help=False )
+parser = argparse.ArgumentParser( description='Get baseline values from database' )
 parser.add_argument( '-f', dest='csv_filename' )
 parser.add_argument( '-c', dest='column_name' )
 parser.add_argument( '-t', dest='timestamp' )
