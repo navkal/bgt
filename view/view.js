@@ -250,45 +250,21 @@ function initTable()
   var sHtml = '';
   for ( var iRow in g_aRows )
   {
-    var aRow = g_aRows[iRow];
-
     // Create row
     sHtml += '<tr id="row_' + iRow + '">';
 
     // Create cell for label in first column
-    sHtml += '<td class="row-label" >' + aRow[0] + '</td>';
+    sHtml += '<td class="row-label" >' + g_aRows[iRow][0] + '</td>';
 
     // Create cells for value-unit pairs
-    var sFacility = aRow[1];
-    var aCachedTimestamps = [];
-    for ( var iPair = 2; iPair < aRow.length; iPair ++ )
+    for ( var iPair = 2; iPair < g_aRows[iRow].length; iPair ++ )
     {
-      var sInstance = aRow[iPair];
-      var sCachedValue = '';
-      var sCachedUnits = '';
-      if ( ( sFacility in g_tCachedValues ) && ( sInstance in g_tCachedValues[sFacility] ) )
-      {
-        sCachedValue = formatValue( g_tCachedValues[sFacility][sInstance].presentValue );
-        sCachedUnits = g_tCachedValues[sFacility][sInstance].units;
-        aCachedTimestamps.push( g_tCachedValues[sFacility][sInstance].timestamp );
-      }
-
-      sHtml += '<td id="value_' + iRow + '_' + iPair + '" style="text-align:right" >';
-      sHtml += sCachedValue;
-      sHtml += '</td>';
-      sHtml += '<td id="units_' + iRow + '_' + iPair + '">';
-      sHtml += sCachedUnits;
-      sHtml += '</td>';
+      sHtml += '<td id="value_' + iRow + '_' + iPair + '" style="text-align:right" ></td>';
+      sHtml += '<td id="units_' + iRow + '_' + iPair + '"></td>';
     }
 
     // Create cell for time
-    sHtml += '<td id="time_' + iRow + '">';
-    if ( aCachedTimestamps.length )
-    {
-      var tDate = new Date( Math.max( ...aCachedTimestamps ) );
-      sHtml += tDate.toLocaleString();
-    }
-    sHtml += '</td>';
+    sHtml += '<td id="time_' + iRow + '"></td>';
     sHtml += '</tr>';
   }
 
