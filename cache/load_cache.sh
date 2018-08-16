@@ -5,8 +5,8 @@
 # To run this script every midnight, edit the root crontab:
 #   sudo crontab -e
 #
-# To restart process every 30 minutes, enter this line:
-#   */30 * * * * sh /opt/nav/bgt/cache/load_cache.sh
+# To restart process every 5 minutes, enter this line:
+#   */5 * * * * sh /opt/nav/bgt/cache/load_cache.sh
 #
 
 # Set working directory
