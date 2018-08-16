@@ -2,74 +2,16 @@
 
 import argparse
 import os
-import sqlite3
 import pandas as pd
 import time
-from datetime import timedelta
+import cache_db
 
 import sys
 sys.path.append( '../util' )
 from bacnet_gateway_requests import get_value_and_units
-import db_util
 
-
-cur = None
-conn = None
 
 log_filename = None
-
-
-def open_db():
-    global cur
-    global conn
-
-    db = '../../bgt_db/cache.sqlite'
-
-    if ( args.remove ):
-        try:
-            os.remove( db )
-        except:
-            pass
-
-    db_exists = os.path.exists( db )
-
-    conn = sqlite3.connect( db )
-    cur = conn.cursor()
-
-    if not db_exists:
-
-        cur.executescript('''
-
-            CREATE TABLE IF NOT EXISTS Cache (
-                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                view_id INTEGER,
-                facility_id INTEGER,
-                instance INTEGER,
-                value INTEGER,
-                units_id INTEGER,
-                timestamp INTEGER
-            );
-
-            CREATE TABLE IF NOT EXISTS Views (
-                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                view TEXT UNIQUE
-            );
-
-            CREATE TABLE IF NOT EXISTS Facilities (
-                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                facility TEXT UNIQUE
-            );
-
-            CREATE TABLE IF NOT EXISTS Units (
-                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                units TEXT UNIQUE
-            );
-
-        ''')
-
-        conn.commit()
-
-    return conn, cur
 
 
 def update_cache():
@@ -104,43 +46,10 @@ def update_cache():
 
                         # If we got value and units, save them in the cache
                         if isinstance( value, ( int, float ) ) and units:
-                            save_value_and_units( view, facility, instance, value, units )
+                            cache_db.save_value_and_units( view, facility, instance, value, units )
                             n_saved += 1
 
             log( 'Saved ' + str( n_saved ) + ' values')
-
-
-def save_value_and_units( view, facility, instance, value, units ):
-
-    units_id = db_util.save_field( 'Units', 'units', units, cur )
-    timestamp = int( time.time() )
-
-    # Test whether entry for current view, facility, and instance already exists
-    cur.execute( '''
-        SELECT
-            Cache.id
-        FROM Cache
-            LEFT JOIN Views ON Cache.view_id=Views.id
-            LEFT JOIN Facilities ON Cache.facility_id=Facilities.id
-        WHERE ( Views.view=? AND Facilities.facility=? AND instance=? );
-    ''', ( view, facility, instance )
-    )
-    cache_row = cur.fetchone()
-
-    if cache_row:
-
-        # Entry exists; update it
-        cache_id = cache_row[0]
-        cur.execute( 'UPDATE Cache SET value=?, units_id=?, timestamp=? WHERE id=?', ( value, units_id, timestamp, cache_id ) )
-
-    else:
-
-        # Entry does not exist; insert it
-        view_id = db_util.save_field( 'Views', 'view', view, cur )
-        facility_id = db_util.save_field( 'Facilities', 'facility', facility, cur )
-        cur.execute( 'INSERT INTO Cache ( view_id, facility_id, instance, value, units_id, timestamp ) VALUES (?,?,?,?,?,?)', ( view_id, facility_id, instance, value, units_id, timestamp ) )
-
-    conn.commit()
 
 
 def log( msg ):
@@ -184,7 +93,7 @@ if __name__ == '__main__':
         args = parser.parse_args()
 
         # Open the database
-        conn, cur = open_db()
+        cache_db.open_db( args.remove )
 
         # Update cache continuously
         while True:
