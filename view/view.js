@@ -245,7 +245,7 @@ function narrowToWide()
   $( '#wide' ).show();
 }
 
-function initTable_OLD_DELETE_THIS()
+function initTable()
 {
   var sHtml = '';
   for ( var iRow in g_aRows )
@@ -275,7 +275,7 @@ function initTable_OLD_DELETE_THIS()
   g_tTable.tablesorter( g_tViewTableProps );
 }
 
-function initTable()
+function initTable_ALTERNATIVE_VERSION()
 {
   var sHtml = '';
   for ( var iRow in g_aRows )
