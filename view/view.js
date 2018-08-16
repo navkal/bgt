@@ -465,7 +465,7 @@ function onSubmitGraphOptions( tEvent )
 
       // Post request to server
       $.ajax(
-        '/baselines/baseline.php',
+        '/baselines/get_baseline.php',
         {
           type: 'POST',
           processData: false,
@@ -582,7 +582,7 @@ function rq()
           dataType : 'jsonp'
         }
       )
-      .done( rqDone )
+      .done( updateCache )
       .fail( rqFail );
     }
 
@@ -609,6 +609,46 @@ function rq()
     // Invoke completion handler
     rqDone( tRsp );
   }
+}
+
+function updateCache( tRsp, sStatus, tJqXhr )
+{
+  var tBnRsp = tRsp.bacnet_response;
+
+  if ( tBnRsp.success && tBnRsp.data.success )
+  {
+    var sView = g_sCsvBasename;
+    var sFacility = g_aRows[g_iRow][1];
+    var sInstance = g_aRows[g_iRow][g_iInstanceOffset];
+
+    var tBnData = tBnRsp.data;
+    var nValue = tBnData.presentValue;
+    var sUnits = tBnData.units;
+
+    // Set post arguments
+    var tPostData = new FormData();
+    tPostData.append( 'view', g_sCsvBasename );
+    tPostData.append( 'facility', sFacility );
+    tPostData.append( 'instance', sInstance );
+    tPostData.append( 'value', nValue );
+    tPostData.append( 'units', sUnits );
+
+    // Post request to server
+    $.ajax(
+      '/cache/update_cache.php',
+      {
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        dataType : 'json',
+        data: tPostData
+      }
+    )
+    .done( doNothing )
+    .fail( handleAjaxError );
+  }
+
+  rqDone( tRsp, sStatus, tJqXhr );
 }
 
 function rqDone( tRsp, sStatus, tJqXhr )
@@ -1129,6 +1169,11 @@ function onTablesorterReady()
   g_tTable.off( 'tablesorter-ready' );
   g_tTable.show();
   setTimeout( rq, g_iTimeoutMs );
+}
+
+function doNothing( tJqXhr, sStatus, sErrorThrown )
+{
+  console.log( 'doNothing() status: ' + sStatus );
 }
 
 function rqFail( tJqXhr, sStatus, sErrorThrown )
