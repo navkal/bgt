@@ -1173,7 +1173,6 @@ function onTablesorterReady()
 
 function doNothing( tJqXhr, sStatus, sErrorThrown )
 {
-  console.log( 'doNothing() status: ' + sStatus );
 }
 
 function rqFail( tJqXhr, sStatus, sErrorThrown )
