@@ -12,22 +12,18 @@
     isset( $_POST['units'] )
     )
   {
-    $sView = $_POST['view'];
-    $sFacility = $_POST['facility'];
-    $sInstance = $_POST['instance'];
-    $sValue = $_POST['value'];
-    $sUnits = $_POST['units'];
-
-    error_log( '======> write_cache.php ' . getcwd() );
-
     // Format command
-    // chdir( '..' );
-    // $command = quote( getenv( 'PYTHON' ) ) . ' baselines/get_baseline.py 2>&1 -f ' . quote( $sCsvBasename ) . ' -c ' . $sGraphName . ' -t ' . $iTimestamp;
+    $command = quote( getenv( 'PYTHON' ) ) . ' write_cache.py 2>&1'
+      . ' -w ' . quote( $_POST['view'] )
+      . ' -f ' . quote( $_POST['facility'] )
+      . ' -i ' . quote( $_POST['instance'] )
+      . ' -v ' . quote( $_POST['value'] )
+      . ' -u ' . quote( $_POST['units'] );
 
     // Execute command
-    // error_log( '==> command=' . $command );
-    // exec( $command, $output, $status );
-    // error_log( '==> output=' . print_r( $output, true ) );
+    error_log( '==> command=' . $command );
+    exec( $command, $output, $status );
+    error_log( '==> output=' . print_r( $output, true ) );
   }
 
   echo json_encode( 'done' );
