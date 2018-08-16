@@ -15,7 +15,7 @@ from bacnet_gateway_requests import get_value_and_units
 log_filename = None
 
 
-def update_cache():
+def load_cache():
 
     # Traverse CSV files; each corresponds to one view
     for root, dirs, files in os.walk( '../csv/' ):
@@ -65,7 +65,7 @@ def log( msg ):
     # Optionally format new log filename
     global log_filename
     if not log_filename or not os.path.exists( log_filename ):
-        log_filename = '../../bgt_db/update_cache_' + time.strftime( '%Y-%m-%d_%H-%M-%S', t ) + '.log'
+        log_filename = '../../bgt_db/load_cache_' + time.strftime( '%Y-%m-%d_%H-%M-%S', t ) + '.log'
 
     # Open, write, and close log file
     logfile = open( log_filename , 'a' )
@@ -99,5 +99,5 @@ if __name__ == '__main__':
         # Update cache continuously
         while True:
             start_time = time.time()
-            update_cache()
+            load_cache()
             log( 'Time to update all views: ' + str( timedelta( seconds=int( time.time() - start_time ) ) ) )

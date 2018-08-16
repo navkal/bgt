@@ -6,11 +6,11 @@
 #   sudo crontab -e
 #
 # To restart process every 30 minutes, enter this line:
-#   */30 * * * * sh /opt/nav/bgt/cache/update_cache.sh
+#   */30 * * * * sh /opt/nav/bgt/cache/load_cache.sh
 #
 
 # Set working directory
 cd /opt/nav/bgt/cache
 
 # Start cache updater
-/home/ea/anaconda3/bin/python ./update_cache.py -h localhost -p 8000 -s 5
+/home/ea/anaconda3/bin/python ./load_cache.py -h localhost -p 8000 -s 5
