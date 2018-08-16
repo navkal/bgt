@@ -24,7 +24,10 @@ def load_cache():
 
             # Format view name
             view = os.path.splitext( csv_filename )[0]
-            log( "Starting view '" + view + "'" )
+
+            # Report start of view
+            log( "Loading view '" + view + "'" )
+            view_start_time = time.time()
 
             # Load dataframe representing current view
             df = pd.read_csv( '../csv/' + csv_filename, na_filter=False, comment='#' )
@@ -50,7 +53,7 @@ def load_cache():
                             cache_db.save_value_and_units( view, facility, instance, value, units )
                             n_saved += 1
 
-            log( 'Saved ' + str( n_saved ) + ' values')
+            log( "Loaded view '" + view + "' with " + str( n_saved ) + " values.  Elapsed time: " + str( timedelta( seconds=int( time.time() - view_start_time ) ) ) )
 
 
 def log( msg ):
@@ -100,4 +103,4 @@ if __name__ == '__main__':
         while True:
             start_time = time.time()
             load_cache()
-            log( 'Time to update all views: ' + str( timedelta( seconds=int( time.time() - start_time ) ) ) )
+            log( 'Loaded all views.  Elapsed time: ' + str( timedelta( seconds=int( time.time() - start_time ) ) ) )
