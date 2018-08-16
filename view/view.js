@@ -521,8 +521,10 @@ function rq()
   {
     // Got an instance
 
+    var sFacility = g_aRows[g_iRow][1];
+
     var sArgList =
-        '?facility=' + g_aRows[g_iRow][1]
+        '?facility=' + sFacility
       + '&instance=' + sInstance;
 
     // Issue request to BACnet Gateway
