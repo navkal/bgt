@@ -18,7 +18,7 @@
     $sValue = $_POST['value'];
     $sUnits = $_POST['units'];
 
-    error_log( '======> update_cache.php ' . getcwd() );
+    error_log( '======> write_cache.php ' . getcwd() );
 
     // Format command
     // chdir( '..' );

@@ -582,7 +582,7 @@ function rq()
           dataType : 'jsonp'
         }
       )
-      .done( updateCache )
+      .done( writeCache )
       .fail( rqFail );
     }
 
@@ -611,7 +611,7 @@ function rq()
   }
 }
 
-function updateCache( tRsp, sStatus, tJqXhr )
+function writeCache( tRsp, sStatus, tJqXhr )
 {
   var tBnRsp = tRsp.bacnet_response;
 
@@ -635,7 +635,7 @@ function updateCache( tRsp, sStatus, tJqXhr )
 
     // Post request to server
     $.ajax(
-      '/cache/update_cache.php',
+      '/cache/write_cache.php',
       {
         type: 'POST',
         processData: false,
