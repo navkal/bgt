@@ -1082,7 +1082,7 @@ function nextRow( bSuccess )
   $( '#bgt_table > tbody .' + g_sSuccessClass ).removeClass( g_sSuccessClass );
 
   // Optionally highlight current row
-  if ( bSuccess )
+  if ( bSuccess && ! g_tCachedValues )
   {
     $( '#row_' + g_iRow ).addClass( g_sSuccessClass );
   }
