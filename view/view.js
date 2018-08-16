@@ -555,7 +555,6 @@ function rq()
 
     if ( g_tCachedValues && ( sFacility in g_tCachedValues ) && ( sInstance in g_tCachedValues[sFacility] ) )
     {
-      console.log( '==> fake rsp=' + JSON.stringify( g_tCachedValues[sFacility][sInstance] ) );
       var tRsp =
       {
         bacnet_response:
@@ -664,7 +663,6 @@ function updateRow()
   for ( var iData in g_aRowData )
   {
     var tData = g_aRowData[iData];
-    console.log( 'updateRow()-->' + JSON.stringify( tData ) );
     $( '#value_' + g_iRow + '_' + iPair ).html( formatValue( tData.presentValue ) );
     $( '#units_' + g_iRow + '_' + iPair ).html( tData.units );
 
