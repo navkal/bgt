@@ -15,3 +15,4 @@ ahs_air,AHS Air,view/ahs_air.php
 #south_air,South Air,view/south_air.php
 #sanborn_air,Sanborn Air,view/sanborn_air.php
 #advanced,Advanced,advanced/advanced.php
+pi,PHP Info, pi/pi.php
