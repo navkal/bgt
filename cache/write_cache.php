@@ -13,7 +13,7 @@
     )
   {
     // Format command
-    $command = quote( getenv( 'PYTHON' ) ) . ' write_cache.py 2>&1'
+    $command = 'sudo ' . quote( getenv( 'PYTHON' ) ) . ' write_cache.py 2>&1'
       . ' -w ' . quote( $_POST['view'] )
       . ' -f ' . quote( $_POST['facility'] )
       . ' -i ' . quote( $_POST['instance'] )
