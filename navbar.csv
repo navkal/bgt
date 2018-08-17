@@ -4,6 +4,7 @@ energizeAndover@gmail.com
 #
 # --- Test views ---
 #dishboard,Dishboard,view/dishboard.php
+#pi,PHP Info, pi/pi.php
 #
 # --- Public views ---
 about,Building Monitor,about/about.php
@@ -15,4 +16,3 @@ ahs_air,AHS Air,view/ahs_air.php
 #south_air,South Air,view/south_air.php
 #sanborn_air,Sanborn Air,view/sanborn_air.php
 #advanced,Advanced,advanced/advanced.php
-pi,PHP Info, pi/pi.php
