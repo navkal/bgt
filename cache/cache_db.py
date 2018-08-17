@@ -19,15 +19,6 @@ def open_db( remove=False ):
 
     db = '../../bgt_db/cache.sqlite'
 
-    # Set ownership to ensure that this operation can be executed from apache
-    try:
-        from pwd import getpwnam
-        from pathlib import Path
-        pw_entry = getpwnam( 'www-data' )
-        os.chown( Path( db ).parent, pw_entry.pw_uid, pw_entry.pw_gid )
-    except Exception as e:
-        print( e )
-
     # Optionally remove database
     if ( remove ):
         try:
@@ -43,12 +34,6 @@ def open_db( remove=False ):
     cur = conn.cursor()
 
     if not db_exists:
-
-        # Set ownership to ensure that this operation can be executed from apache
-        try:
-            os.chown( db, 'www-data', 'www-data' )
-        except Exception as e:
-            print( e )
 
         # Initialize database
         cur.executescript('''
