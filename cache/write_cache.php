@@ -12,11 +12,12 @@
     isset( $_POST['units'] )
     )
   {
+    error_log( '==========> PHP_OS=' . PHP_OS );
+    error_log( '==========> php_uname=' . php_uname() );
+
     // Format command
-    error_log( '==========> PHP_OS=' . PHP_OS . ' PHP_OS_FAMILY=' . PHP_OS_FAMILY );
-    $sudo = ( PHP_OS_FAMILY == 'Linux' ) ? 'sudo ' : '';
-    error_log( '====> sudo=' . $sudo );
-    $command = $sudo . quote( getenv( 'PYTHON' ) ) . ' write_cache.py 2>&1'
+
+    $command = quote( getenv( 'PYTHON' ) ) . ' write_cache.py 2>&1'
       . ' -w ' . quote( $_POST['view'] )
       . ' -f ' . quote( $_POST['facility'] )
       . ' -i ' . quote( $_POST['instance'] )
