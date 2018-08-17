@@ -1,5 +1,6 @@
 # Copyright 2018 BACnet Gateway.  All rights reserved.
 
+from pathlib import Path
 import os
 import sqlite3
 import time
@@ -19,19 +20,36 @@ def open_db( remove=False ):
 
     db = '../../bgt_db/cache.sqlite'
 
+    # Set ownership to ensure that this operation can be executed from apache
+    try:
+        dir = Path( db ).parent
+        os.chown( dir, 'www-data', 'www-data' )
+    except:
+        pass
+
+    # Optionally remove database
     if ( remove ):
         try:
             os.remove( db )
         except:
             pass
 
+    # Determine whether database exists
     db_exists = os.path.exists( db )
 
+    # Connect to database
     conn = sqlite3.connect( db )
     cur = conn.cursor()
 
     if not db_exists:
 
+        # Set ownership to ensure that this operation can be executed from apache
+        try:
+            os.chown( db, 'www-data', 'www-data' )
+        except:
+            pass
+
+        # Initialize database
         cur.executescript('''
 
             CREATE TABLE IF NOT EXISTS Cache (
