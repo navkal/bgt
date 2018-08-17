@@ -25,8 +25,8 @@ def open_db( remove=False ):
         entry = getpwnam( 'www-data' ).pw_uid
         from pathlib import Path
         os.chown( Path( db ).parent, entry.pw_uid, entry.pw_gid )
-    except:
-        pass
+    except Exception as e:
+        print( e )
 
     # Optionally remove database
     if ( remove ):
@@ -47,8 +47,8 @@ def open_db( remove=False ):
         # Set ownership to ensure that this operation can be executed from apache
         try:
             os.chown( db, 'www-data', 'www-data' )
-        except:
-            pass
+        except Exception as e:
+            print( e )
 
         # Initialize database
         cur.executescript('''
