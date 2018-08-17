@@ -13,8 +13,9 @@
     )
   {
     // Format command
-    error_log( '==========>> ' . PHP_OS . ' ' . PHP_OS_FAMILY );
+    error_log( '==========> PHP_OS=' . PHP_OS . ' PHP_OS_FAMILY=' . PHP_OS_FAMILY );
     $sudo = ( PHP_OS_FAMILY == 'Linux' ) ? 'sudo ' : '';
+    error_log( '====> sudo=' . $sudo );
     $command = $sudo . quote( getenv( 'PYTHON' ) ) . ' write_cache.py 2>&1'
       . ' -w ' . quote( $_POST['view'] )
       . ' -f ' . quote( $_POST['facility'] )
