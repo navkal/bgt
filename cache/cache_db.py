@@ -1,6 +1,5 @@
 # Copyright 2018 BACnet Gateway.  All rights reserved.
 
-from pathlib import Path
 import os
 import sqlite3
 import time
@@ -22,8 +21,10 @@ def open_db( remove=False ):
 
     # Set ownership to ensure that this operation can be executed from apache
     try:
-        dir = Path( db ).parent
-        os.chown( dir, 'www-data', 'www-data' )
+        from pwd import getpwnam
+        entry = getpwnam( 'www-data' ).pw_uid
+        from pathlib import Path
+        os.chown( Path( db ).parent, entry.pw_uid, entry.pw_gid )
     except:
         pass
 
