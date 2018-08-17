@@ -12,7 +12,6 @@
     isset( $_POST['units'] )
     )
   {
-
     // Format command
     $sudo = ( PHP_OS == 'Linux' ) ? 'sudo ' : '';
     $command = $sudo . quote( getenv( 'PYTHON' ) ) . ' write_cache.py 2>&1'
