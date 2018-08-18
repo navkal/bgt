@@ -110,7 +110,7 @@
   //
 
   // Format command
-  $command = quote( getenv( 'PYTHON' ) ) . ' cache/get_cached_data.py 2>&1 -v ' . quote( $g_sCsvBasename );
+  $command = quote( getenv( 'PYTHON' ) ) . ' cache/get_view.py 2>&1 -v ' . quote( $g_sCsvBasename );
 
   // Execute command
   error_log( '==> command=' . $command );
