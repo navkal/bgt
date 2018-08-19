@@ -570,7 +570,8 @@ function rq()
     {
       var sArgList =
           '?facility=' + sFacility
-        + '&instance=' + sInstance;
+        + '&instance=' + sInstance
+        + '&live=1';
 
       // Issue request to BACnet Gateway
       $.ajax(
