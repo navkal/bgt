@@ -5,7 +5,7 @@ try:
     import pandas as pd
 
     import sys
-    sys.path.append( '../util' )
+    sys.path.append( '../../bg/util' )
     from bacnet_gateway_requests import get_value
 
     # Get hostname and port of BACnet Gateway
