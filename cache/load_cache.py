@@ -46,7 +46,7 @@ def load_cache():
                     # If instance is not empty, issue BACnet request
                     if instance:
                         time.sleep( args.sleep_interval )
-                        value, units = get_value_and_units( facility, instance, args.hostname, args.port, live=1 )
+                        value, units = get_value_and_units( facility, instance, args.hostname, args.port, live=True )
 
                         # If we got value and units, save them in the cache
                         if isinstance( value, ( int, float ) ) and units:

@@ -5,7 +5,7 @@ import json
 
 
 # Request present value and units for the supplied instance
-def get_value_and_units( facility, instance, gateway_hostname, gateway_port, live=0 ):
+def get_value_and_units( facility, instance, gateway_hostname, gateway_port, live=False ):
 
     value = None
     units = None
@@ -16,9 +16,11 @@ def get_value_and_units( facility, instance, gateway_hostname, gateway_port, liv
         # Set up request arguments
         args = {
             'facility': facility,
-            'instance': instance,
-            'live': live
+            'instance': instance
         }
+
+        if live:
+            args['live'] = True
 
         # Issue request to HTTP service
         url = 'http://' + gateway_hostname + ':' + str( gateway_port )

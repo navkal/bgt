@@ -41,7 +41,7 @@ def save_baseline( csv_filename, column_name, oid_row ):
     oid = oid_row[column_name]
     row_label = oid_row['Label']
     for i in range( 1, 6 ):
-        value, units = get_value_and_units( facility, oid, args.hostname, args.port, live=1 )
+        value, units = get_value_and_units( facility, oid, args.hostname, args.port, live=True )
         value = int( value )
         print( '{0},{1},{2}'.format( row_label, value, units ) )
         if ( not ( ( value in nothing ) or ( units in nothing ) ) ):

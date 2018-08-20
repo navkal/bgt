@@ -571,7 +571,7 @@ function rq()
       var sArgList =
           '?facility=' + sFacility
         + '&instance=' + sInstance
-        + '&live=1';
+        + '&live';
 
       // Issue request to BACnet Gateway
       $.ajax(
