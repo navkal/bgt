@@ -1151,7 +1151,7 @@ function nextRow( bSuccess )
   g_tTable.on( 'filterEnd', onFilterEnd );
   g_tTable.on( 'tablesorter-ready', onTablesorterReady );
 
-  // Trigger event to update tabelsorter cache
+  // Trigger event to update tablesorter cache
   g_tTable.trigger( 'update' );
 }
 
