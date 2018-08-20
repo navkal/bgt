@@ -7,7 +7,7 @@ import collections
 import json
 
 import sys
-sys.path.append( 'util' )
+sys.path.append( '../bg/util' )
 import db_util
 
 # Get arguments
