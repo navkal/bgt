@@ -5,7 +5,7 @@ import json
 
 
 # Request present value and units for the supplied instance
-def get_value_and_units( facility, instance, gateway_hostname, gateway_port, live=False ):
+def get_value( facility, instance, gateway_hostname, gateway_port, live=False ):
 
     value = None
     units = None

@@ -9,7 +9,7 @@ from datetime import timedelta
 
 import sys
 sys.path.append( '../util' )
-from bacnet_gateway_requests import get_value_and_units
+from bacnet_gateway_requests import get_value
 
 
 log_filename = None
@@ -46,7 +46,7 @@ def load_cache():
                     # If instance is not empty, issue BACnet request
                     if instance:
                         time.sleep( args.sleep_interval )
-                        value, units = get_value_and_units( facility, instance, args.hostname, args.port, live=True )
+                        value, units = get_value( facility, instance, args.hostname, args.port, live=True )
 
                         # If we got value and units, save them in the cache
                         if isinstance( value, ( int, float ) ) and units:

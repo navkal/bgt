@@ -6,7 +6,7 @@ try:
 
     import sys
     sys.path.append( '../util' )
-    from bacnet_gateway_requests import get_value_and_units
+    from bacnet_gateway_requests import get_value
 
     # Get hostname and port of BACnet Gateway
     parser = argparse.ArgumentParser( description='Test BACnet Gateway', add_help=False )
@@ -28,8 +28,8 @@ try:
     for index, row in df.iterrows():
 
         # Retrieve data
-        temp_value, temp_units = get_value_and_units( row['Facility'], row['Temperature'], args.hostname, args.port )
-        co2_value, co2_units = get_value_and_units( row['Facility'], row['CO2'], args.hostname, args.port )
+        temp_value, temp_units = get_value( row['Facility'], row['Temperature'], args.hostname, args.port )
+        co2_value, co2_units = get_value( row['Facility'], row['CO2'], args.hostname, args.port )
 
         # Prepare to print
         temp_value = int( temp_value ) if temp_value else ''
