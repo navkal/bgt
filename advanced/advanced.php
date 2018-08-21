@@ -179,7 +179,8 @@
     var sArgList =
         '?facility=' + $( '#facility' ).val()
       + '&instance=' + $( '#instance' ).val()
-      + '&type=' + $( '#type' ).val();
+      + '&type=' + $( '#type' ).val()
+      + '&live';
 
     // Issue request to BACnet Gateway
     $.ajax(
