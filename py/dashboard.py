@@ -6,7 +6,7 @@ import time
 import datetime
 
 import sys
-sys.path.append( '../../bg/util' )
+sys.path.append( '../util' )
 from bacnet_gateway_requests import get_value
 
 # Get hostname and port of BACnet Gateway

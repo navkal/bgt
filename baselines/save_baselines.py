@@ -5,7 +5,7 @@ import csv
 import pandas as pd
 
 import sys
-sys.path.append( '../../bg/util' )
+sys.path.append( '../util' )
 from bacnet_gateway_requests import get_value
 
 import baselines_db
