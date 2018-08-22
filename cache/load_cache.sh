@@ -6,11 +6,11 @@
 #   sudo crontab -e
 #
 # To restart process every 5 minutes, enter this line:
-#   */5 * * * * sh /opt/nav/bgt/cache/refresh_cache.sh
+#   */5 * * * * sh /opt/nav/bgt/cache/load_cache.sh
 #
 
 # Set working directory
 cd /opt/nav/bgt/cache
 
 # Start cache updater
-/home/ea/anaconda3/bin/python ./refresh_cache.py -h localhost -p 8000 -s 5
+/home/ea/anaconda3/bin/python ./load_cache.py -h localhost -p 8000 -s 5
