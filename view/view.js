@@ -15,6 +15,17 @@ if ( ! Array.prototype.fill )
   };
 }
 
+
+
+
+
+
+var g_tCachedValues = {}; // DELETE THIS
+
+
+
+
+
 var g_tTable = null;
 var g_iInstanceOffset = 0;
 var g_iRow = 0;
@@ -1137,7 +1148,7 @@ function nextRow( bSuccess )
   else
   {
     g_iRow = 0;
-    g_iTimeoutMs = 5000;
+    g_iTimeoutMs = g_bLive ? 5000 : g_iTimeoutMs;
     g_bLive = true;
   }
 
