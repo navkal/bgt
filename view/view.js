@@ -19,6 +19,7 @@ var g_tTable = null;
 var g_iInstanceOffset = 0;
 var g_iRow = 0;
 var g_iTimeoutMs = 0;
+var g_bLive = false;
 var g_aRowData = [];
 var g_tGraphData = {};
 var g_bHorizontal = null;
@@ -571,7 +572,7 @@ function rq()
       var sArgList =
           '?facility=' + sFacility
         + '&instance=' + sInstance
-        + '&live';
+        + ( g_bLive ? '&live' : '' );
 
       // Issue request to BACnet Gateway
       $.ajax(
@@ -1138,6 +1139,7 @@ function nextRow( bSuccess )
     g_iRow = 0;
     g_iTimeoutMs = g_tCachedValues ? g_iTimeoutMs : 5000;
     g_tCachedValues = null;
+    g_bLive = true;
   }
 
   // Reinitialize variables
