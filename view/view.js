@@ -16,16 +16,6 @@ if ( ! Array.prototype.fill )
 }
 
 
-
-
-
-
-var g_tCachedValues = {}; // DELETE THIS
-
-
-
-
-
 var g_tTable = null;
 var g_iInstanceOffset = 0;
 var g_iRow = 0;
