@@ -1137,8 +1137,7 @@ function nextRow( bSuccess )
   else
   {
     g_iRow = 0;
-    g_iTimeoutMs = g_tCachedValues ? g_iTimeoutMs : 5000;
-    g_tCachedValues = null;
+    g_iTimeoutMs = 5000;
     g_bLive = true;
   }
 
