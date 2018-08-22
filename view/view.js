@@ -546,40 +546,23 @@ function rq()
 
     var sFacility = g_aRows[g_iRow][1];
 
-    if ( g_tCachedValues && ( sFacility in g_tCachedValues ) && ( sInstance in g_tCachedValues[sFacility] ) )
-    {
-      var tRsp =
+    var sArgList =
+        '?facility=' + sFacility
+      + '&instance=' + sInstance
+      + ( g_bLive ? '&live' : '' );
+
+    // Issue request to BACnet Gateway
+    $.ajax(
+      g_sBacnetGatewayUrl + sArgList,
       {
-        bacnet_response:
-        {
-          success: true,
-          data: g_tCachedValues[sFacility][sInstance]
-        }
-      };
-
-      rqDone( tRsp );
-    }
-    else
-    {
-      var sArgList =
-          '?facility=' + sFacility
-        + '&instance=' + sInstance
-        + ( g_bLive ? '&live' : '' );
-
-      // Issue request to BACnet Gateway
-      $.ajax(
-        g_sBacnetGatewayUrl + sArgList,
-        {
-          method: 'GET',
-          processData: false,
-          contentType: false,
-          dataType : 'jsonp'
-        }
-      )
-      .done( writeCache )
-      .fail( rqFail );
-    }
-
+        method: 'GET',
+        processData: false,
+        contentType: false,
+        dataType : 'jsonp'
+      }
+    )
+    .done( rqDone )
+    .fail( rqFail );
   }
   else
   {
@@ -603,46 +586,6 @@ function rq()
     // Invoke completion handler
     rqDone( tRsp );
   }
-}
-
-function writeCache( tRsp, sStatus, tJqXhr )
-{
-  var tBnRsp = tRsp.bacnet_response;
-
-  if ( tBnRsp.success && tBnRsp.data.success )
-  {
-    var sView = g_sCsvBasename;
-    var sFacility = g_aRows[g_iRow][1];
-    var sInstance = g_aRows[g_iRow][g_iInstanceOffset];
-
-    var tBnData = tBnRsp.data;
-    var nValue = tBnData.presentValue;
-    var sUnits = tBnData.units;
-
-    // Set post arguments
-    var tPostData = new FormData();
-    tPostData.append( 'view', g_sCsvBasename );
-    tPostData.append( 'facility', sFacility );
-    tPostData.append( 'instance', sInstance );
-    tPostData.append( 'value', nValue );
-    tPostData.append( 'units', sUnits );
-
-    // Post request to server
-    $.ajax(
-      '/cache/write_cache.php',
-      {
-        type: 'POST',
-        processData: false,
-        contentType: false,
-        dataType : 'json',
-        data: tPostData
-      }
-    )
-    .done( doNothing )
-    .fail( handleAjaxError );
-  }
-
-  rqDone( tRsp, sStatus, tJqXhr );
 }
 
 function rqDone( tRsp, sStatus, tJqXhr )
