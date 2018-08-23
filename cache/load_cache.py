@@ -9,6 +9,8 @@ from datetime import timedelta
 import sys
 sys.path.append( '../util' )
 from bacnet_gateway_requests import get_bacnet_value
+sys.path.append( '../../bg/util' )
+import db_util
 
 
 def load_cache():
@@ -23,7 +25,7 @@ def load_cache():
             view = os.path.splitext( csv_filename )[0]
 
             # Report start of view
-            log( logpath, "Loading view '" + view + "'" )
+            db_util.log( logpath, "Loading view '" + view + "'" )
             view_start_time = time.time()
 
             # Load dataframe representing current view
@@ -46,23 +48,9 @@ def load_cache():
                         get_bacnet_value( facility, instance, args.hostname, args.port )
                         n_loaded += 1
 
-            log( logpath, "Loaded view '" + view + "' with " + str( n_loaded ) + " values.  Elapsed time: " + str( timedelta( seconds=int( time.time() - view_start_time ) ) ) )
+            db_util.log( logpath, "Loaded view '" + view + "' with " + str( n_loaded ) + " values.  Elapsed time: " + str( timedelta( seconds=int( time.time() - view_start_time ) ) ) )
 
-    log( logpath, 'Loaded all views.  Elapsed time: ' + str( timedelta( seconds=int( time.time() - start_time ) ) ) )
-
-
-def log( logpath, msg ):
-
-    # Format output line
-    s = '[' + time.strftime( '%Y-%m-%d %H:%M:%S', time.localtime() ) + '] ' + msg
-
-    # Print to standard output
-    print( s )
-
-    # Open, write, and close log file
-    logfile = open( logpath , 'a' )
-    logfile.write( s + '\n' )
-    logfile.close()
+    db_util.log( logpath, 'Loaded all views.  Elapsed time: ' + str( timedelta( seconds=int( time.time() - start_time ) ) ) )
 
 
 
