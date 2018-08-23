@@ -73,5 +73,6 @@ if __name__ == '__main__':
         args = parser.parse_args()
 
         logpath = '../../bgt_db/load_cache_' + time.strftime( '%Y-%m-%d_%H-%M-%S', time.localtime() ) + '.log'
+        db_util.log( logpath, os.path.basename( __file__ ) + ' starting' )
 
         load_cache()
