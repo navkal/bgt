@@ -11,9 +11,6 @@ sys.path.append( '../util' )
 from bacnet_gateway_requests import get_bacnet_value
 
 
-log_filename = None
-
-
 def load_cache():
     start_time = time.time()
 
@@ -26,7 +23,7 @@ def load_cache():
             view = os.path.splitext( csv_filename )[0]
 
             # Report start of view
-            log( "Loading view '" + view + "'" )
+            log( logpath, "Loading view '" + view + "'" )
             view_start_time = time.time()
 
             # Load dataframe representing current view
@@ -49,27 +46,21 @@ def load_cache():
                         get_bacnet_value( facility, instance, args.hostname, args.port )
                         n_loaded += 1
 
-            log( "Loaded view '" + view + "' with " + str( n_loaded ) + " values.  Elapsed time: " + str( timedelta( seconds=int( time.time() - view_start_time ) ) ) )
+            log( logpath, "Loaded view '" + view + "' with " + str( n_loaded ) + " values.  Elapsed time: " + str( timedelta( seconds=int( time.time() - view_start_time ) ) ) )
 
-    log( 'Loaded all views.  Elapsed time: ' + str( timedelta( seconds=int( time.time() - start_time ) ) ) )
+    log( logpath, 'Loaded all views.  Elapsed time: ' + str( timedelta( seconds=int( time.time() - start_time ) ) ) )
 
 
-def log( msg ):
+def log( logpath, msg ):
 
     # Format output line
-    t = time.localtime()
-    s = '[' + time.strftime( '%Y-%m-%d %H:%M:%S', t ) + '] ' + msg
+    s = '[' + time.strftime( '%Y-%m-%d %H:%M:%S', time.localtime() ) + '] ' + msg
 
     # Print to standard output
     print( s )
 
-    # Optionally format new log filename
-    global log_filename
-    if not log_filename or not os.path.exists( log_filename ):
-        log_filename = '../../bgt_db/load_cache_' + time.strftime( '%Y-%m-%d_%H-%M-%S', t ) + '.log'
-
     # Open, write, and close log file
-    logfile = open( log_filename , 'a' )
+    logfile = open( logpath , 'a' )
     logfile.write( s + '\n' )
     logfile.close()
 
@@ -92,5 +83,7 @@ if __name__ == '__main__':
         parser.add_argument( '-p', dest='port' )
         parser.add_argument( '-s', dest='sleep_interval', type=int )
         args = parser.parse_args()
+
+        logpath = '../../bgt_db/load_cache_' + time.strftime( '%Y-%m-%d_%H-%M-%S', time.localtime() ) + '.log'
 
         load_cache()
