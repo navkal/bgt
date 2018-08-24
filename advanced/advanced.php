@@ -217,7 +217,7 @@
       if ( tData.success )
       {
         sClass = 'bg-row-success';
-        sValue = Math.round( tData[tData.requested_property] );
+        sValue = Math.round( tData[tData.property] );
         sUnits = tData.units;
       }
       else
