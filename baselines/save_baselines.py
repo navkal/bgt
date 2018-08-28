@@ -71,10 +71,10 @@ def report_missing_dates():
     df['date'] = pd.DatetimeIndex( df['datetime'] ).normalize()
 
     # Report statistics
-    db_util.log( logpath, '\nDates found in database' )
-    db_util.log( logpath, 'First: ' + df['date'].ix[0].date() )
-    db_util.log( logpath, 'Last: ' + df['date'].ix[len(df)-1].date() )
-    db_util.log( logpath, 'Total: ' + len( df ) )
+    db_util.log( logpath, 'Dates found in database' )
+    db_util.log( logpath, 'First: ' + str( df['date'].ix[0].date() ) )
+    db_util.log( logpath, 'Last: ' + str( df['date'].ix[len(df)-1].date() ) )
+    db_util.log( logpath, 'Total: ' + str( len( df ) ) )
 
     # Look for gaps
     df['diff'] = df['date'].diff()
@@ -83,12 +83,12 @@ def report_missing_dates():
 
     # Report findings
     if len( df ):
-        db_util.log( logpath, '\nGaps found in database!\n' )
+        db_util.log( logpath, 'Gaps found in database!' )
         df = df[ [ 'date', 'diff' ] ]
         df = df.rename( index=str, columns={ 'date': 'Before', 'diff': 'Gap'  } )
-        db_util.log( logpath, df.to_string( index=False ) )
+        db_util.log( logpath, '\n' + df.to_string( index=False ) )
     else:
-        db_util.log( logpath, '\nNo gaps found.\n' )
+        db_util.log( logpath, 'No gaps found.' )
 
     return
 
