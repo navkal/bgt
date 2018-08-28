@@ -48,7 +48,8 @@ df = df.sort_index()
 baselines_db.open_db( remove=args.remove )
 
 for index, row in df.iterrows():
-    timestamp_id = baselines_db.save_timestamp( datetime.datetime.timestamp( index ) )
+    timestamp_id, timestamp_text = baselines_db.save_timestamp( datetime.datetime.timestamp( index ) )
+    print( timestamp_text );
     sr = df.loc[index]
     sr = sr[sr > 0]
     for row_label, value in sr.iteritems():

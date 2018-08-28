@@ -3,14 +3,16 @@
 import argparse
 import csv
 import pandas as pd
+import time
 
 import sys
 sys.path.append( '../util' )
 from bacnet_gateway_requests import get_bacnet_value
+sys.path.append( '../../bg/util' )
+import db_util
 
 import baselines_db
 
-nothing = ( None, '' )
 
 def save_baselines( baselines_row ):
 
@@ -23,11 +25,11 @@ def save_baselines( baselines_row ):
     df = pd.read_csv( '../csv/' + csv_filename + '.csv', na_filter=False, comment='#' )
 
     # Output column headings
-    print( '---' )
-    print( 'CSV file:', csv_filename )
-    print( '---' )
+    db_util.log( logpath, '---' )
+    db_util.log( logpath, 'CSV file: ' + csv_filename )
+    db_util.log( logpath, '---' )
     column_name = baselines_row[1]
-    print( 'Label,' + column_name + ',' + column_name + ' Units' )
+    db_util.log( logpath, 'Label,' + column_name + ',' + column_name + ' Units' )
 
     # Iterate over the rows of the dataframe, getting values for each row
     for index, oid_row in df.iterrows():
@@ -43,10 +45,9 @@ def save_baseline( csv_filename, column_name, oid_row ):
     for i in range( 1, 6 ):
         value, units = get_bacnet_value( facility, oid, args.hostname, args.port, live=True )
         value = int( value )
-        print( '{0},{1},{2}'.format( row_label, value, units ) )
-        if ( not ( ( value in nothing ) or ( units in nothing ) ) ):
-            baselines_db.save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id )
-            break
+        db_util.log( logpath, '{0},{1},{2}'.format( row_label, value, units ) )
+        baselines_db.save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id )
+        break
 
 
 def report_missing_dates():
@@ -70,10 +71,10 @@ def report_missing_dates():
     df['date'] = pd.DatetimeIndex( df['datetime'] ).normalize()
 
     # Report statistics
-    print( '\nDates found in database' )
-    print( 'First:', df['date'].ix[0].date() )
-    print( 'Last:', df['date'].ix[len(df)-1].date() )
-    print( 'Total:', len( df ) )
+    db_util.log( logpath, '\nDates found in database' )
+    db_util.log( logpath, 'First: ' + df['date'].ix[0].date() )
+    db_util.log( logpath, 'Last: ' + df['date'].ix[len(df)-1].date() )
+    db_util.log( logpath, 'Total: ' + len( df ) )
 
     # Look for gaps
     df['diff'] = df['date'].diff()
@@ -82,12 +83,12 @@ def report_missing_dates():
 
     # Report findings
     if len( df ):
-        print( '\nGaps found in database!\n' )
+        db_util.log( logpath, '\nGaps found in database!\n' )
         df = df[ [ 'date', 'diff' ] ]
         df = df.rename( index=str, columns={ 'date': 'Before', 'diff': 'Gap'  } )
-        print( df.to_string( index=False ) )
+        db_util.log( logpath, df.to_string( index=False ) )
     else:
-        print( '\nNo gaps found.\n' )
+        db_util.log( logpath, '\nNo gaps found.\n' )
 
     return
 
@@ -101,12 +102,14 @@ if __name__ == '__main__':
     parser.add_argument( '-r', dest='remove', action='store_true' )
     args = parser.parse_args()
 
+
     # Open the database
     conn, cur = baselines_db.open_db( remove=args.remove )
 
     # Save timestamp of this operation
-    print( 'Saving new baselines on' )
-    timestamp_id = baselines_db.save_timestamp()
+    logpath = '../../bgt_db/save_baselines_' + time.strftime( '%Y-%m-%d_%H-%M-%S', time.localtime() ) + '.log'
+    timestamp_id, timestamp_text = baselines_db.save_timestamp()
+    db_util.log( logpath, 'Saving new baselines on ' + timestamp_text )
 
     # Update the baselines
     with open( 'baselines.csv', newline='' ) as csvfile:

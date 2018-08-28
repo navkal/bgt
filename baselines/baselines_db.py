@@ -14,6 +14,9 @@ import db_util
 cur = None
 conn = None
 
+nothing = ( None, '' )
+
+
 def open_db( remove=False ):
     global cur
     global conn
@@ -84,17 +87,16 @@ def save_timestamp( timestamp=None ):
 
     # Normalize timestamp
     date = datetime.datetime.fromtimestamp( timestamp ).replace( hour=0, minute=0, second=0, microsecond=0 )
-    print( date.strftime('%m/%d/%Y') )
 
     # Save timestamp
     timestamp_id = db_util.save_field( 'Timestamps', 'timestamp', int( date.timestamp() ), cur )
 
-    return timestamp_id
+    return timestamp_id, date.strftime('%m/%d/%Y')
 
 
 def save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id ):
 
-    if ( value and units ):
+    if not ( ( value in nothing ) or ( units in nothing ) ):
 
         view_id = db_util.save_field( 'Views', 'csv_filename', csv_filename, cur )
         column_id = db_util.save_field( 'Columns', 'column_name', column_name, cur )
