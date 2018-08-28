@@ -106,7 +106,6 @@ if __name__ == '__main__':
     parser.add_argument( '-r', dest='remove', action='store_true' )
     args = parser.parse_args()
 
-
     # Open the database
     conn, cur = baselines_db.open_db( remove=args.remove )
 
@@ -123,8 +122,8 @@ if __name__ == '__main__':
         for baselines_row in reader:
             save_baselines( baselines_row )
 
-    # Report missing dates, from the first database entry until today
-    report_missing_dates()
-
     # Commit changes
     baselines_db.commit()
+
+    # Report missing dates, from the first database entry until today
+    report_missing_dates()
