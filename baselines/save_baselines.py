@@ -106,24 +106,31 @@ if __name__ == '__main__':
     parser.add_argument( '-r', dest='remove', action='store_true' )
     args = parser.parse_args()
 
-    # Open the database
-    conn, cur = baselines_db.open_db( remove=args.remove )
-
-    # Save timestamp of this operation
+    # Format log filename
     logpath = '../../bgt_db/save_baselines_' + time.strftime( '%Y-%m-%d_%H-%M-%S', time.localtime() ) + '.log'
-    timestamp_id, timestamp_text = baselines_db.save_timestamp()
-    db_util.log( logpath, 'Saving new baselines on ' + timestamp_text )
 
-    # Update the baselines
-    with open( 'baselines.csv', newline='' ) as csvfile:
+    try:
 
-        reader = csv.reader( csvfile )
+        # Open the database
+        conn, cur = baselines_db.open_db( remove=args.remove )
 
-        for baselines_row in reader:
-            save_baselines( baselines_row )
+        # Save timestamp of this operation
+        timestamp_id, timestamp_text = baselines_db.save_timestamp()
+        db_util.log( logpath, 'Saving new baselines on ' + timestamp_text )
 
-    # Commit changes
-    baselines_db.commit()
+        # Update the baselines
+        with open( 'baselines.csv', newline='' ) as csvfile:
 
-    # Report missing dates, from the first database entry until today
-    report_missing_dates()
+            reader = csv.reader( csvfile )
+
+            for baselines_row in reader:
+                save_baselines( baselines_row )
+
+        # Commit changes
+        baselines_db.commit()
+
+        # Report missing dates, from the first database entry until today
+        report_missing_dates()
+
+    except:
+        db_util.log( logpath, '\nException: ' + sys.exc_info()[0] )
