@@ -52,7 +52,7 @@ if args.view and args.hostname and args.port:
 
         print( 'get_view got the following response from get_bulk' )
         print( bulk_response )
-        
+
         view_values = bulk_response
 
 
