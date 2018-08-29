@@ -247,36 +247,6 @@ function narrowToWide()
   $( '#wide' ).show();
 }
 
-function initTable_ALTERNATIVE_VERSION()
-{
-  var sHtml = '';
-  for ( var iRow in g_aRows )
-  {
-    // Create row
-    sHtml += '<tr id="row_' + iRow + '">';
-
-    // Create cell for label in first column
-    sHtml += '<td class="row-label" >' + g_aRows[iRow][0] + '</td>';
-
-    // Create cells for value-unit pairs
-    for ( var iPair = 2; iPair < g_aRows[iRow].length; iPair ++ )
-    {
-      sHtml += '<td id="value_' + iRow + '_' + iPair + '" style="text-align:right" ></td>';
-      sHtml += '<td id="units_' + iRow + '_' + iPair + '"></td>';
-    }
-
-    // Create cell for time
-    sHtml += '<td id="time_' + iRow + '"></td>';
-    sHtml += '</tr>';
-  }
-
-  $( '#bgt_table > tbody' ).html( sHtml );
-
-  // Initialize the tablesorter
-  g_tTable = $( '#bgt_table' );
-  g_tTable.tablesorter( g_tViewTableProps );
-}
-
 function initTable()
 {
   var sHtml = '';
@@ -291,7 +261,6 @@ function initTable()
     sHtml += '<td class="row-label" >' + aRow[0] + '</td>';
 
     // Create cells for value-unit pairs
-    var sFacility = aRow[1];
     for ( var iPair = 2; iPair < aRow.length; iPair ++ )
     {
       sHtml += '<td id="value_' + iRow + '_' + iPair + '" style="text-align:right" ></td>';
