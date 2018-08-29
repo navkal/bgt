@@ -55,7 +55,9 @@ def get_bulk( bulk_request, gateway_hostname, gateway_port ):
     # Issue request to HTTP service
     url = 'http://' + gateway_hostname + ':' + str( gateway_port )
     gateway_rsp = requests.post( url, data=args )
-    print( gateway_rsp )
 
-    return 'moo'
+    # Extract result
+    dc_rsp = json.loads( gateway_rsp.text )
+
+    return dc_rsp
 

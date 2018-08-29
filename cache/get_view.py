@@ -50,6 +50,9 @@ if args.hostname and args.port and args.view:
 
         bulk_response = get_bulk( bulk_request, args.hostname, args.port )
 
+        print( 'get_view got the following response from get_bulk' )
+        print( bulk_response )
+
 
 
 
