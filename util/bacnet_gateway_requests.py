@@ -46,8 +46,6 @@ def get_bacnet_value( facility, instance, gateway_hostname, gateway_port, live=F
 
 # Request multiple values from BACnet Gateway
 def get_bulk( bulk_request, gateway_hostname, gateway_port ):
-    print( 'get_bulk()' )
-    print( bulk_request )
 
     # Set up request arguments
     args = {

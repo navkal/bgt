@@ -47,12 +47,8 @@ if args.hostname and args.port and args.view:
 
     # If request is not empty, pass it to the gateway
     if len( bulk_request ):
-        print( '\n\nnow issue the request' )
 
         bulk_response = get_bulk( bulk_request, args.hostname, args.port )
-        print( bulk_response )
-
-
 
 
 
