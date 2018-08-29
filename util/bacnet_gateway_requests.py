@@ -43,9 +43,21 @@ def get_bacnet_value( facility, instance, gateway_hostname, gateway_port, live=F
 
     return value, units
 
-    
-# Request multiple values from BACnet Gateway cache
+
+# Request multiple values from BACnet Gateway
 def get_bulk( bulk_request, gateway_hostname, gateway_port ):
+    print( 'get_bulk()' )
+    print( bulk_request )
+
+    # Set up request arguments
+    args = {
+        'bulk': json.dumps( bulk_request )
+    }
+
+    # Issue request to HTTP service
+    url = 'http://' + gateway_hostname + ':' + str( gateway_port )
+    gateway_rsp = requests.post( url, data=args )
+    print( gateway_rsp )
+
     return 'moo'
-    
-    
+
