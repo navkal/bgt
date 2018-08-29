@@ -14,12 +14,12 @@ view_values = {}
 
 # Get arguments
 parser = argparse.ArgumentParser( description='Request all values of specified view from BACnet Gateway cache', add_help=False )
+parser.add_argument( '-v', dest='view' )
 parser.add_argument( '-h', dest='hostname' )
 parser.add_argument( '-p', dest='port' )
-parser.add_argument( '-v', dest='view' )
 args = parser.parse_args()
 
-if args.hostname and args.port and args.view:
+if args.view and args.hostname and args.port:
 
     # Load dataframe representing requested view
     df = pd.read_csv( 'csv/' + args.view + '.csv', na_filter=False, comment='#' )
@@ -52,6 +52,8 @@ if args.hostname and args.port and args.view:
 
         print( 'get_view got the following response from get_bulk' )
         print( bulk_response )
+        
+        view_values = bulk_response
 
 
 

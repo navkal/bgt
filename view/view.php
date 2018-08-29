@@ -105,6 +105,23 @@
     return strcmp( $aLine1[0], $aLine2[0] );
   }
 
+  //
+  // Retrieve values from cache
+  //
+
+  // Format command
+  $command = quote( getenv( 'PYTHON' ) ) . ' cache/get_view.py 2>&1'
+    . ' -v ' . quote( $g_sCsvBasename )
+    . ' -h ' . $_SESSION['bgt']['host']
+    . ' -p ' . $_SESSION['bgt']['port'];
+
+  // Execute command
+  error_log( '==> command=' . $command );
+  exec( $command, $output, $status );
+  error_log( '==> output=' . print_r( $output, true ) );
+  $g_tCachedValues = json_decode( $output[ count( $output ) - 1 ] );
+
+
   // Set flag to use flot or d3 to display bar graphs
   $bFlot = 1;
   if ( $bFlot )
@@ -147,6 +164,8 @@
   var g_sCsvBasename = '<?=$g_sCsvBasename?>';
   var g_sFirstColName = '<?=$g_sFirstColName?>';
   var g_aColNames = JSON.parse( '<?=json_encode( $g_aColNames )?>' );
+  var g_tCachedValues = JSON.parse( '<?=json_encode( $g_tCachedValues )?>' );
+  console.log( JSON.stringify( g_tCachedValues ) );
   var g_tGraphNameMap = JSON.parse( '<?=json_encode( $g_tGraphNameMap )?>' );
   var g_tGraphIdMap = JSON.parse( '<?=json_encode( $g_tGraphIdMap )?>' );
   var g_aGraphSelectors = JSON.parse( '<?=json_encode( $g_aGraphSelectors )?>' );
