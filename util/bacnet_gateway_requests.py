@@ -42,3 +42,10 @@ def get_bacnet_value( facility, instance, gateway_hostname, gateway_port, live=F
                 units = dc_data['units']
 
     return value, units
+
+    
+# Request multiple values from BACnet Gateway cache
+def get_bulk( bulk_request, gateway_hostname, gateway_port ):
+    return 'moo'
+    
+    
