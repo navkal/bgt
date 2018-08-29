@@ -48,12 +48,13 @@ if args.view and args.hostname and args.port:
     # If request is not empty, pass it to the gateway
     if len( bulk_request ):
 
-        bulk_response = get_bulk( bulk_request, args.hostname, args.port )
+        bulk_rsp = get_bulk( bulk_request, args.hostname, args.port )
 
         print( 'get_view got the following response from get_bulk' )
-        print( bulk_response )
+        print( bulk_rsp )
 
-        view_values = bulk_response
+        # !!!!!!! CHANGE THIS! !!!!!!!!
+        view_values = bulk_rsp
 
 
 
