@@ -44,10 +44,17 @@ if args.view and args.hostname and args.port:
                 # Add facility/instance pair to request
                 pair = { 'facility': facility, 'instance': instance }
                 bulk_request.append( pair )
-                print( len( bulk_request ), pair )
 
+    # Issue get-bulk request
     bulk_rsp = get_bulk( bulk_request, args.hostname, args.port )
-
+    
+    # Build map from bulk response   
+    view_rsp = {}
+    for rsp in bulk_rsp:
+        facility = rsp['facility']
+        if facility not in view_rsp:
+            view_rsp[facility] = {}
+        view_rsp[facility][rsp['instance']] = rsp
 
 # Return view
-print( json.dumps( bulk_rsp ) )
+print( json.dumps( view_rsp ) )
