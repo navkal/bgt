@@ -9,8 +9,8 @@ sys.path.append( 'util' )
 from bacnet_gateway_requests import get_bulk
 
 
-view_values = {}
-
+# Initialize empty result
+bulk_rsp = []
 
 # Get arguments
 parser = argparse.ArgumentParser( description='Request all values of specified view from BACnet Gateway cache', add_help=False )
@@ -18,6 +18,7 @@ parser.add_argument( '-v', dest='view' )
 parser.add_argument( '-h', dest='hostname' )
 parser.add_argument( '-p', dest='port' )
 args = parser.parse_args()
+
 
 if args.view and args.hostname and args.port:
 
@@ -45,19 +46,8 @@ if args.view and args.hostname and args.port:
                 bulk_request.append( pair )
                 print( len( bulk_request ), pair )
 
-    # If request is not empty, pass it to the gateway
-    if len( bulk_request ):
-
-        bulk_rsp = get_bulk( bulk_request, args.hostname, args.port )
-
-        print( 'get_view got the following response from get_bulk' )
-        print( bulk_rsp )
-
-        # !!!!!!! CHANGE THIS! !!!!!!!!
-        view_values = bulk_rsp
-
-
+    bulk_rsp = get_bulk( bulk_request, args.hostname, args.port )
 
 
 # Return view
-print( json.dumps( view_values ) )
+print( json.dumps( bulk_rsp ) )
