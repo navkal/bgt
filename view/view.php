@@ -165,7 +165,6 @@
   var g_sFirstColName = '<?=$g_sFirstColName?>';
   var g_aColNames = JSON.parse( '<?=json_encode( $g_aColNames )?>' );
   var g_tCachedValues = JSON.parse( '<?=json_encode( $g_tCachedValues )?>' );
-  console.log( JSON.stringify( g_tCachedValues ) );
   var g_tGraphNameMap = JSON.parse( '<?=json_encode( $g_tGraphNameMap )?>' );
   var g_tGraphIdMap = JSON.parse( '<?=json_encode( $g_tGraphIdMap )?>' );
   var g_aGraphSelectors = JSON.parse( '<?=json_encode( $g_aGraphSelectors )?>' );

@@ -51,6 +51,7 @@ if args.view and args.hostname and args.port:
     # Build map from bulk response   
     view_rsp = {}
     for rsp in bulk_rsp:
+        rsp['success'] = True
         facility = rsp['facility']
         if facility not in view_rsp:
             view_rsp[facility] = {}

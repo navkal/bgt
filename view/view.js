@@ -20,7 +20,6 @@ var g_tTable = null;
 var g_iInstanceOffset = 0;
 var g_iRow = 0;
 var g_iTimeoutMs = 0;
-var g_bLive = false;
 var g_aRowData = [];
 var g_tGraphData = {};
 var g_bHorizontal = null;
@@ -527,23 +526,40 @@ function rq()
 
     var sFacility = g_aRows[g_iRow][1];
 
-    var sArgList =
-        '?facility=' + sFacility
-      + '&instance=' + sInstance
-      + ( g_bLive ? '&live' : '' );
-
-    // Issue request to BACnet Gateway
-    $.ajax(
-      g_sBacnetGatewayUrl + sArgList,
+    if ( g_tCachedValues && ( sFacility in g_tCachedValues ) && ( sInstance in g_tCachedValues[sFacility] ) )
+    {
+      var tRsp =
       {
-        method: 'GET',
-        processData: false,
-        contentType: false,
-        dataType : 'jsonp'
-      }
-    )
-    .done( rqDone )
-    .fail( rqFail );
+        bacnet_response:
+        {
+          success: true,
+          data: g_tCachedValues[sFacility][sInstance]
+        }
+      };
+
+      rqDone( tRsp );
+    }
+    else
+    {
+      var sArgList =
+          '?facility=' + sFacility
+        + '&instance=' + sInstance
+        + '&live';
+
+      // Issue request to BACnet Gateway
+      $.ajax(
+        g_sBacnetGatewayUrl + sArgList,
+        {
+          method: 'GET',
+          processData: false,
+          contentType: false,
+          dataType : 'jsonp'
+        }
+      )
+      .done( rqDone )
+      .fail( rqFail );
+    }
+
   }
   else
   {
@@ -1053,8 +1069,8 @@ function nextRow( bSuccess )
   else
   {
     g_iRow = 0;
-    g_iTimeoutMs = g_bLive ? 5000 : g_iTimeoutMs;
-    g_bLive = true;
+    g_iTimeoutMs = g_tCachedValues ? g_iTimeoutMs : 5000;
+    g_tCachedValues = null;
   }
 
   // Reinitialize variables
