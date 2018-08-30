@@ -57,7 +57,6 @@ def get_bulk( bulk_request, gateway_hostname, gateway_port ):
     gateway_rsp = requests.post( url, data=args )
 
     # Extract result
-    dc_rsp = json.loads( gateway_rsp.text )
+    bulk_rsp = json.loads( gateway_rsp.text )
 
-    return dc_rsp
-
+    return bulk_rsp
