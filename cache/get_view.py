@@ -10,7 +10,7 @@ from bacnet_gateway_requests import get_bulk
 
 
 # Initialize empty result
-bulk_rsp = []
+rsp_map = {}
 
 # Get arguments
 parser = argparse.ArgumentParser( description='Request all values of specified view from BACnet Gateway cache', add_help=False )
@@ -47,15 +47,8 @@ if args.view and args.hostname and args.port:
 
     # Issue get-bulk request
     bulk_rsp = get_bulk( bulk_request, args.hostname, args.port )
-    
-    # Build map from bulk response   
-    view_rsp = {}
-    for rsp in bulk_rsp:
-        rsp['success'] = True
-        facility = rsp['facility']
-        if facility not in view_rsp:
-            view_rsp[facility] = {}
-        view_rsp[facility][rsp['instance']] = rsp
+    rsp_map = bulk_rsp['rsp_map']
+
 
 # Return view
-print( json.dumps( view_rsp ) )
+print( json.dumps( rsp_map ) )
