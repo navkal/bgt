@@ -281,7 +281,7 @@ ahs,Collins Center - AMDP (kWh),Energy,3017688
 ahs,Andover High (Main - kW),Power,3007360
 bancroft-18,Bancroft (Main - kW),Power,3000076
 doherty,Doherty (Main - kW),Power,3007063
-wood_hill-9,High Plain & Wood Hill (Main - kW),Power,3001085
+woodhill-09,High Plain & Wood Hill (Main - kW),Power,3001085
 sanborn,Sanborn (Main - kW),Power,3002006
 shawsheen,Shawsheen (Main - kW),Power,3002012
 south,South (Main - kW),Power,3004042
@@ -290,7 +290,7 @@ west_middle-12,West Middle (Main - kW),Power,3027266
 ahs,Andover High (Main - kWh),Energy,3007361
 bancroft-18,Bancroft (Main - kWh),Energy,3000081
 doherty,Doherty (Main - kWh),Energy,3007064
-wood_hill-9,High Plain & Wood Hill (Main - kWh),Energy,3001086
+woodhill-09,High Plain & Wood Hill (Main - kWh),Energy,3001086
 sanborn,Sanborn (Main - kWh),Energy,3002007
 shawsheen,Shawsheen (Main - kWh),Energy,3002013
 south,South (Main - kWh),Energy,3004043

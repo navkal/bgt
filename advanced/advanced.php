@@ -7,7 +7,6 @@
   $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/../bg/agents.csv", 'r' );
 
   $aFacilities = [];
-  fgetcsv( $file );
   while( ! feof( $file ) )
   {
     $aLine = fgetcsv( $file );
