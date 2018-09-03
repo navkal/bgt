@@ -6,7 +6,7 @@
   // Set up delta flags and retrieve baselines for graphs in view
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // The baselines CSV file 'baselines/baselines.csv' is structured like so -
+  // The baselines CSV file 'baselines/baselines.csv' has the following structure -
   // Column 1: Basename of CSV filename that describes a view
   // Columns 2-n: Names of columns in the view whose corresponding graphs should display delta values
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
