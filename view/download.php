@@ -3,11 +3,15 @@
 
   require_once $_SERVER["DOCUMENT_ROOT"]."/../common/util.php";
 
-  // $downloadFilename = $_SESSION["completion"]["downloadFilename"];
-  // $downloadExt = $_SESSION["completion"]["downloadExt"];
-  // $downloadType = $_SESSION["completion"]["downloadType"];
-  // downloadFile( $downloadFilename, $downloadExt, $downloadType );
-  error_log( print_r( $_SESSION, true ) );
-  error_log( '=====> view=' . $_SESSION['bgt']['view'] );
-  downloadFile( 'table', '.csv', 'text/csv' );
+  // Generate CSV file representing current view
+  $sPath = sys_get_temp_dir() . '/' . $_SESSION['bgt']['view'] . '_' . uniqid() . '.csv';
+  $tFile = fopen( $sPath, 'w' );
+  fwrite( $tFile, 'foo,moo,goo' );
+  fclose( $tFile );
+
+  // Download the file
+  downloadFile( $sPath );
+
+  // Delete the file
+  unlink( $sPath );
 ?>
