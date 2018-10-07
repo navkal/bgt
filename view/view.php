@@ -106,7 +106,7 @@
 
 <!-- CSS and JS libraries -->
 <link rel="stylesheet" href="/view/util/view.css?version=<?=time()?>">
-<script src="/view/view.js?version=<?=time()?>"></script>
+<script src="/view/util/view.js?version=<?=time()?>"></script>
 <?php
   if ( $g_sLayoutMode == LAYOUT_MODE_SPLIT )
   {
