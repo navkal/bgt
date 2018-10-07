@@ -8,7 +8,7 @@
   $g_sCsvBasename = basename( $g_sCsvFilename, '.csv' );
 
 
-  include $_SERVER['DOCUMENT_ROOT'].'/view/common.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/cache/get_view.php';
 
 
   // Extract the data into arrays of columns and rows
