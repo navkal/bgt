@@ -12,23 +12,25 @@
   $g_sCsvBasename = basename( $g_sCsvFilename, '.csv' );
   include $_SERVER['DOCUMENT_ROOT'].'/view/common.php';
 
+  $g_aCachedValues = (array) $g_tCachedValues;
   foreach ( $aLines as $sKey => $aLine )
   {
-    foreach ( $aLine as $sKey => $sValue )
+    $sLabel = array_shift( $aLine );
+    $sFacility = array_shift( $aLine );
+    $aInstances = $aLine;
+    error_log( '====> Line=' . $sLabel . ' ' . $sFacility . ' ' . print_r( $aInstances, true ) );
+
+    if ( isset( $g_aCachedValues[$sFacility] ) )
     {
-      switch( $sKey )
+      $aFacility = (array) $g_aCachedValues[$sFacility];
+      foreach ( $aInstances as $iInstance )
       {
-        case 0:
-          $sWhat = 'Label';
-          break;
-        case 1:
-          $sWhat = 'Facility';
-          break;
-        default:
-          $sWhat = 'Instance';
-          break;
+        if ( isset( $aFacility[$iInstance] ) )
+        {
+          $aData = (array) $aFacility[$iInstance];
+          error_log( '---> ' . $sLabel . ' ' . $aData[$aData['property']] . ' ' . $aData['units'] );
+        }
       }
-      error_log( '---> ' . $sWhat . ' -> ' . $sValue );
     }
   }
 
