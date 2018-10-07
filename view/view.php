@@ -105,7 +105,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js" integrity="sha256-tW5LzEC7QjhG0CiAvxlseMTs2qJS7u3DRPauDjFJ3zo=" crossorigin="anonymous"></script>
 
 <!-- CSS and JS libraries -->
-<link rel="stylesheet" href="/view/view.css?version=<?=time()?>">
+<link rel="stylesheet" href="/view/util/view.css?version=<?=time()?>">
 <script src="/view/view.js?version=<?=time()?>"></script>
 <?php
   if ( $g_sLayoutMode == LAYOUT_MODE_SPLIT )
