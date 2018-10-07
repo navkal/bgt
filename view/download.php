@@ -5,11 +5,12 @@
 
   error_log( '==> request=' . print_r( $_REQUEST, true ) );
 
-  $g_sCsvFilename = $_REQUEST['view'];
-  $g_sCsvBasename = basename( $g_sCsvFilename, '.csv' );
 
+  // Get view description and cached data
   chdir( $_SERVER['DOCUMENT_ROOT'] );
-  include $_SERVER['DOCUMENT_ROOT'].'/cache/get_view.php';
+  $g_sCsvFilename = $_REQUEST['csv_filename'];
+  $g_sCsvBasename = basename( $g_sCsvFilename, '.csv' );
+  include $_SERVER['DOCUMENT_ROOT'].'/view/common.php';
 
 
   // Extract the data into arrays of columns and rows
