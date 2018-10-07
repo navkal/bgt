@@ -25,5 +25,5 @@
 
   $g_sLayoutMode = LAYOUT_MODE_TAB;
 
-  include $_SERVER['DOCUMENT_ROOT'] . '/view/view.php';
+  include $_SERVER['DOCUMENT_ROOT'] . '/view/util/view.php';
 ?>

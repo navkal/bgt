@@ -25,5 +25,5 @@
 
   $g_sLayoutMode = $g_sLayoutModeDefault;
 
-  include $_SERVER['DOCUMENT_ROOT'] . '/view/view.php';
+  include $_SERVER['DOCUMENT_ROOT'] . '/view/util/view.php';
 ?>
