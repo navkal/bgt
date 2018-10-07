@@ -78,7 +78,7 @@
   }
 
   // Get view description and cached data
-  include $_SERVER['DOCUMENT_ROOT'].'/view/common.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/view/util/common.php';
 
 
   // Set flag to use flot or d3 to display bar graphs

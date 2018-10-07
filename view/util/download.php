@@ -9,7 +9,7 @@
   chdir( $_SERVER['DOCUMENT_ROOT'] );
   $g_sCsvFilename = $_REQUEST['csv_filename'];
   $g_sCsvBasename = basename( $g_sCsvFilename, '.csv' );
-  include $_SERVER['DOCUMENT_ROOT'].'/view/common.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/view/util/common.php';
 
   // Use view description and cached data to build spreadsheet
   $g_aCachedValues = (array) $g_tCachedValues;
