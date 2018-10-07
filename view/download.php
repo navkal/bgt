@@ -1,20 +1,19 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 
-  require_once $_SERVER["DOCUMENT_ROOT"]."/../common/util.php";
+  require_once $_SERVER['DOCUMENT_ROOT'].'/../common/util.php';
 
-  chdir( $_SERVER["DOCUMENT_ROOT"] );
-
-
+  chdir( $_SERVER['DOCUMENT_ROOT'] );
   $g_sCsvFilename = $_SESSION['bgt']['view'];
   $g_sCsvBasename = basename( $g_sCsvFilename, '.csv' );
+
 
   //
   // Retrieve values from cache
   //
 
   // Format command
-  $command = quote( getenv( 'PYTHON' ) ) . ' ' . quote( $_SERVER["DOCUMENT_ROOT"].'/cache/get_view.py' ) . ' 2>&1'
+  $command = quote( getenv( 'PYTHON' ) ) . ' ' . quote( $_SERVER['DOCUMENT_ROOT'].'/cache/get_view.py' ) . ' 2>&1'
     . ' -v ' . quote( $g_sCsvBasename )
     . ' -h ' . $_SESSION['bgt']['host']
     . ' -p ' . $_SESSION['bgt']['port'];

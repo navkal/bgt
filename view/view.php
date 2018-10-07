@@ -110,7 +110,7 @@
   //
 
   // Format command
-  $command = quote( getenv( 'PYTHON' ) ) . ' ' . quote( $_SERVER["DOCUMENT_ROOT"].'/cache/get_view.py' ) . ' 2>&1'
+  $command = quote( getenv( 'PYTHON' ) ) . ' ' . quote( $_SERVER['DOCUMENT_ROOT'].'/cache/get_view.py' ) . ' 2>&1'
     . ' -v ' . quote( $g_sCsvBasename )
     . ' -h ' . $_SESSION['bgt']['host']
     . ' -p ' . $_SESSION['bgt']['port'];
