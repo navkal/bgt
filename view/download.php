@@ -12,6 +12,25 @@
   $g_sCsvBasename = basename( $g_sCsvFilename, '.csv' );
   include $_SERVER['DOCUMENT_ROOT'].'/view/common.php';
 
+  foreach ( $aLines as $sKey => $aLine )
+  {
+    foreach ( $aLine as $sKey => $sValue )
+    {
+      switch( $sKey )
+      {
+        case 0:
+          $sWhat = 'Label';
+          break;
+        case 1:
+          $sWhat = 'Facility';
+          break;
+        default:
+          $sWhat = 'Instance';
+          break;
+      }
+      error_log( '---> ' . $sWhat . ' -> ' . $sValue );
+    }
+  }
 
   // Extract the data into arrays of columns and rows
   $aColumns = [];
