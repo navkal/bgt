@@ -4,6 +4,9 @@
   require_once $_SERVER['DOCUMENT_ROOT'].'/../common/util.php';
 
   error_log( '==> request=' . print_r( $_REQUEST, true ) );
+  error_log( '=======> colnames=' . $_REQUEST['col_names'] );
+  $g_aColNames = json_decode( $_REQUEST['col_names'] );
+  error_log( print_r( $g_aColNames, true ) );
 
 
   // Get view description and cached data
@@ -23,14 +26,17 @@
     if ( isset( $g_aCachedValues[$sFacility] ) )
     {
       $aFacility = (array) $g_aCachedValues[$sFacility];
-      foreach ( $aInstances as $iInstance )
+      $sTest = '--> ' . $sLabel. ':';
+      foreach ( $aInstances as $iOffset => $iInstance )
       {
         if ( isset( $aFacility[$iInstance] ) )
         {
           $aData = (array) $aFacility[$iInstance];
-          error_log( '---> ' . $sLabel . ' ' . $aData[$aData['property']] . ' ' . $aData['units'] );
+          $aColNames = (array) $g_aColNames[$iOffset];
+          $sTest .= ' ' . $aColNames['value_col_name'] . '=' . $aData[$aData['property']] . ' ' . $aColNames['units_col_name'] . '=' . $aData['units'];
         }
       }
+      error_log( $sTest );
     }
   }
 
