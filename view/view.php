@@ -105,21 +105,8 @@
     return strcmp( $aLine1[0], $aLine2[0] );
   }
 
-  //
-  // Retrieve values from cache
-  //
 
-  // Format command
-  $command = quote( getenv( 'PYTHON' ) ) . ' ' . quote( $_SERVER['DOCUMENT_ROOT'].'/cache/get_view.py' ) . ' 2>&1'
-    . ' -v ' . quote( $g_sCsvBasename )
-    . ' -h ' . $_SESSION['bgt']['host']
-    . ' -p ' . $_SESSION['bgt']['port'];
-
-  // Execute command
-  error_log( '==> command=' . $command );
-  exec( $command, $output, $status );
-  error_log( '==> output=' . print_r( $output, true ) );
-  $g_tCachedValues = json_decode( $output[ count( $output ) - 1 ] );
+  include $_SERVER['DOCUMENT_ROOT'].'/view/common.php';
 
 
   // Set flag to use flot or d3 to display bar graphs
