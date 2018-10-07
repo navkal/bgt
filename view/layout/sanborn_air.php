@@ -22,6 +22,4 @@
       ]
     ]
   ];
-
-  $g_sLayoutMode = $g_sLayoutModeDefault;
 ?>

@@ -5,7 +5,7 @@
 <!-- Attach Download button above table head -->
 <div class="tablesorter-dropbox">
   <div class="btn btn-sm tablesorter-headerRow" style="width:100%; border-bottom:0px" >
-    <a href="view/util/download.php?csv_filename=<?=$g_sCsvFilename?>&col_names=<?=urlencode( json_encode( $g_aColNames ) )?>" class="btn btn-xs pull-right">
+    <a href="view/util/download.php?csv_basename=<?=$g_sCsvBasename?>" class="btn btn-xs pull-right">
       <span class="glyphicon glyphicon-download-alt"></span> Download
     </a>
   </div>

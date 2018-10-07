@@ -22,6 +22,4 @@
       ]
     ]
   ];
-
-  $g_sLayoutMode = LAYOUT_MODE_TAB;
 ?>
