@@ -21,6 +21,7 @@
       include $_SERVER['DOCUMENT_ROOT'].'/view/util/common.php';
 
       // Use view description and cached data to build spreadsheet
+      $aColumns = [];
       $g_aCachedValues = (array) $g_tCachedValues;
       foreach ( $aLines as $sKey => $aLine )
       {
@@ -40,14 +41,27 @@
               $aData = (array) $aFacility[$iInstance];
               $aColNames = (array) $g_aColNames[$iOffset];
               $sTest .= ' ' . $aColNames['value_col_name'] . '=' . $aData[$aData['property']] . ' ' . $aColNames['units_col_name'] . '=' . $aData['units'];
+              if ( count( $aColumns ) < count( $aInstances ) * 2 )
+              {
+                array_push( $aColumns, $aColNames['value_col_name'] );
+                array_push( $aColumns, $aColNames['units_col_name'] );
+              }
             }
           }
           error_log( $sTest );
         }
       }
 
+      array_unshift( $aColumns, $g_sFirstColName );
+      array_push( $aColumns, UPDATE_TIME );
+
+      error_log( '===============> columns=' . print_r( $aColumns, true ) );
+      var_dump( $aColumns );
+      exit();
+
+
       // Extract the data into arrays of columns and rows
-      $aColumns = [];
+      $aColumns = [ $g_sFirstColName ];
       $aRows = [];
       foreach ( $g_tCachedValues as $tData )
       {

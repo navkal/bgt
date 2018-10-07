@@ -33,6 +33,9 @@
     return strcmp( $aLine1[0], $aLine2[0] );
   }
 
+  // Column header
+  define( 'UPDATE_TIME', 'Update Time' );
+
 
   //
   // Retrieve values from cache

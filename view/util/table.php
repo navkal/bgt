@@ -37,7 +37,7 @@
       ?>
 
       <th>
-        Update Time
+        <?=UPDATE_TIME?>
       </th>
     </tr>
   </thead>
