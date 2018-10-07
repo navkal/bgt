@@ -177,7 +177,7 @@
     <div id="tableTab" class="tab-pane fade in active">
       <div class="container">
         <?php
-          include $_SERVER['DOCUMENT_ROOT'] . '/view/table.php';
+          include $_SERVER['DOCUMENT_ROOT'] . '/view/util/table.php';
         ?>
       </div>
     </div>
@@ -210,7 +210,7 @@
     <div id="wideTablePane" class="split split-horizontal">
       <div class="split content">
         <?php
-          include $_SERVER['DOCUMENT_ROOT'] . '/view/table.php';
+          include $_SERVER['DOCUMENT_ROOT'] . '/view/util/table.php';
         ?>
       </div>
     </div>
