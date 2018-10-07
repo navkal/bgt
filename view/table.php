@@ -1,7 +1,7 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
   
-  $_SESSION['bgt']['view'] = $g_sCsvBasename;
+  $_SESSION['bgt']['view'] = $g_sCsvFilename;
 ?>
 
 <!-- Attach Download button above table head -->

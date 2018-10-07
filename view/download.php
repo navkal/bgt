@@ -4,7 +4,10 @@
   require_once $_SERVER["DOCUMENT_ROOT"]."/../common/util.php";
 
   chdir( $_SERVER["DOCUMENT_ROOT"] );
-  $sView = $_SESSION['bgt']['view'];
+
+
+  $g_sCsvFilename = $_SESSION['bgt']['view'];
+  $g_sCsvBasename = basename( $g_sCsvFilename, '.csv' );
 
   //
   // Retrieve values from cache
@@ -12,7 +15,7 @@
 
   // Format command
   $command = quote( getenv( 'PYTHON' ) ) . ' cache/get_view.py 2>&1'
-    . ' -v ' . quote( $sView )
+    . ' -v ' . quote( $g_sCsvBasename )
     . ' -h ' . $_SESSION['bgt']['host']
     . ' -p ' . $_SESSION['bgt']['port'];
 
@@ -20,12 +23,12 @@
   error_log( '==> command=' . $command );
   exec( $command, $output, $status );
   error_log( '==> output=' . print_r( $output, true ) );
-  $aView = (array) json_decode( $output[ count( $output ) - 1 ] );
+  $g_tCachedValues = (array) json_decode( $output[ count( $output ) - 1 ] );
 
   // Extract the data into arrays of columns and rows
   $aColumns = [];
   $aRows = [];
-  foreach ( $aView as $tData )
+  foreach ( $g_tCachedValues as $tData )
   {
     $aData = (array) $tData;
     foreach ( $aData as $tRow )
@@ -45,7 +48,7 @@
   //
 
   // Open the file
-  $sPath = sys_get_temp_dir() . '/' . $sView . '_' . uniqid() . '.csv';
+  $sPath = sys_get_temp_dir() . '/' . $g_sCsvBasename . '_' . uniqid() . '.csv';
   $tFile = fopen( $sPath, 'w' );
 
   // Write column headers to the file
