@@ -77,34 +77,6 @@
     }
   }
 
-  // Read CSV file describing data to be retrieved and presented
-  $file = fopen( $g_sCsvFilename, 'r' );
-  fgetcsv( $file );
-
-  // Save CSV data in array
-  $aLines = [];
-  while( ! feof( $file ) )
-  {
-    $aLine = fgetcsv( $file );
-    if ( is_array( $aLine ) && ( count( $aLine ) > 1 ) && ( $aLine[0][0] != '#' ) )
-    {
-      // Strip out single and double quotes
-      $aLine[0] = str_replace( "'", '', $aLine[0] );
-      $aLine[0] = str_replace( '"', '', $aLine[0] );
-
-      // Save the line
-      array_push( $aLines, $aLine );
-    }
-  }
-  fclose( $file );
-
-  // Sort lines
-  usort( $aLines, "compareLines" );
-  function compareLines( $aLine1, $aLine2 )
-  {
-    return strcmp( $aLine1[0], $aLine2[0] );
-  }
-
 
   include $_SERVER['DOCUMENT_ROOT'].'/view/common.php';
 
