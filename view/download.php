@@ -4,10 +4,6 @@
   require_once $_SERVER['DOCUMENT_ROOT'].'/../common/util.php';
 
   error_log( '==> request=' . print_r( $_REQUEST, true ) );
-  error_log( '=======> colnames=' . $_REQUEST['col_names'] );
-  $g_aColNames = json_decode( $_REQUEST['col_names'] );
-  error_log( print_r( $g_aColNames, true ) );
-
 
   // Get view description and cached data
   chdir( $_SERVER['DOCUMENT_ROOT'] );
@@ -15,7 +11,9 @@
   $g_sCsvBasename = basename( $g_sCsvFilename, '.csv' );
   include $_SERVER['DOCUMENT_ROOT'].'/view/common.php';
 
+  // Use view description and cached data to build spreadsheet
   $g_aCachedValues = (array) $g_tCachedValues;
+  $g_aColNames = json_decode( $_REQUEST['col_names'] );
   foreach ( $aLines as $sKey => $aLine )
   {
     $sLabel = array_shift( $aLine );
