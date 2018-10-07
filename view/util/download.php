@@ -52,16 +52,15 @@
         }
       }
 
+      // Add first and last column names
       array_unshift( $aColumns, $g_sFirstColName );
       array_push( $aColumns, UPDATE_TIME );
 
       error_log( '===============> columns=' . print_r( $aColumns, true ) );
-      var_dump( $aColumns );
-      exit();
 
 
       // Extract the data into arrays of columns and rows
-      $aColumns = [ $g_sFirstColName ];
+      $aColumns = [];
       $aRows = [];
       foreach ( $g_tCachedValues as $tData )
       {
