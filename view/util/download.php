@@ -7,6 +7,8 @@
 
   if ( isset( $_REQUEST['csv_basename'] ) )
   {
+    $g_sCsvBasename = $_REQUEST['csv_basename'];
+
     // Get view description and cached data
     chdir( $_SERVER['DOCUMENT_ROOT'] );
     include $_SERVER['DOCUMENT_ROOT'].'/view/layout/' . $_REQUEST['csv_basename'] . '.php';
