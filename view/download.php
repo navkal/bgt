@@ -14,7 +14,7 @@
   //
 
   // Format command
-  $command = quote( getenv( 'PYTHON' ) ) . ' cache/get_view.py 2>&1'
+  $command = quote( getenv( 'PYTHON' ) ) . ' ' . quote( $_SERVER["DOCUMENT_ROOT"].'/cache/get_view.py' ) . ' 2>&1'
     . ' -v ' . quote( $g_sCsvBasename )
     . ' -h ' . $_SESSION['bgt']['host']
     . ' -p ' . $_SESSION['bgt']['port'];
@@ -23,20 +23,18 @@
   error_log( '==> command=' . $command );
   exec( $command, $output, $status );
   error_log( '==> output=' . print_r( $output, true ) );
-  $g_tCachedValues = (array) json_decode( $output[ count( $output ) - 1 ] );
+  $g_tCachedValues = json_decode( $output[ count( $output ) - 1 ] );
 
   // Extract the data into arrays of columns and rows
   $aColumns = [];
   $aRows = [];
   foreach ( $g_tCachedValues as $tData )
   {
-    $aData = (array) $tData;
-    foreach ( $aData as $tRow )
+    foreach ( $tData as $tRow )
     {
-      $aRow = (array) $tRow;
-      array_push( $aRows, $aRow );
+      array_push( $aRows, (array) $tRow );
 
-      foreach ( $aRow as $sColumn => $sCell )
+      foreach ( $tRow as $sColumn => $sCell )
       {
         $aColumns[$sColumn] = $sColumn;
       }
