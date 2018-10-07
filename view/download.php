@@ -3,11 +3,12 @@
 
   require_once $_SERVER['DOCUMENT_ROOT'].'/../common/util.php';
 
-  chdir( $_SERVER['DOCUMENT_ROOT'] );
-  $g_sCsvFilename = $_SESSION['bgt']['view'];
+  error_log( '==> request=' . print_r( $_REQUEST, true ) );
+
+  $g_sCsvFilename = $_REQUEST['view'];
   $g_sCsvBasename = basename( $g_sCsvFilename, '.csv' );
 
-
+  chdir( $_SERVER['DOCUMENT_ROOT'] );
   include $_SERVER['DOCUMENT_ROOT'].'/cache/get_view.php';
 
 

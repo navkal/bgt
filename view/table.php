@@ -1,13 +1,11 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
-  
-  $_SESSION['bgt']['view'] = $g_sCsvFilename;
 ?>
 
 <!-- Attach Download button above table head -->
 <div class="tablesorter-dropbox">
   <div class="btn btn-sm tablesorter-headerRow" style="width:100%; border-bottom:0px" >
-    <a href="view/download.php" class="btn btn-xs pull-right">
+    <a href="view/download.php?view=<?=$g_sCsvFilename?>" class="btn btn-xs pull-right">
       <span class="glyphicon glyphicon-download-alt"></span> Download
     </a>
   </div>
