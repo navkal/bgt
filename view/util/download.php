@@ -2,7 +2,6 @@
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 
   require_once $_SERVER['DOCUMENT_ROOT'].'/../common/util.php';
-
   error_log( '==> request=' . print_r( $_REQUEST, true ) );
 
   if ( isset( $_REQUEST['csv_basename'] ) )
@@ -27,7 +26,6 @@
       $g_aCachedValues = (array) $g_tCachedValues;
 
       // Initialize empty spreadsheet content
-      $aHead = [];
       $aRows = [];
 
       // Traverse lines of content definition CSV file
@@ -50,19 +48,11 @@
           foreach ( $aInstances as $iOffset => $iInstance )
           {
             error_log( '--download--> 2' );
-            // Load column names into spreadsheet head
-            if ( count( $aHead ) < count( $aInstances ) * 2 )
-            {
-              error_log( '--download--> 3' );
-              $aColNames = (array) $g_aColNames[$iOffset];
-              array_push( $aHead, $aColNames['value_col_name'] );
-              array_push( $aHead, $aColNames['units_col_name'] );
-            }
 
             // Look for current instance in cached data for this facility
             if ( isset( $aCachedFacility[$iInstance] ) )
             {
-              error_log( '--download--> 4' );
+              error_log( '--download--> 3 <---' );
               // Load cached data into spreadsheet
               $aData = (array) $aCachedFacility[$iInstance];
               array_push( $aRow, formatValue( $aData[$aData['property']] ) );
@@ -71,7 +61,7 @@
             }
             else
             {
-              error_log( '--download--> 5' );
+              error_log( '--download--> 4' );
               // Load empty cells into spreadsheet
               array_push( $aRow, '' );
               array_push( $aRow, '' );
@@ -87,8 +77,14 @@
         }
       }
 
-      // Add first and last column names
-      array_unshift( $aHead, $g_sFirstColName );
+      // Load column names into head
+      $aHead = [];
+      array_push( $aHead, $g_sFirstColName );
+      foreach ( $g_aColNames as $aCol )
+      {
+        array_push( $aHead, $aCol['value_col_name'] );
+        array_push( $aHead, $aCol['units_col_name'] );
+      }
       array_push( $aHead, UPDATE_TIME );
 
       //
@@ -97,7 +93,7 @@
 
       // Open the file
       $sPath = sys_get_temp_dir() . '/' . $g_sCsvBasename . '_' . uniqid() . '.csv';
-      error_log( '===> download.php opening file <' . $sPath . '>' );
+      error_log( '===> download.php creating file <' . $sPath . '>' );
       $tFile = fopen( $sPath, 'w' );
 
       // Write column headers to the file
