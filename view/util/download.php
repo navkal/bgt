@@ -92,6 +92,7 @@
 
       // Open the file
       $sPath = sys_get_temp_dir() . '/' . $g_sCsvBasename . '_' . uniqid() . '.csv';
+      error_log( '===> download.php opening file <' . $sPath . '>' );
       $tFile = fopen( $sPath, 'w' );
 
       // Write column headers to the file
