@@ -22,6 +22,7 @@
 
       // Use view description and cached data to build spreadsheet
       $aColumns = [];
+      $aRows = [];
       $g_aCachedValues = (array) $g_tCachedValues;
       foreach ( $aLines as $sKey => $aLine )
       {
@@ -34,6 +35,7 @@
         {
           $aFacility = (array) $g_aCachedValues[$sFacility];
           $sTest = '--> ' . $sLabel. ':';
+          $aRow = [ $sLabel ];
           foreach ( $aInstances as $iOffset => $iInstance )
           {
             if ( isset( $aFacility[$iInstance] ) )
@@ -46,9 +48,13 @@
                 array_push( $aColumns, $aColNames['value_col_name'] );
                 array_push( $aColumns, $aColNames['units_col_name'] );
               }
+              array_push( $aRow, $aData[$aData['property']] );
+              array_push( $aRow, $aData['units'] );
             }
           }
           error_log( $sTest );
+          array_push( $aRows, $aRow );
+          error_log( '===============> row=' . print_r( $aRow, true ) );
         }
       }
 
