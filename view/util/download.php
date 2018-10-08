@@ -48,17 +48,17 @@
           // Traverse instances listed in content definition line
           foreach ( $aInstances as $iOffset => $iInstance )
           {
+            // Load column names into spreadsheet head
+            if ( count( $aHead ) < count( $aInstances ) * 2 )
+            {
+              $aColNames = (array) $g_aColNames[$iOffset];
+              array_push( $aHead, $aColNames['value_col_name'] );
+              array_push( $aHead, $aColNames['units_col_name'] );
+            }
+
             // Look for current instance in cached data for this facility
             if ( isset( $aCachedFacility[$iInstance] ) )
             {
-              // Load column names into spreadsheet head
-              if ( count( $aHead ) < count( $aInstances ) * 2 )
-              {
-                $aColNames = (array) $g_aColNames[$iOffset];
-                array_push( $aHead, $aColNames['value_col_name'] );
-                array_push( $aHead, $aColNames['units_col_name'] );
-              }
-
               // Load cached data into spreadsheet
               $aData = (array) $aCachedFacility[$iInstance];
               array_push( $aRow, formatValue( $aData[$aData['property']] ) );
