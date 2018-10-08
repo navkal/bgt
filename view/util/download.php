@@ -41,6 +41,7 @@
         {
           error_log( '--download--> 1' );
           $aCachedFacility = (array) $g_aCachedValues[$sFacility];
+          error_log( '==download==> cached data for this facility ==>' . print_r( $aCachedFacility, true ) );
           $aRow = [ $sLabel ];
           $aTimestamps = [];
 
