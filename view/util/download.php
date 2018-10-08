@@ -53,6 +53,9 @@
             error_log( '--download--> 2+, gettype(instance)=' . gettype( $iInstance ) );
 
             // Look for current instance in cached data for this facility
+            error_log( '--download--> 2#, instance=' . $iInstance );
+            error_log( '--download--> 2#, keys=' . print_r( array_keys( $aCachedFacility ), true ) );
+
             if ( isset( $aCachedFacility[$iInstance] ) )
             {
               error_log( '--download--> 3 <---' );
