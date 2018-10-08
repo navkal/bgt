@@ -24,40 +24,50 @@
       // Build spreadsheet
       //
 
-      $aHead = [];
-      $aRows = [];
       $g_aCachedValues = (array) $g_tCachedValues;
 
-      foreach ( $aLines as $sKey => $aLine )
+      // Initialize empty spreadsheet content
+      $aHead = [];
+      $aRows = [];
+
+      // Traverse lines of content definition CSV file
+      foreach ( $aLines as $aLine )
       {
+        // Extract label, facility, and instances from content definition line
         $sLabel = array_shift( $aLine );
         $sFacility = array_shift( $aLine );
         $aInstances = $aLine;
 
+        // Find cached data corresponding to content definition line
         if ( isset( $g_aCachedValues[$sFacility] ) )
         {
-          $aFacility = (array) $g_aCachedValues[$sFacility];
-          $sTest = '--> ' . $sLabel. ':';
+          $aCachedFacility = (array) $g_aCachedValues[$sFacility];
           $aRow = [ $sLabel ];
           $aTimestamps = [];
+
+          // Traverse instances listed in content definition line
           foreach ( $aInstances as $iOffset => $iInstance )
           {
-            if ( isset( $aFacility[$iInstance] ) )
+            // Look for current instance in cached data for this facility
+            if ( isset( $aCachedFacility[$iInstance] ) )
             {
-              $aData = (array) $aFacility[$iInstance];
-              $aColNames = (array) $g_aColNames[$iOffset];
-              $sTest .= ' ' . $aColNames['value_col_name'] . '=' . $aData[$aData['property']] . ' ' . $aColNames['units_col_name'] . '=' . $aData['units'];
+              // Load column names into spreadsheet head
               if ( count( $aHead ) < count( $aInstances ) * 2 )
               {
+                $aColNames = (array) $g_aColNames[$iOffset];
                 array_push( $aHead, $aColNames['value_col_name'] );
                 array_push( $aHead, $aColNames['units_col_name'] );
               }
+
+              // Load cached data into spreadsheet
+              $aData = (array) $aCachedFacility[$iInstance];
               array_push( $aRow, formatValue( $aData[$aData['property']] ) );
               array_push( $aRow, $aData['units'] );
               array_push( $aTimestamps, $aData['timestamp'] );
             }
             else
             {
+              // Load empty cells into spreadsheet
               array_push( $aRow, '' );
               array_push( $aRow, '' );
             }
