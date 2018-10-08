@@ -56,6 +56,11 @@
               array_push( $aRow, $aData['units'] );
               array_push( $aTimestamps, $aData['timestamp'] );
             }
+            else
+            {
+              array_push( $aRow, '' );
+              array_push( $aRow, '' );
+            }
           }
 
           array_push( $aRow, strftime( '%m/%d/%Y, %I:%M:%S %p', intval( max( $aTimestamps ) / 1000 ) ) );
