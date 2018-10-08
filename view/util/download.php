@@ -40,6 +40,16 @@
         if ( isset( $g_aCachedValues[$sFacility] ) )
         {
           $aCachedFacility = (array) $g_aCachedValues[$sFacility];
+
+          // --> Work around PHP 7.1 bug -->
+          $aWorkaround = [];
+          foreach ( $aCachedFacility as $k => $v )
+          {
+            $aWorkaround[$k] = $v;
+          }
+          $aCachedFacility = $aWorkaround;
+          // <-- Work around PHP 7.1 bug --
+
           $aRow = [ $sLabel ];
           $aTimestamps = [];
 
