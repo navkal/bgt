@@ -48,7 +48,7 @@
           // Traverse instances listed in content definition line
           foreach ( $aInstances as $iOffset => $iInstance )
           {
-            error_log( '--download--> 2' );
+            error_log( '--download--> 2, gettype(instance)=' . gettype( $iInstance ) );
 
             // Look for current instance in cached data for this facility
             if ( isset( $aCachedFacility[$iInstance] ) )
