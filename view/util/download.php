@@ -73,7 +73,11 @@
             }
           }
 
-          array_push( $aRow, strftime( '%m/%d/%Y, %I:%M:%S %p', intval( max( $aTimestamps ) / 1000 ) ) );
+          // Load the latest timestamp into row
+          $sTimestamp = count( $aTimestamps ) ? strftime( '%m/%d/%Y, %I:%M:%S %p', intval( max( $aTimestamps ) / 1000 ) ) : '';
+          array_push( $aRow, $sTimestamp );
+
+          // Load row into spreadsheet
           array_push( $aRows, $aRow );
         }
       }
