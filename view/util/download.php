@@ -54,7 +54,7 @@
 
             foreach ( $aCachedFacility as $k => $v )
             {
-              error_log( '--download--> loop: in aCachedFacility, k=' . $k . ' ktype=' . gettype($k). ' v=' . print_r( $v, true ) );
+              error_log( '--download--> loop: in aCachedFacility, k=' . $k . ' k type=' . gettype($k). ' instance type=' . gettype($iInstance). ' v=' . print_r( $v, true ) );
             }
 
             error_log( '--download--> in aCachedFacility, int key exists=<' . array_key_exists( intval($iInstance), $aCachedFacility ) . '>' );
