@@ -53,7 +53,7 @@
                 array_push( $aHead, $aColNames['value_col_name'] );
                 array_push( $aHead, $aColNames['units_col_name'] );
               }
-              array_push( $aRow, $aData[$aData['property']] );
+              array_push( $aRow, formatValue( $aData[$aData['property']] ) );
               array_push( $aRow, $aData['units'] );
               array_push( $aTimestamps, $aData['timestamp'] );
               error_log( '---------> data=' . print_r( $aData, true ) );
@@ -99,5 +99,28 @@
       // Delete the file
       unlink( $sPath );
     }
+  }
+
+
+/////////
+
+
+  function formatValue( $rawValue )
+  {
+    // Decide how to display the value
+    if ( $rawValue === '' )
+    {
+      $value = '';
+    }
+    else if ( ( -1 < $rawValue ) && ( $rawValue < 1 ) )
+    {
+      $value = round( $rawValue * 100 ) / 100;
+    }
+    else
+    {
+      $value = round( $rawValue );
+    }
+
+    return $value;
   }
 ?>
