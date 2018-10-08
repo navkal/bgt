@@ -39,35 +39,30 @@
         // Find cached data corresponding to content definition line
         if ( isset( $g_aCachedValues[$sFacility] ) )
         {
-          error_log( '--download--> 1' );
           $aCachedFacility = (array) $g_aCachedValues[$sFacility];
-          error_log( '==download==> cached data for this facility ==>' . print_r( $aCachedFacility, true ) );
           $aRow = [ $sLabel ];
           $aTimestamps = [];
 
           // Traverse instances listed in content definition line
           foreach ( $aInstances as $iInstance )
           {
-            error_log( '--download--> 2-, gettype(instance)=' . gettype( $iInstance ) );
-            $iInstance = intval( $iInstance );
-            error_log( '--download--> 2+, gettype(instance)=' . gettype( $iInstance ) );
-
             // Look for current instance in cached data for this facility
-            error_log( '--download--> 2#, instance=' . $iInstance );
-            error_log( '--download--> 2#, keys=' . print_r( array_keys( $aCachedFacility ), true ) );
-            error_log( '--download--> 2#, data=' . print_r( $aCachedFacility[$iInstance], true ) );
+            error_log( '--download--> instance=' . $iInstance );
+            error_log( '--download--> aCachedFacility type=' . gettype( $aCachedFacility ) );
+            error_log( '--download--> aCachedFacility keys=' . print_r( array_keys( $aCachedFacility ), true ) );
+            error_log( '--download--> aCachedFacility[instance]=' . print_r( $aCachedFacility[$iInstance], true ) );
 
             foreach ( $aCachedFacility as $k => $v )
             {
-              error_log( '--download--> 222, k=' . $k . ' ktype=' . gettype($k). ' v=' . print_r( $v, true ) );
+              error_log( '--download--> loop: in aCachedFacility, k=' . $k . ' ktype=' . gettype($k). ' v=' . print_r( $v, true ) );
             }
-            
-            error_log( '--download--> 2222 int key exists=<' . array_key_exists( intval($iInstance), $aCachedFacility ) . '>' );
-            error_log( '--download--> 2222 str key exists=<' . array_key_exists( strval($iInstance), $aCachedFacility ) . '>' );
+
+            error_log( '--download--> in aCachedFacility, int key exists=<' . array_key_exists( intval($iInstance), $aCachedFacility ) . '>' );
+            error_log( '--download--> in aCachedFacility, str key exists=<' . array_key_exists( strval($iInstance), $aCachedFacility ) . '>' );
 
             if ( array_key_exists( $iInstance, $aCachedFacility ) )
             {
-              error_log( '--download--> 3 <---' );
+              error_log( '--download--> SUCCESS <---' );
               // Load cached data into spreadsheet
               $aData = (array) $aCachedFacility[$iInstance];
               array_push( $aRow, formatValue( $aData[$aData['property']] ) );
@@ -76,7 +71,6 @@
             }
             else
             {
-              error_log( '--download--> 4' );
               // Load empty cells into spreadsheet
               array_push( $aRow, '' );
               array_push( $aRow, '' );
@@ -108,7 +102,6 @@
 
       // Open the file
       $sPath = sys_get_temp_dir() . '/' . $g_sCsvBasename . '_' . uniqid() . '.csv';
-      error_log( '===> download.php creating file <' . $sPath . '>' );
       $tFile = fopen( $sPath, 'w' );
 
       // Write column headers to the file
