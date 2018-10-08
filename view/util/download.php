@@ -46,9 +46,11 @@
           $aTimestamps = [];
 
           // Traverse instances listed in content definition line
-          foreach ( $aInstances as $iOffset => $iInstance )
+          foreach ( $aInstances as $iInstance )
           {
-            error_log( '--download--> 2, gettype(instance)=' . gettype( $iInstance ) );
+            error_log( '--download--> 2-, gettype(instance)=' . gettype( $iInstance ) );
+            $iInstance = intval( $iInstance );
+            error_log( '--download--> 2+, gettype(instance)=' . gettype( $iInstance ) );
 
             // Look for current instance in cached data for this facility
             if ( isset( $aCachedFacility[$iInstance] ) )
