@@ -59,8 +59,9 @@
               error_log( '---------> data=' . print_r( $aData, true ) );
             }
           }
+
           error_log( $sTest );
-          array_push( $aRow, max( $aTimestamps ) );
+          array_push( $aRow, strftime( '%m/%d/%Y, %I:%M:%S %p', intval( max( $aTimestamps ) / 1000 ) ) );
           array_push( $aRows, $aRow );
           error_log( '===============> row=' . print_r( $aRow, true ) );
         }
