@@ -41,6 +41,7 @@
         // Find cached data corresponding to content definition line
         if ( isset( $g_aCachedValues[$sFacility] ) )
         {
+          error_log( '--download--> 1' );
           $aCachedFacility = (array) $g_aCachedValues[$sFacility];
           $aRow = [ $sLabel ];
           $aTimestamps = [];
@@ -48,9 +49,11 @@
           // Traverse instances listed in content definition line
           foreach ( $aInstances as $iOffset => $iInstance )
           {
+            error_log( '--download--> 2' );
             // Load column names into spreadsheet head
             if ( count( $aHead ) < count( $aInstances ) * 2 )
             {
+              error_log( '--download--> 3' );
               $aColNames = (array) $g_aColNames[$iOffset];
               array_push( $aHead, $aColNames['value_col_name'] );
               array_push( $aHead, $aColNames['units_col_name'] );
@@ -59,6 +62,7 @@
             // Look for current instance in cached data for this facility
             if ( isset( $aCachedFacility[$iInstance] ) )
             {
+              error_log( '--download--> 4' );
               // Load cached data into spreadsheet
               $aData = (array) $aCachedFacility[$iInstance];
               array_push( $aRow, formatValue( $aData[$aData['property']] ) );
@@ -67,6 +71,7 @@
             }
             else
             {
+              error_log( '--download--> 5' );
               // Load empty cells into spreadsheet
               array_push( $aRow, '' );
               array_push( $aRow, '' );
