@@ -33,7 +33,6 @@
         $sLabel = array_shift( $aLine );
         $sFacility = array_shift( $aLine );
         $aInstances = $aLine;
-        error_log( '====> Line=' . $sLabel . ' ' . $sFacility . ' ' . print_r( $aInstances, true ) );
 
         if ( isset( $g_aCachedValues[$sFacility] ) )
         {
@@ -56,23 +55,17 @@
               array_push( $aRow, formatValue( $aData[$aData['property']] ) );
               array_push( $aRow, $aData['units'] );
               array_push( $aTimestamps, $aData['timestamp'] );
-              error_log( '---------> data=' . print_r( $aData, true ) );
             }
           }
 
-          error_log( $sTest );
           array_push( $aRow, strftime( '%m/%d/%Y, %I:%M:%S %p', intval( max( $aTimestamps ) / 1000 ) ) );
           array_push( $aRows, $aRow );
-          error_log( '===============> row=' . print_r( $aRow, true ) );
         }
       }
 
       // Add first and last column names
       array_unshift( $aHead, $g_sFirstColName );
       array_push( $aHead, UPDATE_TIME );
-
-      error_log( '===============> columns=' . print_r( $aHead, true ) );
-
 
       //
       // Dump spreadsheet to CSV file
