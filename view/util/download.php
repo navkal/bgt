@@ -61,8 +61,11 @@
             {
               error_log( '--download--> 222, k=' . $k . ' ktype=' . gettype($k). ' v=' . print_r( $v, true ) );
             }
+            
+            error_log( '--download--> 2222 int key exists=<' . array_key_exists( intval($iInstance), $aCachedFacility ) . '>' );
+            error_log( '--download--> 2222 str key exists=<' . array_key_exists( strval($iInstance), $aCachedFacility ) . '>' );
 
-            if ( isset( $aCachedFacility[$iInstance] ) )
+            if ( array_key_exists( $iInstance, $aCachedFacility ) )
             {
               error_log( '--download--> 3 <---' );
               // Load cached data into spreadsheet
