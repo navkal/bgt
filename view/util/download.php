@@ -59,7 +59,7 @@
 
             foreach ( $aCachedFacility as $k => $v )
             {
-              error_log( '--download--> 2*, k=' . $k . ' ktype=' . gettype($k). ' v=' . print_r( $v, true ) );
+              error_log( '--download--> 222, k=' . $k . ' ktype=' . gettype($k). ' v=' . print_r( $v, true ) );
             }
 
             if ( isset( $aCachedFacility[$iInstance] ) )
