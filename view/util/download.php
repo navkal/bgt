@@ -40,6 +40,7 @@
           $aFacility = (array) $g_aCachedValues[$sFacility];
           $sTest = '--> ' . $sLabel. ':';
           $aRow = [ $sLabel ];
+          $aTimestamps = [];
           foreach ( $aInstances as $iOffset => $iInstance )
           {
             if ( isset( $aFacility[$iInstance] ) )
@@ -54,9 +55,12 @@
               }
               array_push( $aRow, $aData[$aData['property']] );
               array_push( $aRow, $aData['units'] );
+              array_push( $aTimestamps, $aData['timestamp'] );
+              error_log( '---------> data=' . print_r( $aData, true ) );
             }
           }
           error_log( $sTest );
+          array_push( $aRow, max( $aTimestamps ) );
           array_push( $aRows, $aRow );
           error_log( '===============> row=' . print_r( $aRow, true ) );
         }
