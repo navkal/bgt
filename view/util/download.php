@@ -41,14 +41,15 @@
         {
           $aCachedFacility = (array) $g_aCachedValues[$sFacility];
 
-          // --> Work around PHP 7.1 bug -->
+          // --> --> --> Work around PHP 7.1 bug --> --> -->
+          // Rebuild array so that PHP 7.1 can find its keys
           $aWorkaround = [];
           foreach ( $aCachedFacility as $k => $v )
           {
             $aWorkaround[$k] = $v;
           }
           $aCachedFacility = $aWorkaround;
-          // <-- Work around PHP 7.1 bug --
+          // <-- <-- <-- Work around PHP 7.1 bug <-- <-- <--
 
           $aRow = [ $sLabel ];
           $aTimestamps = [];
@@ -57,22 +58,8 @@
           foreach ( $aInstances as $iInstance )
           {
             // Look for current instance in cached data for this facility
-            error_log( '--download--> instance=' . $iInstance );
-            error_log( '--download--> aCachedFacility type=' . gettype( $aCachedFacility ) );
-            error_log( '--download--> aCachedFacility keys=' . print_r( array_keys( $aCachedFacility ), true ) );
-            error_log( '--download--> aCachedFacility[instance]=' . print_r( $aCachedFacility[$iInstance], true ) );
-
-            foreach ( $aCachedFacility as $k => $v )
+            if ( isset( $aCachedFacility[$iInstance] ) )
             {
-              error_log( '--download--> loop: in aCachedFacility, k=' . $k . ' k type=' . gettype($k). ' instance type=' . gettype($iInstance). ' v=' . print_r( $v, true ) );
-            }
-
-            error_log( '--download--> in aCachedFacility, int key exists=<' . array_key_exists( intval($iInstance), $aCachedFacility ) . '>' );
-            error_log( '--download--> in aCachedFacility, str key exists=<' . array_key_exists( strval($iInstance), $aCachedFacility ) . '>' );
-
-            if ( array_key_exists( $iInstance, $aCachedFacility ) )
-            {
-              error_log( '--download--> SUCCESS <---' );
               // Load cached data into spreadsheet
               $aData = (array) $aCachedFacility[$iInstance];
               array_push( $aRow, formatValue( $aData[$aData['property']] ) );
