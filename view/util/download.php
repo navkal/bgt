@@ -57,6 +57,11 @@
             error_log( '--download--> 2#, keys=' . print_r( array_keys( $aCachedFacility ), true ) );
             error_log( '--download--> 2#, data=' . print_r( $aCachedFacility[$iInstance], true ) );
 
+            foreach ( $aCachedFacility as $k => $v )
+            {
+              error_log( '--download--> 2*, k=' . $k . ' ktype=' . gettype($k). ' v=' . print_r( $v, true ) );
+            }
+
             if ( isset( $aCachedFacility[$iInstance] ) )
             {
               error_log( '--download--> 3 <---' );
