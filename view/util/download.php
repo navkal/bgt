@@ -9,7 +9,7 @@
   {
     $g_sCsvBasename = $_REQUEST['csv_basename'];
 
-    $sLayoutScript = $_SERVER['DOCUMENT_ROOT'].'/view/layout/' . $g_sCsvBasename . '.php';
+    $sLayoutScript = $_SERVER['DOCUMENT_ROOT'].'/view/layout/' . $g_sCsvBasename . '_layout.php';
 
     if ( file_exists( $sLayoutScript ) )
     {
