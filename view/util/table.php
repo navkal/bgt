@@ -5,11 +5,8 @@
 <!-- Attach Download button above table head -->
 <div class="tablesorter-dropbox">
   <div class="btn btn-sm tablesorter-headerRow" style="width:100%; border-bottom:0px" >
-    <a href="view/util/download.php?csv_basename=<?=$g_sCsvBasename?>" class="btn btn-xs pull-right" title="Download table from cache">
-      <span class="glyphicon glyphicon-download-alt"></span> Cache
-    </a>
-    <button onclick="uploadSnapshot()" class="btn btn-xs btn-link pull-right" title="Download snapshot of view">
-      <span class="glyphicon glyphicon-download-alt"></span> Snapshot
+    <button onclick="uploadSnapshot()" class="btn btn-xs btn-link pull-right">
+      <span class="glyphicon glyphicon-download-alt"></span> Download
     </button>
   </div>
 </div>
