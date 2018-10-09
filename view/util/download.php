@@ -117,7 +117,7 @@
       downloadFile( $sPath );
 
       // Delete the file
-      ////////////unlink( $sPath );
+      unlink( $sPath );
     }
   }
 
