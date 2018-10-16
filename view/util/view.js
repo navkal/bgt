@@ -43,6 +43,9 @@ $( document ).ready( onDocumentReady );
 
 function onDocumentReady()
 {
+  // Initialize table
+  initTable();
+
   // Initialize layout framework
   switch( g_sLayoutMode )
   {
@@ -57,9 +60,6 @@ function onDocumentReady()
       initSplits();
       break;
   }
-
-  // Initialize table
-  initTable();
 
   // Initialize graphs
   initGraphs();
