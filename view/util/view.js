@@ -72,6 +72,101 @@ function onDocumentReady()
   rq();
 }
 
+function initTable()
+{
+  var sHtml = '';
+  for ( var iRow in g_aRows )
+  {
+    var aRow = g_aRows[iRow];
+
+    // Open row
+    sHtml += '<tr id="row_' + iRow + '">';
+
+    // Create cell for label in first column
+    sHtml += '<td class="row-label" >' + aRow[0] + '</td>';
+
+    // Create cells for value-unit pairs
+    var sFacility = aRow[1];
+    var aCachedTimestamps = [];
+    for ( var iPair = 2; iPair < aRow.length; iPair ++ )
+    {
+      var sInstance = aRow[iPair];
+      var sCachedValue = '';
+      var sCachedUnits = '';
+      if ( ( sFacility in g_tCachedValues ) && ( sInstance in g_tCachedValues[sFacility] ) )
+      {
+        sCachedValue = formatValue( g_tCachedValues[sFacility][sInstance].presentValue );
+        sCachedUnits = g_tCachedValues[sFacility][sInstance].units;
+        aCachedTimestamps.push( g_tCachedValues[sFacility][sInstance].timestamp );
+      }
+
+      sHtml += '<td id="value_' + iRow + '_' + iPair + '" style="text-align:right" >';
+      sHtml += sCachedValue;
+      sHtml += '</td>';
+      sHtml += '<td id="units_' + iRow + '_' + iPair + '">';
+      sHtml += sCachedUnits;
+      sHtml += '</td>';
+    }
+
+    // Create cell for time
+    sHtml += '<td id="time_' + iRow + '">';
+    if ( aCachedTimestamps.length )
+    {
+      var tDate = new Date( Math.max( ...aCachedTimestamps ) );
+      sHtml += tDate.toLocaleString();
+    }
+    sHtml += '</td>';
+
+    // Close row
+    sHtml += '</tr>';
+  }
+
+  $( '#bgt_table > tbody' ).html( sHtml );
+
+  // Initialize the tablesorter
+  g_tTable = $( '#bgt_table' );
+  g_tTable.tablesorter( g_tViewTableProps );
+}
+
+function initGraphs()
+{
+  g_bHorizontal = ( g_sLayoutMode == LAYOUT_MODE_TAB ) ? ( g_aRows.length > VERTICAL_MAX ) : false;
+
+  if ( g_bFlot )
+  {
+    var sTickStyle =
+      g_bHorizontal ?
+        '<style>' +
+          '.flot-y-axis .flot-tick-label' +
+          '{' +
+            'line-height: 1;' +
+            'max-width: 70px;' +
+          '}' +
+        '</style>'
+      :
+        '<style>' +
+          '.flot-x-axis .flot-tick-label' +
+          '{' +
+            'line-height: 1;' +
+            'padding: 20px;' +
+            'transform: rotate(-45deg);' +
+            '-ms-transform: rotate(-45deg);' +
+            '-moz-transform: rotate(-45deg);' +
+            '-webkit-transform: rotate(-45deg);' +
+            '-o-transform: rotate(-45deg);' +
+          '}'
+        '</style>';
+
+    $( 'head' ).append( sTickStyle );
+  }
+}
+
+function initGraphOptionsDialog()
+{
+  // Set handler for dialog show event
+  $( '#graphOptionsDialog' ).on( 'show.bs.modal', onShowGraphOptionsDialog );
+}
+
 function initTabs()
 {
   if ( g_aGraphSelectors.length )
@@ -244,101 +339,6 @@ function narrowToWide()
 
   // Show the wide div
   $( '#wide' ).show();
-}
-
-function initTable()
-{
-  var sHtml = '';
-  for ( var iRow in g_aRows )
-  {
-    var aRow = g_aRows[iRow];
-
-    // Open row
-    sHtml += '<tr id="row_' + iRow + '">';
-
-    // Create cell for label in first column
-    sHtml += '<td class="row-label" >' + aRow[0] + '</td>';
-
-    // Create cells for value-unit pairs
-    var sFacility = aRow[1];
-    var aCachedTimestamps = [];
-    for ( var iPair = 2; iPair < aRow.length; iPair ++ )
-    {
-      var sInstance = aRow[iPair];
-      var sCachedValue = '';
-      var sCachedUnits = '';
-      if ( ( sFacility in g_tCachedValues ) && ( sInstance in g_tCachedValues[sFacility] ) )
-      {
-        sCachedValue = formatValue( g_tCachedValues[sFacility][sInstance].presentValue );
-        sCachedUnits = g_tCachedValues[sFacility][sInstance].units;
-        aCachedTimestamps.push( g_tCachedValues[sFacility][sInstance].timestamp );
-      }
-
-      sHtml += '<td id="value_' + iRow + '_' + iPair + '" style="text-align:right" >';
-      sHtml += sCachedValue;
-      sHtml += '</td>';
-      sHtml += '<td id="units_' + iRow + '_' + iPair + '">';
-      sHtml += sCachedUnits;
-      sHtml += '</td>';
-    }
-
-    // Create cell for time
-    sHtml += '<td id="time_' + iRow + '">';
-    if ( aCachedTimestamps.length )
-    {
-      var tDate = new Date( Math.max( ...aCachedTimestamps ) );
-      sHtml += tDate.toLocaleString();
-    }
-    sHtml += '</td>';
-
-    // Close row
-    sHtml += '</tr>';
-  }
-
-  $( '#bgt_table > tbody' ).html( sHtml );
-
-  // Initialize the tablesorter
-  g_tTable = $( '#bgt_table' );
-  g_tTable.tablesorter( g_tViewTableProps );
-}
-
-function initGraphs()
-{
-  g_bHorizontal = ( g_sLayoutMode == LAYOUT_MODE_TAB ) ? ( g_aRows.length > VERTICAL_MAX ) : false;
-
-  if ( g_bFlot )
-  {
-    var sTickStyle =
-      g_bHorizontal ?
-        '<style>' +
-          '.flot-y-axis .flot-tick-label' +
-          '{' +
-            'line-height: 1;' +
-            'max-width: 70px;' +
-          '}' +
-        '</style>'
-      :
-        '<style>' +
-          '.flot-x-axis .flot-tick-label' +
-          '{' +
-            'line-height: 1;' +
-            'padding: 20px;' +
-            'transform: rotate(-45deg);' +
-            '-ms-transform: rotate(-45deg);' +
-            '-moz-transform: rotate(-45deg);' +
-            '-webkit-transform: rotate(-45deg);' +
-            '-o-transform: rotate(-45deg);' +
-          '}'
-        '</style>';
-
-    $( 'head' ).append( sTickStyle );
-  }
-}
-
-function initGraphOptionsDialog()
-{
-  // Set handler for dialog show event
-  $( '#graphOptionsDialog' ).on( 'show.bs.modal', onShowGraphOptionsDialog );
 }
 
 function onShowGraphOptionsDialog( tEvent )
