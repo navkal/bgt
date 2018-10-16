@@ -46,6 +46,12 @@ function onDocumentReady()
   // Initialize table
   initTable();
 
+  // Initialize graphs
+  initGraphs();
+
+  // Initialize graph options dialog
+  initGraphOptionsDialog();
+
   // Initialize layout framework
   switch( g_sLayoutMode )
   {
@@ -60,12 +66,6 @@ function onDocumentReady()
       initSplits();
       break;
   }
-
-  // Initialize graphs
-  initGraphs();
-
-  // Initialize graph options dialog
-  initGraphOptionsDialog();
 
   // Issue first request
   g_iInstanceOffset = 2;
