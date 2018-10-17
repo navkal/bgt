@@ -13,6 +13,7 @@ ahs_electricity,AHS Electricity,view/ahs_electricity.php
 ahs_air,AHS Air,view/ahs_air.php
 #
 # --- P&F views ---
+#mhl_air,MHL Air,view/mhl_air.php
 #south_air,South Air,view/south_air.php
 #sanborn_air,Sanborn Air,view/sanborn_air.php
 #advanced,Advanced,advanced/advanced.php

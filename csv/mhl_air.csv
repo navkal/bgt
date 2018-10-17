@@ -1,0 +1,25 @@
+Label,Facility,Temperature,CO2
+Archive Room,mhl,3000136,
+Stack Area #4 - 103,mhl,3000139,
+I & R Office - 108,mhl,3000140,
+Hd Ref. Office 107,mhl,3000141,
+Circulation Area,mhl,3000142,
+Reading Area - A105,mhl,3000143,
+Stack Area 202,mhl,3000562,
+Atrium 2Xx,mhl,3000147,
+Dir Conf Rm 204,mhl,3000149,
+Director'S Sec. A,mhl,3000150,
+Director's Sec. B,mhl,3000151,
+Reference Office B1,mhl,3000191,
+Reference Office B2,mhl,3000192,
+Reference Work Area,mhl,3000193,
+Andover Room Hunter ,mhl,3000207,
+AHU-3 Zone 1 VAV,mhl,3001587,
+AHU-3 Zone 2 VAV,mhl,3001597,
+AHU-3 Zone 4 VAV,mhl,3001617,
+Mail Room,mhl,3000171,
+Loan Office ,mhl,3000160,
+AHU Return Air,mhl,,3000168
+RTU1 Return Air,mhl,,3000217
+AHU2 Return Air,mhl,,3000215
+AHU3 Return Air,mhl,,3001566
