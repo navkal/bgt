@@ -1,11 +1,6 @@
 <?php
   // Copyright 2018 BACnet Gateway.  All rights reserved.
-?>
 
-<!-- This inclusion of jQuery library is redundant with the one included in the document head, but needed by split.js. (Don't know why.) -->
-<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-
-<?php
   @session_start();
   if ( ! isset( $_SESSION['bgt'] ) )
   {
@@ -24,6 +19,10 @@
   define( 'LAYOUT_MODE_TAB', 'tab' );
   define( 'LAYOUT_MODE_SPLIT', 'split' );
   $g_sLayoutModeDefault = LAYOUT_MODE_SPLIT;
+
+  // Load jQuery library outside the document head.  split.js needs this; don't know why.
+  define( 'BOOTSTRAP_VERSION', /**'_4'/**/ /**/''/**/ );
+  require_once '../common/libraries' . BOOTSTRAP_VERSION . '.php';  // <-- Includes jQuery, redundant with document head; needed by split.js (don't know why)
 
   include "../common/main.php";
 
