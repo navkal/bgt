@@ -1,1 +1,7 @@
 /* Copyright 2018 BACnet Gateway.  All rights reserved. */
+
+/* Make fonts larger for squinty users */
+#bgt_table *
+{
+  font-size: 14px;
+}

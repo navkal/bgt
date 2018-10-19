@@ -147,6 +147,7 @@ function initGraphs()
         '<style>' +
           '.flot-x-axis .flot-tick-label' +
           '{' +
+            'font-size: 12.5px;' +
             'line-height: 1;' +
             'padding: 20px;' +
             'transform: rotate(-45deg);' +
