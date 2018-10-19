@@ -1,0 +1,78 @@
+Label,Facility,Temperature
+S1 Stairs 1 02,woodhill-09,3000153
+A-003,woodhill-09,3000168
+A-004,woodhill-09,3000182
+A-013,woodhill-09,3000196
+Emerg Elec A-011 06,woodhill-09,3000210
+A-007,woodhill-09,3000224
+A-015,woodhill-09,3000238
+A0 A036,woodhill-09,3000112
+S2-Stairs 10,woodhill-09,3000252
+A-034,woodhill-09,3000266
+A-103,woodhill-09,3000336
+A-030,woodhill-09,3000294
+A-024,woodhill-09,3000308
+A-033,woodhill-09,3000280
+A0 A006,woodhill-09,3000149
+A0 A002,woodhill-09,3000139
+A0 A005,woodhill-09,3000140
+A0 A020,woodhill-09,3000141
+A0 A031,woodhill-09,3000142
+A0 A032,woodhill-09,3000143
+A0 A035,woodhill-09,3000144
+A0 A022,woodhill-09,3000145
+EXH1 A019,woodhill-09,3000114
+A0 S1A,woodhill-09,3000146
+A0 S2A,woodhill-09,3000147
+A0 VEST,woodhill-09,3000148
+A1 A101,woodhill-09,3000109
+S1 Stairs 25,woodhill-09,3000322
+A-107,woodhill-09,3000392
+A-104,woodhill-09,3000350
+A-124,woodhill-09,3000490
+Emerg Elec A-111 29 RM-T,woodhill-09,3000378
+A-113,woodhill-09,3000364
+A-115,woodhill-09,3000406
+A-204,woodhill-09,3000546
+S2-Stairs 33,woodhill-09,3000434
+A-136,woodhill-09,3000420
+A-133,woodhill-09,3000462
+A-130,woodhill-09,3000476
+A-134,woodhill-09,3000448
+A-137,woodhill-09,3000504
+A1 A106,woodhill-09,3000122
+A1 A102,woodhill-09,3000120
+A1 A105,woodhill-09,3000121
+A1 Hallway A120,woodhill-09,3000124
+A1 A122,woodhill-09,3000125
+A1 A131,woodhill-09,3000127
+A1 A132,woodhill-09,3001171
+A1 Corridor A135,woodhill-09,3001174
+A1 A123,woodhill-09,3000126
+A1 A116,woodhill-09,3000123
+A2 A201,woodhill-09,3000110
+S1-Stairs 47,woodhill-09,3000518
+A-203,woodhill-09,3000532
+A-215,woodhill-09,3000602
+A-213,woodhill-09,3000560
+Emerg Elec A-211 51 RM-T,woodhill-09,3000574
+A-207,woodhill-09,3000588
+A-224,woodhill-09,3000686
+A-236,woodhill-09,3000616
+S2-Stairs 55,woodhill-09,3000630
+A-234,woodhill-09,3000644
+A-230,woodhill-09,3000672
+A-233,woodhill-09,3000658
+A-239,woodhill-09,3000700
+A2 A206,woodhill-09,3000132
+A2 A202,woodhill-09,3000130
+A2 A205,woodhill-09,3000131
+A2 A220,woodhill-09,3000133
+A2 A222,woodhill-09,3000134
+A2 A231,woodhill-09,3000136
+A2 A232,woodhill-09,3000137
+A2 A235,woodhill-09,3000138
+A2 S3,woodhill-09,3000135
+A2 KILN,woodhill-09,3000874
+EXH1 ELECT RM 226,woodhill-09,3000113
+A0 A001,woodhill-09,3000111
