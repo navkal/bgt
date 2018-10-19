@@ -4,7 +4,7 @@
 
 <!-- Attach Download button above table head -->
 <div class="tablesorter-dropbox">
-  <div class="btn btn-sm tablesorter-headerRow" style="width:100%; border-bottom:0px" >
+  <div class="btn tablesorter-headerRow" style="width:100%; border-bottom:0px" >
     <button onclick="uploadSnapshot()" class="btn btn-xs btn-link float-right">
       <span class="glyphicon glyphicon-download-alt"></span> Download
     </button>
