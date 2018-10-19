@@ -23,10 +23,10 @@
   // Load jQuery library outside the document head.  split.js needs this; don't know why.
   define(
     'BOOTSTRAP_VERSION',
-    /******************************** /
-    '_4'
     /********************************/
     ''
+    /******************************** /
+    '_4'
     /********************************/
   );
   require_once '../common/libraries' . BOOTSTRAP_VERSION . '.php';  // <-- Includes jQuery, redundant with document head; needed by split.js (don't know why)
