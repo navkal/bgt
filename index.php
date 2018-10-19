@@ -33,10 +33,13 @@
 
   include "../common/main.php";
 
+  $version = time();
   if ( $_SESSION['bgt']['bgt_'] )
   {
 ?>
-    <link rel="stylesheet" href="bgt_.css?version=<?=time()?>">
+    <link rel="stylesheet" href="bgt_.css?version=<?=$version?>">
 <?php
   }
 ?>
+<!-- CSS to hide differences between Bootstrap 3 and Bootstrap 4 -->
+<link rel="stylesheet" href="bootstrap<?=BOOTSTRAP_VERSION?>.css?version=<?=$version?>">

@@ -125,7 +125,7 @@
 
   <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-      <a href="http://www.EnergizeAndover.com" target="_blank"><img src="about/ea.jpg" class="img-responsive pull-right" alt="Energize Andover" style="max-width:100px"></a>
+      <a href="http://www.EnergizeAndover.com" target="_blank"><img src="about/ea.jpg" class="img-responsive float-right" alt="Energize Andover" style="max-width:100px"></a>
     </div>
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
       <img src="about/aps.jpg" class="img-responsive" alt="Andover Public Schools" style="max-width:100px">
