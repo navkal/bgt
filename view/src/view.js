@@ -1140,7 +1140,7 @@ function uploadSnapshot()
 
   // Post request to server
   $.ajax(
-    '/view/util/uploadSnapshot.php',
+    '/view/src/uploadSnapshot.php',
     {
       type: 'POST',
       processData: false,
@@ -1155,7 +1155,7 @@ function uploadSnapshot()
 
 function uploadSnapshotDone( tRsp, sStatus, tJqXhr )
 {
-  window.location.href='view/util/downloadSnapshot.php?csv_basename=' + g_sCsvBasename + '&snapshot_id=' + tRsp;
+  window.location.href='view/src/downloadSnapshot.php?csv_basename=' + g_sCsvBasename + '&snapshot_id=' + tRsp;
 }
 
 function doNothing( tJqXhr, sStatus, sErrorThrown )

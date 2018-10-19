@@ -154,8 +154,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js" integrity="sha256-tW5LzEC7QjhG0CiAvxlseMTs2qJS7u3DRPauDjFJ3zo=" crossorigin="anonymous"></script>
 
 <!-- CSS and JS libraries -->
-<link rel="stylesheet" href="/view/util/view.css?version=<?=time()?>">
-<script src="/view/util/view.js?version=<?=time()?>"></script>
+<link rel="stylesheet" href="/view/src/view.css?version=<?=time()?>">
+<script src="/view/src/view.js?version=<?=time()?>"></script>
 <?php
   if ( $g_sLayoutMode == LAYOUT_MODE_SPLIT )
   {
@@ -226,7 +226,7 @@
     <div id="tableTab" class="tab-pane fade in active">
       <div class="container">
         <?php
-          include $_SERVER['DOCUMENT_ROOT'] . '/view/util/table.php';
+          include $_SERVER['DOCUMENT_ROOT'] . '/view/src/table.php';
         ?>
       </div>
     </div>
@@ -259,7 +259,7 @@
     <div id="wideTablePane" class="split split-horizontal">
       <div class="split content">
         <?php
-          include $_SERVER['DOCUMENT_ROOT'] . '/view/util/table.php';
+          include $_SERVER['DOCUMENT_ROOT'] . '/view/src/table.php';
         ?>
       </div>
     </div>

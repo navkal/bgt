@@ -2,7 +2,7 @@
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 
   require_once $_SERVER['DOCUMENT_ROOT'].'/../common/util.php';
-  require_once $_SERVER['DOCUMENT_ROOT'].'/view/util/makeSnapshotPath.php';
+  require_once $_SERVER['DOCUMENT_ROOT'].'/view/src/makeSnapshotPath.php';
 
   error_log( '==> request=' . print_r( $_REQUEST, true ) );
 

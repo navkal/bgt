@@ -17,5 +17,5 @@
     ]
   ];
 
-  include $_SERVER['DOCUMENT_ROOT'] . '/view/util/view.php';
+  include $_SERVER['DOCUMENT_ROOT'] . '/view/src/view.php';
 ?>
