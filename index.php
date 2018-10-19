@@ -37,9 +37,13 @@
   if ( $_SESSION['bgt']['bgt_'] )
   {
 ?>
+    <!-- CSS for P&F interface -->
     <link rel="stylesheet" href="bgt_.css?version=<?=$version?>">
 <?php
   }
 ?>
+<!-- General CSS -->
+<link rel="stylesheet" href="bgt.css?version=<?=$version?>">
+
 <!-- CSS to hide differences between Bootstrap 3 and Bootstrap 4 -->
 <link rel="stylesheet" href="bootstrap<?=BOOTSTRAP_VERSION?>.css?version=<?=$version?>">
