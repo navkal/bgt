@@ -16,7 +16,7 @@
             <div id="baselineDatepicker" class="input-group date">
               <input type="text" class="form-control" readonly>
               <span class="input-group-addon btn btn-default">
-                <span class="glyphicon glyphicon-calendar" style="font-size:20px"></span>
+                <i class="far fa-calendar-alt" style="font-size:20px"></i>
               </span>
             </div>
           </div>
