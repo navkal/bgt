@@ -43,7 +43,4 @@
   }
 ?>
 <!-- General CSS -->
-<link rel="stylesheet" href="bgt.css?version=<?=$version?>">
-
-<!-- CSS to hide differences between Bootstrap 3 and Bootstrap 4 -->
-<link rel="stylesheet" href="bootstrap<?=BOOTSTRAP_VERSION?>.css?version=<?=$version?>">
+<link rel="stylesheet" href="bgt<?=BOOTSTRAP_VERSION?>.css?version=<?=$version?>">
