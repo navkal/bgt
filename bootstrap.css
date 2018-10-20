@@ -4,3 +4,9 @@
 {
   float: right !important;
 }
+
+/* Make fonts larger for squinty users */
+#bgt_table *
+{
+  font-size: 14px;
+}
