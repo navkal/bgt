@@ -4,8 +4,8 @@
 
 <!-- Attach Download button above table head -->
 <div class="tablesorter-dropbox">
-  <div class="btn btn-xs tablesorter-headerRow" style="width:100%; border-bottom:0px" >
-    <button onclick="uploadSnapshot()" class="btn btn-md btn-link float-right">
+  <div class="btn tablesorter-headerRow" style="width:100%; border-bottom:0px; padding: 1px 5px;" >
+    <button onclick="uploadSnapshot()" class="btn <?=BOOTSTRAP_VERSION?'btn-sm':'btn-md'?> btn-link float-right">
       <i class="fas fa-download"></i> Download
     </button>
   </div>
