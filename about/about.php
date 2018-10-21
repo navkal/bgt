@@ -121,15 +121,15 @@
 
   </dl>
 
-  <br/>
-
-  <div class="row">
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-      <a href="http://www.EnergizeAndover.com" target="_blank"><img src="about/ea.jpg" class="img-responsive float-right" alt="Energize Andover" style="max-width:100px"></a>
-    </div>
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-      <img src="about/aps.jpg" class="img-responsive" alt="Andover Public Schools" style="max-width:100px">
-    </div>
-  </div>
+  <table style="width:100%; margin-top:40px">
+    <tr>
+      <td style="padding-right:15px;" >
+        <a href="http://www.EnergizeAndover.com" target="_blank"><img src="about/ea.jpg" class="img-responsive float-right" alt="Energize Andover" style="max-width:100px"></a>
+      </td>
+      <td style="padding-left:15px;" >
+        <img src="about/aps.jpg" class="img-responsive" alt="Andover Public Schools" style="max-width:100px">
+      </td>
+    </tr>
+  </table>
 
 </div>
