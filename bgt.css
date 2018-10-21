@@ -20,3 +20,12 @@ h5, .h5
 {
   font-size: 14px;
 }
+
+/* Right-justify description-list titles on About page */
+@media ( min-width: 768px )
+{
+  .dl-title
+  {
+    text-align: right;
+  }
+}

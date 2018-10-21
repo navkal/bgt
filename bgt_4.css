@@ -17,7 +17,8 @@
   line-height: 1.5;
 }
 
-@media ( min-width: 575px )
+/* Right-justify description-list titles on About page */
+@media ( min-width: 576px )
 {
   .dl-title
   {
