@@ -16,3 +16,11 @@
   font-size: .84375rem; /* 13.5px*/
   line-height: 1.5;
 }
+
+@media ( min-width: 575px )
+{
+  .dl-title
+  {
+    text-align: right;
+  }
+}
