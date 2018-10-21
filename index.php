@@ -15,12 +15,8 @@
   error_log( '==> BACnet Gateway Port: ' . $_SESSION['bgt']['port'] );
 
   $_SESSION['bgt']['bgt_'] = strpos( $_SERVER['DOCUMENT_ROOT'], '/bgt_' ) !== false;
+  //$_SESSION['bgt']['bgt_'] = true; // <------ fake fake fake
 
-  define( 'LAYOUT_MODE_TAB', 'tab' );
-  define( 'LAYOUT_MODE_SPLIT', 'split' );
-  $g_sLayoutModeDefault = LAYOUT_MODE_SPLIT;
-
-  // Load jQuery library outside the document head.  split.js needs this; don't know why.
   define(
     'BOOTSTRAP_VERSION',
     /********************************/
@@ -29,18 +25,27 @@
     '_4'
     /********************************/
   );
+
+  define( 'LAYOUT_MODE_TAB', 'tab' );
+  define( 'LAYOUT_MODE_SPLIT', 'split' );
+  $g_sLayoutModeDefault = LAYOUT_MODE_SPLIT;
+
+  // Load jQuery library outside the document head.  split.js needs this; don't know why.
   require_once '../common/libraries' . BOOTSTRAP_VERSION . '.php';  // <-- Includes jQuery, redundant with document head; needed by split.js (don't know why)
 
-  include "../common/main.php";
-
-  $version = time();
   if ( $_SESSION['bgt']['bgt_'] )
   {
+    define( 'NAVBAR_EXPAND_CLASS', 'navbar-expand-custom' );
 ?>
     <!-- CSS for P&F interface -->
-    <link rel="stylesheet" href="bgt_.css?version=<?=$version?>">
+    <link rel="stylesheet" href="bgt_<?=BOOTSTRAP_VERSION?>.css?version=<?=time()?>">
 <?php
   }
 ?>
+
 <!-- General CSS -->
-<link rel="stylesheet" href="bgt<?=BOOTSTRAP_VERSION?>.css?version=<?=$version?>">
+<link rel="stylesheet" href="bgt<?=BOOTSTRAP_VERSION?>.css?version=<?=time()?>">
+
+<?php
+  include "../common/main.php";
+?>
