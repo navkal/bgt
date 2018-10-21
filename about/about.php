@@ -62,7 +62,7 @@
 
   <br/>
 
-  <p class="h4">
+  <p class="h5">
     <?=BM?> for Plant and Facilities
   </p>
 
@@ -73,7 +73,7 @@
 
   <br/>
 
-  <p class="h4">
+  <p class="h5">
     <?=BG?> for Andover Public Schools
   </p>
 
@@ -84,13 +84,17 @@
 
   <br/>
 
+  <p class="h5">
+    Email
+  </p>
+
   <p>
     For more information about <?=BM?> and <?=BG?>, please email us at <a href="mailto:energizeAndover@gmail.com">energizeAndover@gmail.com</a>.
   </p>
 
   <br/>
 
-  <p class="h4">
+  <p class="h5">
     Related Links
   </p>
 

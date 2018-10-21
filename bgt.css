@@ -1,8 +1,18 @@
 /* Copyright 2018 BACnet Gateway.  All rights reserved. */
 
+/* Replace Boostrap 3 pull-right */
 .float-right
 {
   float: right !important;
+}
+
+/* Replace Boostrap 3 h5 */
+h5, .h5
+{
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.1;
+  font-family: inherit;
 }
 
 /* Make fonts larger for squinty users */
