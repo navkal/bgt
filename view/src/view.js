@@ -806,7 +806,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
             'data-graph_name="' + sGraphName + '" ' +
             '>' +
               tTime.toLocaleDateString( 'en-US', g_tDateFormatOptions ).replace( ',', '' ) + ' ' +
-              '<i class="fas fa-cog"></i> ' +
+              '<i class="fas fa-cog" style="padding-left:3px"></i> ' +
           '</button>';
       }
       var aDataset = [ { label: '&nbsp;' + sGraphName + sSince, data: aData, color: "#54b9f8" } ];

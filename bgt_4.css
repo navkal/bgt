@@ -4,8 +4,8 @@
 .btn-group-xs > .btn,
 .btn-xs
 {
-  padding: .35rem .4rem;
-  font-size: .875rem;
+  padding: .27rem .4rem;
+  font-size: 0.78125rem; /* 12.5px*/
   line-height: .5;
   border-radius: .2rem;
 }
