@@ -2,12 +2,14 @@
   // Copyright 2018 BACnet Gateway.  All rights reserved.
 ?>
 <!-- Graph Options modal dialog -->
-<div class="modal fade" id="graphOptionsDialog" tabindex="-1" role="dialog" aria-labelledby="graphOptionsLabel">
+<div class="modal fade" id="graphOptionsDialog" tabindex="-1" role="dialog" aria-labelledby="graphOptionsLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="graphOptionsLabel"><span id="graphOptionsGraphName"></span> Graph Options</h4>
+        <h5 class="modal-title" id="graphOptionsLabel"><span id="graphOptionsGraphName"></span> Graph Options</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <form onsubmit="onSubmitGraphOptions(event); return false;" >
@@ -37,9 +39,9 @@
         </form>
       </div>
       <div class="modal-footer">
-        <div style="text-align:center;" >
+        <div>
           <button type="button" class="btn btn-primary" onclick="$('#graphOptionsSubmitButton').click()" >Set Options</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-default btn-secondary" data-dismiss="modal">Cancel</button>
         </div>
       </div>
     </div>
