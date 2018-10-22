@@ -17,14 +17,7 @@
   $_SESSION['bgt']['bgt_'] = strpos( $_SERVER['DOCUMENT_ROOT'], '/bgt_' ) !== false;
   //$_SESSION['bgt']['bgt_'] = true; // <------ fake fake fake
 
-  define(
-    'BOOTSTRAP_VERSION',
-    /******************************** /
-    ''
-    /********************************/
-    '_4'
-    /********************************/
-  );
+  define( 'BOOTSTRAP_VERSION', '_4' );
 
   define( 'LAYOUT_MODE_TAB', 'tab' );
   define( 'LAYOUT_MODE_SPLIT', 'split' );
