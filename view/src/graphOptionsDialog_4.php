@@ -16,7 +16,7 @@
 
           <div class="form-group">
             <label for="baselineDatepicker" >Show delta since</label>
-            <div id="baselineDatepicker" class="input-group mb-3 date">
+            <div id="baselineDatepicker" class="input-group date">
               <div class="input-group-prepend">
                 <button class="btn btn-outline-secondary" type="button">
                   <i class="far fa-calendar-alt" style="font-size:20px"></i>
