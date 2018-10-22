@@ -13,35 +13,44 @@
       </div>
       <div class="modal-body">
         <form onsubmit="onSubmitGraphOptions(event); return false;" >
+
           <div class="form-group">
-            <label class="control-label" for="baselineDatepicker" >Show delta since</label>
-            <div id="baselineDatepicker" class="input-group date">
+            <label for="baselineDatepicker" >Show delta since</label>
+            <div id="baselineDatepicker" class="input-group mb-3 date">
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary" type="button">
+                  <i class="far fa-calendar-alt" style="font-size:20px"></i>
+                </button>
+              </div>
               <input type="text" class="form-control" readonly>
-              <span class="input-group-addon btn btn-default">
-                <i class="far fa-calendar-alt" style="font-size:20px"></i>
-              </span>
             </div>
           </div>
+
+          <div class="form-group form-check" style="padding-top:15px;">
+            <input type="checkbox" class="form-check-input" id="showAsCost" onchange="onChangeShowAsCost()" />
+            <label class="form-check-label" for="showAsCost">Show as cost</label>
+          </div>
+
           <div class="form-group" >
-            <div class="checkbox" >
-              <label>
-                <input type="checkbox" id="showAsCost" onchange="onChangeShowAsCost()" />
-                <b>Show as cost</b>
-              </label>
-            </div>
             <div class="input-group">
-              <span class="input-group-addon">$</span>
+              <div class="input-group-prepend">
+                <span class="input-group-text">$</span>
+              </div>
               <input id="dollarsPerUnit" class="form-control" type="number" min="0.01" step="0.01" onchange="onChangeDollarsPerUnit()" required />
-              <span class="input-group-addon">per unit</span>
+              <div class="input-group-append">
+                <span class="input-group-text">per unit</span>
+              </div>
             </div>
           </div>
+
           <button id="graphOptionsSubmitButton" type="submit" style="display:none" ></button>
+
         </form>
       </div>
       <div class="modal-footer">
         <div>
           <button type="button" class="btn btn-primary" onclick="$('#graphOptionsSubmitButton').click()" >Set Options</button>
-          <button type="button" class="btn btn-default btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         </div>
       </div>
     </div>
