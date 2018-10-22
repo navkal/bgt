@@ -15,7 +15,7 @@
   error_log( '==> BACnet Gateway Port: ' . $_SESSION['bgt']['port'] );
 
   $_SESSION['bgt']['bgt_'] = strpos( $_SERVER['DOCUMENT_ROOT'], '/bgt_' ) !== false;
-  //$_SESSION['bgt']['bgt_'] = true; // <------ fake fake fake
+  //$_SESSION['bgt']['bgt_'] = true; // <------ Uncomment this line to test P&F interface
 
   define( 'BOOTSTRAP_VERSION', '_4' );
 
