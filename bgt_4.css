@@ -25,3 +25,11 @@
     text-align: right;
   }
 }
+
+/* Reduce crowding in datepicker display */
+.datepicker td,
+.datepicker th
+{
+  padding: 3px;
+}
+
