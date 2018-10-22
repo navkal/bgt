@@ -1,61 +1,33 @@
 /* Copyright 2018 BACnet Gateway.  All rights reserved. */
 
 /* Customize width at which full navbar reverts to hamburger */
-@media( max-width: 1050px )
+@media( min-width: 1050px )
 {
-  .navbar-header
+  .navbar-expand-custom
   {
-    float: none;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
   }
 
-  .navbar-left,.navbar-right
+  .navbar-expand-custom .navbar-nav
   {
-    float: none !important;
+    flex-direction: row;
   }
 
-  .navbar-toggle
+  .navbar-expand-custom .navbar-nav .nav-link
   {
-    display: block;
+    padding-right: .5rem;
+    padding-left: .5rem;
   }
 
-  .navbar-collapse
+  .navbar-expand-custom .navbar-collapse
   {
-    border-top: 1px solid transparent;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+      display: flex!important;
   }
 
-  .navbar-fixed-top
+  .navbar-expand-custom .navbar-toggler
   {
-    top: 0;
-    border-width: 0 0 1px;
-  }
-
-  .navbar-collapse.collapse
-  {
-    display: none !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-  }
-
-  .navbar-nav
-  {
-    float: none !important;
-    margin-top: 7.5px;
-  }
-
-  .navbar-nav>li
-  {
-    float: none;
-  }
-
-  .navbar-nav>li>a
-  {
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-
-  .collapse.in
-  {
-    display:block !important;
+    display: none;
   }
 }

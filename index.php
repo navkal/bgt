@@ -38,13 +38,13 @@
     define( 'NAVBAR_EXPAND_CLASS', 'navbar-expand-custom' );
 ?>
     <!-- CSS for P&F interface -->
-    <link rel="stylesheet" href="bgt_<?=BOOTSTRAP_VERSION?>.css?version=<?=time()?>">
+    <link rel="stylesheet" href="bgt_.css?version=<?=time()?>">
 <?php
   }
 ?>
 
 <!-- General CSS -->
-<link rel="stylesheet" href="bgt<?=BOOTSTRAP_VERSION?>.css?version=<?=time()?>">
+<link rel="stylesheet" href="bgt.css?version=<?=time()?>">
 
 <?php
   include "../common/main.php";
