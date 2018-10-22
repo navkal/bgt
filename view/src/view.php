@@ -295,6 +295,6 @@
     break;
   }
 
-  include 'graphOptionsDialog' . BOOTSTRAP_VERSION . '.php';
+  include 'graphOptionsDialog.php';
 ?>
 </div>
