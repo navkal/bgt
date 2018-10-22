@@ -796,7 +796,7 @@ function updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta )
           ' since ' +
           '<button ' +
             'type="button" ' +
-            'class="btn btn-default btn-outline-secondary btn-xs" ' +
+            'class="btn btn-outline-secondary btn-xs" ' +
             'title="' + sGraphName + ' Graph Options" ' +
             'data-toggle="modal" ' +
             'data-target="#graphOptionsDialog" ' +
