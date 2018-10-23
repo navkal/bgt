@@ -1174,6 +1174,7 @@ function uploadSnapshotDone( tRsp, sStatus, tJqXhr )
 
 function togglePoll()
 {
+  console.log( '===> bf isPollOn()? ==>' + isPollOn() );
   if ( isPollOn() )
   {
     g_tPollToggleText.text( g_sStartPoll );
@@ -1184,8 +1185,6 @@ function togglePoll()
     g_tPollToggleText.text( g_sStopPoll );
     g_tPollToggleIcon.removeClass( g_sStartPollClass ).addClass( g_sStopPollClass );
   }
-
-  console.log( '===> bf isPollOn()? ==>' + isPollOn() );
   console.log( '===> af isPollOn()? ==>' + isPollOn() );
 }
 
