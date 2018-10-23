@@ -39,11 +39,8 @@ var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProp
 
 var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
 
-var g_tPollToggleText = null;
 var g_tPollToggleIcon = null;
-var g_sStartPoll = 'Start Polling';
 var g_sStartPollClass = 'fa-play-circle text-success'
-var g_sStopPoll = 'Stop Polling';
 var g_sStopPollClass = 'fa-stop-circle text-danger'
 
 $( document ).ready( onDocumentReady );
@@ -82,9 +79,7 @@ function onDocumentReady()
 function initTable()
 {
   // Initialize poll toggle button
-  g_tPollToggleText = $( '#pollToggleText' );
   g_tPollToggleIcon = $( '#pollToggleIcon' );
-  g_tPollToggleText.text( g_sStartPoll );
   g_tPollToggleIcon.addClass( g_sStartPollClass );
 
   var sHtml = '';
@@ -1175,22 +1170,14 @@ function uploadSnapshotDone( tRsp, sStatus, tJqXhr )
 function togglePoll()
 {
   console.log( '===> bf isPollOn()? ==>' + isPollOn() );
-  if ( isPollOn() )
-  {
-    g_tPollToggleText.text( g_sStartPoll );
-    g_tPollToggleIcon.removeClass( g_sStopPollClass ).addClass( g_sStartPollClass );
-  }
-  else
-  {
-    g_tPollToggleText.text( g_sStopPoll );
-    g_tPollToggleIcon.removeClass( g_sStartPollClass ).addClass( g_sStopPollClass );
-  }
+  g_tPollToggleIcon.toggleClass( g_sStopPollClass )
+  g_tPollToggleIcon.toggleClass( g_sStartPollClass );
   console.log( '===> af isPollOn()? ==>' + isPollOn() );
 }
 
 function isPollOn()
 {
-  return g_tPollToggleText.text() == g_sStopPoll;
+  return g_tPollToggleIcon.hasClass( g_sStopPollClass );
 }
 
 function doNothing( tJqXhr, sStatus, sErrorThrown )
