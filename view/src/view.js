@@ -80,6 +80,7 @@ function initTable()
 {
   // Initialize poll toggle button
   g_tPollToggleButton = $( '#pollToggleButton' );
+  g_tPollToggleButton.css( 'display', 'none' ); // <--- fake
   g_tPollToggleButton.prop( 'disabled', true );
   g_tPollToggleIcon = $( '#pollToggleIcon' );
   g_tPollToggleIcon.addClass( g_sStopPollClass );
@@ -1129,6 +1130,9 @@ function togglePoll()
 
 function tryToPoll()
 {
+  setTimeout( rq, g_tCachedValues ? 0 : 2000 ); //fake
+  return; // fake
+
   if ( g_tCachedValues || isPollOn() )
   {
     rq();
