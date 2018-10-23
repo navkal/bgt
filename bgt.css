@@ -34,3 +34,10 @@
   padding: 5px;
   font-size: 0.9375rem; /* 15px */
 }
+
+/* Font Awesome icons */
+.fas,
+.far
+{
+  font-size: 1rem; /* 16px */
+}

@@ -42,9 +42,9 @@ var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric'
 var g_tPollToggleText = null;
 var g_tPollToggleIcon = null;
 var g_sStartPoll = 'Start Polling';
-var g_sStartPollClass = 'fa-play-circle'
+var g_sStartPollClass = 'fa-play-circle text-success'
 var g_sStopPoll = 'Stop Polling';
-var g_sStopPollClass = 'fa-stop-circle'
+var g_sStopPollClass = 'fa-stop-circle text-danger'
 
 $( document ).ready( onDocumentReady );
 
