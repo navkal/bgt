@@ -1076,10 +1076,12 @@ function nextRow( bSuccess )
   // Advance row index
   if ( g_iRow < ( g_aRows.length - 1 ) )
   {
+    // Advance to next row
     g_iRow ++;
   }
   else
   {
+    // Cycle back to first row
     g_iRow = 0;
     g_tCachedValues = null;
     g_tPollToggleButton.prop( 'disabled', false );
@@ -1130,7 +1132,7 @@ function togglePoll()
 
 function tryToPoll()
 {
-  setTimeout( rq, g_tCachedValues ? 0 : 2000 ); //fake
+  setTimeout( rq, g_tCachedValues ? 0 : 3000 ); //fake
   return; // fake
 
   if ( g_tCachedValues || isPollOn() )
