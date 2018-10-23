@@ -5,9 +5,14 @@
 <!-- Attach Download button above table head -->
 <div class="tablesorter-dropbox">
   <div class="btn tablesorter-headerRow" style="width:100%; border-bottom:0px; padding: 1px 5px;" >
-    <button onclick="uploadSnapshot()" class="btn btn-sm btn-link float-right">
-      <i class="fas fa-download"></i> Download
-    </button>
+    <span class="float-right">
+      <button id="pollToggle" class="btn btn-sm btn-link" onclick="togglePoll()">
+        <i id="pollToggleIcon" class="far"></i> <span id="pollToggleText"></span>
+      </button>
+      <button class="btn btn-sm btn-link" onclick="uploadSnapshot()">
+        <i class="fas fa-download"></i> Download
+      </button>
+    </span>
   </div>
 </div>
 
