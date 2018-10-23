@@ -39,9 +39,7 @@ var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProp
 var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
 
 var g_tPollToggleButton = null;
-var g_tPollToggleIcon = null;
-var g_sStartPollClass = 'fa-play-circle text-success'
-var g_sStopPollClass = 'fa-stop-circle text-danger'
+
 
 $( document ).ready( onDocumentReady );
 
@@ -80,10 +78,6 @@ function initTable()
 {
   // Initialize poll toggle button
   g_tPollToggleButton = $( '#pollToggleButton' );
-  g_tPollToggleButton.css( 'display', 'none' ); // <--- fake
-  g_tPollToggleButton.prop( 'disabled', true );
-  g_tPollToggleIcon = $( '#pollToggleIcon' );
-  g_tPollToggleIcon.addClass( g_sStopPollClass );
 
   var sHtml = '';
   for ( var iRow in g_aRows )
@@ -1081,11 +1075,10 @@ function nextRow( bSuccess )
   }
   else
   {
-    // Cycle back to first row
+    // Finished last row
     g_iRow = 0;
     g_tCachedValues = null;
-    g_tPollToggleButton.prop( 'disabled', false );
-    togglePoll();
+    stopPoll();
   }
 
   // Reinitialize variables
@@ -1117,23 +1110,6 @@ function onTablesorterReady()
 {
   g_tTable.off( 'tablesorter-ready' );
   g_tTable.show();
-  tryToPoll();
-}
-
-function togglePoll()
-{
-  console.log( '===> bf isPollOn()? ==>' + isPollOn() );
-  g_tPollToggleIcon.toggleClass( g_sStopPollClass )
-  g_tPollToggleIcon.toggleClass( g_sStartPollClass );
-  console.log( '===> af isPollOn()? ==>' + isPollOn() );
-
-  tryToPoll();
-}
-
-function tryToPoll()
-{
-  setTimeout( rq, g_tCachedValues ? 0 : 3000 ); //fake
-  return; // fake
 
   if ( g_tCachedValues || isPollOn() )
   {
@@ -1141,9 +1117,20 @@ function tryToPoll()
   }
 }
 
+function startPoll()
+{
+  g_tPollToggleButton.prop( 'disabled', true );
+  rq();
+}
+
+function stopPoll()
+{
+  g_tPollToggleButton.prop( 'disabled', false );
+}
+
 function isPollOn()
 {
-  return g_tPollToggleIcon.hasClass( g_sStopPollClass );
+  return g_tPollToggleButton.prop( 'disabled' );
 }
 
 function uploadSnapshot()

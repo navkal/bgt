@@ -6,8 +6,8 @@
 <div class="tablesorter-dropbox">
   <div class="btn tablesorter-headerRow" style="width:100%; border-bottom:0px; padding: 1px 5px;" >
     <span class="float-right">
-      <button id="pollToggleButton" class="btn btn-sm btn-link" onclick="togglePoll()">
-        <i id="pollToggleIcon" class="far"></i> Update
+      <button id="pollToggleButton" class="btn btn-sm btn-link" onclick="startPoll()" disabled >
+        <i class="fas fa-sync-alt"></i> Refresh
       </button>
       <button class="btn btn-sm btn-link" onclick="uploadSnapshot()">
         <i class="fas fa-download"></i> Download
