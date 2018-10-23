@@ -39,6 +39,7 @@ var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProp
 
 var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
 
+var g_tPollToggleButton = null;
 var g_tPollToggleIcon = null;
 var g_sStartPollClass = 'fa-play-circle text-success'
 var g_sStopPollClass = 'fa-stop-circle text-danger'
@@ -79,8 +80,10 @@ function onDocumentReady()
 function initTable()
 {
   // Initialize poll toggle button
+  g_tPollToggleButton = $( '#pollToggleButton' );
+  g_tPollToggleButton.prop( 'disabled', true );
   g_tPollToggleIcon = $( '#pollToggleIcon' );
-  g_tPollToggleIcon.addClass( g_sStartPollClass );
+  g_tPollToggleIcon.addClass( g_sStopPollClass );
 
   var sHtml = '';
   for ( var iRow in g_aRows )
@@ -1080,6 +1083,8 @@ function nextRow( bSuccess )
     g_iRow = 0;
     g_iTimeoutMs = g_tCachedValues ? g_iTimeoutMs : 5000;
     g_tCachedValues = null;
+    g_tPollToggleButton.prop( 'disabled', false );
+    togglePoll();
   }
 
   // Reinitialize variables
@@ -1111,7 +1116,30 @@ function onTablesorterReady()
 {
   g_tTable.off( 'tablesorter-ready' );
   g_tTable.show();
-  setTimeout( rq, g_iTimeoutMs );
+  tryToPoll();
+}
+
+function togglePoll()
+{
+  console.log( '===> bf isPollOn()? ==>' + isPollOn() );
+  g_tPollToggleIcon.toggleClass( g_sStopPollClass )
+  g_tPollToggleIcon.toggleClass( g_sStartPollClass );
+  console.log( '===> af isPollOn()? ==>' + isPollOn() );
+
+  tryToPoll();
+}
+
+function tryToPoll()
+{
+  if ( g_tCachedValues || isPollOn() )
+  {
+    setTimeout( rq, g_iTimeoutMs );
+  }
+}
+
+function isPollOn()
+{
+  return g_tPollToggleIcon.hasClass( g_sStopPollClass );
 }
 
 function uploadSnapshot()
@@ -1165,19 +1193,6 @@ function uploadSnapshot()
 function uploadSnapshotDone( tRsp, sStatus, tJqXhr )
 {
   window.location.href='view/src/downloadSnapshot.php?csv_basename=' + g_sCsvBasename + '&snapshot_id=' + tRsp;
-}
-
-function togglePoll()
-{
-  console.log( '===> bf isPollOn()? ==>' + isPollOn() );
-  g_tPollToggleIcon.toggleClass( g_sStopPollClass )
-  g_tPollToggleIcon.toggleClass( g_sStartPollClass );
-  console.log( '===> af isPollOn()? ==>' + isPollOn() );
-}
-
-function isPollOn()
-{
-  return g_tPollToggleIcon.hasClass( g_sStopPollClass );
 }
 
 function doNothing( tJqXhr, sStatus, sErrorThrown )
