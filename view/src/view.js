@@ -19,7 +19,6 @@ if ( ! Array.prototype.fill )
 var g_tTable = null;
 var g_iInstanceOffset = 0;
 var g_iRow = 0;
-var g_iTimeoutMs = 0;
 var g_aRowData = [];
 var g_tGraphData = {};
 var g_bHorizontal = null;
@@ -1081,7 +1080,6 @@ function nextRow( bSuccess )
   else
   {
     g_iRow = 0;
-    g_iTimeoutMs = g_tCachedValues ? g_iTimeoutMs : 5000;
     g_tCachedValues = null;
     g_tPollToggleButton.prop( 'disabled', false );
     togglePoll();
@@ -1133,7 +1131,7 @@ function tryToPoll()
 {
   if ( g_tCachedValues || isPollOn() )
   {
-    setTimeout( rq, g_iTimeoutMs );
+    rq();
   }
 }
 
