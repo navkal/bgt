@@ -38,7 +38,7 @@ var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProp
 
 var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
 
-var g_tPollToggleButton = null;
+var g_tRefreshButton = null;
 
 
 $( document ).ready( onDocumentReady );
@@ -76,8 +76,8 @@ function onDocumentReady()
 
 function initTable()
 {
-  // Initialize poll toggle button
-  g_tPollToggleButton = $( '#pollToggleButton' );
+  // Initialize refresh button
+  g_tRefreshButton = $( '#refreshButton' );
 
   var sHtml = '';
   for ( var iRow in g_aRows )
@@ -1078,7 +1078,7 @@ function nextRow( bSuccess )
     // Finished last row
     g_iRow = 0;
     g_tCachedValues = null;
-    stopPoll();
+    stopRefresh();
   }
 
   // Reinitialize variables
@@ -1111,26 +1111,26 @@ function onTablesorterReady()
   g_tTable.off( 'tablesorter-ready' );
   g_tTable.show();
 
-  if ( g_tCachedValues || isPollOn() )
+  if ( g_tCachedValues || isRefreshOn() )
   {
     rq();
   }
 }
 
-function startPoll()
+function startRefresh()
 {
-  g_tPollToggleButton.prop( 'disabled', true );
+  g_tRefreshButton.prop( 'disabled', true );
   rq();
 }
 
-function stopPoll()
+function stopRefresh()
 {
-  g_tPollToggleButton.prop( 'disabled', false );
+  g_tRefreshButton.prop( 'disabled', false );
 }
 
-function isPollOn()
+function isRefreshOn()
 {
-  return g_tPollToggleButton.prop( 'disabled' );
+  return g_tRefreshButton.prop( 'disabled' );
 }
 
 function uploadSnapshot()
