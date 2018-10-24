@@ -39,6 +39,8 @@ var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProp
 var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
 
 var g_tRefreshButton = null;
+var g_tStartRefreshIcon = null;
+var g_tStopRefreshIcon = null;
 
 
 $( document ).ready( onDocumentReady );
@@ -78,6 +80,8 @@ function initTable()
 {
   // Initialize refresh button
   g_tRefreshButton = $( '#refreshButton' );
+  g_tStartRefreshIcon = $( '#startRefreshIcon' );
+  g_tStopRefreshIcon = $( '#stopRefreshIcon' );
 
   var sHtml = '';
   for ( var iRow in g_aRows )
@@ -1072,6 +1076,10 @@ function nextRow( bSuccess )
   {
     // Advance to next row
     g_iRow ++;
+    if ( ! g_tCachedValues )
+    {
+      enableRefreshButton( true );
+    }
   }
   else
   {
@@ -1079,6 +1087,7 @@ function nextRow( bSuccess )
     g_iRow = 0;
     g_tCachedValues = null;
     stopRefresh();
+    enableRefreshButton( true );
   }
 
   // Reinitialize variables
@@ -1117,20 +1126,40 @@ function onTablesorterReady()
   }
 }
 
+function toggleRefresh()
+{
+  if ( isRefreshOn() )
+  {
+    stopRefresh();
+  }
+  else
+  {
+    startRefresh();
+  }
+}
+
 function startRefresh()
 {
-  g_tRefreshButton.prop( 'disabled', true );
+  g_tStartRefreshIcon.hide();
+  g_tStopRefreshIcon.show();
   rq();
 }
 
 function stopRefresh()
 {
-  g_tRefreshButton.prop( 'disabled', false );
+  g_tStopRefreshIcon.hide();
+  g_tStartRefreshIcon.show();
+  enableRefreshButton( false );
+}
+
+function enableRefreshButton( bEnable )
+{
+  g_tRefreshButton.prop( 'disabled', ! bEnable );
 }
 
 function isRefreshOn()
 {
-  return g_tRefreshButton.prop( 'disabled' );
+  return g_tStopRefreshIcon.is( ':visible' );
 }
 
 function uploadSnapshot()

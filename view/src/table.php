@@ -6,8 +6,10 @@
 <div class="tablesorter-dropbox">
   <div class="btn tablesorter-headerRow" style="width:100%; border-bottom:0px; padding: 1px 5px;" >
     <span class="float-right">
-      <button id="refreshButton" class="btn btn-sm btn-link" onclick="startRefresh()" disabled >
-        <i class="fas fa-sync-alt"></i> Refresh
+      <button id="refreshButton" class="btn btn-sm btn-link" onclick="toggleRefresh()" disabled >
+        <i id="startRefreshIcon" class="fas fa-sync-alt text-success" style="display:none"></i>
+        <i id="stopRefreshIcon" class="far fa-stop-circle text-danger"></i>
+        Refresh
       </button>
       <button class="btn btn-sm btn-link" onclick="uploadSnapshot()">
         <i class="fas fa-download"></i> Download

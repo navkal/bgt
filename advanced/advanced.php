@@ -306,7 +306,7 @@
         </select>
       </div>
 
-      <button id="submit_button" type="submit" class="btn btn-primary mt-1" title="Get value and units for specified Facility and Instance" >Get value and units</button>
+      <button id="submit_button" type="submit" class="btn btn-primary mt-1" title="Get value and units for specified Facility and Instance" >Get value</button>
     </form>
   </div>
 
