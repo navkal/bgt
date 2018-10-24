@@ -41,6 +41,7 @@ var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric'
 var g_tRefreshButton = null;
 var g_tStartRefreshIcon = null;
 var g_tStopRefreshIcon = null;
+var g_bRefreshOn = false;
 
 
 $( document ).ready( onDocumentReady );
@@ -1120,7 +1121,7 @@ function onTablesorterReady()
   g_tTable.off( 'tablesorter-ready' );
   g_tTable.show();
 
-  if ( g_tCachedValues || isRefreshOn() )
+  if ( g_tCachedValues || g_bRefreshOn )
   {
     rq();
   }
@@ -1128,7 +1129,7 @@ function onTablesorterReady()
 
 function toggleRefresh()
 {
-  if ( isRefreshOn() )
+  if ( g_bRefreshOn )
   {
     stopRefresh();
   }
@@ -1142,6 +1143,7 @@ function startRefresh()
 {
   g_tStartRefreshIcon.hide();
   g_tStopRefreshIcon.show();
+  g_bRefreshOn = true;
   rq();
 }
 
@@ -1149,17 +1151,13 @@ function stopRefresh()
 {
   g_tStopRefreshIcon.hide();
   g_tStartRefreshIcon.show();
+  g_bRefreshOn = false;
   enableRefreshButton( false );
 }
 
 function enableRefreshButton( bEnable )
 {
   g_tRefreshButton.prop( 'disabled', ! bEnable );
-}
-
-function isRefreshOn()
-{
-  return g_tStopRefreshIcon.is( ':visible' );
 }
 
 function uploadSnapshot()
