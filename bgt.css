@@ -36,8 +36,8 @@
 }
 
 /* Font Awesome icons */
-.fas,
-.far
+.btn.tablesorter-headerRow .fas,
+.btn.tablesorter-headerRow .far
 {
   font-size: 1rem; /* 16px */
 }
