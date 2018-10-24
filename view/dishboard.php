@@ -3,7 +3,7 @@
 
   $g_sLayoutMode = LAYOUT_MODE_TAB;
 
-  $g_sCsvFilename = 'csv/dashboard.csv';
+  $g_sCsvFilename = 'csv/aps_electricity.csv';
   $g_sFirstColName = 'Facility';
   $g_aColNames =
   [

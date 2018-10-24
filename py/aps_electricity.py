@@ -20,7 +20,7 @@ args = parser.parse_args()
 #   - Feeder
 #   - Instance ID of Power oid
 #   - Instance ID of Energy oid
-df = pd.read_csv( '../csv/dashboard.csv', na_filter=False )
+df = pd.read_csv( '../csv/aps_electricity.csv', na_filter=False )
 # print( '---Feeder---' )
 # print( df['Feeder'] )
 # print( '---Power---' )
