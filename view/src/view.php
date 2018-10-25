@@ -223,7 +223,7 @@
 
   <div class="tab-content">
 
-    <div id="tableTab" class="tab-pane fade in active">
+    <div id="tableTab" class="tab-pane in active">
       <div class="container">
         <?php
           include $_SERVER['DOCUMENT_ROOT'] . '/view/src/table.php';
