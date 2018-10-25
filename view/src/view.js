@@ -1114,6 +1114,7 @@ function onSortEnd( tEvent )
 function onFilterEnd( tEvent )
 {
   updateGraphs( false );
+  updateRowCount();
 }
 
 function onTablesorterReady()
@@ -1121,9 +1122,26 @@ function onTablesorterReady()
   g_tTable.off( 'tablesorter-ready' );
   g_tTable.show();
 
+  // Show row count in toolbar
+  updateRowCount();
+
   if ( g_tCachedValues || g_bRefreshing )
   {
     rq();
+  }
+}
+
+function updateRowCount()
+{
+  var nRows = $( '#bgt_table tbody tr:not(.filtered)' ).length;
+  $( '#bgt_table_row_count' ).html( nRows );
+  if ( nRows == 1 )
+  {
+    $( '#bgt_table_row_count_s' ).hide();
+  }
+  else
+  {
+    $( '#bgt_table_row_count_s' ).show();
   }
 }
 
