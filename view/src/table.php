@@ -5,6 +5,13 @@
 <!-- Attach Download button above table head -->
 <div class="tablesorter-dropbox">
   <div class="btn tablesorter-headerRow" style="width:100%; border-bottom:0px; padding: 1px 5px;" >
+    <!--
+    <span class="float-left">
+        <span class="btn btn-sm" style="color:#2281cf;" >
+          <span id="bgt_table_row_count">11 rows</span>
+        </span>
+    </span>
+    -->
     <span class="float-right">
       <button id="refreshButton" class="btn btn-sm btn-link" onclick="toggleRefresh()" disabled >
         <i id="startRefreshIcon" class="fas fa-sync-alt text-success"></i>
