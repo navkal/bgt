@@ -208,11 +208,11 @@
           {
             $bTableTab = true;
     ?>
-            <li class="active"><a data-toggle="tab" href="#tableTab">Table</a></li>
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tableTab">Table</a></li>
     <?php
           }
     ?>
-          <li><a class="graph-tab" data-toggle="tab" href="#<?=$aColPair['graph']['graph_id']?>"><?=$aColPair['value_col_name']?></a></li>
+          <li class="nav-item"><a class="nav-link graph-tab" data-toggle="tab" href="#<?=$aColPair['graph']['graph_id']?>"><?=$aColPair['value_col_name']?></a></li>
     <?php
         }
       }
