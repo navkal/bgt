@@ -38,9 +38,6 @@ var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProp
 
 var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
 
-var g_tRefreshButton = null;
-var g_tStartRefreshIcon = null;
-var g_tStopRefreshIcon = null;
 var g_bRefreshing = false;
 
 
@@ -79,11 +76,6 @@ function onDocumentReady()
 
 function initTable()
 {
-  // Initialize refresh button
-  g_tRefreshButton = $( '#refreshButton' );
-  g_tStartRefreshIcon = $( '#startRefreshIcon' );
-  g_tStopRefreshIcon = $( '#stopRefreshIcon' );
-
   var sHtml = '';
   for ( var iRow in g_aRows )
   {
@@ -1162,23 +1154,23 @@ function toggleRefresh()
 
 function startRefresh()
 {
-  g_tStartRefreshIcon.hide();
-  g_tStopRefreshIcon.show();
+  $( '#startRefreshIcon' ).hide();
+  $( '#stopRefreshIcon' ).show();
   g_bRefreshing = true;
   rq();
 }
 
 function stopRefresh()
 {
-  g_tStopRefreshIcon.hide();
-  g_tStartRefreshIcon.show();
+  $( '#stopRefreshIcon' ).hide();
+  $( '#startRefreshIcon' ).show();
   g_bRefreshing = false;
   enableRefreshButton( false );
 }
 
 function enableRefreshButton( bEnable )
 {
-  g_tRefreshButton.prop( 'disabled', ! bEnable );
+  $( '#refreshButton' ).prop( 'disabled', ! bEnable );
 }
 
 function uploadSnapshot()
