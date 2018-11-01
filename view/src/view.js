@@ -533,7 +533,7 @@ function rq()
     {
       var tRsp =
       {
-        bacnet_response:
+        instance_response:
         {
           success: true,
           data: g_tCachedValues[sFacility][sInstance]
@@ -571,7 +571,7 @@ function rq()
     // Construct empty response
     var tRsp =
     {
-      bacnet_response:
+      instance_response:
       {
         success: true,
         data:
@@ -592,8 +592,8 @@ function rqDone( tRsp, sStatus, tJqXhr )
 {
   clearWaitCursor();
 
-  var tBnRsp = tRsp.bacnet_response;
-  if ( ! tBnRsp.success || ! tBnRsp.data.success )
+  var tInstanceRsp = tRsp.instance_response;
+  if ( ! tInstanceRsp.success || ! tInstanceRsp.data.success )
   {
     // Request failed; advance to next row
     nextRow( false );
@@ -603,7 +603,7 @@ function rqDone( tRsp, sStatus, tJqXhr )
     // Request succeeded
 
     // Save data
-    g_aRowData.push( tBnRsp.data );
+    g_aRowData.push( tInstanceRsp.data );
 
     if ( g_iInstanceOffset < g_aRows[g_iRow].length - 1 )
     {

@@ -207,11 +207,11 @@
     var sStatus = 'OK';
     var sClass = '';
 
-    var tBnRsp = tRsp.bacnet_response;
+    var tInstanceRsp = tRsp.instance_response;
 
-    if ( tBnRsp.success )
+    if ( tInstanceRsp.success )
     {
-      var tData = tBnRsp.data;
+      var tData = tInstanceRsp.data;
 
       if ( tData.success )
       {
@@ -226,7 +226,7 @@
     }
     else
     {
-      sStatus = '<span class="text-muted"><small>' + tBnRsp.message + '</small></span>';
+      sStatus = '<span class="text-muted"><small>' + tInstanceRsp.message + '</small></span>';
     }
 
     // Display results as new row in response table
