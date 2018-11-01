@@ -1,5 +1,5 @@
 <?php
-  // Copyright 2018 BACnet Gateway.  All rights reserved.
+  // Copyright 2018 Building Monitor.  All rights reserved.
 ?>
 <!-- Graph Options modal dialog -->
 <div class="modal fade" id="graphOptionsDialog" tabindex="-1" role="dialog" aria-labelledby="graphOptionsLabel" aria-hidden="true">

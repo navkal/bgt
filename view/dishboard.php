@@ -1,5 +1,5 @@
 <?php
-  // Copyright 2018 BACnet Gateway.  All rights reserved.
+  // Copyright 2018 Building Monitor.  All rights reserved.
 
   $g_sLayoutMode = LAYOUT_MODE_TAB;
 

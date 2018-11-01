@@ -1,5 +1,5 @@
 <?php
-  // Copyright 2018 BACnet Gateway.  All rights reserved.
+  // Copyright 2018 Building Monitor.  All rights reserved.
 
   define( 'BM', '<i>Building Monitor</i>' );
   define( 'BG', '<i>BACnet Gateway</i>' );
