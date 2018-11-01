@@ -6,7 +6,7 @@ import pandas as pd
 
 import sys
 sys.path.append( 'util' )
-from bacnet_gateway_requests import get_bulk
+from building_data_requests import get_bulk
 
 
 # Initialize empty result

@@ -8,7 +8,7 @@ from datetime import timedelta
 
 import sys
 sys.path.append( '../util' )
-from bacnet_gateway_requests import get_bacnet_value
+from building_data_requests import get_value
 sys.path.append( '../../bg/util' )
 import db_util
 
@@ -45,7 +45,7 @@ def load_cache():
                     # If instance is not empty, issue BACnet request
                     if instance:
                         time.sleep( args.sleep_interval )
-                        get_bacnet_value( facility, instance, args.hostname, args.port )
+                        get_value( facility, instance, args.hostname, args.port )
                         n_loaded += 1
 
             db_util.log( logpath, "Loaded view '" + view + "' with " + str( n_loaded ) + " values.  Elapsed time: " + str( timedelta( seconds=int( time.time() - view_start_time ) ) ) )

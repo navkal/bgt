@@ -7,7 +7,7 @@ import datetime
 
 import sys
 sys.path.append( '../util' )
-from bacnet_gateway_requests import get_bacnet_value
+from building_data_requests import get_value
 
 # Get hostname and port of BACnet Gateway
 parser = argparse.ArgumentParser( description='Test BACnet Gateway', add_help=False )
@@ -37,8 +37,8 @@ def ReadAllMeters ():
 	for index, row in df.iterrows():
 
 		# Retrieve data
-		kW_value, kW_units = get_bacnet_value( row['Facility'], row['Power'], args.hostname, args.port )
-		kWh_value,kWh_units = get_bacnet_value( row['Facility'], row['Energy'], args.hostname, args.port )
+		kW_value, kW_units = get_value( row['Facility'], row['Power'], args.hostname, args.port )
+		kWh_value,kWh_units = get_value( row['Facility'], row['Energy'], args.hostname, args.port )
 		currentDT = datetime.datetime.now()
 
 		# Prepare to print

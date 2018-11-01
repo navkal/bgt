@@ -7,7 +7,7 @@ import time
 
 import sys
 sys.path.append( '../util' )
-from bacnet_gateway_requests import get_bacnet_value
+from building_data_requests import get_value
 sys.path.append( '../../bg/util' )
 import db_util
 
@@ -43,7 +43,7 @@ def save_baseline( csv_filename, column_name, oid_row ):
     oid = oid_row[column_name]
     row_label = oid_row['Label']
     for i in range( 1, 6 ):
-        value, units = get_bacnet_value( facility, oid, args.hostname, args.port, live=True )
+        value, units = get_value( facility, oid, args.hostname, args.port, live=True )
         value = int( value )
         db_util.log( logpath, '{0},{1},{2}'.format( row_label, value, units ) )
         baselines_db.save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id )
