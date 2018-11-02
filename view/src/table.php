@@ -3,6 +3,7 @@
 
   global $navbarItems;
   global $navbarItemKey;
+  $iColspan = 2 + ( count( $g_aColNames ) * 2 );
 ?>
 
 <table id="bgt_table" class="table" style="display:none" >
@@ -11,7 +12,7 @@
 
     <!-- Title -->
     <tr>
-      <th class="sorter-false tablesorter-headerRow" colspan="<?=2 + ( count( $g_aColNames ) * 2 )?>" >
+      <th class="sorter-false tablesorter-headerRow" colspan="<?=$iColspan?>" >
         <span class="btn btn-sm" style="cursor:default; font-size:0.9375rem" >
           <?=$navbarItems[$navbarItemKey][0]?>
         </span>
@@ -23,7 +24,7 @@
 
     <!-- Toolbar -->
     <tr>
-      <th class="sorter-false tablesorter-headerRow" colspan="<?=2 + ( count( $g_aColNames ) * 2 )?>" >
+      <th class="sorter-false tablesorter-headerRow" colspan="<?=$iColspan?>" >
         <span class="float-right">
           <button id="refreshButton" class="btn btn-sm btn-link" onclick="toggleRefresh()" disabled >
             <i id="startRefreshIcon" class="fas fa-sync-alt text-success"></i>
