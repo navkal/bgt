@@ -1,4 +1,4 @@
-# Copyright 2018 Building Monitor.  All rights reserved.
+# Copyright 2018 Building Energy Monitor.  All rights reserved.
 
 try:
     import argparse

@@ -1,6 +1,6 @@
-# Copyright 2018 Building Monitor.  All rights reserved.
+# Copyright 2018 Building Energy Monitor.  All rights reserved.
 #
-# Continuously update cache of Building Monitor data
+# Continuously update cache with Building Energy Monitor data
 #
 # To run this script periodically, edit the root crontab:
 #   sudo crontab -e

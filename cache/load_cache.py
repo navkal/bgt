@@ -1,4 +1,4 @@
-# Copyright 2018 Building Monitor.  All rights reserved.
+# Copyright 2018 Building Energy Monitor.  All rights reserved.
 
 import argparse
 import os
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     if dups <= 1:
 
         # Get command line arguments
-        parser = argparse.ArgumentParser( description='Load Building Monitor values into BACnet Gateway cache', add_help=False )
+        parser = argparse.ArgumentParser( description='Load Building Energy Monitor values into BACnet Gateway cache', add_help=False )
         parser.add_argument( '-h', dest='hostname' )
         parser.add_argument( '-p', dest='port' )
         parser.add_argument( '-s', dest='sleep_interval', type=int )

@@ -1,5 +1,5 @@
 <?php
-  // Copyright 2018 Building Monitor.  All rights reserved.
+  // Copyright 2018 Building Energy Monitor.  All rights reserved.
 
   include $_SERVER['DOCUMENT_ROOT'] . '/util/tablesorter.php';
 

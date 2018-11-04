@@ -1,7 +1,7 @@
 <?php
-  // Copyright 2018 Building Monitor.  All rights reserved.
+  // Copyright 2018 Building Energy Monitor.  All rights reserved.
 
-  define( 'BM', '<i>Building Monitor</i>' );
+  define( 'BEM', '<i>Building Energy Monitor</i>' );
   define( 'BG', '<i>BACnet Gateway</i>' );
 
   $aLinkFilenames = [];
@@ -61,18 +61,18 @@
   <br/>
 
   <p>
-    The <a href="http://www.EnergizeAndover.com" target="_blank">Energize Andover</a> team is pleased to offer the <?=BM?> web application and the <?=BG?> web service for use by Andover Plant and Facilities (P&F) and Andover Public Schools (APS).
+    The <a href="http://www.EnergizeAndover.com" target="_blank">Energize Andover</a> team is pleased to offer the <?=BEM?> web application and the <?=BG?> web service for use by Andover Plant and Facilities (P&F) and Andover Public Schools (APS).
   </p>
 
   <br/>
 
   <p class="h5">
-    <?=BM?> for Plant and Facilities
+    <?=BEM?> for Plant and Facilities
   </p>
 
   <p>
-    The <?=BM?> application allows P&F technicians to monitor real-time parameters throughout APS buildings.
-    <?=BM?> can improve operational efficiency by providing quick and easy access to critical data.
+    The <?=BEM?> application allows P&F technicians to monitor real-time parameters throughout APS buildings.
+    <?=BEM?> can improve operational efficiency by providing quick and easy access to critical data.
   </p>
 
   <br/>
@@ -93,7 +93,7 @@
   </p>
 
   <p>
-    For more information about <?=BM?> and <?=BG?>, please email us at <a href="mailto:energizeAndover@gmail.com">energizeAndover@gmail.com</a>.
+    For more information about <?=BEM?> and <?=BG?>, please email us at <a href="mailto:energizeAndover@gmail.com">energizeAndover@gmail.com</a>.
   </p>
 
   <br/>

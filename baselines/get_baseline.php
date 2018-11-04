@@ -1,5 +1,5 @@
 <?php
-  // Copyright 2018 Building Monitor.  All rights reserved.
+  // Copyright 2018 Building Energy Monitor.  All rights reserved.
   require_once $_SERVER["DOCUMENT_ROOT"] . "/../common/util.php";
 
   error_log( "==> post=" . print_r( $_POST, true ) );

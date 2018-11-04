@@ -1,5 +1,5 @@
-Building Monitor
-&copy; 2018 Building Monitor.  All rights reserved.
+Building Energy Monitor
+&copy; 2018 Building Energy Monitor.  All rights reserved.
 energizeAndover@gmail.com
 #
 # --- Test views ---
@@ -7,7 +7,7 @@ energizeAndover@gmail.com
 #pi,PHP Info, pi/pi.php
 #
 # --- Public views ---
-about,Building Monitor,about/about.php
+about,About,about/about.php
 aps_electricity,APS Electricity,view/aps_electricity.php
 ahs_electricity,AHS Electricity,view/ahs_electricity.php
 ahs_air,AHS Air,view/ahs_air.php
