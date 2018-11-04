@@ -181,7 +181,7 @@
   var g_aRows = JSON.parse( '<?=json_encode( $aLines )?>' );
   var g_sLayoutMode = '<?=$g_sLayoutMode?>';
   var g_bFlot = <?=$bFlot?>;
-  var g_sBacnetGatewayUrl = 'http://<?=$_SESSION['bgt']['host']?>:<?=$_SESSION['bgt']['port']?>/';
+  var g_sBuildingEnergyGatewayUrl = 'http://<?=$_SESSION['bgt']['host']?>:<?=$_SESSION['bgt']['port']?>/';
   var LAYOUT_MODE_SPLIT = '<?=LAYOUT_MODE_SPLIT?>';
   var LAYOUT_MODE_TAB = '<?=LAYOUT_MODE_TAB?>';
 </script>

@@ -42,7 +42,7 @@ def load_cache():
 
                     instance = view_row.iloc[i]
 
-                    # If instance is not empty, issue BACnet request
+                    # If instance is not empty, issue request
                     if instance:
                         time.sleep( args.sleep_interval )
                         get_value( facility, instance, args.hostname, args.port )

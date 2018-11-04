@@ -551,7 +551,7 @@ function rq()
 
       // Issue request to Building Energy Gateway
       $.ajax(
-        g_sBacnetGatewayUrl + sArgList,
+        g_sBuildingEnergyGatewayUrl + sArgList,
         {
           method: 'GET',
           processData: false,
