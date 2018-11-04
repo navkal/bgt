@@ -9,8 +9,8 @@ import sys
 sys.path.append( '../util' )
 from building_data_requests import get_value
 
-# Get hostname and port of BACnet Gateway
-parser = argparse.ArgumentParser( description='Test BACnet Gateway', add_help=False )
+# Get hostname and port of Building Energy Gateway
+parser = argparse.ArgumentParser( description='Test Building Energy Gateway', add_help=False )
 parser.add_argument( '-h', dest='hostname' )
 parser.add_argument( '-p', dest='port' )
 args = parser.parse_args()

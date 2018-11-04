@@ -549,7 +549,7 @@ function rq()
         + '&instance=' + sInstance
         + '&live';
 
-      // Issue request to BACnet Gateway
+      // Issue request to Building Energy Gateway
       $.ajax(
         g_sBacnetGatewayUrl + sArgList,
         {

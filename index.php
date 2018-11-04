@@ -11,8 +11,8 @@
       ];
   }
 
-  error_log( '==> BACnet Gateway Host: ' . $_SESSION['bgt']['host'] );
-  error_log( '==> BACnet Gateway Port: ' . $_SESSION['bgt']['port'] );
+  error_log( '==> Building Energy Gateway Host: ' . $_SESSION['bgt']['host'] );
+  error_log( '==> Building Energy Gateway Port: ' . $_SESSION['bgt']['port'] );
 
   $_SESSION['bgt']['bgt_'] = strpos( $_SERVER['DOCUMENT_ROOT'], '/bgt_' ) !== false;
   //$_SESSION['bgt']['bgt_'] = true; // <------ Uncomment this line to test P&F interface

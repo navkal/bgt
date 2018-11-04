@@ -2,7 +2,7 @@
   // Copyright 2018 Building Energy Monitor.  All rights reserved.
 
   define( 'BEM', '<i>Building Energy Monitor</i>' );
-  define( 'BG', '<i>BACnet Gateway</i>' );
+  define( 'BEG', '<i>Building Energy Gateway</i>' );
 
   $aLinkFilenames = [];
   $sLinksPathRel = '/bgt_ln';
@@ -61,7 +61,7 @@
   <br/>
 
   <p>
-    The <a href="http://www.EnergizeAndover.com" target="_blank">Energize Andover</a> team is pleased to offer the <?=BEM?> web application and the <?=BG?> web service for use by Andover Plant and Facilities (P&F) and Andover Public Schools (APS).
+    The <a href="http://www.EnergizeAndover.com" target="_blank">Energize Andover</a> team is pleased to offer the <?=BEM?> web application and the <?=BEG?> web service for use by Andover Plant and Facilities (P&F) and Andover Public Schools (APS).
   </p>
 
   <br/>
@@ -78,11 +78,11 @@
   <br/>
 
   <p class="h5">
-    <?=BG?> for Andover Public Schools
+    <?=BEG?> for Andover Public Schools
   </p>
 
   <p>
-    The <?=BG?> web service provides controlled access to selected parameters within APS buildings.
+    The <?=BEG?> web service provides controlled access to selected parameters within APS buildings.
     Students can use the web service to develop smart data analysis applications in the programming language of their choice.
   </p>
 
@@ -93,7 +93,7 @@
   </p>
 
   <p>
-    For more information about <?=BEM?> and <?=BG?>, please email us at <a href="mailto:energizeAndover@gmail.com">energizeAndover@gmail.com</a>.
+    For more information about <?=BEM?> and <?=BEG?>, please email us at <a href="mailto:energizeAndover@gmail.com">energizeAndover@gmail.com</a>.
   </p>
 
   <br/>

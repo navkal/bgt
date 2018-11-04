@@ -13,7 +13,7 @@ from building_data_requests import get_bulk
 rsp_map = {}
 
 # Get arguments
-parser = argparse.ArgumentParser( description='Request all values of specified view from BACnet Gateway cache', add_help=False )
+parser = argparse.ArgumentParser( description='Request all values of specified view from Building Energy Gateway cache', add_help=False )
 parser.add_argument( '-v', dest='view' )
 parser.add_argument( '-h', dest='hostname' )
 parser.add_argument( '-p', dest='port' )

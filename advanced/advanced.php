@@ -181,7 +181,7 @@
       + '&type=' + $( '#type' ).val()
       + '&live';
 
-    // Issue request to BACnet Gateway
+    // Issue request to Building Energy Gateway
     $.ajax(
       'http://<?=$_SESSION['bgt']['host']?>:<?=$_SESSION['bgt']['port']?>/' + sArgList,
       {
