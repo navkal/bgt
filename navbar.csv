@@ -4,6 +4,7 @@ energizeAndover@gmail.com
 #
 # --- Test views ---
 #dishboard,Dishboard,view/dishboard.php
+#dishbaird,Dishbaird,view/dishbaird.php
 #pi,PHP Info, pi/pi.php
 #
 # --- Public views ---
