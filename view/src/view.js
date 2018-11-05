@@ -19,6 +19,7 @@ if ( ! Array.prototype.fill )
 var g_tTable = null;
 var g_iInstanceOffset = 0;
 var g_iRow = 0;
+var g_iGraphInitRow = 0;  // Count of rows traversed solely to load graphs when initializing view
 var g_aRowData = [];
 var g_tGraphData = {};
 var g_bHorizontal = null;
@@ -34,7 +35,6 @@ var g_sSplitMode = SPLIT_MODE_WIDE;
 var g_tWideTableParent = null;
 var g_tNarrowTableParent = null;
 var g_tGraphSplit = null;
-var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProps );
 
 var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
 
@@ -127,7 +127,7 @@ function initTable()
 
   // Initialize the tablesorter
   g_tTable = $( '#bgt_table' );
-  g_tTable.tablesorter( g_tViewTableProps );
+  g_tTable.tablesorter( g_tTableProps );
 }
 
 function initGraphs()
@@ -1058,10 +1058,23 @@ function nextRow( bSuccess )
   $( '#bgt_table > tbody .' + g_sPendingClass ).removeClass( g_sPendingClass );
   $( '#bgt_table > tbody .' + g_sSuccessClass ).removeClass( g_sSuccessClass );
 
-  // Optionally highlight current row
-  if ( bSuccess )
+  // If current row contains fresh, live data, highlight it
+  if ( bSuccess && ! g_tCachedValues )
   {
     $( '#row_' + g_iRow ).addClass( g_sSuccessClass );
+  }
+
+  // If traversing cached values (i.e., to initialize graphs), update row counters accordingly
+  if ( g_tCachedValues )
+  {
+    // Increment graph initialization row counter
+    g_iGraphInitRow ++;
+
+    if ( g_iGraphInitRow == VERTICAL_MAX )
+    {
+      // Artificially advance row counter past end of table, to halt first-time loading of graphs
+      g_iRow = g_aRows.length;
+    }
   }
 
   // Advance row index
