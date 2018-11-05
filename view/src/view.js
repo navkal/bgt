@@ -1065,7 +1065,7 @@ function nextRow( bSuccess )
     // Increment graph initialization row counter
     g_iGraphInitRow ++;
 
-    if ( g_iGraphInitRow == VERTICAL_MAX )
+    if ( ! g_bHorizontal && ( g_iGraphInitRow == VERTICAL_MAX ) )
     {
       // Artificially advance row counter past end of table, to halt first-time loading of graphs
       g_iRow = g_aRows.length;
