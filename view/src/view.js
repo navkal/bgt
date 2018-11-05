@@ -1058,15 +1058,10 @@ function nextRow( bSuccess )
   $( '#bgt_table > tbody .' + g_sPendingClass ).removeClass( g_sPendingClass );
   $( '#bgt_table > tbody .' + g_sSuccessClass ).removeClass( g_sSuccessClass );
 
-  // If current row contains fresh, live data, highlight it
-  if ( bSuccess && ! g_tCachedValues )
-  {
-    $( '#row_' + g_iRow ).addClass( g_sSuccessClass );
-  }
-
-  // If traversing cached values (i.e., to initialize graphs), update row counters accordingly
   if ( g_tCachedValues )
   {
+    // Traversing cached values (i.e., to initialize graphs); update row counters accordingly
+
     // Increment graph initialization row counter
     g_iGraphInitRow ++;
 
@@ -1074,6 +1069,14 @@ function nextRow( bSuccess )
     {
       // Artificially advance row counter past end of table, to halt first-time loading of graphs
       g_iRow = g_aRows.length;
+    }
+  }
+  else
+  {
+    // Current row contains new, live data; highlight it
+    if ( bSuccess )
+    {
+      $( '#row_' + g_iRow ).addClass( g_sSuccessClass );
     }
   }
 
