@@ -40,7 +40,7 @@
 
     <!-- Column headers -->
     <tr>
-      <th class="sorter-firstcol">
+      <th class="sortable sorter-false sorter-firstcol">
         <?=$g_sFirstColName?>
       </th>
 
@@ -49,10 +49,10 @@
         {
       ?>
 
-          <th style="text-align:right">
+          <th class="sortable sorter-false" style="text-align:right">
             <?=$tColNames['value_col_name']?>
           </th>
-          <th>
+          <th class="sortable sorter-false">
             <?=$tColNames['units_col_name']?>
           </th>
 

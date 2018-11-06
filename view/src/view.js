@@ -1099,6 +1099,7 @@ function nextRow( bSuccess )
     g_tCachedValues = null;
     stopRefresh();
     enableRefreshButton( true );
+    $( '.sortable' ).removeClass( 'sorter-false' );
     console.log( 'Time to initialize view: ' + ( Date.now() - g_iStartTime ) + ' ms' );
   }
 
