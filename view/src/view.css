@@ -1,10 +1,5 @@
 /* Copyright 2018 Building Energy Monitor.  All rights reserved. */
 
-.bg-row-pending
-{
-  color: #a6a6a6 !important;
-}
-
 .bar-graph
 {
   width: 95%;
@@ -15,6 +10,14 @@
   cursor: pointer;
 }
 
+
+/* Reduce crowding in datepicker display */
+.datepicker td,
+.datepicker th
+{
+  padding: 5px;
+  font-size: 0.9375rem; /* 15px */
+}
 
 /* For the d3 graph display */
 .bar {

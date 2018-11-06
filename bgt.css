@@ -18,18 +18,3 @@
     text-align: right;
   }
 }
-
-/* Reduce crowding in datepicker display */
-.datepicker td,
-.datepicker th
-{
-  padding: 5px;
-  font-size: 0.9375rem; /* 15px */
-}
-
-/* Font Awesome icons */
-.btn.tablesorter-headerRow .fas,
-.btn.tablesorter-headerRow .far
-{
-  font-size: 1rem; /* 16px */
-}

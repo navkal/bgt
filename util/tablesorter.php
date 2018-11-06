@@ -13,11 +13,26 @@
     line-height: 1.5;
   }
 
+  /* Row styling to show pending status */
+  .bg-row-pending
+  {
+    color: #a6a6a6 !important;
+  }
+
+  /* Row styling to show success status */
   .bg-row-success
   {
     background-color: #f0fff0;
     border: 1px solid #00e600;
   }
+
+  /* Font Awesome icons */
+  .btn.tablesorter-headerRow .fas,
+  .btn.tablesorter-headerRow .far
+  {
+    font-size: 1rem; /* 16px */
+  }
+
 </style>
 
 <script>
