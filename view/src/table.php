@@ -40,7 +40,7 @@
 
     <!-- Column headers -->
     <tr>
-      <th>
+      <th class="sorter-firstcol">
         <?=$g_sFirstColName?>
       </th>
 

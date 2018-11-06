@@ -36,6 +36,16 @@ var g_tWideTableParent = null;
 var g_tNarrowTableParent = null;
 var g_tGraphSplit = null;
 
+var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProps );
+var g_tFirstColParser =
+{
+  id: 'firstcol',
+  is: function(){return false;},
+  format: function(s){return s;},
+  parsed: false,
+  type: 'text'
+};
+
 var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
 
 var g_bRefreshing = false;
@@ -126,8 +136,9 @@ function initTable()
   $( '#bgt_table > tbody' ).html( sHtml );
 
   // Initialize the tablesorter
+  $.tablesorter.addParser( g_tFirstColParser );
   g_tTable = $( '#bgt_table' );
-  g_tTable.tablesorter( g_tTableProps );
+  g_tTable.tablesorter( g_tViewTableProps );
 }
 
 function initGraphs()
