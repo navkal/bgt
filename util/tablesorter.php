@@ -26,13 +26,12 @@
     border: 1px solid #00e600;
   }
 
-  /* Font Awesome icons */
+  /* Font Awesome icons used in toolbar above table */
   .btn.tablesorter-headerRow .fas,
   .btn.tablesorter-headerRow .far
   {
     font-size: 1rem; /* 16px */
   }
-
 </style>
 
 <script>
