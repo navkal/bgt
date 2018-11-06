@@ -5,6 +5,14 @@
 ?>
 
 <style>
+  /* Make fonts larger for squinty users */
+  #bgt_table *,
+  #advanced_table *
+  {
+    font-size: .84375rem; /* 13.5px*/
+    line-height: 1.5;
+  }
+
   .bg-row-success
   {
     background-color: #f0fff0;

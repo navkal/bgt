@@ -10,14 +10,6 @@
   border-radius: .2rem;
 }
 
-/* Make fonts larger for squinty users */
-#bgt_table *,
-#advanced_table *
-{
-  font-size: .84375rem; /* 13.5px*/
-  line-height: 1.5;
-}
-
 /* Right-justify description-list titles on About page */
 @media ( min-width: 576px )
 {
