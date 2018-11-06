@@ -15,11 +15,11 @@ if ( ! Array.prototype.fill )
   };
 }
 
+var g_iStartTime = Date.now();
 
 var g_tTable = null;
 var g_iInstanceOffset = 0;
 var g_iRow = 0;
-var g_iGraphInitRow = 0;  // Count of rows traversed solely to load graphs when initializing view
 var g_aRowData = [];
 var g_tGraphData = {};
 var g_bHorizontal = null;
@@ -707,12 +707,19 @@ function updateGraphs( bUpdateData )
       updateGraphData( sGraphId, g_aRowData[iGraph], bDelta );
     }
 
-    // If graph is visible, update the display
-    var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
-    if ( tGraphDiv.is( ':visible' ) )
+    // Update graph display under any of the following conditions:
+    // - Graph is horizontal
+    // - Not traversing cached values
+    // - Traversing a cached row that should appear in the initial graph
+    if ( g_bHorizontal || ! g_tCachedValues || ( g_iRow <= VERTICAL_MAX ) )
     {
-      var sGraphName = g_aColNames[iGraph].value_col_name;
-      updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
+      // If graph is visible, update the display
+      var tGraphDiv = $( '#' + sGraphId + ' .bar-graph' );
+      if ( tGraphDiv.is( ':visible' ) )
+      {
+        var sGraphName = g_aColNames[iGraph].value_col_name;
+        updateGraphDisplay( tGraphDiv, sGraphId, sGraphName, bDelta );
+      }
     }
   }
 }
@@ -1069,26 +1076,10 @@ function nextRow( bSuccess )
   $( '#bgt_table > tbody .' + g_sPendingClass ).removeClass( g_sPendingClass );
   $( '#bgt_table > tbody .' + g_sSuccessClass ).removeClass( g_sSuccessClass );
 
-  if ( g_tCachedValues )
+  // If current row contains new, live data, highlight it
+  if ( bSuccess && ! g_tCachedValues )
   {
-    // Traversing cached values (i.e., to initialize graphs); update row counters accordingly
-
-    // Increment graph initialization row counter
-    g_iGraphInitRow ++;
-
-    if ( ! g_bHorizontal && ( g_iGraphInitRow == VERTICAL_MAX ) )
-    {
-      // Artificially advance row counter past end of table, to halt first-time loading of graphs
-      g_iRow = g_aRows.length;
-    }
-  }
-  else
-  {
-    // Current row contains new, live data; highlight it
-    if ( bSuccess )
-    {
-      $( '#row_' + g_iRow ).addClass( g_sSuccessClass );
-    }
+    $( '#row_' + g_iRow ).addClass( g_sSuccessClass );
   }
 
   // Advance row index
@@ -1108,6 +1099,7 @@ function nextRow( bSuccess )
     g_tCachedValues = null;
     stopRefresh();
     enableRefreshButton( true );
+    console.log( 'Time to initialize view: ' + ( Date.now() - g_iStartTime ) + ' ms' );
   }
 
   // Reinitialize variables
