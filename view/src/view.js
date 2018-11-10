@@ -37,6 +37,7 @@ var g_tNarrowTableParent = null;
 var g_tGraphSplit = null;
 
 var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProps );
+var g_iTablesorterThemeTopShift = 0;
 var g_tFirstColParser =
 {
   id: 'firstcol',
@@ -147,7 +148,10 @@ function initTable()
   $.tablesorter.addParser( g_tFirstColParser );
   g_tTable.show();
   g_tViewTableProps.widgetOptions.stickyHeaders_offset = g_tTable.offset().top;
+  var iTopBf = g_tTable.offset().top;
   g_tTable.tablesorter( g_tViewTableProps );
+  g_iTablesorterThemeTopShift = g_tTable.offset().top - iTopBf;
+  g_tTable.css( { marginTop: '-=' + g_iTablesorterThemeTopShift + 'px' } );
 
   // Get the sticky wrapper
   g_tStickyWrapper = $( '.tablesorter-sticky-wrapper' );
@@ -1284,7 +1288,7 @@ function onScrollWindow()
   // Move the wrapper
   var tOffset =
   {
-    top: g_tTablePane.offset().top,
+    top: g_tTablePane.offset().top + g_iTablesorterThemeTopShift,
     left: g_tStickyWrapper.offset().left
   };
 
