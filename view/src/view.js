@@ -1192,16 +1192,16 @@ function toggleRefresh()
 
 function startRefresh()
 {
-  $( '#startRefreshIcon' ).hide();
-  $( '#stopRefreshIcon' ).show();
+  $( '.bgt_table_start_refresh_icon' ).hide();
+  $( '.bgt_table_stop_refresh_icon' ).show();
   g_bRefreshing = true;
   rq();
 }
 
 function stopRefresh()
 {
-  $( '#stopRefreshIcon' ).hide();
-  $( '#startRefreshIcon' ).show();
+  $( '.bgt_table_stop_refresh_icon' ).hide();
+  $( '.bgt_table_start_refresh_icon' ).show();
   g_bRefreshing = false;
   enableRefreshButton( false );
 }
