@@ -1208,7 +1208,7 @@ function stopRefresh()
 
 function enableRefreshButton( bEnable )
 {
-  $( '#refreshButton' ).prop( 'disabled', ! bEnable );
+  $( '.bgt_table_refresh_button' ).prop( 'disabled', ! bEnable );
 }
 
 function uploadSnapshot()

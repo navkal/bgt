@@ -26,7 +26,7 @@
           <span class="bgt_table_row_count"></span> row<span id="bgt_table_row_count_s">s</span>
         </span>
         <span class="float-right">
-          <button id="refreshButton" class="btn btn-sm btn-link" onclick="toggleRefresh()" disabled >
+          <button class="bgt_table_refresh_button btn btn-sm btn-link" onclick="toggleRefresh()" disabled >
             <i id="startRefreshIcon" class="fas fa-sync-alt text-success"></i>
             <i id="stopRefreshIcon" class="far fa-stop-circle text-danger" style="display:none"></i>
             Refresh
