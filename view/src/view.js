@@ -1165,7 +1165,7 @@ function updateRowCount()
 {
   // Show row count
   var nRows = $( '#bgt_table tbody tr:not(.filtered)' ).length;
-  $( '#bgt_table_row_count' ).html( nRows );
+  $( '.bgt_table_row_count' ).html( nRows );
 
   // Show/hide plural form
   if ( nRows == 1 )
