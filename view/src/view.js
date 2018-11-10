@@ -135,10 +135,25 @@ function initTable()
 
   $( '#bgt_table > tbody' ).html( sHtml );
 
+  g_tTable = $( '#bgt_table' );
+  g_tTablePane = g_tTable.parent();
+
+  // Set event handlers
+  g_tTablePane.on( 'resize', onResizeTablePane );
+  g_tTablePane.on( 'scroll', onScrollTablePane );
+  $( window ).on( 'scroll', onScrollWindow );
+
   // Initialize the tablesorter
   $.tablesorter.addParser( g_tFirstColParser );
-  g_tTable = $( '#bgt_table' );
+  g_tTable.show();
+  g_tViewTableProps.widgetOptions.stickyHeaders_offset = g_tTable.offset().top;
   g_tTable.tablesorter( g_tViewTableProps );
+
+  // Get the sticky wrapper
+  g_tStickyWrapper = $( '.tablesorter-sticky-wrapper' );
+
+  // Handle possibility that window is initially scrolled
+  onScrollWindow();
 }
 
 function initGraphs()
@@ -1132,7 +1147,6 @@ function onFilterEnd( tEvent )
 function onTablesorterReady()
 {
   g_tTable.off( 'tablesorter-ready' );
-  g_tTable.show();
 
   // Show row count in toolbar
   updateRowCount();
@@ -1245,6 +1259,52 @@ function uploadSnapshotDone( tRsp, sStatus, tJqXhr )
 {
   window.location.href='view/src/downloadSnapshot.php?csv_basename=' + g_sCsvBasename + '&snapshot_id=' + tRsp;
 }
+
+// --> tablesorter sticky header -->
+
+function onResizeTablePane()
+{
+  // Clip the wrapper
+  var iWidth = g_tTablePane.width() - scrollbarWidth();
+  var iHeight = g_tStickyWrapper.height();
+  g_tStickyWrapper.css( 'clip', 'rect(0px,' + iWidth + 'px,' + iHeight + 'px,0px)' );
+}
+
+function onScrollTablePane()
+{
+  // Fire resize event
+  g_tTablePane.resize();
+}
+
+function onScrollWindow()
+{
+  // Fire resize event
+  g_tTablePane.resize();
+
+  // Move the wrapper
+  var tOffset =
+  {
+    top: g_tTablePane.offset().top,
+    left: g_tStickyWrapper.offset().left
+  };
+
+  g_tStickyWrapper.offset( tOffset );
+}
+
+function scrollbarWidth()
+{
+  var div = $('<div style="width:50px;height:50px;overflow:hidden;position:absolute;top:-200px;left:-200px;"><div style="height:100px;"></div>');
+  // Append our div, do our calculation and then remove it
+  $('body').append(div);
+  var w1 = $('div', div).innerWidth();
+  div.css('overflow-y', 'scroll');
+  var w2 = $('div', div).innerWidth();
+  $(div).remove();
+  return (w1 - w2);
+}
+
+// <-- tablesorter sticky header <--
+
 
 function doNothing( tJqXhr, sStatus, sErrorThrown )
 {

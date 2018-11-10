@@ -6,8 +6,8 @@
 
 <style>
   /* Make fonts larger for squinty users */
-  #bgt_table *,
-  #advanced_table *
+  .tablesorter *,
+  .tablesorter-sticky-wrapper *
   {
     font-size: .84375rem; /* 13.5px*/
     line-height: 1.5;
@@ -37,14 +37,14 @@
 <script>
 var g_tTableProps =
 {
-  theme : "dropbox",
+  theme : 'dropbox',
   headerTemplate : '{content} {icon}',
-  widgets : [ "uitheme", "resizable", "filter" ],
+  widgets : [ 'uitheme', 'resizable', 'filter', 'stickyHeaders' ],
   widgetOptions :
   {
     resizable: true,
-    filter_reset : ".reset",
-    filter_cssFilter: "form-control"
+    filter_reset : '.reset',
+    filter_cssFilter: 'form-control'
   }
 };
 </script>
