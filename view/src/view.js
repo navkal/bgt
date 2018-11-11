@@ -77,6 +77,7 @@ function onDocumentReady()
     case LAYOUT_MODE_SPLIT:
       // Initialize split layout
       initSplits();
+      //makeStickyHeaderForNarrowLayoutMode();
       break;
   }
 
@@ -134,30 +135,41 @@ function initTable()
     sHtml += '</tr>';
   }
 
+  // Set up the table
   $( '#bgt_table > tbody' ).html( sHtml );
-
   g_tTable = $( '#bgt_table' );
-  g_tTablePane = g_tTable.parent();
-
-  // Set event handlers
-  g_tTablePane.on( 'resize', onResizeTablePane );
-  g_tTablePane.on( 'scroll', onScrollTablePane );
-  $( window ).on( 'scroll', onScrollWindow );
-
-  // Initialize the tablesorter
-  $.tablesorter.addParser( g_tFirstColParser );
   g_tTable.show();
-  g_tViewTableProps.widgetOptions.stickyHeaders_offset = g_tTable.offset().top;
-  var iTopBf = g_tTable.offset().top;
-  g_tTable.tablesorter( g_tViewTableProps );
-  g_iTablesorterThemeTopShift = g_tTable.offset().top - iTopBf;
-  g_tTable.css( { marginTop: '-=' + g_iTablesorterThemeTopShift + 'px' } );
 
-  // Get the sticky wrapper
-  g_tStickyWrapper = $( '.tablesorter-sticky-wrapper' );
+  // Add first column parser (work around tablesorter bug?)
+  $.tablesorter.addParser( g_tFirstColParser );
 
-  // Handle possibility that window is initially scrolled
-  onScrollWindow();
+  if ( g_sLayoutMode == LAYOUT_MODE_SPLIT )
+  {
+    // Set event handlers
+    g_tTablePane = g_tTable.parent();
+    g_tTablePane.on( 'resize', onResizeTablePane );
+    g_tTablePane.on( 'scroll', onScrollTablePane );
+    $( window ).on( 'scroll', onScrollWindow );
+
+    // Initialize tablesorter with sticky header
+    g_tViewTableProps.widgetOptions.stickyHeaders_offset = g_tTable.offset().top;
+    var iTopBf = g_tTable.offset().top;
+    g_tTable.tablesorter( g_tViewTableProps );
+    g_iTablesorterThemeTopShift = g_tTable.offset().top - iTopBf;
+    g_tTable.css( { marginTop: '-=' + g_iTablesorterThemeTopShift + 'px' } );
+
+    // Get the sticky wrapper
+    g_tStickyWrapper = $( '.tablesorter-sticky-wrapper' );
+
+    // Handle possibility that window is initially scrolled
+    onScrollWindow();
+  }
+  else
+  {
+    // Initialize tablesorter without the sticky header
+    g_tViewTableProps.widgets.splice( g_tViewTableProps.widgets.indexOf( 'stickyHeaders' ), 1 );
+    g_tTable.tablesorter( g_tViewTableProps );
+  }
 }
 
 function initGraphs()
@@ -1265,6 +1277,23 @@ function uploadSnapshotDone( tRsp, sStatus, tJqXhr )
 }
 
 // --> tablesorter sticky header -->
+
+function makeStickyHeaderForNarrowLayoutMode()
+{
+  debugger;
+	g_tNarrowTableParent.append( '<table id="bgt_table_clone">' + g_tTable.html() + '</table>' );
+  var tProps = $.extend( true, {}, g_tViewTableProps );
+  tProps.widgetOptions.stickyHeaders_offset = g_tNarrowTableParent.offset().top;
+  var tClone = $( '#bgt_table_clone' );
+
+  console.log( 'bf num stickies=' + $( '.tablesorter-sticky-wrapper' ).length );
+  $( '#narrow' ).show();
+  tClone.tablesorter( tProps );
+  $( '#narrow' ).hide();
+  console.log( 'af num stickies=' + $( '.tablesorter-sticky-wrapper' ).length );
+
+  g_tNarrowTableParent.detach( tClone );
+}
 
 function onResizeTablePane()
 {
