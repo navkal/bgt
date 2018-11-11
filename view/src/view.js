@@ -158,9 +158,6 @@ function initTable()
     g_iTablesorterThemeTopShift = g_tTable.offset().top - iTopBf;
     g_tTable.css( { marginTop: '-=' + g_iTablesorterThemeTopShift + 'px' } );
 
-    // Get the sticky wrapper
-    g_tStickyWrapper = $( '.tablesorter-sticky-wrapper' );
-
     // Handle possibility that window is initially scrolled
     onScrollWindow();
   }
@@ -1278,9 +1275,16 @@ function uploadSnapshotDone( tRsp, sStatus, tJqXhr )
 
 // --> tablesorter sticky header -->
 
+function getStickyWrapper()
+{
+  console.log( '==> num stickies=' + $( '.tablesorter-sticky-wrapper' ).length );
+  var sSel = '#' + g_sSplitMode + 'TablePane .tablesorter-sticky-wrapper';
+  console.log( '==> num stickies at ' + sSel + '=' + $( sSel ).length );
+  return $( sSel );
+}
+
 function makeStickyHeaderForNarrowLayoutMode()
 {
-  debugger;
 	g_tNarrowTableParent.append( '<table id="bgt_table_clone">' + g_tTable.html() + '</table>' );
   var tProps = $.extend( true, {}, g_tViewTableProps );
   tProps.widgetOptions.stickyHeaders_offset = g_tNarrowTableParent.offset().top;
@@ -1299,8 +1303,9 @@ function onResizeTablePane()
 {
   // Clip the wrapper
   var iWidth = g_tTablePane.width() - scrollbarWidth();
-  var iHeight = g_tStickyWrapper.height();
-  g_tStickyWrapper.css( 'clip', 'rect(0px,' + iWidth + 'px,' + iHeight + 'px,0px)' );
+  var iHeight = getStickyWrapper().height();
+  console.log( '==> iHeight=' + iHeight );
+  getStickyWrapper().css( 'clip', 'rect(0px,' + iWidth + 'px,' + iHeight + 'px,0px)' );
 }
 
 function onScrollTablePane()
@@ -1318,10 +1323,10 @@ function onScrollWindow()
   var tOffset =
   {
     top: g_tTablePane.offset().top + g_iTablesorterThemeTopShift,
-    left: g_tStickyWrapper.offset().left
+    left: getStickyWrapper().offset().left
   };
 
-  g_tStickyWrapper.offset( tOffset );
+  getStickyWrapper().offset( tOffset );
 }
 
 function scrollbarWidth()
