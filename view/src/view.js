@@ -77,7 +77,6 @@ function onDocumentReady()
     case LAYOUT_MODE_SPLIT:
       // Initialize split layout
       initSplits();
-      //makeStickyHeaderForNarrowLayoutMode();
       break;
   }
 
@@ -1277,35 +1276,17 @@ function uploadSnapshotDone( tRsp, sStatus, tJqXhr )
 
 function getStickyWrapper()
 {
-  console.log( '==> num stickies=' + $( '.tablesorter-sticky-wrapper' ).length );
-  var sSel = '#' + g_sSplitMode + 'TablePane .tablesorter-sticky-wrapper';
-  console.log( '==> num stickies at ' + sSel + '=' + $( sSel ).length );
-  return $( sSel );
-}
-
-function makeStickyHeaderForNarrowLayoutMode()
-{
-	g_tNarrowTableParent.append( '<table id="bgt_table_clone">' + g_tTable.html() + '</table>' );
-  var tProps = $.extend( true, {}, g_tViewTableProps );
-  tProps.widgetOptions.stickyHeaders_offset = g_tNarrowTableParent.offset().top;
-  var tClone = $( '#bgt_table_clone' );
-
-  console.log( 'bf num stickies=' + $( '.tablesorter-sticky-wrapper' ).length );
-  $( '#narrow' ).show();
-  tClone.tablesorter( tProps );
-  $( '#narrow' ).hide();
-  console.log( 'af num stickies=' + $( '.tablesorter-sticky-wrapper' ).length );
-
-  g_tNarrowTableParent.detach( tClone );
+  return $( '.tablesorter-sticky-wrapper' );
 }
 
 function onResizeTablePane()
 {
   // Clip the wrapper
   var iWidth = g_tTablePane.width() - scrollbarWidth();
-  var iHeight = getStickyWrapper().height();
+  var tStickyWrapper = getStickyWrapper();
+  var iHeight = tStickyWrapper.height();
   console.log( '==> iHeight=' + iHeight );
-  getStickyWrapper().css( 'clip', 'rect(0px,' + iWidth + 'px,' + iHeight + 'px,0px)' );
+  tStickyWrapper.css( 'clip', 'rect(0px,' + iWidth + 'px,' + iHeight + 'px,0px)' );
 }
 
 function onScrollTablePane()
@@ -1320,13 +1301,14 @@ function onScrollWindow()
   g_tTablePane.resize();
 
   // Move the wrapper
+  var tStickyWrapper = getStickyWrapper();
   var tOffset =
   {
     top: g_tTablePane.offset().top + g_iTablesorterThemeTopShift,
-    left: getStickyWrapper().offset().left
+    left: tStickyWrapper.offset().left
   };
 
-  getStickyWrapper().offset( tOffset );
+  tStickyWrapper.offset( tOffset );
 }
 
 function scrollbarWidth()
