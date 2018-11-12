@@ -66,7 +66,7 @@ function onDocumentReady()
   initGraphOptionsDialog();
 
   // Initialize layout framework
-  switch( g_sLayoutMode )
+  switch ( g_sLayoutMode )
   {
     case LAYOUT_MODE_TAB:
     default:
@@ -357,6 +357,9 @@ function narrowToWide()
   // Move the table
   g_tWideTableParent.append( g_tTable );
   g_tTable.css( 'height', '95%' );
+
+  // Move the sticky header
+  g_tWideTableParent.append( getStickyWrapper() );
 
   // Move the graphs
   for ( var iGraphSel in g_aGraphSelectors )
@@ -1158,7 +1161,20 @@ function onFilterEnd( tEvent )
 {
   updateGraphs( false );
   updateRowCount();
-  $( window ).scrollTop( 0 );
+
+  // Scroll to top after filtering table with sticky header
+  if ( g_sLayoutMode == LAYOUT_MODE_SPLIT )
+  {
+    switch ( g_sSplitMode )
+    {
+      case SPLIT_MODE_WIDE:
+        g_tTablePane.scrollTop( 0 );
+        break;
+      case SPLIT_MODE_NARROW:
+        $( window ).scrollTop( 0 );
+        break;
+    }
+  }
 }
 
 function onTablesorterReady()
@@ -1303,7 +1319,7 @@ function onScrollWindow()
 {
   var tStickyWrapper = getStickyWrapper();
 
-  switch( g_sSplitMode )
+  switch ( g_sSplitMode )
   {
     case SPLIT_MODE_WIDE:
       onResizeTablePane();
