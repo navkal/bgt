@@ -308,6 +308,8 @@ function onWindowResize()
 
   g_sSplitMode = sSplitMode;
 
+  getStickyWrapper().find( 'thead' ).css( 'border', '2px solid red' ); // <-- debug
+
   // Handle possibility that window is initially scrolled
   onScrollWindow();
 }
@@ -321,7 +323,6 @@ function wideToNarrow()
   g_tNarrowTableParent.append( g_tTable );
 
   // Move the sticky header
-  getStickyWrapper().find( 'thead' ).css( 'border', '2px solid red' ); // <-- debug
   g_tNarrowTableParent.append( getStickyWrapper() );
 
   // Clear the narrow graph pane
