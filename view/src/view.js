@@ -156,9 +156,6 @@ function initTable()
     g_tTable.tablesorter( g_tViewTableProps );
     g_iTablesorterThemeTopShift = g_tTable.offset().top - iTopBf;
     g_tTable.css( { marginTop: '-=' + g_iTablesorterThemeTopShift + 'px' } );
-
-    // Handle possibility that window is initially scrolled
-    onScrollWindow();
   }
   else
   {
@@ -310,6 +307,9 @@ function onWindowResize()
   }
 
   g_sSplitMode = sSplitMode;
+
+  // Handle possibility that window is initially scrolled
+  onScrollWindow();
 }
 
 function wideToNarrow()
@@ -319,6 +319,10 @@ function wideToNarrow()
 
   // Move the table
   g_tNarrowTableParent.append( g_tTable );
+
+  // Move the sticky header
+  getStickyWrapper().find( 'thead' ).css( 'border', '2px solid red' ); // <-- debug
+  g_tNarrowTableParent.append( getStickyWrapper() );
 
   // Clear the narrow graph pane
   $( '#narrowGraphPane' ).html( '' );
@@ -1127,7 +1131,7 @@ function nextRow( bSuccess )
     stopRefresh();
     enableRefreshButton( true );
     $( '.sortable' ).removeClass( 'sorter-false' );
-    console.log( 'Time to initialize view: ' + ( Date.now() - g_iStartTime ) + ' ms' );
+    console.log( '=> View initialized in ' + ( Date.now() - g_iStartTime ) + ' ms' );
   }
 
   // Reinitialize variables
@@ -1154,6 +1158,7 @@ function onFilterEnd( tEvent )
 {
   updateGraphs( false );
   updateRowCount();
+  $( window ).scrollTop( 0 );
 }
 
 function onTablesorterReady()
@@ -1285,7 +1290,6 @@ function onResizeTablePane()
   var iWidth = g_tTablePane.width() - scrollbarWidth();
   var tStickyWrapper = getStickyWrapper();
   var iHeight = tStickyWrapper.height();
-  console.log( '==> iHeight=' + iHeight );
   tStickyWrapper.css( 'clip', 'rect(0px,' + iWidth + 'px,' + iHeight + 'px,0px)' );
 }
 
@@ -1297,18 +1301,29 @@ function onScrollTablePane()
 
 function onScrollWindow()
 {
-  // Fire resize event
-  g_tTablePane.resize();
-
-  // Move the wrapper
   var tStickyWrapper = getStickyWrapper();
-  var tOffset =
-  {
-    top: g_tTablePane.offset().top + g_iTablesorterThemeTopShift,
-    left: tStickyWrapper.offset().left
-  };
 
-  tStickyWrapper.offset( tOffset );
+  switch( g_sSplitMode )
+  {
+    case SPLIT_MODE_WIDE:
+      onResizeTablePane();
+      var iTop = g_tTablePane.offset().top + g_iTablesorterThemeTopShift;
+      break;
+
+    case SPLIT_MODE_NARROW:
+      tStickyWrapper.css( 'clip', 'rect(0px,' + g_tTable.width() + 'px,' + tStickyWrapper.height() + 'px,0px)' );
+      var tNavbar = $( 'nav.navbar.fixed-top' );
+      var iNavbarHeight = parseInt( tNavbar.css( 'padding-top' ) ) + tNavbar.height() + parseInt( tNavbar.css( 'padding-bottom' ) );
+      var iTop = Math.max( g_tTable.offset().top, iNavbarHeight + $( window ).scrollTop() );
+      break;
+  }
+
+  tStickyWrapper.offset(
+    {
+      top: iTop,
+      left: tStickyWrapper.offset().left
+    }
+  );
 }
 
 function scrollbarWidth()
