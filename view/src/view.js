@@ -160,7 +160,8 @@ function initTable()
   else
   {
     // Initialize tablesorter without the sticky header
-    g_tViewTableProps.widgets.splice( g_tViewTableProps.widgets.indexOf( 'stickyHeaders' ), 1 );
+    var tNavbar = $('nav.navbar.fixed-top');
+    g_tViewTableProps.widgetOptions.stickyHeaders_offset = tNavbar.height() + parseInt( tNavbar.css( 'padding-top' ) ) + parseInt( tNavbar.css( 'padding-bottom' ) );
     g_tTable.tablesorter( g_tViewTableProps );
   }
 }
@@ -308,7 +309,7 @@ function onWindowResize()
 
   g_sSplitMode = sSplitMode;
 
-  getStickyWrapper().find( 'thead' ).css( 'border', '2px solid red' ); // <-- debug
+  //getStickyWrapper().find( 'thead' ).css( 'border', '2px solid red' ); // <-- debug, to distinguish the sticky header from the real table header
 
   // Handle possibility that window is initially scrolled
   onScrollWindow();
@@ -1164,18 +1165,8 @@ function onFilterEnd( tEvent )
   updateRowCount();
 
   // Scroll to top after filtering table with sticky header
-  if ( g_sLayoutMode == LAYOUT_MODE_SPLIT )
-  {
-    switch ( g_sSplitMode )
-    {
-      case SPLIT_MODE_WIDE:
-        g_tTablePane.scrollTop( 0 );
-        break;
-      case SPLIT_MODE_NARROW:
-        $( window ).scrollTop( 0 );
-        break;
-    }
-  }
+  var tScroller = ( ( g_sLayoutMode == LAYOUT_MODE_SPLIT ) && ( g_sSplitMode == SPLIT_MODE_WIDE ) ) ? g_tTablePane : $( window );
+  tScroller.scrollTop( 0 );
 }
 
 function onTablesorterReady()
