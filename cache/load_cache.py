@@ -72,7 +72,10 @@ if __name__ == '__main__':
         parser.add_argument( '-s', dest='sleep_interval', type=int )
         args = parser.parse_args()
 
-        logpath = '../../bgt_db/load_cache_' + time.strftime( '%Y-%m-%d_%H-%M-%S', time.localtime() ) + '.log'
+        logpath, savepath = db_util.new_logs( '../../bgt_db/load_cache' )
+
         db_util.log( logpath, os.path.basename( __file__ ) + ' starting' )
 
         load_cache()
+
+        db_util.save_log( logpath, savepath )

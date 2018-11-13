@@ -106,8 +106,7 @@ if __name__ == '__main__':
     parser.add_argument( '-r', dest='remove', action='store_true' )
     args = parser.parse_args()
 
-    # Format log filename
-    logpath = '../../bgt_db/save_baselines_' + time.strftime( '%Y-%m-%d_%H-%M-%S', time.localtime() ) + '.log'
+    logpath, savepath = db_util.new_logs( '../../bgt_db/save_baselines' )
 
     try:
 
@@ -134,3 +133,5 @@ if __name__ == '__main__':
 
     except:
         db_util.log( logpath, '\nException: ' + sys.exc_info()[0] )
+
+    db_util.save_log( logpath, savepath )
