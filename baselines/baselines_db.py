@@ -111,6 +111,8 @@ def save_baseline_value( csv_filename, column_name, row_label, value, units, tim
             # Entry does not exist; create it
             cur.execute( 'INSERT INTO Baselines ( view_id, column_id, row_id, value, units_id, timestamp_id ) VALUES (?,?,?,?,?,?)', ( view_id, column_id, row_id, value, units_id, timestamp_id ) )
 
+        return ( view_id, column_id, row_id )
+
 
 def commit():
     conn.commit()

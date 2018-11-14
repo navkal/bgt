@@ -29,7 +29,6 @@ def save_baselines( baselines_row ):
     db_util.log( logpath, 'CSV file: ' + csv_filename )
     db_util.log( logpath, '---' )
     column_name = baselines_row[1]
-    db_util.log( logpath, 'Label,' + column_name + ',' + column_name + ' Units' )
 
     # Iterate over the rows of the dataframe, getting values for each row
     for index, oid_row in df.iterrows():
@@ -45,9 +44,58 @@ def save_baseline( csv_filename, column_name, oid_row ):
     for i in range( 1, 6 ):
         value, units = get_value( facility, oid, args.hostname, args.port, live=True )
         value = int( value )
-        db_util.log( logpath, '{0},{1},{2}'.format( row_label, value, units ) )
-        baselines_db.save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id )
+        view_id, column_id, row_id = baselines_db.save_baseline_value( csv_filename, column_name, row_label, value, units, timestamp_id )
+        report_baseline( view_id, column_id, row_id, row_label, value, units, facility, oid )
         break
+
+def report_baseline( view_id, column_id, row_id, row_label, value, units, facility, oid ):
+
+    # Retrieve sorted, distinct timestamps from database for specific attribute
+    cur.execute('''
+        SELECT DISTINCT
+            timestamp
+        FROM Baselines
+            LEFT JOIN Timestamps ON Baselines.timestamp_id=Timestamps.id
+        WHERE view_id=? AND column_id=? AND row_id=?
+        ORDER BY timestamp ASC;
+    ''', ( view_id, column_id, row_id ) )
+    timestamp_rows = cur.fetchall()
+
+    # Load timestamps into dataframe
+    df = pd.DataFrame( timestamp_rows, columns=['timestamp'] )
+
+    # Extract dates
+    df = df.multiply( 1000, ['timestamp'] )
+    df['datetime'] = pd.to_datetime( df['timestamp'], unit='ms' )
+    df['date'] = pd.DatetimeIndex( df['datetime'] ).normalize()
+
+    # Calculate statistics
+    stats = ''
+    stats += '\nSaved: {0},{1},{2}'.format( row_label, value, units )
+    stats += '\nDates found for: {0}, {1}'.format( facility, oid )
+    stats += '\n First: ' + str( df['date'].ix[0].date() )
+    stats += '\n Last: ' + str( df['date'].ix[len(df)-1].date() )
+    stats += '\n Total: ' + str( len( df ) )
+    stats += '\nGaps:'
+
+    # Look for gaps
+    df['diff'] = df['date'].diff()
+    df = df.iloc[1:]
+    df = df[ df['diff'].ne( '1 days' ) ]
+
+    if len( df ):
+        df = df[ [ 'date', 'diff' ] ]
+        df = df.rename( index=str, columns={ 'date': 'Before', 'diff': 'Gap'  } )
+        stats += '\n ' + df.to_string( index=False )
+    else:
+        stats += '\n No gaps found.'
+
+    stats += '\n---'
+
+    # Report statistics
+    db_util.log( logpath, stats )
+
+    return
 
 
 def report_missing_dates():
@@ -73,10 +121,10 @@ def report_missing_dates():
     # Calculate statistics
     stats = '\n'
     stats += '\nDates found in database'
-    stats += '\nFirst: ' + str( df['date'].ix[0].date() )
-    stats += '\nLast: ' + str( df['date'].ix[len(df)-1].date() )
-    stats += '\nTotal: ' + str( len( df ) )
-    stats += '\n'
+    stats += '\n First: ' + str( df['date'].ix[0].date() )
+    stats += '\n Last: ' + str( df['date'].ix[len(df)-1].date() )
+    stats += '\n Total: ' + str( len( df ) )
+    stats += '\nGaps:'
 
     # Look for gaps
     df['diff'] = df['date'].diff()
@@ -84,12 +132,11 @@ def report_missing_dates():
     df = df[ df['diff'].ne( '1 days' ) ]
 
     if len( df ):
-        stats += '\nGaps found in database!'
         df = df[ [ 'date', 'diff' ] ]
         df = df.rename( index=str, columns={ 'date': 'Before', 'diff': 'Gap'  } )
-        stats += '\n' + df.to_string( index=False )
+        stats += '\n ' + df.to_string( index=False )
     else:
-        stats += '\nNo gaps found.'
+        stats += '\n No gaps found.'
 
     # Report statistics
     db_util.log( logpath, stats )
