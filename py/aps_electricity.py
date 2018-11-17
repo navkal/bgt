@@ -42,9 +42,9 @@ def ReadAllMeters ():
 		currentDT = datetime.datetime.now()
 
 		# Prepare to print
-		kW_value = int( kW_value ) if kW_value else ''
+		kW_value = round( float( kW_value ) ) if kW_value else ''
 		kW_units = kW_units if kW_units else ''
-		kWh_value = int( kWh_value ) if kWh_value else ''
+		kWh_value = round( float( kWh_value ) ) if kWh_value else ''
 		kWh_units = kWh_units if kWh_units else ''
 		
 		# Output CSV format
