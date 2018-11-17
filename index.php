@@ -46,6 +46,7 @@
 <script>
   var g_sTemperatureUnknown = '??';
 
+
   //$( document ).ready( makeWeatherStationLink );
 
   // Append weather station link to navbar
