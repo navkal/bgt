@@ -86,6 +86,7 @@
   {
     var sValue = g_sTemperatureUnknown;
 
+    // Extract temperature value from response
     var tInstanceRsp = tRsp.instance_response;
 
     if ( tInstanceRsp.success )
@@ -107,6 +108,7 @@
       }
     }
 
+    // Load temperature value into display
     $( '#weatherStationValue' ).text( sValue );
 
     setTimeout( getTemperature, 5000 );
