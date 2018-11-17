@@ -32,9 +32,9 @@ try:
         co2_value, co2_units = get_value( row['Facility'], row['CO2'], args.hostname, args.port )
 
         # Prepare to print
-        temp_value = int( temp_value ) if temp_value else ''
+        temp_value = round( float( temp_value ) ) if temp_value else ''
         temp_units = temp_units if temp_units else ''
-        co2_value = int( co2_value ) if co2_value else ''
+        co2_value = round( float( co2_value ) ) if co2_value else ''
         co2_units = co2_units if co2_units else ''
 
         # Output CSV format
