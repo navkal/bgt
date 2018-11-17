@@ -111,7 +111,7 @@
     // Load temperature value into display
     $( '#weatherStationValue' ).text( sValue );
 
-    setTimeout( getTemperature, 5000 );
+    setTimeout( getTemperature, 60000 );
   }
 
   function getTemperatureFail( tJqXhr, sStatus, sErrorThrown )
@@ -119,9 +119,7 @@
     console.log( "=> ERROR=" + sStatus + " " + sErrorThrown );
     console.log( "=> HEADER=" + JSON.stringify( tJqXhr ) );
 
-    $( '#weatherStationValue' ).text( g_sTemperatureUnknown );
-
-    setTimeout( getTemperature, 5000 );
+    setTimeout( getTemperature, 10000 );
   }
 </script>
 <style>
