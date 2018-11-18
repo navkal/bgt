@@ -51,6 +51,8 @@ var g_tDateFormatOptions = { weekday: 'short', year: 'numeric', month: 'numeric'
 
 var g_bRefreshing = false;
 
+var g_sTemperatureUnknown = '??';
+
 
 $( document ).ready( onDocumentReady );
 
@@ -164,6 +166,9 @@ function initTable()
     g_tViewTableProps.widgetOptions.stickyHeaders_offset = tNavbar.height() + parseInt( tNavbar.css( 'padding-top' ) ) + parseInt( tNavbar.css( 'padding-bottom' ) );
     g_tTable.tablesorter( g_tViewTableProps );
   }
+
+  // Load the temperature button
+  getTemperature();
 }
 
 function initGraphs()
@@ -1284,6 +1289,72 @@ function uploadSnapshotDone( tRsp, sStatus, tJqXhr )
 {
   window.location.href='view/src/downloadSnapshot.php?csv_basename=' + g_sCsvBasename + '&snapshot_id=' + tRsp;
 }
+
+// --> Weather Station temperature button -->
+
+function getTemperature()
+{
+  var sArgList =
+      '?facility=ahs-ws'
+    + '&instance=temperature'
+    + '&live';
+
+  // Issue request to Building Energy Gateway
+  $.ajax(
+    g_sBuildingEnergyGatewayUrl + sArgList,
+    {
+      method: 'GET',
+      processData: false,
+      contentType: false,
+      dataType : 'jsonp'
+    }
+  )
+  .done( getTemperatureDone )
+  .fail( getTemperatureFail );
+}
+
+function getTemperatureDone( tRsp, sStatus, tJqXhr )
+{
+  var sValue = g_sTemperatureUnknown;
+
+  // Extract temperature value from response
+  var tInstanceRsp = tRsp.instance_response;
+
+  if ( tInstanceRsp.success )
+  {
+    var tData = tInstanceRsp.data;
+
+    if ( tData.success )
+    {
+      sValue = Math.round( tData[tData.property] );
+
+      if ( sValue >= 85 )
+      {
+        $( '.bgt_table_temperature_button' ).removeClass( 'text-primary' ).addClass( 'text-danger' );
+      }
+      else
+      {
+        $( '.bgt_table_temperature_button' ).addClass( 'text-primary' ).removeClass( 'text-danger' );
+      }
+    }
+  }
+
+  // Load temperature value into display
+  $( '.bgt_table_temperature_value' ).text( sValue );
+
+  setTimeout( getTemperature, 300000 );
+}
+
+function getTemperatureFail( tJqXhr, sStatus, sErrorThrown )
+{
+  console.log( "=> ERROR=" + sStatus + " " + sErrorThrown );
+  console.log( "=> HEADER=" + JSON.stringify( tJqXhr ) );
+
+  setTimeout( getTemperature, 10000 );
+}
+
+// <-- Weather Station temperature button <--
+
 
 // --> tablesorter sticky header -->
 
