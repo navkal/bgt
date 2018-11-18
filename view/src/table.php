@@ -37,8 +37,8 @@
         </span>
         <span class="float-right">
           <button id="bgt_table_refresh_button" class="btn btn-sm btn-link" onclick="toggleRefresh()" disabled >
-            <i class="bgt_table_start_refresh_icon fas fa-sync-alt text-success"></i>
-            <i class="bgt_table_stop_refresh_icon far fa-stop-circle text-danger" style="display:none"></i>
+            <i id="bgt_table_start_refresh_icon" class="fas fa-sync-alt text-success"></i>
+            <i id="bgt_table_stop_refresh_icon" class="far fa-stop-circle text-danger" style="display:none"></i>
             Refresh
           </button>
           <button class="btn btn-sm btn-link" onclick="uploadSnapshot()">

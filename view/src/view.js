@@ -1179,16 +1179,16 @@ function toggleRefresh()
 
 function startRefresh()
 {
-  $( '.bgt_table_start_refresh_icon' ).hide();
-  $( '.bgt_table_stop_refresh_icon' ).show();
+  $( '#bgt_table_start_refresh_icon' ).hide();
+  $( '#bgt_table_stop_refresh_icon' ).show();
   g_bRefreshing = true;
   rq();
 }
 
 function stopRefresh()
 {
-  $( '.bgt_table_stop_refresh_icon' ).hide();
-  $( '.bgt_table_start_refresh_icon' ).show();
+  $( '#bgt_table_stop_refresh_icon' ).hide();
+  $( '#bgt_table_start_refresh_icon' ).show();
   g_bRefreshing = false;
   enableRefreshButton( false );
 }
