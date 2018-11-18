@@ -140,10 +140,7 @@
     $( '#type' ).val( 'analogInput' );
 
     // Initialize the tablesorter
-    var tProps = jQuery.extend( true, {}, g_tTableProps );
-    var tNavbar = $('nav.navbar.fixed-top');
-    tProps.widgetOptions.stickyHeaders_offset = tNavbar.height() + parseInt( tNavbar.css( 'padding-top' ) ) + parseInt( tNavbar.css( 'padding-bottom' ) );
-    $( '#advanced_table' ).tablesorter( tProps );
+    $( '#advanced_table' ).tablesorter( g_tTableProps );
   }
 
   function loadLocation()
