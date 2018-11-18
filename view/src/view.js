@@ -143,6 +143,7 @@ function initTable()
   g_tTable.tablesorter( g_tViewTableProps );
 
   // Load the temperature button
+  //getTemperatureDebug();
   getTemperature();
 }
 
@@ -1252,6 +1253,20 @@ function uploadSnapshotDone( tRsp, sStatus, tJqXhr )
 }
 
 // --> Weather Station temperature button -->
+
+var g_t=-10;
+function getTemperatureDebug(t)
+{
+  if ( g_t<110 )
+  {
+    getTemperatureDone( {instance_response:{success:true,data:{success:true,property:'temperature',temperature:g_t++}}} );
+    setTimeout( getTemperatureDebug, 100 );
+  }
+  else
+  {
+    getTemperature();
+  }
+}
 
 function getTemperature()
 {
