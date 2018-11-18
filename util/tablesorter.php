@@ -6,8 +6,7 @@
 
 <style>
   /* Make fonts larger for squinty users */
-  .tablesorter *,
-  .tablesorter-sticky-wrapper *
+  .tablesorter *
   {
     font-size: .84375rem; /* 13.5px*/
     line-height: 1.5;
@@ -39,7 +38,7 @@ var g_tTableProps =
 {
   theme : 'dropbox',
   headerTemplate : '{content} {icon}',
-  widgets : [ 'uitheme', 'resizable', 'filter', 'stickyHeaders' ],
+  widgets : [ 'uitheme', 'resizable', 'filter' ],
   widgetOptions :
   {
     resizable: true,

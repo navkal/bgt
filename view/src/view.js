@@ -37,7 +37,6 @@ var g_tNarrowTableParent = null;
 var g_tGraphSplit = null;
 
 var g_tViewTableProps = jQuery.extend( true, { sortList: [[0,0]] }, g_tTableProps );
-var g_iTablesorterThemeTopShift = 0;
 var g_tFirstColParser =
 {
   id: 'firstcol',
@@ -136,36 +135,12 @@ function initTable()
     sHtml += '</tr>';
   }
 
-  // Set up the table
   $( '#bgt_table > tbody' ).html( sHtml );
-  g_tTable = $( '#bgt_table' );
-  g_tTable.show();
 
-  // Add first column parser (work around tablesorter bug?)
+  // Initialize the tablesorter
   $.tablesorter.addParser( g_tFirstColParser );
-
-  if ( g_sLayoutMode == LAYOUT_MODE_SPLIT )
-  {
-    // Set event handlers
-    g_tTablePane = g_tTable.parent();
-    g_tTablePane.on( 'resize', onResizeTablePane );
-    g_tTablePane.on( 'scroll', onScrollTablePane );
-    $( window ).on( 'scroll', onScrollWindow );
-
-    // Initialize tablesorter with sticky header
-    g_tViewTableProps.widgetOptions.stickyHeaders_offset = g_tTable.offset().top;
-    var iTopBf = g_tTable.offset().top;
-    g_tTable.tablesorter( g_tViewTableProps );
-    g_iTablesorterThemeTopShift = g_tTable.offset().top - iTopBf;
-    g_tTable.css( { marginTop: '-=' + g_iTablesorterThemeTopShift + 'px' } );
-  }
-  else
-  {
-    // Initialize tablesorter without the sticky header
-    var tNavbar = $('nav.navbar.fixed-top');
-    g_tViewTableProps.widgetOptions.stickyHeaders_offset = tNavbar.height() + parseInt( tNavbar.css( 'padding-top' ) ) + parseInt( tNavbar.css( 'padding-bottom' ) );
-    g_tTable.tablesorter( g_tViewTableProps );
-  }
+  g_tTable = $( '#bgt_table' );
+  g_tTable.tablesorter( g_tViewTableProps );
 
   // Load the temperature button
   getTemperature();
@@ -313,11 +288,6 @@ function onWindowResize()
   }
 
   g_sSplitMode = sSplitMode;
-
-  //getStickyWrapper().find( 'thead' ).css( 'border', '2px solid red' ); // <-- debug, to distinguish the sticky header from the real table header
-
-  // Handle possibility that window is initially scrolled
-  onScrollWindow();
 }
 
 function wideToNarrow()
@@ -327,9 +297,6 @@ function wideToNarrow()
 
   // Move the table
   g_tNarrowTableParent.append( g_tTable );
-
-  // Move the sticky header
-  g_tNarrowTableParent.append( getStickyWrapper() );
 
   // Clear the narrow graph pane
   $( '#narrowGraphPane' ).html( '' );
@@ -364,9 +331,6 @@ function narrowToWide()
   // Move the table
   g_tWideTableParent.append( g_tTable );
   g_tTable.css( 'height', '95%' );
-
-  // Move the sticky header
-  g_tWideTableParent.append( getStickyWrapper() );
 
   // Move the graphs
   for ( var iGraphSel in g_aGraphSelectors )
@@ -1168,15 +1132,12 @@ function onFilterEnd( tEvent )
 {
   updateGraphs( false );
   updateRowCount();
-
-  // Scroll to top after filtering table with sticky header
-  var tScroller = ( ( g_sLayoutMode == LAYOUT_MODE_SPLIT ) && ( g_sSplitMode == SPLIT_MODE_WIDE ) ) ? g_tTablePane : $( window );
-  tScroller.scrollTop( 0 );
 }
 
 function onTablesorterReady()
 {
   g_tTable.off( 'tablesorter-ready' );
+  g_tTable.show();
 
   // Show row count in toolbar
   updateRowCount();
@@ -1384,70 +1345,6 @@ function getTemperatureFail( tJqXhr, sStatus, sErrorThrown )
 }
 
 // <-- Weather Station temperature button <--
-
-
-// --> tablesorter sticky header -->
-
-function getStickyWrapper()
-{
-  return $( '.tablesorter-sticky-wrapper' );
-}
-
-function onResizeTablePane()
-{
-  // Clip the wrapper
-  var iWidth = g_tTablePane.width() - scrollbarWidth();
-  var tStickyWrapper = getStickyWrapper();
-  var iHeight = tStickyWrapper.height();
-  tStickyWrapper.css( 'clip', 'rect(0px,' + iWidth + 'px,' + iHeight + 'px,0px)' );
-}
-
-function onScrollTablePane()
-{
-  // Fire resize event
-  g_tTablePane.resize();
-}
-
-function onScrollWindow()
-{
-  var tStickyWrapper = getStickyWrapper();
-
-  switch ( g_sSplitMode )
-  {
-    case SPLIT_MODE_WIDE:
-      onResizeTablePane();
-      var iTop = g_tTablePane.offset().top + g_iTablesorterThemeTopShift;
-      break;
-
-    case SPLIT_MODE_NARROW:
-      tStickyWrapper.css( 'clip', 'rect(0px,' + g_tTable.width() + 'px,' + tStickyWrapper.height() + 'px,0px)' );
-      var tNavbar = $( 'nav.navbar.fixed-top' );
-      var iNavbarHeight = parseInt( tNavbar.css( 'padding-top' ) ) + tNavbar.height() + parseInt( tNavbar.css( 'padding-bottom' ) );
-      var iTop = Math.max( g_tTable.offset().top, iNavbarHeight + $( window ).scrollTop() );
-      break;
-  }
-
-  tStickyWrapper.offset(
-    {
-      top: iTop,
-      left: tStickyWrapper.offset().left
-    }
-  );
-}
-
-function scrollbarWidth()
-{
-  var div = $('<div style="width:50px;height:50px;overflow:hidden;position:absolute;top:-200px;left:-200px;"><div style="height:100px;"></div>');
-  // Append our div, do our calculation and then remove it
-  $('body').append(div);
-  var w1 = $('div', div).innerWidth();
-  div.css('overflow-y', 'scroll');
-  var w2 = $('div', div).innerWidth();
-  $(div).remove();
-  return (w1 - w2);
-}
-
-// <-- tablesorter sticky header <--
 
 
 function doNothing( tJqXhr, sStatus, sErrorThrown )
