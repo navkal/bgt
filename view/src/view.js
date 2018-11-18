@@ -1330,11 +1330,11 @@ function getTemperatureDone( tRsp, sStatus, tJqXhr )
 
       if ( sValue >= 85 )
       {
-        $( '.bgt_table_temperature_button' ).removeClass( 'text-primary' ).addClass( 'text-danger' );
+        $( '.bgt_table_temperature_button' ).addClass( 'text-danger' );
       }
       else
       {
-        $( '.bgt_table_temperature_button' ).addClass( 'text-primary' ).removeClass( 'text-danger' );
+        $( '.bgt_table_temperature_button' ).removeClass( 'text-danger' );
       }
     }
   }
