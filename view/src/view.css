@@ -19,7 +19,31 @@
   font-size: 0.9375rem; /* 15px */
 }
 
-
+/* Weather Station temperature button */
+.bgt_table_temperature_button i
+{
+  font-size: 1rem;
+}
+.temperature-frigid
+{
+  color: purple;
+}
+.temperature-cold
+{
+  color: blue;
+}
+.temperature-mild
+{
+  color: green;
+}
+.temperature-warm
+{
+  color: orangered;
+}
+.temperature-hot
+{
+  color: red;
+}
 
 /* For the d3 graph display */
 .bar {

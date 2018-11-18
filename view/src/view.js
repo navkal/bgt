@@ -1315,9 +1315,15 @@ function getTemperature()
 
 function getTemperatureDone( tRsp, sStatus, tJqXhr )
 {
-  var sValue = g_sTemperatureUnknown;
+  var temperature = g_sTemperatureUnknown;
 
-  // Extract temperature value from response
+  // Hide all the icons
+  $( '.bgt_table_temperature_button i' ).hide();
+
+  // Set icon to show by default
+  var tIcon = $( '.bgt_table_temperature_button i.temperature-mild' );
+
+  // Examine response
   var tInstanceRsp = tRsp.instance_response;
 
   if ( tInstanceRsp.success )
@@ -1326,21 +1332,45 @@ function getTemperatureDone( tRsp, sStatus, tJqXhr )
 
     if ( tData.success )
     {
-      sValue = Math.round( tData[tData.property] );
+      // Extract temperature value from response
+      temperature = Math.round( tData[tData.property] );
 
-      if ( sValue >= 85 )
+      // Map temperature to icon
+      var sWord = '';
+
+      if ( temperature < 25 )
       {
-        $( '.bgt_table_temperature_button' ).addClass( 'text-danger' );
+        sWord = 'frigid';
+      }
+      else if ( temperature < 45 )
+      {
+        sWord = 'cold';
+      }
+      else if ( temperature < 65 )
+      {
+        sWord = 'mild';
+      }
+      else if ( temperature < 85 )
+      {
+        sWord = 'warm';
       }
       else
       {
-        $( '.bgt_table_temperature_button' ).removeClass( 'text-danger' );
+        sWord = 'hot';
       }
+
+      tIcon = $( '.bgt_table_temperature_button i.temperature-' + sWord );
     }
   }
 
+  // Show icon corresponding to temperature
+  tIcon.show();
+
   // Load temperature value into display
-  $( '.bgt_table_temperature_value' ).text( sValue );
+  $( '.bgt_table_temperature_value' ).text( temperature );
+
+  // Show button
+  $( '.bgt_table_temperature_button' ).show();
 
   setTimeout( getTemperature, 300000 );
 }
