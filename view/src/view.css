@@ -20,7 +20,7 @@
 }
 
 /* Weather Station temperature button */
-.bgt_table_temperature_button i
+#bgt_table_temperature_button i
 {
   font-size: 1rem;
 }

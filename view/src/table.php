@@ -17,7 +17,7 @@
           <?=$navbarItems[$navbarItemKey][0]?>
         </span>
         <span class="float-right">
-          <a class="bgt_table_temperature_button btn btn-sm" title="AHS Weather Station" target="_blank" href="https://owc.enterprise.earthnetworks.com/OnlineWeatherCenter.aspx?aid=5744" style="display:none">
+          <a id="bgt_table_temperature_button" class="btn btn-sm" title="AHS Weather Station" target="_blank" href="https://owc.enterprise.earthnetworks.com/OnlineWeatherCenter.aspx?aid=5744" style="display:none">
             <i class="fas fa-thermometer-empty temperature-frigid" style="display:none" ></i>
             <i class="fas fa-thermometer-quarter temperature-cold" style="display:none"></i>
             <i class="fas fa-thermometer-half temperature-mild" style="display:none"></i>

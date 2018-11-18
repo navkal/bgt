@@ -1279,10 +1279,10 @@ function getTemperatureDone( tRsp, sStatus, tJqXhr )
   var temperature = g_sTemperatureUnknown;
 
   // Hide all the icons
-  $( '.bgt_table_temperature_button i' ).hide();
+  $( '#bgt_table_temperature_button i' ).hide();
 
   // Set icon to show by default
-  var tIcon = $( '.bgt_table_temperature_button i.temperature-mild' );
+  var tIcon = $( '#bgt_table_temperature_button i.temperature-mild' );
 
   // Examine response
   var tInstanceRsp = tRsp.instance_response;
@@ -1320,7 +1320,7 @@ function getTemperatureDone( tRsp, sStatus, tJqXhr )
         sWord = 'hot';
       }
 
-      tIcon = $( '.bgt_table_temperature_button i.temperature-' + sWord );
+      tIcon = $( '#bgt_table_temperature_button i.temperature-' + sWord );
     }
   }
 
@@ -1331,7 +1331,7 @@ function getTemperatureDone( tRsp, sStatus, tJqXhr )
   $( '.bgt_table_temperature_value' ).text( temperature );
 
   // Show button
-  $( '.bgt_table_temperature_button' ).show();
+  $( '#bgt_table_temperature_button' ).show();
 
   setTimeout( getTemperature, 300000 );
 }
