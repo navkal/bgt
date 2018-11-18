@@ -10,14 +10,14 @@
 
   <thead>
 
-    <!-- Title -->
+    <!-- Title bar -->
     <tr>
       <th class="sorter-false tablesorter-headerRow" colspan="<?=$iColspan?>" >
         <span class="btn btn-sm" style="cursor:default; font-size:0.9375rem" >
           <?=$navbarItems[$navbarItemKey][0]?>
         </span>
         <span class="float-right">
-          <a id="bgt_table_temperature_button" class="btn btn-sm" title="AHS Weather Station" target="_blank" href="https://owc.enterprise.earthnetworks.com/OnlineWeatherCenter.aspx?aid=5744" style="display:none">
+          <a id="bgt_table_temperature_button" class="btn btn-sm btn-link" title="AHS Weather Station" target="_blank" href="https://owc.enterprise.earthnetworks.com/OnlineWeatherCenter.aspx?aid=5744" style="display:none">
             <i class="fas fa-thermometer-empty temperature-frigid" style="display:none" ></i>
             <i class="fas fa-thermometer-quarter temperature-cold" style="display:none"></i>
             <i class="fas fa-thermometer-half temperature-mild" style="display:none"></i>
