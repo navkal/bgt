@@ -23,7 +23,7 @@
             <i class="fas fa-thermometer-half temperature-mild" style="display:none"></i>
             <i class="fas fa-thermometer-three-quarters temperature-warm" style="display:none"></i>
             <i class="fas fa-thermometer-full temperature-hot" style="display:none"></i>
-            <span class="bgt_table_temperature_value">&nbsp;&nbsp;</span>&nbsp;&deg;F
+            <span id="bgt_table_temperature_value">&nbsp;&nbsp;</span>&nbsp;&deg;F
           </a>
         </span>
       </th>

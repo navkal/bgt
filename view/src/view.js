@@ -1328,7 +1328,7 @@ function getTemperatureDone( tRsp, sStatus, tJqXhr )
   tIcon.show();
 
   // Load temperature value into display
-  $( '.bgt_table_temperature_value' ).text( temperature );
+  $( '#bgt_table_temperature_value' ).text( temperature );
 
   // Show button
   $( '#bgt_table_temperature_button' ).show();
