@@ -33,7 +33,7 @@
     <tr>
       <th class="sorter-false tablesorter-headerRow" colspan="<?=$iColspan?>" >
         <span class="btn btn-sm" style="cursor:default;" >
-          <span class="bgt_table_row_count"></span> row<span id="bgt_table_row_count_s">s</span>
+          <span id="bgt_table_row_count"></span> row<span id="bgt_table_row_count_s">s</span>
         </span>
         <span class="float-right">
           <button class="bgt_table_refresh_button btn btn-sm btn-link" onclick="toggleRefresh()" disabled >
