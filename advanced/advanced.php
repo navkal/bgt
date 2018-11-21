@@ -4,7 +4,7 @@
   include $_SERVER['DOCUMENT_ROOT'] . '/util/tablesorter.php';
 
   // Get list of facilities from agents file
-  $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/../bg/agents.csv", 'r' );
+  $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/../bg/facilities.csv", 'r' );
 
   $aFacilities = [];
   while( ! feof( $file ) )

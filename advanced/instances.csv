@@ -296,3 +296,4 @@ shawsheen,Shawsheen (Main - kWh),Energy,3002013
 south,South (Main - kWh),Energy,3004043
 west_elementary,West Elementary (Main - kWh),Energy,3001726
 west_middle-12,West Middle (Main - kWh),Energy,3027267
+ahs-ws,AHS Weather Station,Temperature,temperature
