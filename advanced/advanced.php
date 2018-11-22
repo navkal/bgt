@@ -3,21 +3,11 @@
 
   include $_SERVER['DOCUMENT_ROOT'] . '/util/tablesorter.php';
 
-  // Get list of facilities from agents file
-  $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/../bg/facilities.csv", 'r' );
-
-  $aFacilities = [];
-  while( ! feof( $file ) )
-  {
-    $aLine = fgetcsv( $file );
-    $sFacility = trim( $aLine[0] );
-    if ( $sFacility && substr( $sFacility, 0, 1 ) != '#' )
-    {
-      $aFacilities[$sFacility] = [];
-    }
-  }
-
-  fclose( $file );
+  // Get list of facilities from gateway
+  $curl = curl_init();
+  curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
+  curl_setopt( $curl, CURLOPT_URL, 'http://' . $_SESSION['bgt']['host'] . ':' . $_SESSION['bgt']['port'] . '/?facilities' );
+  $aFacilities = json_decode( json_encode( json_decode( curl_exec( $curl ) ) ), true );
 
   // Load instance information into facilities structure
   $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/advanced/instances.csv", 'r' );
