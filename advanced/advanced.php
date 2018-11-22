@@ -3,11 +3,18 @@
 
   include $_SERVER['DOCUMENT_ROOT'] . '/util/tablesorter.php';
 
-  // Get list of facilities from gateway
+  // Get facilities map from gateway
   $curl = curl_init();
   curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
   curl_setopt( $curl, CURLOPT_URL, 'http://' . $_SESSION['bgt']['host'] . ':' . $_SESSION['bgt']['port'] . '/?facilities' );
-  $aFacilities = json_decode( json_encode( json_decode( curl_exec( $curl ) ) ), true );
+  $aFacMap = json_decode( json_encode( json_decode( curl_exec( $curl ) ) ), true );
+
+  // Initialize list of facilities
+  $aFacilities = [];
+  foreach ( $aFacMap as $sFacName => $sFacType )
+  {
+    $aFacilities[$sFacName] = [];
+  }
 
   // Load instance information into facilities structure
   $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/advanced/instances.csv", 'r' );
