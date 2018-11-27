@@ -1,4 +1,4 @@
-# Copyright 2018 Building Energy Monitor.  All rights reserved.
+# Copyright 2018 Building Energy Gateway.  All rights reserved.
 
 import requests
 import json
@@ -42,6 +42,11 @@ def get_value( facility, instance, gateway_hostname=None, gateway_port=None, liv
 
             if dc_data['success']:
                 value = dc_data['presentValue']
+                try:
+                    value = float( value )
+                except ValueError:
+                    pass
+
                 units = dc_data['units']
 
     return value, units
