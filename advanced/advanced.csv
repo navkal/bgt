@@ -1,0 +1,300 @@
+Facility,Location,Metric,Instance,Type
+ahs,OA,Temperature,3001015,analogInput
+sanborn,OA,Temperature,3000238,analogInput
+ahs,116,Temperature,3001071,analogInput
+ahs,137,Temperature,3011595,analogInput
+ahs,138,Temperature,3001201,analogInput
+ahs,139,Temperature,3011582,analogInput
+ahs,201,Temperature,3006664,analogInput
+ahs,203,Temperature,3006616,analogInput
+ahs,205,Temperature,3006578,analogInput
+ahs,207,Temperature,3006552,analogInput
+ahs,209,Temperature,3007272,analogInput
+ahs,211,Temperature,3019361,analogInput
+ahs,215,Temperature,3019554,analogInput
+ahs,222,Temperature,3007505,analogInput
+ahs,224,Temperature,3019080,analogInput
+ahs,225,Temperature,3007894,analogInput
+ahs,226,Temperature,3007633,analogInput
+ahs,227,Temperature,3008194,analogInput
+ahs,228,Temperature,3019597,analogInput
+ahs,230,Temperature,3007938,analogInput
+ahs,232,Temperature,3019412,analogInput
+ahs,237,Temperature,3019317,analogInput
+ahs,241,Temperature,3019266,analogInput
+ahs,243,Temperature,3019035,analogInput
+ahs,245,Temperature,3019170,analogInput
+ahs,247,Temperature,3019126,analogInput
+ahs,249,Temperature,3009875,analogInput
+ahs,251,Temperature,3010431,analogInput
+ahs,253,Temperature,3010481,analogInput
+ahs,255A&B,Temperature,3011366,analogInput
+ahs,260A,Temperature,3001161,analogInput
+ahs,260B,Temperature,3001177,analogInput
+ahs,264A,Temperature,3001515,analogInput
+ahs,264B,Temperature,3001640,analogInput
+ahs,267,Temperature,3011148,analogInput
+ahs,271,Temperature,3010274,analogInput
+ahs,272,Temperature,3009826,analogInput
+ahs,273,Temperature,3009777,analogInput
+ahs,301,Temperature,3002974,analogInput
+ahs,303,Temperature,3002985,analogInput
+ahs,305,Temperature,3002964,analogInput
+ahs,307,Temperature,3002996,analogInput
+ahs,309,Temperature,3003007,analogInput
+ahs,310,Temperature,3001090,analogInput
+ahs,311,Temperature,3003018,analogInput
+ahs,313,Temperature,3003029,analogInput
+ahs,320,Temperature,3006123,analogInput
+ahs,323,Temperature,3006152,analogInput
+ahs,325,Temperature,3006189,analogInput
+ahs,326,Temperature,3006238,analogInput
+ahs,328,Temperature,3006347,analogInput
+ahs,335,Temperature,3001848,analogInput
+ahs,337,Temperature,3001822,analogInput
+ahs,339,Temperature,3001796,analogInput
+ahs,341,Temperature,3001770,analogInput
+ahs,343,Temperature,3001744,analogInput
+ahs,345,Temperature,3001718,analogInput
+ahs,347,Temperature,3001692,analogInput
+ahs,349,Temperature,3001666,analogInput
+ahs,351,Temperature,3001489,analogInput
+ahs,353,Temperature,3001463,analogInput
+ahs,355,Temperature,3020712,analogInput
+ahs,357,Temperature,3001437,analogInput
+ahs,359,Temperature,3001411,analogInput
+ahs,361,Temperature,3001385,analogInput
+ahs,363,Temperature,3001359,analogInput
+ahs,365,Temperature,3001333,analogInput
+ahs,367,Temperature,3001307,analogInput
+ahs,369,Temperature,3001281,analogInput
+ahs,370,Temperature,3001255,analogInput
+ahs,373,Temperature,3001935,analogInput
+ahs,375.01,Temperature,3003049,analogInput
+ahs,375.02,Temperature,3019714,analogInput
+ahs,377,Temperature,3006431,analogInput
+ahs,377.01,Temperature,3001221,analogInput
+ahs,379,Temperature,3001900,analogInput
+ahs,381,Temperature,3001874,analogInput
+ahs,Guidance,Temperature,3001145,analogInput
+ahs,Kit Conf,Temperature,3001532,analogInput
+ahs,Kit Office,Temperature,3001549,analogInput
+ahs,Principal Office,Temperature,3001914,analogInput
+sanborn,OA,Temperature,3000238,analogInput
+sanborn,Rm-A1,Temperature,3000275,analogInput
+sanborn,Rm-A3,Temperature,3000276,analogInput
+sanborn,Rm-A4,Temperature,3000277,analogInput
+sanborn,Rm-A5,Temperature,3000278,analogInput
+sanborn,Rm-A6,Temperature,3000279,analogInput
+sanborn,Rm-A7,Temperature,3000280,analogInput
+sanborn,Rm-A8,Temperature,3000281,analogInput
+sanborn,Rm-B1,Temperature,3000282,analogInput
+sanborn,Rm-B2,Temperature,3000283,analogInput
+sanborn,Rm-B3,Temperature,3000284,analogInput
+sanborn,Rm-B4,Temperature,3000285,analogInput
+sanborn,Rm-B5,Temperature,3000286,analogInput
+sanborn,Rm-B6,Temperature,3000287,analogInput
+sanborn,Rm-C1,Temperature,3000288,analogInput
+sanborn,Rm-C2,Temperature,3000289,analogInput
+sanborn,Rm-C3,Temperature,3000290,analogInput
+sanborn,Rm-C4,Temperature,3000291,analogInput
+sanborn,Rm-C5,Temperature,3000292,analogInput
+sanborn,Rm-C6,Temperature,3000293,analogInput
+sanborn,Portable Call Rm P1,Temperature,3000301,analogInput
+sanborn,Portable Call Rm P2,Temperature,3000302,analogInput
+sanborn,Cafe Unit 1,Temperature,3000299,analogInput
+sanborn,Cafe Unit 2,Temperature,3000297,analogInput
+sanborn,Kitchen,Temperature,3000328,analogInput
+sanborn,Cafe Space Radiators,Temperature,3000252,analogInput
+south,101,Temperature,3000262,analogInput
+south,102,Temperature,3000263,analogInput
+south,103,Temperature,3000264,analogInput
+south,104,Temperature,3000265,analogInput
+south,105,Temperature,3000266,analogInput
+south,106,Temperature,3000267,analogInput
+south,110,Temperature,3000268,analogInput
+south,111,Temperature,3000269,analogInput
+south,112,Temperature,3000270,analogInput
+south,113,Temperature,3000271,analogInput
+south,114,Temperature,3000272,analogInput
+south,115,Temperature,3000273,analogInput
+south,116,Temperature,3009501,analogInput
+south,117,Temperature,3000275,analogInput
+south,118,Temperature,3000276,analogInput
+south,119,Temperature,3000277,analogInput
+south,120,Temperature,3000253,analogInput
+south,121,Temperature,3000278,analogInput
+south,122,Temperature,3000279,analogInput
+south,123,Temperature,3000280,analogInput
+south,124,Temperature,3000281,analogInput
+south,125,Temperature,3000282,analogInput
+south,126,Temperature,3000283,analogInput
+south,127,Temperature,3000284,analogInput
+south,128,Temperature,3000285,analogInput
+south,141,Temperature,3000548,analogInput
+south,Teachers Room,Temperature,3000286,analogInput
+south,Health Room,Temperature,3000470,analogInput
+south,CAFE AHU,Temperature,3000507,analogInput
+south,Main Office,Temperature,3000510,analogInput
+south,Computer Room,Temperature,3000511,analogInput
+south,Kitchen,Temperature,3000549,analogInput
+south,Media Room,Temperature,3000550,analogInput
+south,Music Room,Temperature,3000551,analogInput
+south,Chor Room,Temperature,3000553,analogInput
+south,Kitchen RR,Temperature,3000254,analogInput
+south,Art Room Storage,Temperature,3000256,analogInput
+south,Principals Office,Temperature,3000258,analogInput
+south,Main office Conference Room,Temperature,3000259,analogInput
+south,Art Room,Temperature,3000552,analogInput
+south,Gym East,Temperature,3007468,analogInput
+south,Gym West,Temperature,3007532,analogInput
+south,Outside,Temperature,3000252,analogInput
+west_middle-12,Outside (CO2),CO2,3002832,analogInput
+ahs,Outside (CO2),CO2,3014200,analogInput
+ahs,137,CO2,3011592,analogInput
+ahs,139,CO2,3011579,analogInput
+ahs,201,CO2,3006672,analogInput
+ahs,203,CO2,3006624,analogInput
+ahs,205,CO2,3006586,analogInput
+ahs,207,CO2,3006560,analogInput
+ahs,209,CO2,3007275,analogInput
+ahs,211,CO2,3019364,analogInput
+ahs,215,CO2,3019557,analogInput
+ahs,222,CO2,3007508,analogInput
+ahs,224,CO2,3019083,analogInput
+ahs,225,CO2,3007897,analogInput
+ahs,226,CO2,3007636,analogInput
+ahs,227,CO2,3008197,analogInput
+ahs,228,CO2,3019600,analogInput
+ahs,230,CO2,3007941,analogInput
+ahs,232,CO2,3019415,analogInput
+ahs,237,CO2,3019320,analogInput
+ahs,241,CO2,3019269,analogInput
+ahs,243,CO2,3019038,analogInput
+ahs,245,CO2,3019173,analogInput
+ahs,247,CO2,3019129,analogInput
+ahs,249,CO2,3009878,analogInput
+ahs,251,CO2,3010434,analogInput
+ahs,253,CO2,3010484,analogInput
+ahs,267,CO2,3011151,analogInput
+ahs,271,CO2,3010277,analogInput
+ahs,272,CO2,3009829,analogInput
+ahs,273,CO2,3009780,analogInput
+ahs,301,CO2,3002981,analogInput
+ahs,305,CO2,3002965,analogInput
+ahs,307,CO2,3003003,analogInput
+ahs,309,CO2,3003014,analogInput
+ahs,311,CO2,3003025,analogInput
+ahs,313,CO2,3003036,analogInput
+ahs,320,CO2,3006131,analogInput
+ahs,323,CO2,3006160,analogInput
+ahs,325,CO2,3006197,analogInput
+ahs,326,CO2,3006246,analogInput
+ahs,328,CO2,3006355,analogInput
+ahs,335,CO2,3001836,analogInput
+ahs,337,CO2,3001810,analogInput
+ahs,339,CO2,3001784,analogInput
+ahs,341,CO2,3001758,analogInput
+ahs,343,CO2,3001732,analogInput
+ahs,345,CO2,3001706,analogInput
+ahs,347,CO2,3001680,analogInput
+ahs,349,CO2,3001654,analogInput
+ahs,351,CO2,3001477,analogInput
+ahs,353,CO2,3001451,analogInput
+ahs,357,CO2,3001425,analogInput
+ahs,359,CO2,3001399,analogInput
+ahs,361,CO2,3001373,analogInput
+ahs,363,CO2,3001347,analogInput
+ahs,365,CO2,3001321,analogInput
+ahs,367,CO2,3001295,analogInput
+ahs,369,CO2,3001269,analogInput
+ahs,370,CO2,3001243,analogInput
+ahs,373,CO2,3001933,analogInput
+ahs,375.01,CO2,3003056,analogInput
+ahs,375.02,CO2,3019750,analogInput
+ahs,377,CO2,3006439,analogInput
+ahs,377.01,CO2,3019751,analogInput
+ahs,379,CO2,3001888,analogInput
+ahs,381,CO2,3001862,analogInput
+ahs,255A&B,CO2,3011369,analogInput
+ahs,264A,CO2,3001503,analogInput
+ahs,264B,CO2,3001628,analogInput
+ahs,OA,CO2,3014200,analogInput
+ahs,OA,CO2,3014200,analogInput
+sanborn,Rm-A1,CO2,3000834,analogInput
+sanborn,Rm-A3,CO2,3000836,analogInput
+sanborn,Rm-A4,CO2,3000838,analogInput
+sanborn,Rm-A5,CO2,3000840,analogInput
+sanborn,Rm-A6,CO2,3000842,analogInput
+sanborn,Rm-A7,CO2,3000854,analogInput
+sanborn,Rm-A8,CO2,3000855,analogInput
+sanborn,Rm-B1,CO2,3000844,analogInput
+sanborn,Rm-B2,CO2,3000846,analogInput
+sanborn,Rm-B3,CO2,3000848,analogInput
+sanborn,Rm-B4,CO2,3000850,analogInput
+sanborn,Rm-B5,CO2,3000852,analogInput
+sanborn,Rm-B6,CO2,3000853,analogInput
+sanborn,Rm-C1,CO2,3000824,analogInput
+sanborn,Rm-C2,CO2,3000826,analogInput
+sanborn,Rm-C3,CO2,3000822,analogInput
+sanborn,Rm-C4,CO2,3000828,analogInput
+sanborn,Rm-C5,CO2,3000830,analogInput
+sanborn,Rm-C6,CO2,3000832,analogInput
+south,101,CO2,3001266,analogInput
+south,102,CO2,3000849,analogInput
+south,103,CO2,3000851,analogInput
+south,104,CO2,3000853,analogInput
+south,105,CO2,3000855,analogInput
+south,106,CO2,3000857,analogInput
+south,110,CO2,3000845,analogInput
+south,111,CO2,3001409,analogInput
+south,112,CO2,3000841,analogInput
+south,113,CO2,3000839,analogInput
+south,114,CO2,3000824,analogInput
+south,115,CO2,3000823,analogInput
+south,116,CO2,3000811,analogInput
+south,117,CO2,3000812,analogInput
+south,118,CO2,3000813,analogInput
+south,119,CO2,3000814,analogInput
+south,121,CO2,3000815,analogInput
+south,122,CO2,3000816,analogInput
+south,123,CO2,3000817,analogInput
+south,124,CO2,3001410,analogInput
+south,125,CO2,3000819,analogInput
+south,126,CO2,3000820,analogInput
+south,127,CO2,3000821,analogInput
+south,128,CO2,3000822,analogInput
+ahs,Main (kW),Power,3007360,analogInput
+ahs,Plug loads DHB (kW),Power,3017359,analogInput
+ahs,Field House and Dunn Gymm DG (kW),Power,3017523,analogInput
+ahs,Emergency Kitchen DE (kW),Power,3017605,analogInput
+ahs,Lighting DL (kW),Power,3017769,analogInput
+ahs,Chillers M1 (kW),Power,3017441,analogInput
+ahs,Collins Center - AMDP (kW),Power,3017687,analogInput
+ahs,Main (kWh),Energy,3007361,analogInput
+ahs,Plug loads DHB (kWh),Energy,3017360,analogInput
+ahs,Field House and Dunn Gymm DG (kWh),Energy,3017524,analogInput
+ahs,Emergency Kitchen DE (kWh),Energy,3017606,analogInput
+ahs,Lighting DL (kWh),Energy,3017770,analogInput
+ahs,Chillers M1 (kWh),Energy,3017442,analogInput
+ahs,Collins Center - AMDP (kWh),Energy,3017688,analogInput
+ahs,Andover High (Main - kW),Power,3007360,analogInput
+bancroft-18,Bancroft (Main - kW),Power,3000076,analogInput
+doherty,Doherty (Main - kW),Power,3007063,analogInput
+woodhill-09,High Plain & Wood Hill (Main - kW),Power,3001085,analogInput
+sanborn,Sanborn (Main - kW),Power,3002006,analogInput
+shawsheen,Shawsheen (Main - kW),Power,3002012,analogInput
+south,South (Main - kW),Power,3004042,analogInput
+west_elementary,West Elementary (Main - kW),Power,3001725,analogInput
+west_middle-12,West Middle (Main - kW),Power,3027266,analogInput
+ahs,Andover High (Main - kWh),Energy,3007361,analogInput
+bancroft-18,Bancroft (Main - kWh),Energy,3000081,analogInput
+doherty,Doherty (Main - kWh),Energy,3007064,analogInput
+woodhill-09,High Plain & Wood Hill (Main - kWh),Energy,3001086,analogInput
+sanborn,Sanborn (Main - kWh),Energy,3002007,analogInput
+shawsheen,Shawsheen (Main - kWh),Energy,3002013,analogInput
+south,South (Main - kWh),Energy,3004043,analogInput
+west_elementary,West Elementary (Main - kWh),Energy,3001726,analogInput
+west_middle-12,West Middle (Main - kWh),Energy,3027267,analogInput
+ahs-ws,AHS Weather Station,Temperature,temperature,
+ahs-ws,AHS Weather Station,Humidity,humidity,

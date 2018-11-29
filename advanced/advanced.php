@@ -17,7 +17,7 @@
   }
 
   // Load instance information into facilities structure
-  $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/advanced/instances.csv", 'r' );
+  $file = fopen( $_SERVER["DOCUMENT_ROOT"]."/advanced/advanced.csv", 'r' );
 
   fgetcsv( $file );
   while( ! feof( $file ) )
@@ -27,19 +27,13 @@
     if ( ( $sFacility != '' ) && ( substr( $sFacility, 0, 1 ) != '#' ) )
     {
       $sLocation = trim( $aLine[1] );
-      if ( $sLocation != '' )
+      $sInstance = trim( $aLine[3] );
+      if ( ( $sLocation != '' ) && ( $sInstance != '' ) )
       {
-        $sInstance = trim( $aLine[3] );
-        if ( $sInstance != '' )
-        {
-          $sMetric = trim( $aLine[2] );
-          if ( $sMetric != '' )
-          {
-            $sLocation = $sLocation . ' ' . $sMetric;
-          }
-
-          $aFacilities[$sFacility][$sLocation] = $sInstance;
-        }
+        $sMetric = trim( $aLine[2] );
+        $sType = trim( $aLine[4] );
+        $sLocation .= ( empty( $sMetric ) ? '' : ' - ' . $sMetric );
+        $aFacilities[$sFacility][$sLocation] = [ 'location' => $sLocation, 'instance' => $sInstance, 'type' => $sType ];
       }
     }
   }
@@ -122,19 +116,21 @@
 
   function init()
   {
+    // Set event handlers
     $( '#facility' ).on( 'change', loadLocation );
-    $( '#location' ).on( 'change', updateInstance );
+    $( '#location' ).on( 'change', updateDependentFields );
     $( '#instance' ).on( 'input', updateLocation );
 
-    loadLocation();
-
+    // Load the Type dropdown
+    $( '#type' ).append( '<option></option>' );
     for ( sType in aTypes )
     {
       var sOption = '<option>' + sType + '</option>';
       $( '#type' ).append( sOption );
     }
 
-    $( '#type' ).val( 'analogInput' );
+    // Load the Location dropdown
+    loadLocation();
 
     // Initialize the tablesorter
     $( '#advanced_table' ).tablesorter( g_tTableProps );
@@ -143,24 +139,26 @@
   function loadLocation()
   {
     var sFacility = $( '#facility' ).val();
-    var aLocations = tFacilities[sFacility];
+    var tLocations = tFacilities[sFacility];
 
     // Format location dropdown
     var sHtml = '';
-    for ( var sLocation in aLocations )
+    for ( var sLocation in tLocations )
     {
-      var sInstance = aLocations[sLocation];
-      sHtml += '<option value="' + aLocations[sLocation] + '">' + sLocation + '</option>';
+      sHtml += '<option type="' + tLocations[sLocation].type + '" value="' + tLocations[sLocation].instance + '">' + sLocation + '</option>';
     }
     $( '#location' ).html( sHtml );
 
-    // Load corresponding instance
-    updateInstance();
+    // Load dependent fields
+    updateDependentFields();
   }
 
-  function updateInstance()
+  function updateDependentFields()
   {
     $( '#instance' ).val( $( '#location' ).val() );
+    var sType = $( '#location option:selected' ).attr( 'type' );
+    $( '#type' ).val( sType );
+    $( '#type' ).attr( 'disabled', ( sType == '' ) );
   }
 
   function updateLocation()
