@@ -53,7 +53,7 @@
 
 <script>
 
-  var tFacilities = JSON.parse( '<?=$sFacilities?>' );
+  var g_tFacilities = JSON.parse( '<?=$sFacilities?>' );
 
   var aTypes =
         { 'analogInput':0
@@ -139,7 +139,7 @@
   function loadLocation()
   {
     var sFacility = $( '#facility' ).val();
-    var tLocations = tFacilities[sFacility].locations;
+    var tLocations = g_tFacilities[sFacility].locations;
 
     // Format location dropdown
     var sHtml = '';
@@ -158,7 +158,11 @@
     $( '#instance' ).val( $( '#location' ).val() );
     var sType = $( '#location option:selected' ).attr( 'type' );
     $( '#type' ).val( sType );
-    $( '#type' ).attr( 'disabled', ( sType == '' ) );
+
+    // Disable Type field if the current facility does not use it
+    var sFacility = $( '#facility' ).val();
+    var sFacilityType = g_tFacilities[sFacility].facility_type;
+    $( '#type' ).attr( 'disabled', ( sFacilityType == 'weatherStation' ) );
   }
 
   function updateLocation()
