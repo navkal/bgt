@@ -674,26 +674,6 @@ function updateRow()
   $( '#time_' + g_iRow ).html( sTime );
 }
 
-function formatValue( rawValue )
-{
-    // Decide how to display the value
-    var value = null;
-    if ( rawValue === '' )
-    {
-      value = '';
-    }
-    else if ( ( -1 < rawValue ) && ( rawValue < 1 ) )
-    {
-      value = Math.round( rawValue * 100 ) / 100;
-    }
-    else
-    {
-      value = Math.round( rawValue );
-    }
-
-    return value;
-}
-
 function updateGraphs( bUpdateData )
 {
   var aGraphs = $( '.bar-graph' );

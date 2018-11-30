@@ -211,7 +211,7 @@
       if ( tData.success )
       {
         sClass = 'bg-row-success';
-        sValue = ( ( tData[tData.property] === null ) || isNaN( tData[tData.property] ) ) ? String( tData[tData.property] ) : Math.round( tData[tData.property] );
+        sValue = formatValue( tData[tData.property] );
         sUnits = tData.units;
       }
       else
@@ -341,3 +341,5 @@
   </table>
 
 </div>
+
+<script src="/util/util.js?version=<?=time()?>"></script>
