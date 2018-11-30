@@ -211,7 +211,7 @@
       if ( tData.success )
       {
         sClass = 'bg-row-success';
-        sValue = Math.round( tData[tData.property] );
+        sValue = ( ( tData[tData.property] === null ) || isNaN( tData[tData.property] ) ) ? String( tData[tData.property] ) : Math.round( tData[tData.property] );
         sUnits = tData.units;
       }
       else
