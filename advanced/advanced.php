@@ -9,11 +9,11 @@
   curl_setopt( $curl, CURLOPT_URL, 'http://' . $_SESSION['bgt']['host'] . ':' . $_SESSION['bgt']['port'] . '/?facilities' );
   $aFacMap = json_decode( json_encode( json_decode( curl_exec( $curl ) ) ), true );
 
-  // Initialize list of facilities
+  // Initialize list of facilities with mapping to facility type and locations
   $aFacilities = [];
-  foreach ( $aFacMap as $sFacName => $sFacType )
+  foreach ( $aFacMap as $sFacName => $aFacType )
   {
-    $aFacilities[$sFacName] = [];
+    $aFacilities[$sFacName] = [ 'facility_type' => $aFacType['facility_type'], 'locations' => [] ];
   }
 
   // Load instance information into facilities structure
@@ -33,7 +33,7 @@
         $sMetric = trim( $aLine[2] );
         $sType = trim( $aLine[4] );
         $sLocation .= ( empty( $sMetric ) ? '' : ' - ' . $sMetric );
-        $aFacilities[$sFacility][$sLocation] = [ 'location' => $sLocation, 'instance' => $sInstance, 'type' => $sType ];
+        $aFacilities[$sFacility]['locations'][$sLocation] = [ 'location' => $sLocation, 'instance' => $sInstance, 'type' => $sType ];
       }
     }
   }
@@ -44,7 +44,7 @@
   ksort( $aFacilities );
   foreach ( $aFacilities as $sFacility => $tNotUsed )
   {
-    ksort( $aFacilities[$sFacility] );
+    ksort( $aFacilities[$sFacility]['locations'] );
   }
 
   // Save as JSON
@@ -139,7 +139,7 @@
   function loadLocation()
   {
     var sFacility = $( '#facility' ).val();
-    var tLocations = tFacilities[sFacility];
+    var tLocations = tFacilities[sFacility].locations;
 
     // Format location dropdown
     var sHtml = '';
