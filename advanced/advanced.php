@@ -174,6 +174,8 @@
   {
     setWaitCursor();
 
+    $( '#instance' ).val( $( '#instance' ).val().trim() );
+
     var sArgList =
         '?facility=' + $( '#facility' ).val()
       + '&instance=' + $( '#instance' ).val()
