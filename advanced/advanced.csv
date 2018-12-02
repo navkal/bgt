@@ -296,5 +296,19 @@ shawsheen,Shawsheen (Main - kWh),Energy,3002013,analogInput
 south,South (Main - kWh),Energy,3004043,analogInput
 west_elementary,West Elementary (Main - kWh),Energy,3001726,analogInput
 west_middle-12,West Middle (Main - kWh),Energy,3027267,analogInput
-ahs-ws,AHS Weather Station,Temperature,temperature,
+ahs-ws,AHS Weather Station,Dew Point,dewPoint,
+ahs-ws,AHS Weather Station,Dew Point Rate,dewPointRate,
+ahs-ws,AHS Weather Station,Heat Index,heatIndex,
 ahs-ws,AHS Weather Station,Humidity,humidity,
+ahs-ws,AHS Weather Station,Humidity Rate,humidityRate,
+ahs-ws,AHS Weather Station,Sea-level Pressure,pressureSeaLevel,
+ahs-ws,AHS Weather Station,Sea-level Pressure Rate,pressureSeaLevelRate,
+ahs-ws,AHS Weather Station,Rain Daily,rainDaily,
+ahs-ws,AHS Weather Station,Rain Rate,rainRate,
+ahs-ws,AHS Weather Station,Rain Monthly,rainMonthly,
+ahs-ws,AHS Weather Station,Rain Yearly,rainYearly,
+ahs-ws,AHS Weather Station,Snow Daily,snowDaily,
+ahs-ws,AHS Weather Station,Snow Rate,snowRate,
+ahs-ws,AHS Weather Station,Snow Monthly,snowMonthly,
+ahs-ws,AHS Weather Station,Snow Yearly,snowYearly,
+ahs-ws,AHS Weather Station,Temperature,temperature,
