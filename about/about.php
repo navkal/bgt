@@ -107,7 +107,7 @@
     <dt class="<?=$sDtClass?>"><a href="http://www.EnergizeAndover.com" target="_blank">Energize Andover</a></dt>
     <dd class="<?=$sDdClass?>">Energy conservation program serving P&F and APS</dd>
 
-    <dt class="<?=$sDtClass?>"><a href="http://10.12.4.98/" target="_blank">Metasys Data Analysis</a></dt>
+    <dt class="<?=$sDtClass?>"><a href="http://10.12.4.98:8080/" target="_blank">Metasys Data Analysis</a></dt>
     <dd class="<?=$sDdClass?>">Analysis of data exported from <a href="http://www.johnsoncontrols.com/buildings/building-management/building-automation-systems-bas" target="_blank" >Metasys Building Automation System</a>.</dd>
 
     <?php
